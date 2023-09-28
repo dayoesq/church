@@ -39,7 +39,7 @@ Before you can start using the Church API, ensure you have the following prerequ
 1. Clone the repository from GitHub:
 
    ```bash
-   git clone https://github.com/yourchurch/api.git
+   git clone https://github.com/dayoesq/church.git
    ```
 
 2. Navigate to the project directory:
