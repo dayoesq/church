@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\Enums;
+
 enum BlogStatus : string
 {
     case ACTIVE = 'active';
