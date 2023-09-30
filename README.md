@@ -10,11 +10,11 @@ Welcome to the Church RESTful API documentation! This API is built using the Lar
 2. [Authentication](#authentication)
     - [API Key](#api-key)
 3. [Endpoints](#endpoints)
-    - [1. Congregations](#1-congregations)
-    - [2. Members](#2-members)
-    - [3. Events](#3-events)
-    - [4. Sermons](#4-sermons)
-    - [5. Donations](#5-donations)
+    - [1. Members](#1-members)
+    - [2. Events](#2-events)
+    - [3. Sermons](#3-sermons)
+    - [4. Donations](#4-donations)
+    - [5. Blogs](#5-blogs)
 4. [Error Handling](#error-handling)
 5. [Rate Limiting](#rate-limiting)
 6. [Pagination](#pagination)
@@ -84,15 +84,7 @@ Authorization: Bearer YOUR_API_KEY
 
 The Church API provides several endpoints to interact with different aspects of church management. Below is an overview of the available endpoints:
 
-### 1. Congregations
-
-- **GET /api/congregations**: Retrieve a list of all congregations.
-- **GET /api/congregations/{id}**: Retrieve information about a specific congregation by ID.
-- **POST /api/congregations**: Create a new congregation.
-- **PUT /api/congregations/{id}**: Update information about a congregation.
-- **DELETE /api/congregations/{id}**: Delete a congregation.
-
-### 2. Members
+### 1. Members
 
 - **GET /api/members**: Retrieve a list of all church members.
 - **GET /api/members/{id}**: Retrieve information about a specific member by ID.
@@ -100,7 +92,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **PUT /api/members/{id}**: Update information about a member.
 - **DELETE /api/members/{id}**: Delete a member.
 
-### 3. Events
+### 2. Events
 
 - **GET /api/events**: Retrieve a list of all church events.
 - **GET /api/events/{id}**: Retrieve information about a specific event by ID.
@@ -108,7 +100,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **PUT /api/events/{id}**: Update information about an event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### 4. Sermons
+### 3. Sermons
 
 - **GET /api/sermons**: Retrieve a list of all sermons.
 - **GET /api/sermons/{id}**: Retrieve information about a specific sermon by ID.
@@ -116,13 +108,21 @@ The Church API provides several endpoints to interact with different aspects of 
 - **PUT /api/sermons/{id}**: Update information about a sermon.
 - **DELETE /api/sermons/{id}**: Delete a sermon.
 
-### 5. Donations
+### 4. Donations
 
 - **GET /api/donations**: Retrieve a list of all donations.
 - **GET /api/donations/{id}**: Retrieve information about a specific donation by ID.
 - **POST /api/donations**: Record a new donation.
 - **PUT /api/donations/{id}**: Update information about a donation.
 - **DELETE /api/donations/{id}**: Delete a donation.
+
+- ### 5. Blogs
+
+- **GET /api/blogs**: Retrieve a list of all blogs.
+- **GET /api/blogs/{id}**: Retrieve information about a specific blog by ID.
+- **POST /api/blogs**: Post a new blog.
+- **PUT /api/blogs/{id}**: Update information about a blog.
+- **DELETE /api/blogs/{id}**: Delete a blog.
 
 ## Error Handling
 
@@ -140,12 +140,6 @@ For endpoints that return multiple items (e.g., congregations, members), paginat
 
 To help you get started, here are some example API requests:
 
-- **List all congregations**:
-
-  ```
-  GET /api/congregations
-  ```
-
 - **Retrieve information about a specific member (ID: 1)**:
 
   ```
@@ -158,7 +152,9 @@ To help you get started, here are some example API requests:
   POST /api/events
   Body: {
       "title": "Sunday Service",
-      "date": "2023-09-10",
+      "starts_at": "2023-09-10 15:00",
+      "ends_at": "2023-09-10 15:45",
+      "type": "weekly",
       "description": "Weekly church service."
   }
   ```
