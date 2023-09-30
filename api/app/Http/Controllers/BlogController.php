@@ -17,14 +17,6 @@ class BlogController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreBlogRequest $request)
@@ -36,14 +28,6 @@ class BlogController extends Controller
      * Display the specified resource.
      */
     public function show(Blog $blog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Blog $blog)
     {
         //
     }
@@ -61,6 +45,6 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+
     }
 }
