@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSermonRequest;
 use App\Http\Requests\UpdateSermonRequest;
+use App\Models\Gallery;
 use App\Models\Sermon;
 
 class SermonController extends Controller
@@ -13,15 +14,9 @@ class SermonController extends Controller
      */
     public function index()
     {
-        //
-    }
+        //There should some pagination here!
+        //return Gallery::with('images')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -36,14 +31,6 @@ class SermonController extends Controller
      * Display the specified resource.
      */
     public function show(Sermon $sermon)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sermon $sermon)
     {
         //
     }

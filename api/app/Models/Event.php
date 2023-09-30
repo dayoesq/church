@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Event extends Model
 {
@@ -32,8 +33,13 @@ class Event extends Model
         'ends_at' => 'datetime',
     ];
 
-    public function imageable(): MorphTo
+    /**
+     * Event's relationship with the image.
+     *
+     * @return MorphMany
+     */
+    public function images(): MorphMany
     {
-        return $this->morphTo();
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
                 'daily',
                 'weekly',
                 'monthly',
+                'quarterly',
                 'annually',
                 'bi_weekly',
                 'bi_monthly',
