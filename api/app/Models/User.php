@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Roles;
 
 class User extends Authenticatable
 {
@@ -97,6 +98,46 @@ class User extends Authenticatable
             get: fn ($value) => Str::ucfirst($value),
             set: fn ($value) => Str::lower($value),
         );
+    }
+
+    /**
+     * Check if user has 'admin' role.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->attributes['roles'] = Roles::ADMIN->value;
+    }
+
+    /**
+     * Check if user has 'super' role.
+     *
+     * @return bool
+     */
+    public function isSuper(): bool
+    {
+        return $this->attributes['roles'] = Roles::SUPER->value;
+    }
+
+    /**
+     * Check if user has 'management' role.
+     *
+     * @return bool
+     */
+    public function isManagement(): bool
+    {
+        return $this->attributes['roles'] = Roles::MANAGEMENT->value;
+    }
+
+    /**
+     * Check if user has 'user' role.
+     *
+     * @return bool
+     */
+    public function isUser(): bool
+    {
+        return $this->attributes['roles'] = Roles::USER->value;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Utils\Enums;
 enum Events : string
 {
     case DAILY = 'daily';
