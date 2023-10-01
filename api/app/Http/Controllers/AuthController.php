@@ -102,7 +102,7 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws Exception
      */
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request): JsonResponse
     {
         $request->validate(['password' => ['required', 'max:100', 'confirmed',
             Password::min(Token::$PASSWORD_MIN_LENGTH)

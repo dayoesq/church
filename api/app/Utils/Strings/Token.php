@@ -10,6 +10,7 @@ class Token
 
     public static int $RANDOM_STRING_LENGTH = 20;
     public static int $PASSWORD_MIN_LENGTH = 10;
+    public static int $PASSWORD_MAX_LENGTH = 100;
 
     /**
      * Generate a random token.
