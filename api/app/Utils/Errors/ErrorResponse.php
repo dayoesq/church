@@ -5,6 +5,7 @@ namespace App\Utils\Errors;
 class ErrorResponse
 {
     public static string $INVALID_CREDENTIALS = 'Invalid credentials.';
+    public static string $UNVERIFIED_ACCOUNT = 'Unverified account.';
     public static string $NOT_FOUND = 'The requested resource could not be found.';
     public static string $NOT_ALLOWED = 'The specified method for the request is not allowed.';
     public static string $INVALID_METHOD = 'The specified method for the request is not allowed.';
@@ -13,5 +14,6 @@ class ErrorResponse
     public static string $UNAUTHORIZED = 'Unauthorized.';
     public static string $FORBIDDEN = 'Forbidden.';
     public static string $SERVER_ERROR = 'An error occurred.';
+    public static string $EXPIRED_TOKEN = 'The provided token has expired.';
 
 }
