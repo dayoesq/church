@@ -4,10 +4,10 @@ namespace App\Utils\Enums;
 
 enum BlogStatus : string
 {
-    case ACTIVE = 'active';
-    case PENDING = 'pending';
-    case DRAFT = 'draft';
-    case ARCHIVED = 'archived';
-    case PUBLISHED = 'published';
+    case Active = 'active';
+    case Pending = 'pending';
+    case Draft = 'draft';
+    case Archived = 'archived';
+    case Published = 'published';
 
 }

@@ -33,11 +33,9 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $passwordResetToken = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
-        $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-        ]);
+        $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+        $user = User::create($data);
+        $user->password = Token::hashPassword($tempPassword);
         $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
         $user->password = $passwordResetToken;
         DB::table('password_reset_tokens')
@@ -69,10 +67,10 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param string $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $user->delete();

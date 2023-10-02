@@ -28,7 +28,7 @@ return new class extends Migration
             $table->enum('status', ['banned', 'suspended', 'pending', 'active'])->default('pending');
             $table->enum('roles', ['admin', 'super', 'management', 'user'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('position_id')->constrained();
+            $table->foreignId('position_id')->nullable();
             $table->string('password');
             $table->timestamps();
         });

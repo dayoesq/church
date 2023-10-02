@@ -7,6 +7,7 @@ use App\Utils\Success\SuccessResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isEmpty;
 
 trait ApiResponse
 {
@@ -17,12 +18,13 @@ trait ApiResponse
      * @param string|null $message
      * @return JsonResponse
      */
-    protected function created(mixed $data = null, string $message = null): JsonResponse
+    protected function created(string $message = null, mixed $data = null): JsonResponse
     {
-        if($message == null) {
+        if($message == null && $data == null) {
             $message = SuccessResponse::$CREATED;
+            return response()->json(['message' => $message], 201);
         }
-        return response()->json(['data' => $data, $message], 201);
+        return response()->json(['data' => $data, 'message' => $message], 201);
     }
 
     /**
@@ -34,10 +36,10 @@ trait ApiResponse
      */
     protected function ok(mixed $data = null, string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = SuccessResponse::$OK;
+        if($message == null && ($data == null || isEmpty($data))) {
+            return response()->json(['data' => $data, 'message' => SuccessResponse::$OK]);
         }
-        return response()->json(['data' => $data, $message]);
+        return response()->json(['data' => $data, 'message' => $message]);
     }
 
     /**
@@ -51,7 +53,7 @@ trait ApiResponse
         if($message == null) {
             $message = ErrorResponse::$CONFLICT;
         }
-        return response()->json([$message], 409);
+        return response()->json(['message' => $message], 409);
     }
 
     /**

@@ -3,13 +3,13 @@
 namespace App\Utils\Enums;
 enum Events : string
 {
-    case DAILY = 'daily';
-    case WEEKLY = 'weekly';
-    case BI_WEEKLY = 'bi_weekly';
-    case MONTHLY = 'monthly';
-    case BI_MONTHLY = 'bi_monthly';
-    case QUARTERLY = 'quarterly';
-    case ANNUALLY = 'annually';
-    case BI_ANNUAL = 'bi_annual';
-    case MISCELLANEOUS = 'miscellaneous';
+    case Daily = 'daily';
+    case Weekly = 'weekly';
+    case Bi_weekly = 'bi_weekly';
+    case Monthly = 'monthly';
+    case Bi_monthly = 'bi_monthly';
+    case Quarterly = 'quarterly';
+    case Annually = 'annually';
+    case Bi_annual = 'bi_annual';
+    case Miscellaneous = 'miscellaneous';
 }
