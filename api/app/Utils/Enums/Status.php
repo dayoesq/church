@@ -3,9 +3,9 @@
 namespace App\Utils\Enums;
 enum Status : string
 {
-    case ACTIVE = 'active';
-    case PENDING = 'pending';
-    case BANNED = 'banned';
-    case SUSPENDED = 'suspended';
+    case Active = 'active';
+    case Pending = 'pending';
+    case Banned = 'banned';
+    case Suspended = 'suspended';
 
 }

@@ -87,7 +87,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException) {
             $modelName = strtolower(class_basename($exception->getModel()));
 
-            return $this->notFound(ucfirst($modelName) . ' with that id could not be found');
+            return $this->notFound(ucfirst($modelName) . ' with that id could not be found.');
         }
 
         if ($exception instanceof AuthenticationException) {
@@ -99,11 +99,11 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof MethodNotAllowedHttpException) {
-            return $this->invalidMethod('The specified method for the request is invalid');
+            return $this->invalidMethod('The specified method for the request is invalid.');
         }
 
         if ($exception instanceof NotFoundHttpException) {
-            return $this->notFound('The specified URL could not be found');
+            return $this->notFound('The specified url could not be found.');
         }
 
         if ($exception instanceof HttpException) {
@@ -114,10 +114,10 @@ class Handler extends ExceptionHandler
             $errorCode = $exception->errorInfo[1];
 
             if ($errorCode === 1451) {
-                return $this->conflict('Cannot remove this resource completely - it has other relationship(s)');
+                return $this->conflict('Cannot remove this resource completely - it has other relationship(s).');
             }
             if($errorCode === 1265) {
-                return $this->forbidden('Invalid enum value');
+                return $this->forbidden('Invalid enum value.');
             }
         }
 

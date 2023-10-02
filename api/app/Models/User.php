@@ -15,6 +15,12 @@ use App\Utils\Enums\Roles;
 /**
  * @method static findOrFail(string $id)
  * @method static create(array $array)
+ * @method static where(string $string, mixed $input)
+ * @property string $first_name
+ * @property mixed $last_name
+ * @property mixed $email
+ * @property mixed|string $password
+ * @property int|mixed $position_id
  */
 class User extends Authenticatable
 {

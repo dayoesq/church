@@ -24,7 +24,7 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function signIn(Request $request): JsonResponse
+    public function logIn(Request $request): JsonResponse
     {
         $request->validate([
             'email' => ['required', 'email:rfc,dns'],
@@ -35,11 +35,12 @@ class AuthController extends Controller
 
         if(! $user) return $this->forbidden(ErrorResponse::$INVALID_CREDENTIALS);
 
-        if($user->status !== Status::ACTIVE->value) return $this->forbidden(ErrorResponse::$UNVERIFIED_ACCOUNT);
+        if($user->status !== Status::Active->value) return $this->forbidden(ErrorResponse::$FORBIDDEN);
 
         if (! Hash::check($request->input('password'), $user->password)) {
             throw ValidationException::withMessages([
-                'password' => [ErrorResponse::$INVALID_CREDENTIALS]
+                'email' => [ErrorResponse::$INVALID_CREDENTIALS],
+                'password' => [ErrorResponse::$INVALID_CREDENTIALS],
             ]);
         }
 
@@ -62,7 +63,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function signOut(): JsonResponse
+    public function logOut(): JsonResponse
     {
         auth()->user()->tokens()->delete();
         return $this->ok();
@@ -74,14 +75,14 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws Exception
      */
-    public function makePasswordResetRequest(Request $request): JsonResponse
+    public function requestPasswordReset(Request $request): JsonResponse
     {
         $request->validate(['email' => ['required']]);
         $user = User::where('email', $request->input('email'))->first();
 
         if(! $user) return $this->notFound();
 
-        if($user->status === Status::PENDING->value || $user->status === Status::ACTIVE->value) {
+        if($user->status === Status::Pending->value || $user->status === Status::Active->value) {
             $token = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
             DB::table('password_reset_tokens')
                 ->insert([
@@ -124,7 +125,7 @@ class AuthController extends Controller
         if(! $user) return $this->notFound();
 
         $tokenExpiration = Carbon::createFromDate($passResetToken->created_at)
-            ->addMinutes(config('auth.passwords.users.expires'));
+            ->addMinutes(config('auth.passwords.users.expire'));
 
         if($tokenExpiration <= Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString()) {
             return $this->forbidden(ErrorResponse::$EXPIRED_TOKEN);
@@ -133,7 +134,7 @@ class AuthController extends Controller
         $hashedPassword = Token::hashPassword($request->input('password'));
         $user->password = $hashedPassword;
 
-        if($user->status === Status::PENDING->value) $user->status = Status::ACTIVE->value;
+        if($user->status === Status::Pending->value) $user->status = Status::Active->value;
         $user->save();
         return $this->Ok();
     }
