@@ -41,7 +41,7 @@ class UserController extends Controller
             $lastName = $data['last_name'];
 
             $passwordResetToken = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
-            $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time);
+            $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
             $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
 
             $resetTokenModel = new PasswordResetToken();
@@ -61,7 +61,7 @@ class UserController extends Controller
             return $this->created();
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->serverError();
+            return $this->serverError($e->getMessage());
         }
     }
 

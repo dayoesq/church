@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Enums\Status;
 use App\Utils\Errors\ErrorResponse;
@@ -44,7 +45,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $userRole = $user->role;
+        $userRole = $user->roles;
         $user->tokens()->delete();
 
         $token = match ($userRole) {
@@ -77,21 +78,28 @@ class AuthController extends Controller
      */
     public function requestPasswordReset(Request $request): JsonResponse
     {
-        $request->validate(['email' => ['required']]);
-        $user = User::where('email', $request->input('email'))->first();
+        try {
+            DB::beginTransaction();
 
-        if(! $user) return $this->notFound();
+            $request->validate(['email' => ['required']]);
+            $user = User::where('email', $request->input('email'))->first();
 
-        if($user->status === Status::Pending->value || $user->status === Status::Active->value) {
-            $token = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
-            DB::table('password_reset_tokens')
-                ->insert([
-                    'email' => $user->email,
-                    'token' => $token,
-                    'created_at' => Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString()
-                ]);
-            $user->save();
-            return $this->ok();
+            if(! $user) return $this->notFound();
+
+            if($user->status === Status::Pending->value || $user->status === Status::Active->value) {
+                $token = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+                $passwordResetToken = new PasswordResetToken();
+                $passwordResetToken->email = $user->email;
+                $passwordResetToken->token = $token;
+                $passwordResetToken->created_at = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
+                $passwordResetToken->save();
+                $user->save();
+                DB::commit();
+                return $this->ok();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->serverError();
         }
 
         return $this->serverError();
@@ -114,9 +122,7 @@ class AuthController extends Controller
                 ->uncompromised()
         ]]);
 
-        $passResetToken = DB::table('password_reset_tokens')
-            ->where('token', $request->input('token'))
-            ->first();
+        $passResetToken = PasswordResetToken::where('token', $request->input('token'))->first();
 
         if(! $passResetToken) return $this->notFound();
 
@@ -136,6 +142,7 @@ class AuthController extends Controller
 
         if($user->status === Status::Pending->value) $user->status = Status::Active->value;
         $user->save();
+        $passResetToken->delete();
         return $this->Ok();
     }
 

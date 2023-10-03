@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static where(string $string, $email)
+ * @property mixed|string $token
+ * @property mixed|string $created_at
+ * @property mixed $email
  */
 class PasswordResetToken extends Model
 {

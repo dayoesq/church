@@ -2,7 +2,7 @@
 
 namespace App\Utils\Enums;
 
-enum BlogStatus : string
+enum PostStatus : string
 {
     case Active = 'active';
     case Pending = 'pending';
