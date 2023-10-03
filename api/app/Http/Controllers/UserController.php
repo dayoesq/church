@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
@@ -31,19 +32,37 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $passwordResetToken = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
-        $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
-        $user = User::create($data);
-        $user->password = Token::hashPassword($tempPassword);
-        $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
-        $user->password = $passwordResetToken;
-        DB::table('password_reset_tokens')
-            ->insert(
-                ['email' => $data['email'], 'token' => $passwordResetToken, 'created_at' => $clientCurrentTime]
-            );
+        try {
+            DB::beginTransaction();
 
-        return $user->save() ? $this->ok() : $this->serverError();
+            $data = $request->validated();
+            $email = $data['email'];
+            $firstName = $data['first_name'];
+            $lastName = $data['last_name'];
+
+            $passwordResetToken = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+            $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time);
+            $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+
+            $resetTokenModel = new PasswordResetToken();
+            $resetTokenModel->email = $email;
+            $resetTokenModel->token = $passwordResetToken;
+            $resetTokenModel->created_at = $clientCurrentTime;
+            $resetTokenModel->save();
+
+            $user = new User();
+            $user->first_name = $firstName;
+            $user->last_name = $lastName;
+            $user->email = $email;
+            $user->password = Token::hashPassword($tempPassword);
+            $user->save();
+
+            DB::commit();
+            return $this->created();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->serverError();
+        }
     }
 
     /**
@@ -73,6 +92,8 @@ class UserController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+        $userPasswordReset = PasswordResetToken::where('email', $user->email)->first();
+        if($userPasswordReset) $userPasswordReset->delete();
         $user->delete();
         return $this->ok();
     }

@@ -10,14 +10,12 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 
-class WelcomeMail extends Mailable
+class Updated extends Mailable
 {
     use Queueable, SerializesModels;
 
     public User $user;
-    public string $passwordResetToken;
 
     /**
      * Create a new message instance.
@@ -25,7 +23,6 @@ class WelcomeMail extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->getPasswordResetToken();
     }
 
     /**
@@ -34,7 +31,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome!',
+            subject: 'Your email has been updated',
         );
     }
 
@@ -44,7 +41,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'users.welcome',
+            view: 'view.users.emails.updated',
         );
     }
 
@@ -56,18 +53,5 @@ class WelcomeMail extends Mailable
     public function attachments(): array
     {
         return [];
-    }
-
-    /**
-     * Get the password reset token.
-     *
-     * @return string
-     */
-    public function getPasswordResetToken(): string
-    {
-        $passwordResetToken = DB::table('password_reset_token')
-            ->where('email', $this->user->email)->first();
-        return $this->passwordResetToken = $passwordResetToken->token;
-
     }
 }
