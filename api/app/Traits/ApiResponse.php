@@ -20,11 +20,11 @@ trait ApiResponse
      */
     protected function created(string $message = null, mixed $data = null): JsonResponse
     {
-        if($message == null && $data == null) {
+        if($message == null || isEmpty($message) && $data == null || isEmpty($data)) {
             $message = SuccessResponse::$CREATED;
             return response()->json(['message' => $message], 201);
         }
-        return response()->json(['data' => $data, 'message' => $message], 201);
+        return response()->json(['message' => $message, 'data' => $data], 201);
     }
 
     /**

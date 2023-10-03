@@ -117,7 +117,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->attributes['roles'] = Roles::ADMIN->value;
+        return $this->attributes['roles'] = Roles::Admin->value;
     }
 
     /**
@@ -127,7 +127,7 @@ class User extends Authenticatable
      */
     public function isSuper(): bool
     {
-        return $this->attributes['roles'] = Roles::SUPER->value;
+        return $this->attributes['roles'] = Roles::Super->value;
     }
 
     /**
@@ -137,7 +137,7 @@ class User extends Authenticatable
      */
     public function isManagement(): bool
     {
-        return $this->attributes['roles'] = Roles::MANAGEMENT->value;
+        return $this->attributes['roles'] = Roles::Management->value;
     }
 
     /**
@@ -147,7 +147,7 @@ class User extends Authenticatable
      */
     public function isUser(): bool
     {
-        return $this->attributes['roles'] = Roles::USER->value;
+        return $this->attributes['roles'] = Roles::User->value;
     }
 
     /**
