@@ -81,7 +81,7 @@ class AuthController extends Controller
         try {
             DB::beginTransaction();
 
-            $request->validate(['email' => ['required']]);
+            $request->validate(['email' => 'required']);
             $user = User::where('email', $request->input('email'))->first();
 
             if(! $user) return $this->notFound();
@@ -143,7 +143,7 @@ class AuthController extends Controller
         if($user->status === Status::Pending->value) $user->status = Status::Active->value;
         $user->save();
         $passResetToken->delete();
-        return $this->Ok();
+        return $this->ok();
     }
 
 
