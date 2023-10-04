@@ -7,39 +7,33 @@ use App\Utils\Success\SuccessResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\isEmpty;
 
 trait ApiResponse
 {
     /**
      * Display a pretty response when a resource is added.
      *
-     * @param array|string|object $data
      * @param string|null $message
+     * @param mixed|null $data
      * @return JsonResponse
      */
     protected function created(string $message = null, mixed $data = null): JsonResponse
     {
-        if($message == null || isEmpty($message) && $data == null || isEmpty($data)) {
-            $message = SuccessResponse::$CREATED;
-            return response()->json(['message' => $message], 201);
-        }
+        if (empty($message)) $message = SuccessResponse::$CREATED;
         return response()->json(['message' => $message, 'data' => $data], 201);
     }
 
     /**
      * Display a pretty success response when a resource is added.
      *
-     * @param array|string|object $data
      * @param string|null $message
+     * @param array|string|object $data
      * @return JsonResponse
      */
-    protected function ok(mixed $data = null, string $message = null): JsonResponse
+    protected function ok(string $message = null, mixed $data = null): JsonResponse
     {
-        if($message == null && ($data == null || isEmpty($data))) {
-            return response()->json(['data' => $data, 'message' => SuccessResponse::$OK]);
-        }
-        return response()->json(['data' => $data, 'message' => $message]);
+        if (empty($message)) $message = SuccessResponse::$OK;
+        return response()->json(['message' => $message, 'data' => $data], 201);
     }
 
     /**
@@ -50,9 +44,7 @@ trait ApiResponse
      */
     protected function conflict(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$CONFLICT;
-        }
+        if (empty($message)) $message = ErrorResponse::$CONFLICT;
         return response()->json(['message' => $message], 409);
     }
 
@@ -64,9 +56,7 @@ trait ApiResponse
      */
     protected function forbidden(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$FORBIDDEN;
-        }
+        if(empty($message)) $message = ErrorResponse::$FORBIDDEN;
         return response()->json(['message' => $message], 403);
     }
 
@@ -78,9 +68,7 @@ trait ApiResponse
      */
     protected function notFound(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$NOT_FOUND;
-        }
+        if(empty($message)) $message = ErrorResponse::$NOT_FOUND;
         return response()->json(['message' => $message], 404);
     }
 
@@ -92,9 +80,7 @@ trait ApiResponse
      */
     protected function noContent(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = SuccessResponse::$NO_CONTENT;
-        }
+        if(empty($message)) $message = SuccessResponse::$NO_CONTENT;
         return response()->json(['message' => $message], 204);
     }
 
@@ -106,9 +92,7 @@ trait ApiResponse
      */
     protected function notAllowed(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$NOT_ALLOWED;
-        }
+        if(empty($message)) $message = ErrorResponse::$NOT_ALLOWED;
         return response()->json(['message' => $message], 405);
     }
 
@@ -120,9 +104,7 @@ trait ApiResponse
      */
     protected function invalidMethod(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$INVALID_METHOD;
-        }
+        if(empty($message)) $message = ErrorResponse::$INVALID_METHOD;
         return response()->json(['message' => $message], 405);
     }
 
@@ -134,9 +116,7 @@ trait ApiResponse
      */
     protected function serverError(string $message = null): JsonResponse
     {
-        if($message == null) {
-            $message = ErrorResponse::$SERVER_ERROR;
-        }
+        if(empty($message)) $message = ErrorResponse::$SERVER_ERROR;
         return response()->json(['message' => $message], 500);
     }
 
