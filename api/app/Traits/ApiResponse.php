@@ -133,25 +133,41 @@ trait ApiResponse
     }
 
     /**
-     * Process image before storage.
+     * Process image files before storage.
      *
      * @param Request $request
-     * @param string $data
-     * @param array $extensions
+     * @param string $directory
+     * @param array $allowedExtensions
+     * @param string $fileName
      * @return array
      * @throws Exception
      */
-    public function imageHandler(Request $request, string $data, array $extensions): array
+    public function assetHandler(Request $request, string $directory, array $allowedExtensions, string $fileName): array
     {
         $files = [];
-        $attachments = $request->file($data);
-        foreach($attachments as $attachment) {
-            if(!in_array($attachment->extension(), $extensions)){
+
+        $attachments = $request->file($directory);
+
+        foreach ($attachments as $attachment) {
+            $extension = $attachment->getClientOriginalExtension();
+            if (!in_array($extension, $allowedExtensions, true)) {
                 throw new Exception('Invalid file type.');
             }
-            $tempAttachment[] = $attachment->store('');
-            $files = $tempAttachment;
+
+            $request->validate([
+                "$fileName" => [
+                    'file',
+                    'mimes:' . implode(',', $allowedExtensions),
+                    'max:5000',
+                    'dimensions:min_width=200,min_height=200,max_width=500,max_height=500',
+                ],
+            ]);
+
+            $storedPath = $attachment->store($directory);
+            $files[] = $storedPath;
         }
+
         return $files;
     }
+
 }

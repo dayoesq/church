@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Utils\Assets\Asset;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
 use Exception;
@@ -21,7 +22,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $users = User::all();
-        return $this->ok($users);
+        return $this->ok(data: $users);
     }
 
     /**
@@ -58,7 +59,7 @@ class UserController extends Controller
             $user->save();
 
             DB::commit();
-            return $this->created();
+            return $this->created(data: $user);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->serverError($e->getMessage());
@@ -73,15 +74,37 @@ class UserController extends Controller
     public function show(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
-        return $this->ok($user);
+        return $this->ok(data: $user);
     }
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id): JsonResponse
     {
-        //
+        $user = User::findOrFail($id);
+        $imageableType = get_class($user);
+        if($request->hasFile(Asset::$AVATAR)) {
+            try {
+                $paths = $this->assetHandler($request, Asset::$AVATAR, Asset::$IMAGE_EXTENSIONS, Asset::$AVATAR);
+                foreach ($paths as $path) {
+                    $user->image()->updateOrCreate(
+                        ['imageable_id' => $user->id,
+                            'imageable_type' => $imageableType],
+                        ['url' => $path, 'imageable_type' => $imageableType]
+                    );
+                }
+                $this->updateFields($request, $user);
+                return $this->noContent();
+            } catch (Exception $e) {
+                return $this->serverError();
+            }
+        }
+        return $this->serverError();
     }
 
     /**
