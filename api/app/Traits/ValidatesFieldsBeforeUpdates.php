@@ -7,7 +7,6 @@ use App\Utils\Enums\Gender;
 use App\Utils\Enums\Roles;
 use App\Utils\Enums\Status;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -16,7 +15,7 @@ use Illuminate\Validation\Rules\Enum;
  * @method serverError()
  * @method ok(Model $model)
  */
-trait HasUpdates
+trait ValidatesFieldsBeforeUpdates
 {
 
     /**
@@ -24,28 +23,9 @@ trait HasUpdates
      *
      * @param Request $request
      * @param Model $model
-     * @return JsonResponse
-     */
-    public function updateFields(Request $request, Model $model): JsonResponse
-    {
-
-        $this->extracted($request, $model);
-
-        if ($request->enum('post_status', PostStatus::class)) {
-            $request->validate(['status' => new Enum(PostStatus::class)]);
-            $model->status = $request->input('post_status');
-        }
-
-        return $model->save() ? $this->ok($model) : $this->serverError();
-
-    }
-
-    /**
-     * @param Request $request
-     * @param Model $model
      * @return void
      */
-    public function extracted(Request $request, Model $model): void
+    public function updateFields(Request $request, Model $model): void
     {
 
         if ($request->filled('first_name')) {
@@ -58,7 +38,7 @@ trait HasUpdates
             $model->last_name = Str::lower($request->input('last_name'));
         }
 
-        if ($request->filled('email') && $model->email !== $request->email) {
+        if ($request->filled('email') && $model->email !== $request->input('email')) {
             $request->validate(['email' => 'email:rfc,dns|unique:users']);
             $model->email = Str::lower($request->input('email'));
         }
@@ -74,8 +54,13 @@ trait HasUpdates
         }
 
         if ($request->filled('postal_code')) {
-            $request->validate(['position' => 'max:15']);
+            $request->validate(['postal_code' => 'max:20']);
             $model->postal_code = Str::upper($request->input('postal_code'));
+        }
+
+        if ($request->filled('city')) {
+            $request->validate(['city' => 'max:20']);
+            $model->city = Str::upper($request->input('city'));
         }
 
         if ($request->enum('status', Status::class)) {
@@ -94,7 +79,7 @@ trait HasUpdates
         }
 
         if ($request->filled('address_one')) {
-            $request->validate(['address_two' => 'max:255']);
+            $request->validate(['address_one' => 'max:255']);
             $model->address_one = ucwords(Str::upper($request->input('address_one')));
         }
 
@@ -107,6 +92,14 @@ trait HasUpdates
             $request->validate(['roles' => new Enum(Roles::class)]);
             $model->roles = $request->input('roles');
         }
+
+
+        if ($request->enum('post_status', PostStatus::class)) {
+            $request->validate(['post_status' => new Enum(PostStatus::class)]);
+            $model->post_status = $request->input('post_status');
+        }
+
+        $model->save();
 
     }
 

@@ -41,7 +41,7 @@ class Updated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.users.emails.updated',
+            view: 'users.emails.updated',
         );
     }
 
