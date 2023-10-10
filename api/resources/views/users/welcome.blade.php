@@ -1,10 +1,6 @@
 <p>Congratulations {{ $user->first_name }}! Your account has been created! </p>
-<p>In order to gain access to your account, you must
-    <a href="{{ config('app.client_base_url') }}/password-reset/{{ $passwordResetToken }}">
-        change your password.
-    </a>
-</p>
-<p>Please note that the above link expires in 24 hours!</p>
+<p>Please use this token to verify your account and change your password {{ $passwordResetToken }}.</p>
+<p>Also note that the above code expires in 24 hours! On expiration, you may have to request another one.</p>
 
 ---
 <p>Regards,</p>

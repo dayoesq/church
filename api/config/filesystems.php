@@ -95,9 +95,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('storage/gallery') => storage_path('app/public/gallery'),
-        public_path('storage/avatar') => storage_path('app/public/avatar'),
-        public_path('storage/event') => storage_path('app/public/event')
+        public_path('gallery') => storage_path('app/public/gallery'),
+        public_path('avatar') => storage_path('app/public/avatar'),
+        public_path('event') => storage_path('app/public/event')
     ],
 
 ];

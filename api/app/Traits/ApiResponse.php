@@ -136,21 +136,20 @@ trait ApiResponse
      * Process image files before storage.
      *
      * @param Request $request
-     * @param string $directory
-     * @param array $allowedExtensions
      * @param string $fileName
+     * @param array $allowedExtensions
      * @return array
      * @throws Exception
      */
-    public function assetHandler(Request $request, string $directory, array $allowedExtensions, string $fileName): array
+    public function assetHandler(Request $request, string $fileName, array $allowedExtensions): array
     {
         $files = [];
 
-        $attachments = $request->file($directory);
+        $attachments = $request->file($fileName);
 
         foreach ($attachments as $attachment) {
             $extension = $attachment->getClientOriginalExtension();
-            if (!in_array($extension, $allowedExtensions, true)) {
+            if (! in_array($extension, $allowedExtensions, true)) {
                 throw new Exception('Invalid file type.');
             }
 
@@ -163,8 +162,8 @@ trait ApiResponse
                 ],
             ]);
 
-            $storedPath = $attachment->store($directory);
-            $files[] = $storedPath;
+            $storedPath = $attachment->store($fileName);
+            $files[] = basename($storedPath);
         }
 
         return $files;

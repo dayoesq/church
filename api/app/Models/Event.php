@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
+/**
+ * @property string $title
+ * @property string $type
+ * @property mixed $organised_by
+ * @property mixed $starts_at
+ * @property mixed $ends_at
+ * @property mixed $created_by
+ */
 class Event extends Model
 {
     use HasFactory;
@@ -19,6 +27,7 @@ class Event extends Model
     protected $fillable = [
         'title',
         'type',
+        'organised_by',
         'starts_at',
         'ends_at',
     ];
