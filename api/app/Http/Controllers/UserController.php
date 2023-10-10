@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
-use App\Utils\Assets\Asset;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -41,7 +41,7 @@ class UserController extends Controller
             $firstName = $data['first_name'];
             $lastName = $data['last_name'];
 
-            $passwordResetToken = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+            $passwordResetToken = Token::generateRandomNumber(Token::$RANDOM_NUMBER_LENGTH);
             $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
             $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
 
@@ -87,23 +87,18 @@ class UserController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
-        $imageableType = get_class($user);
-        if($request->hasFile(Asset::$AVATAR)) {
-            try {
-                $paths = $this->assetHandler($request, Asset::$AVATAR, Asset::$IMAGE_EXTENSIONS, Asset::$AVATAR);
-                foreach ($paths as $path) {
-                    $user->image()->updateOrCreate(
-                        ['imageable_id' => $user->id,
-                            'imageable_type' => $imageableType],
-                        ['url' => $path, 'imageable_type' => $imageableType]
-                    );
-                }
-                $this->updateFields($request, $user);
-                return $this->noContent();
-            } catch (Exception $e) {
-                return $this->serverError();
-            }
+        if($request->hasFile('avatar')) {
+            $request->validate(['avatar' => [
+                'file', 'mimes:jpeg,png,jpg,svg',
+                'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
+            ]]);
+            if(! is_null($user->avatar)) Storage::delete($user->avatar);
+            $path = $request->file('avatar')->store('avatar');
+            $user->avatar = basename($path);
+            $this->updateFields($request, $user);
+            return $this->noContent();
         }
+
         return $this->serverError();
     }
 

@@ -93,6 +93,11 @@ trait ValidatesFieldsBeforeUpdates
             $model->roles = $request->input('roles');
         }
 
+        if ($request->filled('title')) {
+            $request->validate(['title' => ['string', 'min:2', 'max:100']]);
+            $model->title = $request->input('title');
+        }
+
 
         if ($request->enum('post_status', PostStatus::class)) {
             $request->validate(['post_status' => new Enum(PostStatus::class)]);
