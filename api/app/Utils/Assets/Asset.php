@@ -7,6 +7,7 @@ class Asset
     public static string $AVATAR = 'avatar';
     public static string $GALLERY = 'gallery';
     public static string $EVENT = 'event';
+    public static string $PROJECT = 'project';
     public static array $IMAGE_EXTENSIONS = ['jpg','jpeg','png','svg'];
 
 

@@ -29,11 +29,11 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request): JsonResponse
     {
-
         try {
             DB::beginTransaction();
 
             $request->validated();
+
             $event = new Event();
             $event->title = $request->input('title');
             $event->type = $request->input('type');
@@ -42,29 +42,34 @@ class EventController extends Controller
             $event->ends_at = $request->input('ends_at');
             $event->created_by = auth()->user->id;
 
-            $imageableType = get_class($event);
+            if ($event->save()) {
+                if ($request->hasFile(Asset::$EVENT)) {
+                    $paths = $this->handleAssetsStorage($request, Asset::$EVENT);
 
-            if($request->hasFile(Asset::$EVENT)) {
-                $paths = $this->assetHandler($request, Asset::$EVENT, Asset::$IMAGE_EXTENSIONS);
-                foreach ($paths as $path) {
-                    $event->images()->updateOrCreate(
-                        ['imageable_id' => $event->id,
-                            'imageable_type' => $imageableType],
-                        ['url' => $path, 'imageable_type' => $imageableType]
-                    );
+                    foreach ($paths as $path) {
+                        $event->images()->updateOrCreate(
+                            [
+                                'url' => $path
+                            ],
+                        );
+                    }
                 }
+
+                DB::commit();
+
+                return $this->created(data: $event);
             }
-            DB::commit();
-            return $event->save() ? $this->created(data: $event) : $this->serverError();
+            DB::rollBack();
+            return $this->serverError();
         } catch (Exception $e) {
             DB::rollBack();
             return $this->badRequest($e->getMessage());
         }
-
     }
 
+
     /**
-     * Display the specified resource. This takes advantage of the implicit model binding.
+     * Display the specified resource. Implicit model binding in use.
      * @param Event $event
      * @return JsonResponse
      */

@@ -95,11 +95,22 @@ class UserController extends Controller
             if(! is_null($user->avatar)) Storage::delete($user->avatar);
             $path = $request->file('avatar')->store('avatar');
             $user->avatar = basename($path);
-            $this->updateFields($request, $user);
+            $this->updateUserFieldsByAdmin($request, $user);
+            $user->save();
             return $this->noContent();
         }
 
         return $this->serverError();
+    }
+
+    /**
+     * Display a listing of all users with 'active' status.
+     * @return JsonResponse
+     */
+    public function getActiveUsers(): JsonResponse
+    {
+        $users = User::where('status', 'active')->get();
+        return $this->ok(data: $users);
     }
 
     /**

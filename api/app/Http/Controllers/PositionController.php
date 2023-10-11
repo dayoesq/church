@@ -28,7 +28,7 @@ class PositionController extends Controller
     {
         $data = $request->validated();
         $position = Position::create($data);
-        return $position->save() ? $this->created() : $this->serverError();
+        return $position->save() ? $this->created(data: $position) : $this->serverError();
     }
 
     /**
@@ -50,9 +50,9 @@ class PositionController extends Controller
     public function update(UpdatePositionRequest $request, int $id): JsonResponse
     {
         $position = Position::findOrFail($id);
-        $data = $request->validated();
-        $position->title = $data['title'];
-        return $this->noContent();
+        $request->validated();
+        $position->title = $request->input('title');
+        return $position->save() ? $this->noContent() : $this->serverError();
 
     }
 

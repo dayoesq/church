@@ -28,6 +28,7 @@ return new class extends Migration
         Schema::table('images', function (Blueprint $table) {
             $table->dropColumn('imageable_id');
             $table->dropColumn('imageable_type');
+            $table->string('url');
         });
     }
 };

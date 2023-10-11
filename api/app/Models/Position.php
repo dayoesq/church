@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 /**
  * @method static create(mixed $data)
+ * @method static findOrFail(int $id)
  */
 class Position extends Model
 {
@@ -32,7 +33,7 @@ class Position extends Model
     protected function title(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Str::ucfirst($value),
+            get: fn ($value) => Str::words($value),
             set: fn ($value) => Str::lower($value),
         );
     }
