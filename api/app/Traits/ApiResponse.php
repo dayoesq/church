@@ -147,21 +147,16 @@ trait ApiResponse
 
         $attachments = $request->file($fileName);
 
+        $request->validate([
+            "$fileName" . '*' => [
+                'file',
+                'mimes:' . implode(',', $allowedExtensions),
+                'max:5000',
+                'dimensions:min_width=200,min_height=200,max_width=600,max_height=600',
+            ],
+        ]);
+
         foreach ($attachments as $attachment) {
-            $extension = $attachment->getClientOriginalExtension();
-            if (! in_array($extension, $allowedExtensions, true)) {
-                throw new Exception('Invalid file type.');
-            }
-
-            $request->validate([
-                "$fileName" => [
-                    'file',
-                    'mimes:' . implode(',', $allowedExtensions),
-                    'max:5000',
-                    'dimensions:min_width=200,min_height=200,max_width=600,max_height=600',
-                ],
-            ]);
-
             $storedPath = $attachment->store($fileName);
             $files[] = basename($storedPath);
         }

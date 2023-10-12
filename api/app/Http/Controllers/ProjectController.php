@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -71,8 +72,7 @@ class ProjectController extends Controller
                     $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$IMAGE_EXTENSIONS);
                     foreach ($paths as $path) {
                         $project->images()->updateOrCreate([
-                            'url' => $path,
-                            'caption' => $request->input('title') . '-image'
+                            'url' => $path
                         ]);
                     }
                 }
@@ -94,7 +94,21 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): JsonResponse
     {
+
+        $images = $project->images;
+
+        foreach ($images as $image) {
+            $imagePath = $image->url;
+            if (Storage::disk('project')->exists($imagePath)) {
+                Storage::disk('project')->delete($imagePath);
+            }
+
+            $image->delete();
+        }
+
         $project->delete();
+
         return $this->ok();
     }
+
 }
