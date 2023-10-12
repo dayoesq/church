@@ -30,12 +30,7 @@ class UpsertProjectRequest extends FormRequest
         return [
             'title' => ['string', 'min:2', 'max:150'],
             'description' => ['string', 'min:20', 'max:500'],
-            'target_amount' => ['required'],
-            'project' => [
-                'sometimes', 'required', 'file', 'mimes:jpeg,png,jpg,svg',
-                'max:5000', 'dimensions:min_width=300,min_height=300,max_width=800,max_height=800'
-            ]
-
+            'target_amount' => ['required']
         ];
     }
 }
