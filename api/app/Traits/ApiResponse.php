@@ -141,7 +141,7 @@ trait ApiResponse
      * @return array
      * @throws Exception
      */
-    public function assetHandler(Request $request, string $fileName, array $allowedExtensions): array
+    public function handleAssetsStorage(Request $request, string $fileName, array $allowedExtensions): array
     {
         $files = [];
 
@@ -158,7 +158,7 @@ trait ApiResponse
                     'file',
                     'mimes:' . implode(',', $allowedExtensions),
                     'max:5000',
-                    'dimensions:min_width=200,min_height=200,max_width=500,max_height=500',
+                    'dimensions:min_width=200,min_height=200,max_width=600,max_height=600',
                 ],
             ]);
 

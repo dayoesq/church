@@ -68,6 +68,14 @@ return [
             'throw' => false,
         ],
 
+        'project' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/project'),
+            'url' => env('APP_URL').'/storage/project',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -97,7 +105,8 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('gallery') => storage_path('app/public/gallery'),
         public_path('avatar') => storage_path('app/public/avatar'),
-        public_path('event') => storage_path('app/public/event')
+        public_path('event') => storage_path('app/public/event'),
+        public_path('project') => storage_path('app/public/project')
     ],
 
 ];

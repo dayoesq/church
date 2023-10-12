@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('users', UserController::class);
 Route::apiResource('positions', PositionController::class);
 Route::apiResource('events', EventController::class);
+Route::apiResource('projects', ProjectController::class);
 //Route::apiResource('positions', PositionController::class);
 
 

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\UpsertProjectRequest;
 use App\Models\Project;
+use App\Utils\Assets\Asset;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -16,37 +19,71 @@ class ProjectController extends Controller
     public function index(): JsonResponse
     {
         $projects = Project::with('images')->get();
-        return $this->ok($projects);
+        return $this->ok(data: $projects);
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param StoreProjectRequest $request
+     * @param UpsertProjectRequest $request
      * @return JsonResponse
      */
-    public function store(StoreProjectRequest $request): JsonResponse
+    public function store(UpsertProjectRequest $request): JsonResponse
     {
         $data = $request->validated();
         $project = Project::create($data);
-        return $project->save() ? $this->created($project) : $this->serverError();
+        return $project->save() ? $this->created(data: $project) : $this->serverError();
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource with implicit model binding.
      * @param Project $project
      * @return JsonResponse
      */
     public function show(Project $project): JsonResponse
     {
-        return $this->ok($project);
+        $data = $project->with('images')->first();
+        return $this->ok(data: $data);
     }
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param Project $project
+     * @return JsonResponse
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(Request $request, Project $project): JsonResponse
     {
-        //$data = $request->validated();
+        try {
+            DB::beginTransaction();
+
+            $data = $request->validate(
+                [
+                    'title' => ['string', 'min:2', 'max:150'],
+                    'description' => ['string', 'min:20', 'max:500'],
+                    'target_amount' => ['required']
+                ]
+            );
+
+            $project->fill($data);
+
+            if($project->save()) {
+                if ($request->hasFile(Asset::$PROJECT)) {
+                    $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$IMAGE_EXTENSIONS);
+                    foreach ($paths as $path) {
+                        $project->images()->updateOrCreate([
+                            'url' => $path,
+                            'caption' => $request->input('title') . '-image'
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+            return $this->noContent();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->serverError($e->getMessage());
+        }
 
     }
 

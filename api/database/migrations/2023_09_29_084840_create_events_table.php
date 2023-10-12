@@ -28,8 +28,8 @@ return new class extends Migration
                 ]
             );
             $table->unsignedBigInteger('created_by');
-            $table->string('organised_by');
             $table->foreign('created_by')->references('id')->on('users');
+            $table->string('organised_by');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
             $table->timestamps();
