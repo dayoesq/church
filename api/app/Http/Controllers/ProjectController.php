@@ -68,14 +68,16 @@ class ProjectController extends Controller
             $project->fill($data);
 
             if($project->save()) {
-                if ($request->hasFile(Asset::$PROJECT)) {
-                    $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$IMAGE_EXTENSIONS);
+                if ($request->hasFile('project')) {
+                    $paths = $this->handleAssetsStorage($request, 'project', 'projects', Asset::$IMAGE_EXTENSIONS);
                     foreach ($paths as $path) {
                         $project->images()->updateOrCreate([
                             'url' => $path
                         ]);
                     }
                 }
+            } else {
+                return $this->badRequest('An error occurred.');
             }
 
             DB::commit();
@@ -96,14 +98,18 @@ class ProjectController extends Controller
     {
 
         $images = $project->images;
-
+        $imagePaths = [];
         foreach ($images as $image) {
-            $imagePath = $image->url;
-            if (Storage::disk('project')->exists($imagePath)) {
-                Storage::disk('project')->delete($imagePath);
+            if (Storage::disk('project')->exists($image->url)) {
+                $imagePaths[] = $image->url;
+                $image->delete();
             }
+        }
 
-            $image->delete();
+        try {
+            Storage::delete($imagePaths);
+        } catch (Exception $e) {
+            return $this->badRequest($e->getMessage());
         }
 
         $project->delete();

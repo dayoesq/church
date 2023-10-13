@@ -56,12 +56,6 @@ trait ValidatesFieldsBeforeUpdates
             $model->title = $request->input('title');
         }
 
-//        if ($request->enum('post_status', PostStatus::class)) {
-//            $request->validate(['post_status' => new Enum(PostStatus::class)]);
-//            $model->post_status = $request->input('post_status');
-//        }
-
-
     }
 
     /**

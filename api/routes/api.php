@@ -21,6 +21,7 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('positions', PositionController::class);
 Route::apiResource('events', EventController::class);
 Route::apiResource('projects', ProjectController::class);
+Route::name('active-users')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
 //Route::apiResource('positions', PositionController::class);
 
 
