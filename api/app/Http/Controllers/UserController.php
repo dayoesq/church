@@ -68,12 +68,11 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     * @param int $id
+     * @param User $user
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(User $user): JsonResponse
     {
-        $user = User::findOrFail($id);
         return $this->ok(data: $user);
     }
 
@@ -92,8 +91,10 @@ class UserController extends Controller
                 'file', 'mimes:jpeg,png,jpg,svg',
                 'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
             ]]);
-            if(! is_null($user->avatar)) Storage::delete($user->avatar);
-            $path = $request->file('avatar')->store('avatar');
+            if(! is_null($user->avatar) && Storage::disk('avatar')->exists($user->avatar)) {
+                Storage::disk('avatar')->delete($user->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars');
             $user->avatar = basename($path);
             $this->updateUserFieldsByAdmin($request, $user);
             $user->save();
@@ -115,15 +116,22 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param User $user
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(User $user): JsonResponse
     {
-        $user = User::findOrFail($id);
-        $userPasswordReset = PasswordResetToken::where('email', $user->email)->first();
-        if($userPasswordReset) $userPasswordReset->delete();
-        $user->delete();
-        return $this->ok();
+        try {
+            DB::beginTransaction();
+            $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
+            $passwordResetToken?->delete();
+            if(! is_null($user->avatar)) Storage::disk('avatar')->delete($user->avatar);
+            $user->delete();
+            DB::commit();
+            return $this->ok();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->serverError($e->getMessage());
+        }
     }
 }

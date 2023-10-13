@@ -7,6 +7,7 @@ use App\Utils\Success\SuccessResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 trait ApiResponse
 {
@@ -33,7 +34,7 @@ trait ApiResponse
     protected function ok(string $message = null, mixed $data = null): JsonResponse
     {
         if (empty($message)) $message = SuccessResponse::$OK;
-        return response()->json(['message' => $message, 'data' => $data], 201);
+        return response()->json(['message' => $message, 'data' => $data]);
     }
 
     /**
@@ -141,14 +142,22 @@ trait ApiResponse
      * @return array
      * @throws Exception
      */
-    public function handleAssetsStorage(Request $request, string $fileName, array $allowedExtensions): array
+    public function handleAssetsStorage(Request $request, string $fileName, string $directory, array $allowedExtensions): array
     {
         $files = [];
 
         $attachments = $request->file($fileName);
 
+        foreach ($attachments as $attachment) {
+            if(! in_array($attachment->extension(), $allowedExtensions)) {
+                throw ValidationException::withMessages([
+                    "$fileName" => ['Invalid file type.']
+                ]);
+            }
+        }
+
         $request->validate([
-            "$fileName" . '*' => [
+            "$fileName.*" => [
                 'file',
                 'mimes:' . implode(',', $allowedExtensions),
                 'max:5000',
@@ -157,7 +166,7 @@ trait ApiResponse
         ]);
 
         foreach ($attachments as $attachment) {
-            $storedPath = $attachment->store($fileName);
+            $storedPath = $attachment->store($directory);
             $files[] = basename($storedPath);
         }
 

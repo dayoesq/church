@@ -46,32 +46,32 @@ return [
 
         'gallery' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/gallery'),
-            'url' => env('APP_URL').'/storage/gallery',
+            'root' => storage_path('app/public/galleries'),
+            'url' => env('APP_URL').'/storage/galleries',
             'visibility' => 'public',
             'throw' => false,
         ],
 
         'avatar' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/avatar'),
-            'url' => env('APP_URL').'/storage/avatar',
+            'root' => storage_path('app/public/avatars'),
+            'url' => env('APP_URL').'/storage/avatars',
             'visibility' => 'public',
             'throw' => false,
         ],
 
         'event' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/event'),
-            'url' => env('APP_URL').'/storage/event',
+            'root' => storage_path('app/public/events'),
+            'url' => env('APP_URL').'/storage/events',
             'visibility' => 'public',
             'throw' => false,
         ],
 
         'project' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/project'),
-            'url' => env('APP_URL').'/storage/project',
+            'root' => storage_path('app/public/projects'),
+            'url' => env('APP_URL').'/storage/projects',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -103,10 +103,10 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('gallery') => storage_path('app/public/gallery'),
-        public_path('avatar') => storage_path('app/public/avatar'),
-        public_path('event') => storage_path('app/public/event'),
-        public_path('project') => storage_path('app/public/project')
+        public_path('gallery') => storage_path('app/public/galleries'),
+        public_path('avatar') => storage_path('app/public/avatars'),
+        public_path('event') => storage_path('app/public/events'),
+        public_path('project') => storage_path('app/public/projects')
     ],
 
 ];

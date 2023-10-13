@@ -20,10 +20,12 @@ use App\Utils\Enums\Roles;
  * @property mixed $email
  * @property mixed|string $password
  * @property int|mixed $position_id
+ * @property string $avatar
  */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +37,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
