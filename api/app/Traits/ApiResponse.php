@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -138,9 +137,10 @@ trait ApiResponse
      *
      * @param Request $request
      * @param string $fileName
+     * @param string $directory
      * @param array $allowedExtensions
      * @return array
-     * @throws Exception
+     * @throws ValidationException
      */
     public function handleAssetsStorage(Request $request, string $fileName, string $directory, array $allowedExtensions): array
     {
@@ -161,7 +161,7 @@ trait ApiResponse
                 'file',
                 'mimes:' . implode(',', $allowedExtensions),
                 'max:5000',
-                'dimensions:min_width=200,min_height=200,max_width=600,max_height=600',
+                'dimensions:min_width=200,min_height=200,max_width=800,max_height=600',
             ],
         ]);
 

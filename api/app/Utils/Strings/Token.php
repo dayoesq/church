@@ -39,12 +39,23 @@ class Token
     public static function generateRandomNumber(int $length): string
     {
         try {
+            if ($length < 6 || $length > 9) {
+                throw new Exception("Invalid length. The length should be between 6 and 9.");
+            }
+
             $randomBytes = random_bytes($length);
-            return unpack('L', $randomBytes)[1];
+            $randomNumber = hexdec(bin2hex($randomBytes));
+            $minValue = pow(10, $length - 1);
+            $maxValue = pow(10, $length) - 1;
+            $randomNumber = $randomNumber % ($maxValue - $minValue + 1) + $minValue;
+
+            return str_pad($randomNumber, $length, '0', STR_PAD_LEFT);
         } catch (Exception $e) {
             throw new Exception(ErrorResponse::$SERVER_ERROR);
         }
     }
+
+
 
     /**
      * Hash password

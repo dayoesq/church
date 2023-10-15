@@ -91,7 +91,8 @@ class UserController extends Controller
                 'file', 'mimes:jpeg,png,jpg,svg',
                 'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
             ]]);
-            if(! is_null($user->avatar) && Storage::disk('avatar')->exists($user->avatar)) {
+
+            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
                 Storage::disk('avatar')->delete($user->avatar);
             }
             $path = $request->file('avatar')->store('avatars');
@@ -125,7 +126,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            if(! is_null($user->avatar)) Storage::disk('avatar')->delete($user->avatar);
+            if($user->avatar) Storage::disk('avatar')->delete($user->avatar);
             $user->delete();
             DB::commit();
             return $this->ok();
