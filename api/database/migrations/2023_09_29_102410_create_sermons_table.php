@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('excerpt');
             $table->string('body');
-            $table->enum('status', ['pending', 'draft', 'archived', 'published'])->default('pending');
+            $table->enum('status', ['draft', 'archived', 'published'])->default('draft');
             $table->unsignedBigInteger('delivered_by');
             $table->foreign('delivered_by')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();

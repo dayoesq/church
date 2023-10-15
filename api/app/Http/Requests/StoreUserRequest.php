@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePositionRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,9 @@ class StorePositionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'min:4', 'max:200', 'unique:positions']
+            'first_name' => ['required', 'string', 'min:2', 'max:50'],
+            'last_name' => ['required', 'string', 'min:2', 'max:50'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users']
         ];
     }
 }
