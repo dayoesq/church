@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('excerpt');
             $table->string('body');
-            $table->enum('post_status', ['pending', 'draft', 'archived', 'published'])->default('pending');
+            $table->enum('post_status', ['draft', 'archived', 'published'])->default('draft');
             $table->unsignedBigInteger('written_by');
             $table->foreign('written_by')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();

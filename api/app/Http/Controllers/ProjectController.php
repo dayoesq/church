@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertProjectRequest;
+use App\Models\Image;
 use App\Models\Project;
 use App\Utils\Assets\Asset;
 use Exception;
@@ -69,7 +70,7 @@ class ProjectController extends Controller
 
             if($project->save()) {
                 if ($request->hasFile('project')) {
-                    $paths = $this->handleAssetsStorage($request, 'project', 'projects', Asset::$IMAGE_EXTENSIONS);
+                    $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$PROJECT_DIR, Asset::$IMAGE_EXTENSIONS);
                     foreach ($paths as $path) {
                         $project->images()->updateOrCreate([
                             'url' => $path
@@ -90,6 +91,33 @@ class ProjectController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $projectId
+     * @param int $imageId
+     * @return JsonResponse
+     */
+    public function addCaptionToProjectImage(Request $request, int $projectId, int $imageId): JsonResponse
+    {
+        Project::findOrFail($projectId);
+
+        $request->validate(
+            [
+                'caption' => ['required', 'string', 'min:2', 'max:100'],
+            ]
+        );
+
+        $image = Image::findOrFail($imageId);
+        if($image->imageable_id === $projectId) {
+            $image->caption = $request->input('caption');
+            $image->save();
+            return $this->ok();
+        }
+
+        return $this->serverError();
+    }
+
+    /**
      * Remove the specified resource from storage.
      * @param Project $project
      * @return JsonResponse
@@ -97,24 +125,24 @@ class ProjectController extends Controller
     public function destroy(Project $project): JsonResponse
     {
 
-        $images = $project->images;
-        $imagePaths = [];
-        foreach ($images as $image) {
-            if (Storage::disk('project')->exists($image->url)) {
-                $imagePaths[] = $image->url;
-                $image->delete();
-            }
-        }
-
         try {
-            Storage::delete($imagePaths);
+            DB::beginTransaction();
+            $images = $project->images;
+            foreach ($images as $image) {
+                if (Storage::disk('project')->exists($image->url)) {
+                    Storage::disk('project')->delete($image->url);
+                    $image->delete();
+                }
+            }
+
+            $project->delete();
+            DB::commit();
+            return $this->ok();
         } catch (Exception $e) {
-            return $this->badRequest($e->getMessage());
+            DB::rollBack();
+            return $this->serverError();
         }
 
-        $project->delete();
-
-        return $this->ok();
     }
 
 }

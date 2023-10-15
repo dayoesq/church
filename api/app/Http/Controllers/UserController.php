@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Strings\Token;
@@ -27,11 +27,11 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param UserRequest $request
+     * @param StoreUserRequest $request
      * @return JsonResponse
      * @throws Exception
      */
-    public function store(UserRequest $request): JsonResponse
+    public function store(StoreUserRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();

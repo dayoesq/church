@@ -22,6 +22,7 @@ Route::apiResource('positions', PositionController::class);
 Route::apiResource('events', EventController::class);
 Route::apiResource('projects', ProjectController::class);
 Route::name('active-users')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
+Route::name('add-caption-to-image')->patch('/projects/{projectId}/images/{imageId}', [ProjectController::class, 'addCaptionToProjectImage']);
 //Route::apiResource('positions', PositionController::class);
 
 
