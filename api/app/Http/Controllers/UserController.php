@@ -126,7 +126,9 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            if($user->avatar) Storage::disk('avatar')->delete($user->avatar);
+            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
+                Storage::disk('avatar')->delete($user->avatar);
+            }
             $user->delete();
             DB::commit();
             return $this->ok();

@@ -46,7 +46,7 @@ return [
 
         'gallery' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/galleries'),
+            'root' => storage_path('app/galleries'),
             'url' => env('APP_URL').'/storage/galleries',
             'visibility' => 'public',
             'throw' => false,
@@ -54,7 +54,7 @@ return [
 
         'avatar' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/avatars'),
+            'root' => storage_path('app/avatars'),
             'url' => env('APP_URL').'/storage/avatars',
             'visibility' => 'public',
             'throw' => false,
@@ -62,7 +62,7 @@ return [
 
         'event' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/events'),
+            'root' => storage_path('app/events'),
             'url' => env('APP_URL').'/storage/events',
             'visibility' => 'public',
             'throw' => false,
@@ -70,7 +70,7 @@ return [
 
         'project' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/projects'),
+            'root' => storage_path('app/projects'),
             'url' => env('APP_URL').'/storage/projects',
             'visibility' => 'public',
             'throw' => false,
@@ -102,11 +102,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
-        public_path('gallery') => storage_path('app/public/galleries'),
-        public_path('avatar') => storage_path('app/public/avatars'),
-        public_path('event') => storage_path('app/public/events'),
-        public_path('project') => storage_path('app/public/projects')
+        public_path('storage') => storage_path('app/public')
     ],
 
 ];
