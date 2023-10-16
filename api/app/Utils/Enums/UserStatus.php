@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Utils\Enums;
-enum Status : string
+enum UserStatus : string
 {
     case Active = 'active';
     case Pending = 'pending';
