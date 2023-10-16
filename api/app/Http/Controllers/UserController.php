@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Utils\Enums\Gender;
+use App\Utils\Enums\Roles;
+use App\Utils\Enums\UserStatus;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
 use Exception;
@@ -12,6 +15,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
@@ -79,13 +84,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param User $user
      * @return JsonResponse
-     * @throws Exception
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, User $user): JsonResponse
     {
-        $user = User::findOrFail($id);
+
         if($request->hasFile('avatar')) {
             $request->validate(['avatar' => [
                 'file', 'mimes:jpeg,png,jpg,svg',
@@ -136,5 +140,101 @@ class UserController extends Controller
             DB::rollBack();
             return $this->serverError($e->getMessage());
         }
+    }
+
+    /**
+     * Update user resource.
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function updateUserFieldsByAdmin(Request $request, User $user): void
+    {
+
+        $this->updateUserFieldsBySelf($request, $user);
+        // Fields only admin can update
+
+        if ($request->filled('position')) {
+            $request->validate(['position' => ['max:100', 'min:2']]);
+            $user->position = Str::lower($request->input('position'));
+        }
+
+        if ($request->enum('status', UserStatus::class)) {
+            $request->validate(['status' => new Enum(UserStatus::class)]);
+            $user->status = $request->input('status');
+        }
+
+        if ($request->filled('member_since')) {
+            $request->validate(['member_since' => ['date']]);
+            $user->member_since = $request->input('member_since');
+        }
+
+        if ($request->enum('roles', Roles::class)) {
+            $request->validate(['roles' => new Enum(Roles::class)]);
+            $user->roles = $request->input('roles');
+        }
+
+        if ($request->filled('title')) {
+            $request->validate(['title' => ['string', 'min:2', 'max:100']]);
+            $user->title = $request->input('title');
+        }
+
+        if ($request->filled('email') && $user->email !== $request->input('email')) {
+            $request->validate(['email' => 'email:rfc,dns|unique:users']);
+            $user->email = Str::lower($request->input('email'));
+        }
+
+    }
+
+    /**
+     * Update user resource.
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function updateUserFieldsBySelf(Request $request, User $user): void
+    {
+        if ($request->filled('first_name')) {
+            $request->validate(['first_name' => ['min:2', 'max:40']]);
+            $user->first_name = Str::lower($request->input('first_name'));
+        }
+
+        if ($request->filled('last_name')) {
+            $request->validate(['last_name' => ['min:2', 'max:40']]);
+            $user->last_name = Str::lower($request->input('last_name'));
+        }
+
+        if ($request->enum('gender', Gender::class)) {
+            $request->validate(['gender' => new Enum(Gender::class)]);
+            $user->gender = $request->input('gender');
+        }
+
+        if ($request->filled('postal_code')) {
+            $request->validate(['postal_code' => 'max:20']);
+            $user->postal_code = Str::upper($request->input('postal_code'));
+        }
+
+        if ($request->filled('city')) {
+            $request->validate(['city' => 'max:20']);
+            $user->city = Str::upper($request->input('city'));
+        }
+
+        if ($request->filled('telephone')) {
+            $request->validate(['telephone' => 'max:20']);
+            $user->telephone = $request->input('telephone');
+        }
+
+        if ($request->filled('address_one')) {
+            $request->validate(['address_one' => 'max:255']);
+            $user->address_one = ucwords(Str::upper($request->input('address_one')));
+        }
+
+        if ($request->filled('address_two')) {
+            $request->validate(['address_two' => 'max:255']);
+            $user->address_two = ucwords(Str::upper($request->input('address_two')));
+        }
+
     }
 }

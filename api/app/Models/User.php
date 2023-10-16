@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,11 +15,22 @@ use App\Utils\Enums\Roles;
  * @method static create(array $array)
  * @method static where(string $string, mixed $input)
  * @property string $first_name
- * @property mixed $last_name
- * @property mixed $email
- * @property mixed|string $password
- * @property int|mixed $position_id
+ * @property string $last_name
+ * @property string $email
+ * @property string $password
+ * @property int|string $position_id
  * @property string $avatar
+ * @property string $position
+ * @property string $status
+ * @property mixed $member_since
+ * @property string $roles
+ * @property string $title
+ * @property mixed|string $postal_code
+ * @property string $city
+ * @property mixed $telephone
+ * @property string $address_one
+ * @property string $address_two
+ * @property string $gender
  */
 class User extends Authenticatable
 {

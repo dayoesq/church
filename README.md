@@ -1,6 +1,6 @@
 # Church RESTful API Documentation
 
-Welcome to the Church RESTful API documentation! This API is built using the Laravel framework and is designed to facilitate the management of church-related information and services. Whether you're a developer looking to integrate with this API or an administrator seeking to understand its capabilities, this guide will provide you with all the information you need.
+Welcome to the Church RESTful API documentation! This API is built using the Laravel framework(v.10) and is designed to facilitate the management of church-related information and services. Whether you're a developer looking to take advantage this API or an administrator seeking to understand its capabilities, this guide will provide you with all the information you need. This full stack application is part of my mission to improving the online visibility of the church as well as promoting the gospel in my own little way. Please note that this project is still in the development face. 
 
 ## Table of Contents
 
@@ -70,16 +70,6 @@ Before you can start using the Church API, ensure you have the following prerequ
 
 Your Church API should now be up and running on `http://localhost:8000`.
 
-## Authentication
-
-### API Key
-
-To access the Church API, you need to include an API key in the headers of your HTTP requests. You can obtain an API key by contacting the system administrator. Include the API key in your request headers as follows:
-
-```http
-Authorization: Bearer YOUR_API_KEY
-```
-
 ## Endpoints
 
 The Church API provides several endpoints to interact with different aspects of church management. Below is an overview of the available endpoints:
@@ -89,7 +79,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **GET /api/members**: Retrieve a list of all church members.
 - **GET /api/members/{id}**: Retrieve information about a specific member by ID.
 - **POST /api/members**: Create a new member.
-- **PUT /api/members/{id}**: Update information about a member.
+- **PATCH /api/members/{id}**: Update information about a member.
 - **DELETE /api/members/{id}**: Delete a member.
 
 ### 2. Events
@@ -97,7 +87,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **GET /api/events**: Retrieve a list of all church events.
 - **GET /api/events/{id}**: Retrieve information about a specific event by ID.
 - **POST /api/events**: Create a new event.
-- **PUT /api/events/{id}**: Update information about an event.
+- **PATCH /api/events/{id}**: Update information about an event.
 - **DELETE /api/events/{id}**: Delete an event.
 
 ### 3. Sermons
@@ -105,7 +95,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **GET /api/sermons**: Retrieve a list of all sermons.
 - **GET /api/sermons/{id}**: Retrieve information about a specific sermon by ID.
 - **POST /api/sermons**: Create a new sermon.
-- **PUT /api/sermons/{id}**: Update information about a sermon.
+- **PATCH /api/sermons/{id}**: Update information about a sermon.
 - **DELETE /api/sermons/{id}**: Delete a sermon.
 
 ### 4. Donations
@@ -113,7 +103,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **GET /api/donations**: Retrieve a list of all donations.
 - **GET /api/donations/{id}**: Retrieve information about a specific donation by ID.
 - **POST /api/donations**: Record a new donation.
-- **PUT /api/donations/{id}**: Update information about a donation.
+- **PATCH /api/donations/{id}**: Update information about a donation.
 - **DELETE /api/donations/{id}**: Delete a donation.
 
 - ### 5. Blogs
@@ -121,7 +111,7 @@ The Church API provides several endpoints to interact with different aspects of 
 - **GET /api/blogs**: Retrieve a list of all blogs.
 - **GET /api/blogs/{id}**: Retrieve information about a specific blog by ID.
 - **POST /api/blogs**: Post a new blog.
-- **PUT /api/blogs/{id}**: Update information about a blog.
+- **PATCH /api/blogs/{id}**: Update information about a blog.
 - **DELETE /api/blogs/{id}**: Delete a blog.
 
 ## Error Handling

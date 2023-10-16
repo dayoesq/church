@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PasswordResetToken;
 use App\Models\User;
-use App\Utils\Enums\Status;
+use App\Utils\Enums\UserStatus;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         if(! $user) return $this->forbidden(ErrorResponse::$INVALID_CREDENTIALS);
 
-        if($user->status !== Status::Active->value) return $this->forbidden(ErrorResponse::$FORBIDDEN);
+        if($user->status !== UserStatus::Active->value) return $this->forbidden(ErrorResponse::$FORBIDDEN);
 
         if (! Hash::check($request->input('password'), $user->password)) {
             throw ValidationException::withMessages([
@@ -86,7 +86,7 @@ class AuthController extends Controller
 
             if(! $user) return $this->notFound();
 
-            if($user->status === Status::Pending->value || $user->status === Status::Active->value) {
+            if($user->status === UserStatus::Pending->value || $user->status === UserStatus::Active->value) {
                 $token = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
                 $passwordResetToken = new PasswordResetToken();
                 $passwordResetToken->email = $user->email;
@@ -140,7 +140,7 @@ class AuthController extends Controller
         $hashedPassword = Token::hashPassword($request->input('password'));
         $user->password = $hashedPassword;
 
-        if($user->status === Status::Pending->value) $user->status = Status::Active->value;
+        if($user->status === UserStatus::Pending->value) $user->status = UserStatus::Active->value;
         $user->save();
         $passResetToken->delete();
         return $this->ok();
