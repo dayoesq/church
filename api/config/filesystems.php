@@ -76,22 +76,6 @@ return [
             'throw' => false,
         ],
 
-        'sermon' => [
-            'driver' => 'local',
-            'root' => storage_path('app/sermons'),
-            'url' => env('APP_URL').'/storage/sermons',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        'blog' => [
-            'driver' => 'local',
-            'root' => storage_path('app/blogs'),
-            'url' => env('APP_URL').'/storage/blogs',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('body');
-            $table->foreignId('blog_id')->constrained();
+            $table->string('content');
+            $table->unsignedBigInteger('blog_id');
+            $table->foreign('blog_id')->references('id')->on('blogs')->cascadeOnDelete();
             $table->unsignedBigInteger('author');
             $table->foreign('author')->references('id')->on('users');
             $table->timestamps();

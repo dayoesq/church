@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('content');
             $table->enum('status', ['draft', 'archived', 'published'])->default('draft');
-            $table->unsignedBigInteger('written_by');
-            $table->foreign('written_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('author');
+            $table->foreign('author')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -17,23 +17,27 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::apiResource('users', UserController::class);
-Route::apiResource('positions', PositionController::class);
-Route::apiResource('events', EventController::class);
-Route::apiResource('projects', ProjectController::class);
-Route::name('active-users')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
-Route::name('add-caption-to-image')->patch('/projects/{projectId}/images/{imageId}', [ProjectController::class, 'addCaptionToProjectImage']);
-//Route::apiResource('positions', PositionController::class);
+
+// Public routes
+Route::name('auth.self.verify')->post('/auth/verify', [AuthController::class, 'verifyAccount']);
+Route::name('auth.password.request')->post('/auth/passwords/request', [AuthController::class, 'requestPasswordReset']);
+Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthController::class, 'resetPassword']);
+Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
 
 
-//Route::name('password-reset-request')->post('/password-reset-request', [AuthController::class, 'requestPasswordReset']);
-//Route::name('password-reset')->post('/password-reset/{token}', [AuthController::class, 'resetPassword']);
-//Route::name('login')->post('/login', [AuthController::class, 'login']);
-
+// Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-//    Route::prefix('admin.')->group(function () {
-//        Route::apiResource('users', UserController::class);
-//    });
-    Route::name('logout')->get('/logout', [AuthController::class, 'logOut']);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('positions', PositionController::class);
+    Route::apiResource('events', EventController::class);
+    Route::apiResource('projects', ProjectController::class);
+
+
+    Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
+    Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
+    Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
+
+
+    Route::name('projects.image.caption.add')->patch('/projects/{projectId}/images/{imageId}', [ProjectController::class, 'addCaptionToProjectImage']);
 
 });

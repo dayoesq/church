@@ -31,6 +31,7 @@ use App\Utils\Enums\Roles;
  * @property string $address_one
  * @property string $address_two
  * @property string $gender
+ * @property string|int $id
  */
 class User extends Authenticatable
 {

@@ -11,6 +11,8 @@ use App\Utils\Enums\UserStatus;
 use App\Utils\Strings\Token;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +22,12 @@ use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
+
     /**
      * Display a listing of the resource.
      * @return JsonResponse
@@ -101,7 +109,7 @@ class UserController extends Controller
             }
             $path = $request->file('avatar')->store('avatars');
             $user->avatar = basename($path);
-            $this->updateUserFieldsByAdmin($request, $user);
+            $this->updateUserByAdmin($request, $user);
             $user->save();
             return $this->noContent();
         }
@@ -149,7 +157,7 @@ class UserController extends Controller
      * @param User $user
      * @return void
      */
-    public function updateUserFieldsByAdmin(Request $request, User $user): void
+    private function updateUserByAdmin(Request $request, User $user): void
     {
 
         $this->updateUserFieldsBySelf($request, $user);
@@ -185,16 +193,34 @@ class UserController extends Controller
             $user->email = Str::lower($request->input('email'));
         }
 
+
     }
+
+    /**
+     * Update user by self.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function updateSelf(Request $request): JsonResponse
+    {
+        $this->authorize('update-self', User::class);
+        $user = auth()->user;
+        $this->updateUserFieldsBySelf($request, $user);
+        return $user->save() ? $this->noContent() : $this->serverError();
+
+    }
+
 
     /**
      * Update user resource.
      *
      * @param Request $request
-     * @param User $user
+     * @param Model $user
      * @return void
      */
-    public function updateUserFieldsBySelf(Request $request, User $user): void
+    private function updateUserFieldsBySelf(Request $request, Model $user): void
     {
         if ($request->filled('first_name')) {
             $request->validate(['first_name' => ['min:2', 'max:40']]);
