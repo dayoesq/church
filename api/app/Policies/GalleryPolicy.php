@@ -2,65 +2,50 @@
 
 namespace App\Policies;
 
-use App\Models\Gallery;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class GalleryPolicy
 {
     /**
      * Determine whether the user can view any models.
+     *
+     * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
+     *
+     * @return bool
      */
-    public function view(User $user, Gallery $gallery): bool
+    public function view(): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Gallery $gallery): bool
+    public function update(User $user): bool
     {
-        //
+        return $user->isSuper() || $user->isAdmin();
     }
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Gallery $gallery): bool
+    public function destroy(User $user): bool
     {
-        //
+        return $user->isSuper() || $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Gallery $gallery): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Gallery $gallery): bool
-    {
-        //
-    }
 }

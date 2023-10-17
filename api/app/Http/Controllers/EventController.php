@@ -16,6 +16,12 @@ use Illuminate\Validation\ValidationException;
 
 class EventController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Event::class, 'event');
+    }
+
     /**
      * Display a listing of the resource.
      * @return JsonResponse
@@ -41,7 +47,7 @@ class EventController extends Controller
             $event = new Event();
             $event->title = $request->input('title');
             $event->type = $request->input('type');
-            $event->organised_by = $request->input('organised_by');
+            $event->organized_by = $request->input('organized_by');
             $event->starts_at = $request->input('starts_at');
             $event->ends_at = $request->input('ends_at');
             $event->created_by = auth()->user->id;

@@ -11,8 +11,16 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Blog::class, 'blog');
+    }
+
+
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -23,6 +31,7 @@ class BlogController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param StoreBlogRequest $request
      * @return JsonResponse
      */
@@ -39,6 +48,7 @@ class BlogController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param Blog $blog
      * @return JsonResponse
      */
@@ -50,6 +60,7 @@ class BlogController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param Blog $blog
      * @return JsonResponse
@@ -76,6 +87,7 @@ class BlogController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param Blog $blog
      * @return JsonResponse
@@ -96,16 +108,18 @@ class BlogController extends Controller
 
     /**
      * Get all published blogs.
+     *
      * @return JsonResponse
      */
     public function getPublishedBlogs(): JsonResponse
     {
-        $blogs = Blog::where('status', 'published')->get();
+        $blogs = Blog::where('status', 'published')->paginate(10);
         return $this->ok(data: $blogs);
     }
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param Blog $blog
      * @return JsonResponse
      */

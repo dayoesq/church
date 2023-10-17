@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string $content
  * @property mixed $written_by
  * @property string|int $id
+ * @property mixed $author
  * @method static where(string $string, string $string1)
  * @method static paginate(int $int)
  */

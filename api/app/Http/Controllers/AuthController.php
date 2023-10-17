@@ -56,6 +56,7 @@ class AuthController extends Controller
         };
 
         Auth::login($user);
+        $user->last_login = Carbon::now();
         return response()->json(['data' => $user, 'token' => $token]);
     }
 
@@ -163,6 +164,7 @@ class AuthController extends Controller
         $user = User::where('email', $verificationToken->email)->firstOrFail();
 
         $user->status = UserStatus::Active->value;
+        $user->is_verified = true;
 
         $user->save();
         $verificationToken->delete();

@@ -9,8 +9,15 @@ use Illuminate\Support\Str;
 
 class PositionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Position::class, 'position');
+    }
+
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -21,6 +28,7 @@ class PositionController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param UpsertPositionRequest $request
      * @return JsonResponse
      */
@@ -33,6 +41,7 @@ class PositionController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param Position $position
      * @return JsonResponse
      */
@@ -43,6 +52,7 @@ class PositionController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param UpsertPositionRequest $request
      * @param int $id
      * @return JsonResponse
@@ -58,6 +68,7 @@ class PositionController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param Position $position
      * @return JsonResponse
      */

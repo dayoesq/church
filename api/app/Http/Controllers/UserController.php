@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Utils\Enums\Countries;
 use App\Utils\Enums\Gender;
 use App\Utils\Enums\Roles;
 use App\Utils\Enums\UserStatus;
@@ -30,6 +31,7 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -40,6 +42,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param StoreUserRequest $request
      * @return JsonResponse
      * @throws Exception
@@ -81,6 +84,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param User $user
      * @return JsonResponse
      */
@@ -91,6 +95,7 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param User $user
      * @return JsonResponse
@@ -119,6 +124,7 @@ class UserController extends Controller
 
     /**
      * Display a listing of all users with 'active' status.
+     *
      * @return JsonResponse
      */
     public function getActiveUsers(): JsonResponse
@@ -129,6 +135,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param User $user
      * @return JsonResponse
      */
@@ -171,6 +178,11 @@ class UserController extends Controller
         if ($request->enum('status', UserStatus::class)) {
             $request->validate(['status' => new Enum(UserStatus::class)]);
             $user->status = $request->input('status');
+        }
+
+        if ($request->enum('country', Countries::class)) {
+            $request->validate(['country' => new Enum(Countries::class)]);
+            $user->country = $request->input('country');
         }
 
         if ($request->filled('member_since')) {

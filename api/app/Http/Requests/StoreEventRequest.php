@@ -28,7 +28,7 @@ class StoreEventRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:2', 'max:150'],
             'type' => [new Enum(Events::class)],
-            'organised_by' => ['required', 'string', 'min:2', 'max:150'],
+            'organized_by' => ['required', 'string', 'min:2', 'max:150'],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['required', 'date']
         ];

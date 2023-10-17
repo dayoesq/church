@@ -24,10 +24,12 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('home_country')->nullable();
             $table->string('country_of_residence')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->timestamp('last_login')->nullable();
             $table->timestamp('member_since')->nullable();
             $table->string('avatar')->nullable();
             $table->enum('membership', ['member', 'guest'])->default('guest');
-            $table->enum('status', ['banned', 'suspended', 'pending', 'verified'])->default('pending');
+            $table->enum('status', ['banned', 'suspended', 'pending', 'active'])->default('pending');
             $table->enum('roles', ['admin', 'super', 'management', 'user'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('position_id')->nullable();
