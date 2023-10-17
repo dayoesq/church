@@ -36,7 +36,7 @@ class BlogPolicy
      */
     public function update(User $user, Blog $blog): bool
     {
-        return $user->isSuper() || $user->isAdmin() || $user->id === $blog->author;
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin() || $user->id === $blog->author);
     }
 
     /**
@@ -48,7 +48,7 @@ class BlogPolicy
      */
     public function destroy(User $user, Blog $blog): bool
     {
-        return $user->isSuper() || $user->id === $blog->author;
+        return $user->isAuthorized() && ($user->isSuper() || $user->id === $blog->author);
     }
 
 }

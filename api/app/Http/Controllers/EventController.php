@@ -24,6 +24,7 @@ class EventController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -34,6 +35,7 @@ class EventController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param StoreEventRequest $request
      * @return JsonResponse
      */
@@ -80,6 +82,7 @@ class EventController extends Controller
 
     /**
      * Display the specified resource. Implicit model binding in use.
+     *
      * @param Event $event
      * @return JsonResponse
      */
@@ -90,6 +93,7 @@ class EventController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param Event $event
      * @return JsonResponse
@@ -142,6 +146,7 @@ class EventController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param Event $event
      * @return JsonResponse
      */

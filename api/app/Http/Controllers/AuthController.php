@@ -21,6 +21,7 @@ class AuthController extends Controller
 {
     /**
      * Sign the user in if all goes fine.
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws ValidationException
@@ -51,7 +52,6 @@ class AuthController extends Controller
         $token = match ($userRole) {
             'super' => $user->createToken('super_token', ['*'])->plainTextToken,
             'admin' => $user->createToken('admin_token', ['admin'])->plainTextToken,
-            'management' => $user->createToken('management_token', ['management'])->plainTextToken,
             default => $user->createToken('basic_token', ['basic'])->plainTextToken,
         };
 
@@ -73,6 +73,7 @@ class AuthController extends Controller
 
     /**
      * Make a password reset request for the user.
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws Exception
@@ -108,6 +109,7 @@ class AuthController extends Controller
 
     /**
      * Reset the user's password.
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws Exception
@@ -149,6 +151,7 @@ class AuthController extends Controller
 
     /**
      * Reset the user's password.
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws Exception

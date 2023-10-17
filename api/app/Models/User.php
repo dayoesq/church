@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -144,16 +145,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has 'management' role.
-     *
-     * @return bool
-     */
-    public function isManagement(): bool
-    {
-        return $this->attributes['roles'] === Roles::Management->value;
-    }
-
-    /**
      * Check if user has 'user' role.
      *
      * @return bool
@@ -171,6 +162,16 @@ class User extends Authenticatable
     public function isVerified(): bool
     {
         return $this->attributes['is_verified'] === true;
+    }
+
+    /**
+     * Check if user is active and verified.
+     *
+     * @return bool
+     */
+    public function isAuthorized(): bool
+    {
+        return $this->attributes['is_verified'] === true && $this->attributes['status'] === UserStatus::Active->value;
     }
 
 }
