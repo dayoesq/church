@@ -10,8 +10,14 @@ use Illuminate\Validation\ValidationException;
 
 class GalleryController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Gallery::class, 'gallery');
+    }
+
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -22,6 +28,7 @@ class GalleryController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param UpsertGalleryRequest $request
      * @return JsonResponse
      * @throws ValidationException
@@ -48,6 +55,7 @@ class GalleryController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param Gallery $gallery
      * @return JsonResponse
      */
@@ -59,6 +67,7 @@ class GalleryController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param UpsertGalleryRequest $request
      * @param Gallery $gallery
      * @return JsonResponse|void
@@ -84,6 +93,7 @@ class GalleryController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param Gallery $gallery
      * @return JsonResponse
      */

@@ -32,6 +32,7 @@ use App\Utils\Enums\Roles;
  * @property string $address_two
  * @property string $gender
  * @property string|int $id
+ * @property string $country
  */
 class User extends Authenticatable
 {
@@ -46,9 +47,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
-        'email',
-        'password',
-        'avatar'
+        'email'
     ];
 
     /**
@@ -69,6 +68,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'member_since' => 'datetime',
         'password' => 'hashed',
+        'is_verified' => 'boolean'
     ];
 
     /**
@@ -140,7 +140,7 @@ class User extends Authenticatable
      */
     public function isSuper(): bool
     {
-        return $this->attributes['roles'] = Roles::Super->value;
+        return $this->attributes['roles'] === Roles::Super->value;
     }
 
     /**
@@ -150,7 +150,7 @@ class User extends Authenticatable
      */
     public function isManagement(): bool
     {
-        return $this->attributes['roles'] = Roles::Management->value;
+        return $this->attributes['roles'] === Roles::Management->value;
     }
 
     /**
@@ -160,7 +160,17 @@ class User extends Authenticatable
      */
     public function isUser(): bool
     {
-        return $this->attributes['roles'] = Roles::User->value;
+        return $this->attributes['roles'] === Roles::User->value;
+    }
+
+    /**
+     * Check if user has 'user' role.
+     *
+     * @return bool
+     */
+    public function isVerified(): bool
+    {
+        return $this->attributes['is_verified'] === true;
     }
 
 }

@@ -12,6 +12,12 @@ use Throwable;
 
 class SermonController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Sermon::class, 'sermon');
+    }
+
+
     /**
      * Display a listing of the resource.
      * @return JsonResponse

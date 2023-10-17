@@ -11,10 +11,10 @@ use Illuminate\Support\Str;
 /**
  * @property string $title
  * @property string $type
- * @property mixed $organised_by
  * @property mixed $starts_at
  * @property mixed $ends_at
  * @property mixed $created_by
+ * @property mixed $organized_by
  */
 class Event extends Model
 {
@@ -28,7 +28,7 @@ class Event extends Model
     protected $fillable = [
         'title',
         'type',
-        'organised_by',
+        'organized_by',
         'starts_at',
         'ends_at',
     ];
@@ -48,7 +48,7 @@ class Event extends Model
      *
      * @return Attribute
      */
-    protected function organisedBy(): Attribute
+    protected function organizedBy(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => Str::words($value),

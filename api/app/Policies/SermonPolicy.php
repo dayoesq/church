@@ -4,63 +4,47 @@ namespace App\Policies;
 
 use App\Models\Sermon;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SermonPolicy
 {
     /**
      * Determine whether the user can view any models.
+     * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
+     * @return bool
      */
-    public function view(User $user, Sermon $sermon): bool
+    public function view(): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
+     * @param User $user
+     * @param Sermon $sermon
+     * @return bool
      */
     public function update(User $user, Sermon $sermon): bool
     {
-        //
+       return $user->isSuper() || $user->isAdmin() || $user->id === $sermon->delivered_by;
     }
 
     /**
      * Determine whether the user can delete the model.
+     * @param User $user
+     * @param Sermon $sermon
+     * @return bool
      */
-    public function delete(User $user, Sermon $sermon): bool
+    public function destroy(User $user, Sermon $sermon): bool
     {
-        //
+        return $user->isSuper() || $user->id === $sermon->delivered_by;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Sermon $sermon): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Sermon $sermon): bool
-    {
-        //
-    }
 }
