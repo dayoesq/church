@@ -146,5 +146,28 @@ class AuthController extends Controller
         return $this->ok();
     }
 
+    /**
+     * Reset the user's password.
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function verifyAccount(Request $request): JsonResponse
+    {
+        $request->validate(['token' => 'required']);
+
+        $verificationToken = PasswordResetToken::where('token', $request->input('token'))->first();
+
+        if(! $verificationToken) return $this->badRequest('Expired or invalid token.');
+
+        $user = User::where('email', $verificationToken->email)->firstOrFail();
+
+        $user->status = UserStatus::Active->value;
+
+        $user->save();
+        $verificationToken->delete();
+        return $this->ok();
+    }
+
 
 }

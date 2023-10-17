@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Str;
 
 /**
  * @property mixed $images
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property mixed $status
  * @property mixed $body
  * @property mixed $excerpt
+ * @property mixed $delivered_by
+ * @property mixed $content
  * @method static create(mixed $data)
  */
 class Sermon extends Model
@@ -28,17 +31,21 @@ class Sermon extends Model
     protected $fillable = [
         'title',
         'excerpt',
-        'body',
+        'content',
         'status'
     ];
 
     /**
-     * Sermon's relationship with the image.
+     * Interact with the blog's title.
      *
-     * @return MorphMany
+     * @return Attribute
      */
-    public function images(): MorphMany
+    protected function title(): Attribute
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::slug($value)
+        );
     }
+
 }

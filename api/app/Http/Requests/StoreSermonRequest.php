@@ -27,8 +27,7 @@ class StoreSermonRequest extends FormRequest
     {
         return [
             'title' => ['string', 'min:4', 'max:100'],
-            'excerpt' => ['string', 'min:4', 'max:100'],
-            'body' => ['required', 'string'],
+            'content' => ['required', 'string'],
             'status' => new Enum(PostStatus::class)
         ];
     }

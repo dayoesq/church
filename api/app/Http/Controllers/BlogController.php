@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBlogRequest;
 use App\Models\Blog;
+use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -17,8 +17,7 @@ class BlogController extends Controller
      */
     public function index(): JsonResponse
     {
-        // pagination required!
-        $posts = Blog::with('images')->get();
+        $posts = Blog::paginate(10);
         return $this->ok(data: $posts);
     }
 
@@ -76,22 +75,42 @@ class BlogController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param Blog $blog
+     * @return JsonResponse
+     */
+    public function addCommentToBlog(Request $request, Blog $blog): JsonResponse
+    {
+        if($request->filled('comment')) {
+            $comment = new Comment();
+            $comment->content = $request->input('content');
+            $comment->author = auth()->user->id;
+            $comment->blog_id = $blog->id;
+
+        }
+
+        return $blog->save() ? $this->noContent() : $this->serverError();
+
+    }
+
+    /**
+     * Get all published blogs.
+     * @return JsonResponse
+     */
+    public function getPublishedBlogs(): JsonResponse
+    {
+        $blogs = Blog::where('status', 'published')->get();
+        return $this->ok(data: $blogs);
+    }
+
+    /**
      * Remove the specified resource from storage.
      * @param Blog $blog
      * @return JsonResponse
      */
     public function destroy(Blog $blog): JsonResponse
     {
-        $postImages = $blog->images;
-        if(count($postImages) > 0) {
-            foreach ($postImages as $postImage) {
-                if(Storage::disk('blog')->exists($postImage->url)) {
-                    Storage::disk('blog')->delete($postImage->url);
-                    $postImage->delete();
-                }
-            }
-        }
-
         $blog->delete();
         return $this->ok();
     }

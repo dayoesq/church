@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamp('member_since')->nullable();
             $table->string('avatar')->nullable();
             $table->enum('membership', ['member', 'guest'])->default('guest');
-            $table->enum('status', ['banned', 'suspended', 'pending', 'active'])->default('pending');
+            $table->enum('status', ['banned', 'suspended', 'pending', 'verified'])->default('pending');
             $table->enum('roles', ['admin', 'super', 'management', 'user'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('position_id')->nullable();

@@ -20,7 +20,7 @@ class ProjectController extends Controller
      */
     public function index(): JsonResponse
     {
-        $projects = Project::with('images')->get();
+        $projects = Project::with('images')->paginate(2);
         return $this->ok(data: $projects);
     }
 

@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Mail\Updated;
 use App\Mail\Welcome;
 use App\Models\User;
+use App\Policies\UserPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
             }
 
         });
+
+        Gate::define('update-self', [UserPolicy::class, 'updateSelf']);
 
     }
 }

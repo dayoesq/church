@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSermonRequest;
 use App\Models\Sermon;
-use App\Utils\Assets\Asset;
 use App\Utils\Enums\PostStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class SermonController extends Controller
@@ -21,7 +18,7 @@ class SermonController extends Controller
      */
     public function index(): JsonResponse
     {
-        $sermons = Sermon::with('images')->get();
+        $sermons = Sermon::all();
         return $this->ok(data: $sermons);
 
     }
@@ -30,25 +27,17 @@ class SermonController extends Controller
      * Store a newly created resource in storage.
      * @param StoreSermonRequest $request
      * @return JsonResponse
-     * @throws ValidationException
      */
     public function store(StoreSermonRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $sermon = Sermon::create($data);
-        if($request->hasFile(Asset::$SERMON)) {
-            $paths = $this->handleAssetsStorage($request, Asset::$SERMON, Asset::$SERMON_DIR, Asset::$IMAGE_EXTENSIONS);
+        $request->validated();
+        $sermon = new Sermon();
+        $sermon->title = $request->input('title');
+        $sermon->content = $request->input('content');
+        $sermon->status = $request->input('status');
+        $sermon->delivered_by = $request->input('delivered_by');
 
-            foreach ($paths as $path) {
-                $sermon->images()->updateOrCreate(
-                    [
-                        'url' => $path
-                    ],
-                );
-            }
-        }
-
-        return $this->created(data: $sermon);
+        return $sermon->save() ? $this->created(data: $sermon) : $this->serverError();
 
     }
 
@@ -59,8 +48,7 @@ class SermonController extends Controller
      */
     public function show(Sermon $sermon): JsonResponse
     {
-        $data = $sermon->with('images')->first();
-        return $this->ok(data: $data);
+        return $this->ok(data: $sermon);
     }
 
     /**
@@ -76,18 +64,8 @@ class SermonController extends Controller
             $sermon->title = $request->input('title');
         }
 
-        if($request->filled('excerpt')) {
-            $request->validate(
-                ['except' => ['string', 'min:4', 'max:100']],
-            );
-            $sermon->excerpt = $request->input('excerpt');
-        }
-
-        if($request->filled('body')) {
-            $request->validate(
-                ['body' => 'string'],
-            );
-            $sermon->body = $request->input('body');
+        if($request->filled('content')) {
+            $sermon->content = $request->input('content');
         }
 
         if($request->filled('status')) {
@@ -97,21 +75,7 @@ class SermonController extends Controller
             $sermon->status = $request->input('status');
         }
 
-        $sermon->updateOrFail($request->all());
-
-        if($request->hasFile(Asset::$SERMON)) {
-            $paths = $this->handleAssetsStorage($request, Asset::$SERMON, Asset::$SERMON_DIR, Asset::$IMAGE_EXTENSIONS);
-
-            foreach ($paths as $path) {
-                $sermon->images()->updateOrCreate(
-                    [
-                        'url' => $path
-                    ],
-                );
-            }
-        }
-
-        return $this->ok();
+        return $sermon->save() ? $this->ok() : $this->serverError();
 
     }
 
@@ -122,15 +86,6 @@ class SermonController extends Controller
      */
     public function destroy(Sermon $sermon): JsonResponse
     {
-        $images = $sermon->images;
-        if(count($images) > 0) {
-            foreach ($images as $image) {
-                if(Storage::disk('sermon')->exists($image->url)) {
-                    Storage::disk('sermon')->delete($image->url);
-                    $image->delete();
-                }
-            }
-        }
         $sermon->delete();
         return $this->ok();
 
