@@ -34,7 +34,7 @@ class ProjectPolicy
      */
     public function update(User $user): bool
     {
-        return $user->isSuper() || $user->isAdmin();
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
     }
 
     /**
@@ -45,7 +45,7 @@ class ProjectPolicy
      */
     public function destroy(User $user): bool
     {
-        return $user->isSuper() || $user->isAdmin();
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
     }
 
 }
