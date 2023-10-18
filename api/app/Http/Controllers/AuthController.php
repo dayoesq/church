@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Login;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Enums\UserStatus;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -158,20 +160,33 @@ class AuthController extends Controller
      */
     public function verifyAccount(Request $request): JsonResponse
     {
-        $request->validate(['token' => 'required']);
+        try {
+            DB::beginTransaction();
 
-        $verificationToken = PasswordResetToken::where('token', $request->input('token'))->first();
+            $request->validate(['token' => 'required']);
 
-        if(! $verificationToken) return $this->badRequest('Expired or invalid token.');
+            $verificationToken = PasswordResetToken::where('token', $request->input('token'))->first();
 
-        $user = User::where('email', $verificationToken->email)->firstOrFail();
+            if(! $verificationToken) return $this->badRequest('Expired or invalid token.');
 
-        $user->status = UserStatus::Active->value;
-        $user->is_verified = true;
+            $user = User::where('email', $verificationToken->email)->firstOrFail();
 
-        $user->save();
-        $verificationToken->delete();
-        return $this->ok();
+            $user->status = UserStatus::Active->value;
+
+            $loginHistory = Login::where('email', $user->email)->first();
+            if($loginHistory) $loginHistory->delete();
+
+            Login::create(['email' => $user->email, 'logged_in_at' => Carbon::now()]);
+
+            $user->save();
+            $verificationToken->delete();
+            DB::commit();
+            return $this->ok();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+        }
+        return $this->serverError();
     }
 
 
