@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $content
  * @property mixed $author
  * @property string|int $blog_id
+ * @method static paginate(int $int)
  */
 class Comment extends Model
 {
