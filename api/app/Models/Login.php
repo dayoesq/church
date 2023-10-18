@@ -15,6 +15,17 @@ class Login extends Model
 
     public $timestamps = false;
 
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'email',
+        'logged_in_at'
+    ];
+
     /**
      * The attributes that should be cast.
      *

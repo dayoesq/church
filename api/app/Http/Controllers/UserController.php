@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -36,6 +37,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
+        //$this->authorize('viewAny');
         $users = User::all();
         return $this->ok(data: $users);
     }
@@ -57,7 +59,7 @@ class UserController extends Controller
             $firstName = $data['first_name'];
             $lastName = $data['last_name'];
 
-            $passwordResetToken = Token::generateRandomNumber(Token::$RANDOM_NUMBER_LENGTH);
+            $passwordResetToken = Token::generateRandomNumber(Token::$DEFAULT_RANDOM_NUMBER);
             $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
             $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
 
@@ -126,9 +128,12 @@ class UserController extends Controller
      * Display a listing of all users with 'active' status.
      *
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function getActiveUsers(): JsonResponse
     {
+        $user = auth()->user;
+        Gate::authorize('get-active-users', $user);
         $users = User::where('status', 'active')->get();
         return $this->ok(data: $users);
     }
@@ -217,8 +222,8 @@ class UserController extends Controller
      */
     public function updateSelf(Request $request): JsonResponse
     {
-        $this->authorize('update-self', User::class);
         $user = auth()->user;
+        Gate::authorize('update-self', $user);
         $this->updateUserFieldsBySelf($request, $user);
         return $user->save() ? $this->noContent() : $this->serverError();
 

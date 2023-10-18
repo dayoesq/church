@@ -19,12 +19,11 @@ class CommentPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param User $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(): bool
     {
-        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+        return true;
     }
 
     /**

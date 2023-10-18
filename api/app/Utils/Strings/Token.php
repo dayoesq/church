@@ -9,7 +9,7 @@ class Token
 {
 
     public static int $RANDOM_STRING_LENGTH = 20;
-    public static int $RANDOM_NUMBER_LENGTH = 6;
+    public static int $DEFAULT_RANDOM_NUMBER = 6;
     public static int $PASSWORD_MIN_LENGTH = 10;
     public static int $PASSWORD_MAX_LENGTH = 100;
 

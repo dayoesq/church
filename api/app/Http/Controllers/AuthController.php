@@ -58,7 +58,6 @@ class AuthController extends Controller
         };
 
         Auth::login($user);
-        $user->last_login = Carbon::now();
         return response()->json(['data' => $user, 'token' => $token]);
     }
 
@@ -83,6 +82,7 @@ class AuthController extends Controller
     public function requestPasswordReset(Request $request): JsonResponse
     {
         try {
+
             DB::beginTransaction();
 
             $request->validate(['email' => 'required']);
@@ -163,20 +163,25 @@ class AuthController extends Controller
         try {
             DB::beginTransaction();
 
-            $request->validate(['token' => 'required']);
+            $request->validate(['token' => 'required', 'password' => ['required', 'max:100', 'confirmed',
+                Password::min(Token::$PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ]]);
 
             $verificationToken = PasswordResetToken::where('token', $request->input('token'))->first();
 
             if(! $verificationToken) return $this->badRequest('Expired or invalid token.');
 
             $user = User::where('email', $verificationToken->email)->firstOrFail();
+            $hashedPassword = Token::hashPassword($request->input('password'));
+            $user->password = $hashedPassword;
 
             $user->status = UserStatus::Active->value;
-
-            $loginHistory = Login::where('email', $user->email)->first();
-            if($loginHistory) $loginHistory->delete();
-
-            Login::create(['email' => $user->email, 'logged_in_at' => Carbon::now()]);
+            $user->is_verified = true;
 
             $user->save();
             $verificationToken->delete();
