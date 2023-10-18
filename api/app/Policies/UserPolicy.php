@@ -30,6 +30,17 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can create the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user): bool
+    {
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+    }
+
+    /**
      * Determine whether the user can update the model.
      *
      * @param User $user
@@ -53,12 +64,23 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can view the list of active users.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function getActiveUsers(User $user): bool
+    {
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
      * @return bool
      */
-    public function destroy(User $user): bool
+    public function delete(User $user): bool
     {
         return $user->isAuthorized() && $user->isSuper();
     }

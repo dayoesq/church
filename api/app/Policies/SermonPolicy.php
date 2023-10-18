@@ -46,7 +46,7 @@ class SermonPolicy
      * @param Sermon $sermon
      * @return bool
      */
-    public function destroy(User $user, Sermon $sermon): bool
+    public function delete(User $user, Sermon $sermon): bool
     {
         return $user->isAuthorized() && ($user->isSuper() || $user->id === $sermon->delivered_by);
     }

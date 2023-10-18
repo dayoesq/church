@@ -43,7 +43,7 @@ class ProjectPolicy
      * @param User $user
      * @return bool
      */
-    public function destroy(User $user): bool
+    public function delete(User $user): bool
     {
         return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
     }

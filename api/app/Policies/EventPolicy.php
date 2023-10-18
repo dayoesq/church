@@ -46,7 +46,7 @@ class EventPolicy
      * @param Event $event
      * @return bool
      */
-    public function destroy(User $user, Event $event): bool
+    public function delete(User $user, Event $event): bool
     {
         return $user->isAuthorized() && ($user->isSuper() || $user->id === $event->created_by);
     }

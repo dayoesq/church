@@ -24,6 +24,7 @@ Route::name('auth.password.request')->post('/auth/passwords/request', [AuthContr
 Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthController::class, 'resetPassword']);
 Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
 
+//Route::apiResource('users', UserController::class);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -32,11 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('events', EventController::class);
     Route::apiResource('projects', ProjectController::class);
 
-
     Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
     Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
-
 
     Route::name('projects.image.caption.add')->patch('/projects/{projectId}/images/{imageId}', [ProjectController::class, 'addCaptionToProjectImage']);
 

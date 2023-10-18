@@ -28,6 +28,17 @@ class BlogPolicy
     }
 
     /**
+     * Determine whether the user can create the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user): bool
+    {
+        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+    }
+
+    /**
      * Determine whether the user can update the model.
      *
      * @param User $user
@@ -46,7 +57,7 @@ class BlogPolicy
      * @param Blog $blog
      * @return bool
      */
-    public function destroy(User $user, Blog $blog): bool
+    public function delete(User $user, Blog $blog): bool
     {
         return $user->isAuthorized() && ($user->isSuper() || $user->id === $blog->author);
     }
