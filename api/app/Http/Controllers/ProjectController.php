@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -20,7 +21,7 @@ class ProjectController extends Controller
      */
     public function index(): JsonResponse
     {
-        $projects = Project::with('images')->paginate(2);
+        $projects = Project::with('images')->get();
         return $this->ok(data: $projects);
     }
 
@@ -85,7 +86,8 @@ class ProjectController extends Controller
             return $this->noContent();
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->serverError($e->getMessage());
+            Log::error($e->getMessage());
+            return $this->serverError();
         }
 
     }
@@ -140,6 +142,7 @@ class ProjectController extends Controller
             return $this->ok();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return $this->serverError();
         }
 

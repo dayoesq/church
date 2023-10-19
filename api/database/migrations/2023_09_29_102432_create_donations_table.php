@@ -13,12 +13,23 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable();
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('id')->on('projects');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->enum('currency', ['EUR', 'USD', 'GBP', 'JPY', 'CAD'])->nullable();
-            $table->tinyInteger('amount');
+            $table->string('email')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->timestamp('payment_date')->nullable();
+            $table->string('notes')->nullable();
+            $table->boolean('acknowledge_sent')->default(false);
             $table->boolean('is_anonymous')->default(false);
+            $table->boolean('is_refund_requested')->default(false);
+            $table->enum('source', ['website', 'mobile_app', 'in_person'])->default('website');
+            $table->enum('currency', ['EUR', 'USD', 'GBP', 'JPY', 'CAD'])->default('EUR');
+            $table->enum('status', ['pending', 'successful', 'failed'])->nullable();
+            $table->enum('refund_status', ['pending', 'processed', 'rejected'])->default('pending');
+            $table->ipAddress()->nullable();
+            $table->unsignedBigInteger('amount');
             $table->timestamps();
         });
     }
