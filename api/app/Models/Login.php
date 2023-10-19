@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static where(string $string, $email)
  * @method static create(array $array)
+ * @method static updateOrInsert(array $array)
+ * @method static firstOrNew(array $array)
  */
 class Login extends Model
 {

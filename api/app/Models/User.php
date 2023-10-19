@@ -48,7 +48,8 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
-        'email'
+        'email',
+        'password'
     ];
 
     /**
@@ -145,6 +146,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user has 'super' role.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->isSuper() || $this->isAdmin();
+    }
+
+    /**
      * Check if user has 'user' role.
      *
      * @return bool
@@ -159,19 +170,29 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isVerified(): bool
+    private function isVerified(): bool
     {
-        return $this->attributes['is_verified'] === true;
+        return ! is_null($this->attributes['email_verified_at']);
     }
 
     /**
-     * Check if user is active and verified.
+     * Check if user has 'user' role.
+     *
+     * @return bool
+     */
+    private function isActive(): bool
+    {
+        return $this->attributes['status'] === UserStatus::Active->value;
+    }
+
+    /**
+     * Check if user is both active and verified.
      *
      * @return bool
      */
     public function isAuthorized(): bool
     {
-        return $this->attributes['is_verified'] === true && $this->attributes['status'] === UserStatus::Active->value;
+        return $this->isVerified() && $this->isActive();
     }
 
 }
