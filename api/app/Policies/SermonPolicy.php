@@ -36,7 +36,7 @@ class SermonPolicy
      */
     public function update(User $user, Sermon $sermon): bool
     {
-       return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin() || $user->id === $sermon->delivered_by);
+       return $user->isAuthorized() && ($user->isSuperAdmin() || $user->id === $sermon->delivered_by);
     }
 
     /**

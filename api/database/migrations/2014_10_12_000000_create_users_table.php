@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('home_country')->nullable();
             $table->string('country_of_residence')->nullable();
-            $table->boolean('is_verified')->default(false);
             $table->timestamp('member_since')->nullable();
             $table->string('avatar')->nullable();
             $table->enum('membership', ['member', 'guest'])->default('guest');

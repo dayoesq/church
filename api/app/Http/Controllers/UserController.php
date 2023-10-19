@@ -13,11 +13,11 @@ use App\Utils\Strings\Token;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -27,6 +27,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
+
     }
 
 
@@ -37,7 +38,6 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        //$this->authorize('viewAny');
         $users = User::all();
         return $this->ok(data: $users);
     }
@@ -80,7 +80,8 @@ class UserController extends Controller
             return $this->created(data: $user);
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->serverError($e->getMessage());
+            Log::error($e->getMessage());
+            return $this->serverError();
         }
     }
 
@@ -128,11 +129,10 @@ class UserController extends Controller
      * Display a listing of all users with 'active' status.
      *
      * @return JsonResponse
-     * @throws AuthorizationException
      */
     public function getActiveUsers(): JsonResponse
     {
-        $user = auth()->user;
+        $user = auth()->user();
         Gate::authorize('get-active-users', $user);
         $users = User::where('status', 'active')->get();
         return $this->ok(data: $users);
@@ -158,7 +158,8 @@ class UserController extends Controller
             return $this->ok();
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->serverError($e->getMessage());
+            Log::error($e->getMessage());
+            return $this->serverError();
         }
     }
 
@@ -173,8 +174,8 @@ class UserController extends Controller
     {
 
         $this->updateUserFieldsBySelf($request, $user);
-        // Fields only admin can update
 
+        // Fields only admin can update
         if ($request->filled('position')) {
             $request->validate(['position' => ['max:100', 'min:2']]);
             $user->position = Str::lower($request->input('position'));
@@ -222,10 +223,14 @@ class UserController extends Controller
      */
     public function updateSelf(Request $request): JsonResponse
     {
-        $user = auth()->user;
-        Gate::authorize('update-self', $user);
-        $this->updateUserFieldsBySelf($request, $user);
-        return $user->save() ? $this->noContent() : $this->serverError();
+        $user = auth()->user();
+        if($user) {
+            Gate::authorize('update-self', $user);
+            $this->updateUserFieldsBySelf($request, $user);
+            return $user->save() ? $this->noContent() : $this->serverError();
+        }
+
+        return $this->forbidden();
 
     }
 
@@ -234,10 +239,10 @@ class UserController extends Controller
      * Update user resource.
      *
      * @param Request $request
-     * @param Model $user
+     * @param User $user
      * @return void
      */
-    private function updateUserFieldsBySelf(Request $request, Model $user): void
+    private function updateUserFieldsBySelf(Request $request, User $user): void
     {
         if ($request->filled('first_name')) {
             $request->validate(['first_name' => ['min:2', 'max:40']]);

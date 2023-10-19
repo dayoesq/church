@@ -36,7 +36,7 @@ class EventPolicy
      */
     public function update(User $user, Event $event): bool
     {
-        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin() || $user->id === $event->created_by);
+        return $user->isAuthorized() && ($user->isSuperAdmin() || $user->id === $event->created_by);
     }
 
     /**

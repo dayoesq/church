@@ -34,7 +34,7 @@ class GalleryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+        return $user->isAuthorized() && $user->isSuperAdmin();
     }
 
     /**
@@ -45,7 +45,7 @@ class GalleryPolicy
      */
     public function update(User $user): bool
     {
-        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+        return $user->isAuthorized() && $user->isSuperAdmin();
     }
 
     /**
@@ -56,7 +56,7 @@ class GalleryPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->isAuthorized() && ($user->isSuper() || $user->isAdmin());
+        return $user->isAuthorized() && $user->isSuperAdmin();
     }
 
 }

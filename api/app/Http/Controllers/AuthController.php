@@ -58,6 +58,12 @@ class AuthController extends Controller
         };
 
         Auth::login($user);
+
+        $login = Login::firstOrNew(['email' => $user->email]);
+        $login->email = $user->email;
+        $login->logged_in_at = Carbon::now();
+        $login->save();
+
         return response()->json(['data' => $user, 'token' => $token]);
     }
 
@@ -103,6 +109,7 @@ class AuthController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return $this->serverError();
         }
 
@@ -181,7 +188,7 @@ class AuthController extends Controller
             $user->password = $hashedPassword;
 
             $user->status = UserStatus::Active->value;
-            $user->is_verified = true;
+            $user->email_verified_at = Carbon::now();
 
             $user->save();
             $verificationToken->delete();
@@ -190,8 +197,9 @@ class AuthController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
+            return $this->serverError();
         }
-        return $this->serverError();
+
     }
 
 

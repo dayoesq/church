@@ -29,14 +29,17 @@ Route::name('auth.users.login')->post('/auth/users/login', [AuthController::clas
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('users', UserController::class);
+    Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
+    Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
+
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('events', EventController::class);
+
     Route::apiResource('projects', ProjectController::class);
+    Route::name('projects.image.caption.add')->patch(
+        '/projects/{projectId}/images/{imageId}', [ProjectController::class,
+            'addCaptionToProjectImage']);
 
-    Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
-    Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
-
-    Route::name('projects.image.caption.add')->patch('/projects/{projectId}/images/{imageId}', [ProjectController::class, 'addCaptionToProjectImage']);
 
 });
