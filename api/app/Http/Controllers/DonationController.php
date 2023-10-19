@@ -5,31 +5,36 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDonationRequest;
 use App\Http\Requests\UpdateDonationRequest;
 use App\Models\Donation;
+use Illuminate\Http\JsonResponse;
 
 class DonationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->authorizeResource(Donation::class, 'donation');
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse
      */
-    public function store(StoreDonationRequest $request)
+    public function index(): JsonResponse
     {
-        //
+        $donations = Donation::all();
+        return $this->ok(data: $donations);
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param Donation $donation
+     * @return JsonResponse
      */
-    public function show(Donation $donation)
+    public function show(Donation $donation): JsonResponse
     {
-        //
+        return $this->ok($donation);
     }
 
     /**
