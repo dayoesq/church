@@ -7,16 +7,27 @@ use App\Models\Image;
 use App\Models\Project;
 use App\Utils\Assets\Asset;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class ProjectController extends Controller
 {
+
+    private mixed $user;
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+        $this->user = auth()->user();
+    }
+
     /**
      * Display a listing of the resource.
+     *
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -27,6 +38,7 @@ class ProjectController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param UpsertProjectRequest $request
      * @return JsonResponse
      */
@@ -34,11 +46,12 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
         $project = Project::create($data);
-        return $project->save() ? $this->created(data: $project) : $this->serverError();
+        return $project ? $this->created(data: $project) : $this->serverError();
     }
 
     /**
      * Display the specified resource with implicit model binding.
+     *
      * @param Project $project
      * @return JsonResponse
      */
@@ -50,77 +63,106 @@ class ProjectController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     *
+     * @param UpsertProjectRequest $request
      * @param Project $project
      * @return JsonResponse
      */
-    public function update(Request $request, Project $project): JsonResponse
+    public function update(UpsertProjectRequest $request, Project $project): JsonResponse
     {
-        try {
-            DB::beginTransaction();
-
-            $data = $request->validate(
-                [
-                    'title' => ['string', 'min:2', 'max:150'],
-                    'description' => ['string', 'min:20', 'max:500'],
-                    'target_amount' => ['required']
-                ]
-            );
-
-            $project->fill($data);
-
-            if($project->save()) {
-                if ($request->hasFile('project')) {
-                    $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$PROJECT_DIR, Asset::$IMAGE_EXTENSIONS);
-                    foreach ($paths as $path) {
-                        $project->images()->updateOrCreate([
-                            'url' => $path
-                        ]);
-                    }
-                }
-            } else {
-                return $this->badRequest('An error occurred.');
-            }
-
-            DB::commit();
-            return $this->noContent();
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return $this->serverError();
-        }
+        $data = $request->validated();
+        $project->update($data);
+        return $project->save() ? $this->noContent() : $this->serverError();
 
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update project image.
+     *
      * @param Request $request
-     * @param int $projectId
-     * @param int $imageId
+     * @param Project $project
      * @return JsonResponse
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
-    public function addCaptionToProjectImage(Request $request, int $projectId, int $imageId): JsonResponse
+    public function updateProjectImage(Request $request, Project $project): JsonResponse
     {
-        Project::findOrFail($projectId);
 
-        $request->validate(
-            [
-                'caption' => ['required', 'string', 'min:2', 'max:100'],
-            ]
-        );
-
-        $image = Image::findOrFail($imageId);
-        if($image->imageable_id === $projectId) {
-            $image->caption = $request->input('caption');
-            $image->save();
-            return $this->ok();
+        if($this->user) $this->authorize('updateProjectImage');
+        if ($request->hasFile('project')) {
+            $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$PROJECT_DIR, Asset::$IMAGE_EXTENSIONS);
+            foreach ($paths as $path) {
+                $project->images()->updateOrCreate([
+                    'url' => $path
+                ]);
+            }
         }
 
         return $this->serverError();
     }
 
     /**
+     * Remove a specific image from a project and storage.
+     *
+     * @param Project $project
+     * @param int $imageId
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deleteProjectImage(Project $project, int $imageId): JsonResponse
+    {
+
+        if($this->user) $this->authorize('deleteProjectImage');
+
+        $image = $project->images()->findOrFail($imageId);
+
+        if ($image) {
+            if (Storage::disk('project')->exists($image->url)) {
+                Storage::disk('project')->delete($image->url);
+            }
+
+            $image->delete();
+
+            return $this->ok();
+        }
+
+        return $this->serverError();
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param Project $project
+     * @param int $imageId
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function upsertCaptionOnProjectImage(Request $request, Project $project, int $imageId): JsonResponse
+    {
+
+        if($this->user) $this->authorize('upsertCaptionOnProjectImage');
+
+        $projectImage = $project->images()->findOrNew($imageId);
+
+        if($request->filled('caption')) {
+            $request->validate(
+                [
+                    'caption' => ['string', 'min:2', 'max:100'],
+                ]
+            );
+        }
+
+        $projectImage->caption = $request->input('caption');
+
+        return $projectImage->save() ? $this->ok() : $this->serverError();
+
+    }
+
+    /**
      * Remove the specified resource from storage.
+     *
      * @param Project $project
      * @return JsonResponse
      */

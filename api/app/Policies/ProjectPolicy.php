@@ -43,6 +43,39 @@ class ProjectPolicy
      * @param User $user
      * @return bool
      */
+    public function deleteProjectImage(User $user): bool
+    {
+        return $user->isAuthorized() && $user->isSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can perform update on the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function upsertCaptionOnProjectImage(User $user): bool
+    {
+        return $user->isAuthorized() && $user->isSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function updateProjectImage(User $user): bool
+    {
+        return $user->isAuthorized() && $user->isSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @return bool
+     */
     public function delete(User $user): bool
     {
         return $user->isAuthorized() && $user->isSuperAdmin();

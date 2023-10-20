@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::name('auth.self.verify')->post('/auth/verify', [AuthController::class, 'verifyAccount']);
-Route::name('auth.password.request')->post('/auth/passwords/request', [AuthController::class, 'requestPasswordReset']);
+Route::name('auth.password.request')
+    ->post('/auth/passwords/request', [AuthController::class, 'requestPasswordReset']);
 Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthController::class, 'resetPassword']);
 Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
 
@@ -36,9 +37,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('events', EventController::class);
 
     Route::apiResource('projects', ProjectController::class);
-    Route::name('projects.image.caption.add')->patch(
-        '/projects/{projectId}/images/{imageId}', [ProjectController::class,
-            'addCaptionToProjectImage']);
+    Route::name('projects.images.caption.upsert')
+        ->patch('/projects/{project}/images/{imageId}/caption/upsert', [ProjectController::class, 'upsertCaptionOnProjectImage']);
+
+    Route::name('projects.images.update')
+        ->patch('/projects/{project}/images/{imageId}/update', [ProjectController::class, 'updateProjectImage']);
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
 
