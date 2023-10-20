@@ -39,7 +39,7 @@ class GalleryController extends Controller
         $gallery = Gallery::create($data);
         if($gallery->save()) {
             if ($request->hasFile(Asset::$GALLERY)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$GALLERY_DIR, Asset::$IMAGE_EXTENSIONS);
+                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$IMAGE_EXTENSIONS);
                 foreach ($paths as $path) {
                     $gallery->images()->updateOrCreate([
                         'url' => $path
@@ -79,7 +79,7 @@ class GalleryController extends Controller
         $gallery->update($data);
         if($gallery->save()) {
             if ($request->hasFile(Asset::$GALLERY)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$GALLERY_DIR, Asset::$IMAGE_EXTENSIONS);
+                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$IMAGE_EXTENSIONS);
                 foreach ($paths as $path) {
                     $gallery->images()->updateOrCreate([
                         'url' => $path

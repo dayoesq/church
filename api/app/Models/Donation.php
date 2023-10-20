@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $project_id
+ */
 class Donation extends Model
 {
     use HasFactory;
@@ -38,7 +41,7 @@ class Donation extends Model
      */
     protected $casts = [
         'is_anonymous' => 'boolean',
-        'acknowledge_sent' => 'boolean',
+        'acknowledgement_sent' => 'boolean',
         'is_refund_requested' => 'boolean'
     ];
 }

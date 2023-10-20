@@ -38,10 +38,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('projects', ProjectController::class);
     Route::name('projects.images.caption.upsert')
-        ->patch('/projects/{project}/images/{imageId}/caption/upsert', [ProjectController::class, 'upsertCaptionOnProjectImage']);
+        ->patch('/projects/{project}/images/{image}/caption/upsert', [ProjectController::class, 'upsertCaptionOnProjectImage']);
 
     Route::name('projects.images.update')
-        ->patch('/projects/{project}/images/{imageId}/update', [ProjectController::class, 'updateProjectImage']);
+        ->patch('/projects/{project}/images/{image}/update', [ProjectController::class, 'updateProjectImage']);
+
+    Route::name('projects.images.delete')
+        ->patch('/projects/{project}/images/{image}/delete', [ProjectController::class, 'deleteProjectImage']);
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
 

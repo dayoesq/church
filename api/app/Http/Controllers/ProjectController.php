@@ -90,7 +90,7 @@ class ProjectController extends Controller
 
         if($this->user) $this->authorize('updateProjectImage');
         if ($request->hasFile('project')) {
-            $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$PROJECT_DIR, Asset::$IMAGE_EXTENSIONS);
+            $paths = $this->handleAssetsStorage($request, Asset::$PROJECT, Asset::$IMAGE_EXTENSIONS);
             foreach ($paths as $path) {
                 $project->images()->updateOrCreate([
                     'url' => $path
@@ -105,23 +105,23 @@ class ProjectController extends Controller
      * Remove a specific image from a project and storage.
      *
      * @param Project $project
-     * @param int $imageId
+     * @param Image $image
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function deleteProjectImage(Project $project, int $imageId): JsonResponse
+    public function deleteProjectImage(Project $project, Image $image): JsonResponse
     {
 
         if($this->user) $this->authorize('deleteProjectImage');
 
-        $image = $project->images()->findOrFail($imageId);
+        $projectImage = $project->images()->findOrFail($image->id);
 
-        if ($image) {
-            if (Storage::disk('project')->exists($image->url)) {
-                Storage::disk('project')->delete($image->url);
+        if ($projectImage) {
+            if (Storage::disk('project')->exists($projectImage->url)) {
+                Storage::disk('project')->delete($projectImage->url);
             }
 
-            $image->delete();
+            $projectImage->delete();
 
             return $this->ok();
         }
@@ -135,16 +135,16 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param Project $project
-     * @param int $imageId
+     * @param Image $image
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function upsertCaptionOnProjectImage(Request $request, Project $project, int $imageId): JsonResponse
+    public function upsertCaptionOnProjectImage(Request $request, Project $project, Image $image): JsonResponse
     {
 
         if($this->user) $this->authorize('upsertCaptionOnProjectImage');
 
-        $projectImage = $project->images()->findOrNew($imageId);
+        $projectImage = $project->images()->findOrNew($image->id);
 
         if($request->filled('caption')) {
             $request->validate(

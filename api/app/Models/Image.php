@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @method static findOrFail(mixed $id)
+ * @property int $id
  */
 class Image extends Model
 {
