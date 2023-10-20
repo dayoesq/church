@@ -24,12 +24,13 @@ use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
+    private mixed $user;
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
+        $this->user = auth()->user();
 
     }
-
 
     /**
      * Display a listing of the resource.
@@ -106,23 +107,8 @@ class UserController extends Controller
     public function update(Request $request, User $user): JsonResponse
     {
 
-        if($request->hasFile('avatar')) {
-            $request->validate(['avatar' => [
-                'file', 'mimes:jpeg,png,jpg,svg',
-                'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
-            ]]);
-
-            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
-                Storage::disk('avatar')->delete($user->avatar);
-            }
-            $path = $request->file('avatar')->store('avatars');
-            $user->avatar = basename($path);
-            $this->updateUserByAdmin($request, $user);
-            $user->save();
-            return $this->noContent();
-        }
-
-        return $this->serverError();
+        $this->updateUserByAdmin($request, $user);
+        return $user->save() ? $this->noContent() : $this->serverError();
     }
 
     /**
@@ -132,8 +118,7 @@ class UserController extends Controller
      */
     public function getActiveUsers(): JsonResponse
     {
-        $user = auth()->user();
-        Gate::authorize('get-active-users', $user);
+        if($this->user) Gate::authorize('get-active-users', $this->user);
         $users = User::where('status', 'active')->get();
         return $this->ok(data: $users);
     }
@@ -223,14 +208,9 @@ class UserController extends Controller
      */
     public function updateSelf(Request $request): JsonResponse
     {
-        $user = auth()->user();
-        if($user) {
-            Gate::authorize('update-self', $user);
-            $this->updateUserFieldsBySelf($request, $user);
-            return $user->save() ? $this->noContent() : $this->serverError();
-        }
-
-        return $this->forbidden();
+        if($this->user) Gate::authorize('update-self', $this->user);
+        $this->updateUserFieldsBySelf($request, $this->user);
+        return $this->user->save() ? $this->noContent() : $this->serverError();
 
     }
 
@@ -282,6 +262,20 @@ class UserController extends Controller
         if ($request->filled('address_two')) {
             $request->validate(['address_two' => 'max:255']);
             $user->address_two = ucwords(Str::upper($request->input('address_two')));
+        }
+
+        if($request->hasFile('avatar')) {
+            $request->validate(['avatar' => [
+                'file', 'mimes:jpeg,png,jpg,svg',
+                'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
+            ]]);
+
+            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
+                Storage::disk('avatar')->delete($user->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars');
+            $user->avatar = basename($path);
+
         }
 
     }

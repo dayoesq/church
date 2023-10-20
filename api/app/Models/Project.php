@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 /**
  * @method static create(mixed $data)
  * @method static findOrFail(int $id)
+ * @property int $id
  */
 class Project extends Model
 {

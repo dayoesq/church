@@ -56,7 +56,7 @@ class EventController extends Controller
 
             if ($event->save()) {
                 if ($request->hasFile(Asset::$EVENT)) {
-                    $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$EVENT_DIR, Asset::$IMAGE_EXTENSIONS);
+                    $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$IMAGE_EXTENSIONS);
 
                     foreach ($paths as $path) {
                         $event->images()->updateOrCreate(
@@ -78,7 +78,6 @@ class EventController extends Controller
             return $this->badRequest($e->getMessage());
         }
     }
-
 
     /**
      * Display the specified resource. Implicit model binding in use.
@@ -128,7 +127,7 @@ class EventController extends Controller
 
         if ($event->save()) {
             if ($request->hasFile(Asset::$EVENT)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$EVENT_DIR, Asset::$IMAGE_EXTENSIONS);
+                $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$IMAGE_EXTENSIONS);
 
                 foreach ($paths as $path) {
                     $event->images()->updateOrCreate(
