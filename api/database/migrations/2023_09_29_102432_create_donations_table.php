@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->string('payment_method')->nullable();
+            $table->string('payment_method');
             $table->timestamp('payment_date')->nullable();
             $table->string('notes')->nullable();
-            $table->boolean('acknowledge_sent')->default(false);
+            $table->boolean('acknowledgement_sent')->default(false);
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_refund_requested')->default(false);
             $table->enum('source', ['website', 'mobile_app', 'in_person'])->default('website');

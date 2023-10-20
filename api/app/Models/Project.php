@@ -24,7 +24,11 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
-        'target_amount'
+        'target_amount',
+        'acknowledgement_sent',
+        'status',
+        'start_date',
+        'end_date'
     ];
 
     /**

@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
+            $table->enum('status', ['on_going', 'proposed', 'completed', 'abandoned'])->default('proposed');
             $table->unsignedBigInteger('target_amount');
             $table->timestamps();
         });

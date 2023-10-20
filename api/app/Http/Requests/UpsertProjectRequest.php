@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Utils\Enums\ProjectStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * @method images()
@@ -31,7 +33,10 @@ class UpsertProjectRequest extends FormRequest
         return [
             'title' => ['string', 'min:2', 'max:150'],
             'description' => ['string', 'min:20', 'max:500'],
-            'target_amount' => ['required']
+            'target_amount' => ['required'],
+            'status' => ['optional', new Enum(ProjectStatus::class)],
+            'start_date' => ['optional', 'date'],
+            'end_date' =>['optional', 'date']
         ];
     }
 }

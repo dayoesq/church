@@ -137,14 +137,14 @@ trait ApiResponse
      *
      * @param Request $request
      * @param string $fileName
-     * @param string $directory
      * @param array $allowedExtensions
      * @return array
      * @throws ValidationException
      */
-    public function handleAssetsStorage(Request $request, string $fileName, string $directory, array $allowedExtensions): array
+    public function handleAssetsStorage(Request $request, string $fileName, array $allowedExtensions): array
     {
         $files = [];
+        $directory = $fileName . "s";
 
         $attachments = $request->file($fileName);
 
@@ -171,6 +171,41 @@ trait ApiResponse
         }
 
         return $files;
+    }
+
+    /**
+     * Process image file before storage.
+     *
+     * @param Request $request
+     * @param string $fileName
+     * @param array $allowedExtensions
+     * @return string
+     * @throws ValidationException
+     */
+    public function handleAssetStorage(Request $request, string $fileName, array $allowedExtensions): string
+    {
+
+        $attachment = $request->file($fileName);
+        $directory = $fileName . "s";
+
+        if(! in_array($attachment->extension(), $allowedExtensions)) {
+            throw ValidationException::withMessages([
+                "$fileName" => ['Invalid file type.']
+            ]);
+        }
+
+        $request->validate([
+            "$fileName" => [
+                'file',
+                'mimes:' . implode(',', $allowedExtensions),
+                'max:5000',
+                'dimensions:min_width=200,min_height=200,max_width=800,max_height=600',
+            ],
+        ]);
+
+        $storedPath = $attachment->store($directory);
+        return basename($storedPath);
+
     }
 
 }
