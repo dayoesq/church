@@ -30,21 +30,21 @@ class UpdateDonationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['optional', 'string', 'min:2', 'max:50'],
-            'last_name' => ['optional', 'string', 'min:2', 'max:50'],
-            'email' => ['optional', 'email:rfc,dns'],
-            'payment_method' => ['optional', 'string'],
-            'notes' => ['optional', 'string', 'max:200'],
-            'acknowledge_sent' => ['optional', 'boolean'],
-            'source' => ['optional', new Enum(DonationSource::class)],
-            'currency' => ['optional', new Enum(Currencies::class)],
-            'status' => ['optional', new Enum(DonationStatus::class)],
-            'ip_address' => ['optional', 'string'],
-            'amount' => ['optional', 'int'],
-            'payment_date' => ['optional', 'date'],
-            'refund_status' => ['optional', new Enum(DonationRefundStatus::class)],
-            'is_refund_requested' => ['optional', 'boolean'],
-            'is_anonymous' => ['optional', 'boolean'],
+            'first_name' => ['nullable', 'string', 'min:2', 'max:50'],
+            'last_name' => ['nullable', 'string', 'min:2', 'max:50'],
+            'email' => ['nullable', 'email:rfc,dns'],
+            'payment_method' => ['nullable', 'string'],
+            'notes' => ['nullable', 'string', 'max:200'],
+            'acknowledge_sent' => ['nullable', 'boolean'],
+            'source' => ['nullable', new Enum(DonationSource::class)],
+            'currency' => ['nullable', new Enum(Currencies::class)],
+            'status' => ['nullable', new Enum(DonationStatus::class)],
+            'ip_address' => ['nullable', 'string'],
+            'amount' => ['nullable', 'int'],
+            'payment_date' => ['nullable', 'date'],
+            'refund_status' => ['nullable', new Enum(DonationRefundStatus::class)],
+            'is_refund_requested' => ['nullable', 'boolean'],
+            'is_anonymous' => ['nullable', 'boolean'],
         ];
     }
 

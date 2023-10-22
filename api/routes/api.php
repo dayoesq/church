@@ -29,7 +29,7 @@ Route::name('auth.users.login')->post('/auth/users/login', [AuthController::clas
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class)->except(['updateSelf', 'getActiveUsers']);
     Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
 
@@ -45,6 +45,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::name('projects.images.delete')
         ->patch('/projects/{project}/images/{image}/delete', [ProjectController::class, 'deleteProjectImage']);
+
+    Route::name('projects.images.assign')
+        ->patch('/projects/{project}/images/assign', [ProjectController::class, 'assignImagesToProject']);
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
 

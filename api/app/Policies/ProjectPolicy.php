@@ -27,12 +27,34 @@ class ProjectPolicy
     }
 
     /**
+     * Determine whether the user can create the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user): bool
+    {
+        return $user->isAuthorized() && $user->isSuperAdmin();
+    }
+
+    /**
      * Determine whether the user can update the model.
      *
      * @param User $user
      * @return bool
      */
     public function update(User $user): bool
+    {
+        return $user->isAuthorized() && $user->isSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function assignImagesToProject(User $user): bool
     {
         return $user->isAuthorized() && $user->isSuperAdmin();
     }

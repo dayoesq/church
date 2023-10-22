@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
 class UserPolicy
 {
@@ -22,10 +21,10 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param Model $model
+     * @param User $model
      * @return bool
      */
-    public function view(User $user, Model $model): bool
+    public function view(User $user, User $model): bool
     {
         return $user->isAuthorized() && ($user->isSuperAdmin() || $user->id === $model->id);
     }
@@ -45,10 +44,9 @@ class UserPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param Model $model
      * @return bool
      */
-    public function update(User $user, Model $model): bool
+    public function update(User $user): bool
     {
         return $user->isAuthorized() && $user->isSuperAdmin();
     }
@@ -57,12 +55,11 @@ class UserPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param Model $model
      * @return bool
      */
-    public function updateSelf(User $user, Model $model): bool
+    public function updateSelf(User $user): bool
     {
-        return $user->isAuthorized() && $user->id === $model->id;
+        return $user->isAuthorized() && $user->id === auth()->user()->id;
     }
 
     /**
@@ -80,12 +77,12 @@ class UserPolicy
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param Model $model
+     * @param User $model
      * @return bool
      */
-    public function delete(User $user, Model $model): bool
+    public function delete(User $user, User $model): bool
     {
-        return $user->isAuthorized() && $user->isSuper();
+        return $user->isAuthorized() && $user->isSuper() || $model->id === auth()->user()->id;
     }
 
 }

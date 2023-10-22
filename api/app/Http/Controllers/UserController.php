@@ -9,14 +9,13 @@ use App\Utils\Enums\Countries;
 use App\Utils\Enums\Gender;
 use App\Utils\Enums\Roles;
 use App\Utils\Enums\UserStatus;
-use App\Utils\Strings\Token;
+use App\Utils\Strings\Helper;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,11 +23,10 @@ use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
-    private mixed $user;
+    
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
-        $this->user = auth()->user();
 
     }
 
@@ -55,26 +53,23 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $data = $request->validated();
-            $email = $data['email'];
-            $firstName = $data['first_name'];
-            $lastName = $data['last_name'];
+            $request->validated();
 
-            $passwordResetToken = Token::generateRandomNumber(Token::$DEFAULT_RANDOM_NUMBER);
+            $passwordResetToken = Helper::generateRandomNumber(Helper::$DEFAULT_RANDOM_NUMBER);
             $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
-            $tempPassword = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+            $tempPassword = Helper::generateRandomString(Helper::$RANDOM_STRING_LENGTH);
 
             $resetTokenModel = new PasswordResetToken();
-            $resetTokenModel->email = $email;
+            $resetTokenModel->email = $request->input('email');
             $resetTokenModel->token = $passwordResetToken;
             $resetTokenModel->created_at = $clientCurrentTime;
             $resetTokenModel->save();
 
             $user = new User();
-            $user->first_name = $firstName;
-            $user->last_name = $lastName;
-            $user->email = $email;
-            $user->password = Token::hashPassword($tempPassword);
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->email = $request->input('email');
+            $user->password = Helper::hashPassword($tempPassword);
             $user->save();
 
             DB::commit();
@@ -108,17 +103,18 @@ class UserController extends Controller
     {
 
         $this->updateUserByAdmin($request, $user);
-        return $user->save() ? $this->noContent() : $this->serverError();
+        return $user->save() ? $this->ok() : $this->serverError();
     }
 
     /**
      * Display a listing of all users with 'active' status.
      *
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function getActiveUsers(): JsonResponse
     {
-        if($this->user) Gate::authorize('get-active-users', $this->user);
+        $this->authorize('getActiveUsers', auth()->user());
         $users = User::where('status', 'active')->get();
         return $this->ok(data: $users);
     }
@@ -140,7 +136,7 @@ class UserController extends Controller
             }
             $user->delete();
             DB::commit();
-            return $this->ok();
+            return $this->noContent();
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -160,9 +156,9 @@ class UserController extends Controller
 
         $this->updateUserFieldsBySelf($request, $user);
 
-        // Fields only admin can update
+        // Fields only super admin can update
         if ($request->filled('position')) {
-            $request->validate(['position' => ['max:100', 'min:2']]);
+            $request->validate(['position' => ['min:2', 'max:100']]);
             $user->position = Str::lower($request->input('position'));
         }
 
@@ -208,10 +204,10 @@ class UserController extends Controller
      */
     public function updateSelf(Request $request): JsonResponse
     {
-        if($this->user) Gate::authorize('update-self', $this->user);
-        $this->updateUserFieldsBySelf($request, $this->user);
-        return $this->user->save() ? $this->noContent() : $this->serverError();
-
+        $this->authorize('updateSelf', auth()->user());
+        $user = auth()->user();
+        $this->updateUserFieldsBySelf($request, $user);
+        return $user->save() ? $this->noContent() : $this->serverError();
     }
 
 

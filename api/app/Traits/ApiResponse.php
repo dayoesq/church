@@ -144,7 +144,7 @@ trait ApiResponse
     public function handleAssetsStorage(Request $request, string $fileName, array $allowedExtensions): array
     {
         $files = [];
-        $directory = $fileName . "s";
+        $directory = 'gallery' ? $fileName . "ies" : $fileName . "s";
 
         $attachments = $request->file($fileName);
 
@@ -186,7 +186,7 @@ trait ApiResponse
     {
 
         $attachment = $request->file($fileName);
-        $directory = $fileName . "s";
+        $directory = 'gallery' ? $fileName . "ies" : $fileName . "s";
 
         if(! in_array($attachment->extension(), $allowedExtensions)) {
             throw ValidationException::withMessages([
