@@ -69,8 +69,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'member_since' => 'datetime',
-        'password' => 'hashed',
-        'is_verified' => 'boolean'
+        'password' => 'hashed'
     ];
 
     /**
@@ -166,7 +165,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has 'user' role.
+     * Check if user is verified.
      *
      * @return bool
      */
@@ -176,7 +175,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has 'user' role.
+     * Check if user has is active.
      *
      * @return bool
      */

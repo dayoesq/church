@@ -23,7 +23,7 @@ class PositionController extends Controller
     public function index(): JsonResponse
     {
         $positions = Position::all();
-        return $this->ok($positions);
+        return $this->ok(data: $positions);
     }
 
     /**

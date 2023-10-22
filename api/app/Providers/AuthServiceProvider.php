@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,7 +12,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        // If following Laravel's naming convention, model to policy already is auto-discovered!
     ];
 
     /**
@@ -24,8 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
-        Gate::define('update-self', [UserPolicy::class, 'updateSelf']);
-        Gate::define('get-active-users', [UserPolicy::class, 'getActiveUsers']);
+
     }
 }

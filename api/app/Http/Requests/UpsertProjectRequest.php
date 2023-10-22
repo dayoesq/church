@@ -34,9 +34,9 @@ class UpsertProjectRequest extends FormRequest
             'title' => ['string', 'min:2', 'max:150'],
             'description' => ['string', 'min:20', 'max:500'],
             'target_amount' => ['required'],
-            'status' => ['optional', new Enum(ProjectStatus::class)],
-            'start_date' => ['optional', 'date'],
-            'end_date' =>['optional', 'date']
+            'status' => ['nullable', new Enum(ProjectStatus::class)],
+            'start_date' => ['nullable', 'date'],
+            'end_date' =>['nullable', 'date']
         ];
     }
 }

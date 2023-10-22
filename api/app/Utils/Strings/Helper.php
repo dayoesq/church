@@ -5,7 +5,7 @@ namespace App\Utils\Strings;
 use App\Utils\Errors\ErrorResponse;
 use Exception;
 
-class Token
+class Helper
 {
 
     public static int $RANDOM_STRING_LENGTH = 20;

@@ -7,7 +7,7 @@ use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Enums\UserStatus;
 use App\Utils\Errors\ErrorResponse;
-use App\Utils\Strings\Token;
+use App\Utils\Strings\Helper;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -97,7 +97,7 @@ class AuthController extends Controller
             if(! $user) return $this->notFound();
 
             if($user->status === UserStatus::Pending->value || $user->status === UserStatus::Active->value) {
-                $token = Token::generateRandomString(Token::$RANDOM_STRING_LENGTH);
+                $token = Helper::generateRandomString(Helper::$RANDOM_STRING_LENGTH);
                 $passwordResetToken = new PasswordResetToken();
                 $passwordResetToken->email = $user->email;
                 $passwordResetToken->token = $token;
@@ -126,7 +126,7 @@ class AuthController extends Controller
     public function resetPassword(Request $request): JsonResponse
     {
         $request->validate(['password' => ['required', 'max:100', 'confirmed',
-            Password::min(Token::$PASSWORD_MIN_LENGTH)
+            Password::min(Helper::$PASSWORD_MIN_LENGTH)
                 ->letters()
                 ->mixedCase()
                 ->numbers()
@@ -149,7 +149,7 @@ class AuthController extends Controller
             return $this->forbidden(ErrorResponse::$EXPIRED_TOKEN);
         }
 
-        $hashedPassword = Token::hashPassword($request->input('password'));
+        $hashedPassword = Helper::hashPassword($request->input('password'));
         $user->password = $hashedPassword;
 
         if($user->status === UserStatus::Pending->value) $user->status = UserStatus::Active->value;
@@ -171,7 +171,7 @@ class AuthController extends Controller
             DB::beginTransaction();
 
             $request->validate(['token' => 'required', 'password' => ['required', 'max:100', 'confirmed',
-                Password::min(Token::$PASSWORD_MIN_LENGTH)
+                Password::min(Helper::$PASSWORD_MIN_LENGTH)
                     ->letters()
                     ->mixedCase()
                     ->numbers()
@@ -184,7 +184,7 @@ class AuthController extends Controller
             if(! $verificationToken) return $this->badRequest('Expired or invalid token.');
 
             $user = User::where('email', $verificationToken->email)->firstOrFail();
-            $hashedPassword = Token::hashPassword($request->input('password'));
+            $hashedPassword = Helper::hashPassword($request->input('password'));
             $user->password = $hashedPassword;
 
             $user->status = UserStatus::Active->value;
