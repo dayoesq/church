@@ -29,14 +29,10 @@ Route::name('auth.users.login')->post('/auth/users/login', [AuthController::clas
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::apiResource('users', UserController::class)->except(['updateSelf', 'getActiveUsers']);
+
     Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
 
-    Route::apiResource('positions', PositionController::class);
-    Route::apiResource('events', EventController::class);
-
-    Route::apiResource('projects', ProjectController::class);
     Route::name('projects.images.caption.upsert')
         ->patch('/projects/{project}/images/{image}/caption/upsert', [ProjectController::class, 'upsertCaptionOnProjectImage']);
 
@@ -50,5 +46,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->patch('/projects/{project}/images/assign', [ProjectController::class, 'assignImagesToProject']);
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
+
+
+    Route::apiResources([
+        'users' => UserController::class,
+        'positions' => PositionController::class,
+        'events' => EventController::class,
+        'projects' => ProjectController::class
+    ]);
 
 });

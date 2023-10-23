@@ -14,7 +14,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -26,7 +26,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->isAuthorized() && ($user->isSuperAdmin() || $user->id === $model->id);
+        return $user->isAuthorizedSuperAdmin() || $user->id === $model->id;
     }
 
     /**
@@ -37,18 +37,19 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param User $user
+     * @param User $model
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -59,7 +60,7 @@ class UserPolicy
      */
     public function updateSelf(User $user): bool
     {
-        return $user->isAuthorized() && $user->id === auth()->user()->id;
+        return $user->isAuthorizedUser() && $user->id === auth()->user()->id;
     }
 
     /**
@@ -70,7 +71,7 @@ class UserPolicy
      */
     public function getActiveUsers(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedUser() && $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -82,7 +83,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->isAuthorized() && $user->isSuper() || $model->id === auth()->user()->id;
+        return $user->isAuthorizedSuperAdmin() || $model->id === auth()->user()->id;
     }
 
 }

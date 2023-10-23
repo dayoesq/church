@@ -14,7 +14,7 @@ class PositionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -25,7 +25,7 @@ class PositionPolicy
      */
     public function view(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class PositionPolicy
      */
     public function update(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -47,7 +47,7 @@ class PositionPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
 }
