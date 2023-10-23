@@ -34,7 +34,7 @@ class ProjectPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -45,7 +45,7 @@ class ProjectPolicy
      */
     public function update(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -56,7 +56,7 @@ class ProjectPolicy
      */
     public function assignImagesToProject(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -67,7 +67,7 @@ class ProjectPolicy
      */
     public function deleteProjectImage(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -78,7 +78,7 @@ class ProjectPolicy
      */
     public function upsertCaptionOnProjectImage(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -89,7 +89,7 @@ class ProjectPolicy
      */
     public function updateProjectImage(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
@@ -100,7 +100,7 @@ class ProjectPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
 }

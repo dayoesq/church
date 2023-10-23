@@ -23,11 +23,10 @@ use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
-
     }
 
     /**
@@ -50,6 +49,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
+
         try {
             DB::beginTransaction();
 
@@ -101,7 +101,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): JsonResponse
     {
-
         $this->updateUserByAdmin($request, $user);
         return $user->save() ? $this->ok() : $this->serverError();
     }
@@ -124,9 +123,11 @@ class UserController extends Controller
      *
      * @param User $user
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function destroy(User $user): JsonResponse
     {
+
         try {
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
@@ -167,11 +168,6 @@ class UserController extends Controller
             $user->status = $request->input('status');
         }
 
-        if ($request->enum('country', Countries::class)) {
-            $request->validate(['country' => new Enum(Countries::class)]);
-            $user->country = $request->input('country');
-        }
-
         if ($request->filled('member_since')) {
             $request->validate(['member_since' => ['date']]);
             $user->member_since = $request->input('member_since');
@@ -204,8 +200,8 @@ class UserController extends Controller
      */
     public function updateSelf(Request $request): JsonResponse
     {
-        $this->authorize('updateSelf', auth()->user());
         $user = auth()->user();
+        $this->authorize('updateSelf', $user);
         $this->updateUserFieldsBySelf($request, $user);
         return $user->save() ? $this->noContent() : $this->serverError();
     }
@@ -233,6 +229,16 @@ class UserController extends Controller
         if ($request->enum('gender', Gender::class)) {
             $request->validate(['gender' => new Enum(Gender::class)]);
             $user->gender = $request->input('gender');
+        }
+
+        if ($request->enum('country_of_residence', Countries::class)) {
+            $request->validate(['country_of_residence' => new Enum(Countries::class)]);
+            $user->country_of_residence = $request->input('country_of_residence');
+        }
+
+        if ($request->enum('home_country', Countries::class)) {
+            $request->validate(['home_country' => new Enum(Countries::class)]);
+            $user->home_country = $request->input('home_country');
         }
 
         if ($request->filled('postal_code')) {

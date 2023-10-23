@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\User;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 trait ApiResponse
 {
+
     /**
      * Display a pretty response when a resource is added.
      *

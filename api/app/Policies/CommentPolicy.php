@@ -34,7 +34,7 @@ class CommentPolicy
      */
     public function destroy(User $user): bool
     {
-        return $user->isAuthorized() && $user->isSuperAdmin();
+        return $user->isAuthorizedSuperAdmin();
     }
 
 }

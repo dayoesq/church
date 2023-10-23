@@ -34,6 +34,9 @@ use App\Utils\Enums\Roles;
  * @property string $gender
  * @property string|int $id
  * @property string $country
+ * @property mixed $country_of_residence
+ * @property mixed $home_country
+ * @property mixed $email_verified_at
  */
 class User extends Authenticatable
 {
@@ -131,7 +134,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->attributes['roles'] = Roles::Admin->value;
+        return $this->roles === Roles::Admin->value;
     }
 
     /**
@@ -141,7 +144,7 @@ class User extends Authenticatable
      */
     public function isSuper(): bool
     {
-        return $this->attributes['roles'] === Roles::Super->value;
+        return $this->roles === Roles::Super->value;
     }
 
     /**
@@ -155,13 +158,43 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has 'user' role.
+     * Check if user is verified and has an active status and is either admin or super.
      *
      * @return bool
      */
-    public function isUser(): bool
+    public function isAuthorizedSuperAdmin(): bool
     {
-        return $this->attributes['roles'] === Roles::User->value;
+        return $this->isAuthorized() && ($this->isSuper() || $this->isAdmin());
+    }
+
+    /**
+     * Check if user is verified and has an active status and is super.
+     *
+     * @return bool
+     */
+    public function isAuthorizedSuper(): bool
+    {
+        return $this->isAuthorized() && $this->isSuper();
+    }
+
+    /**
+     * Check if user is verified and has an active status and is admin.
+     *
+     * @return bool
+     */
+    public function isAuthorizedAdmin(): bool
+    {
+        return $this->isAuthorized() && $this->isAdmin();
+    }
+
+    /**
+     * Check if user is verified and has an active status and is admin.
+     *
+     * @return bool
+     */
+    public function isAuthorizedUser(): bool
+    {
+        return $this->isAuthorized();
     }
 
     /**
@@ -171,7 +204,7 @@ class User extends Authenticatable
      */
     private function isVerified(): bool
     {
-        return ! is_null($this->attributes['email_verified_at']);
+        return ! is_null($this->email_verified_at);
     }
 
     /**
@@ -181,7 +214,7 @@ class User extends Authenticatable
      */
     private function isActive(): bool
     {
-        return $this->attributes['status'] === UserStatus::Active->value;
+        return $this->status === UserStatus::Active->value;
     }
 
     /**
@@ -189,7 +222,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isAuthorized(): bool
+    private function isAuthorized(): bool
     {
         return $this->isVerified() && $this->isActive();
     }
