@@ -41,7 +41,7 @@ class BlogController extends Controller
         $blog = new Blog();
         $blog->title = $request->input('title');
         $blog->content = $request->input('content');
-        $blog->written_by = $request->input('written_by');
+        $blog->author = auth()->user()->id;
 
         return $blog->save() ? $this->created(data: $blog) : $this->serverError();
     }
@@ -54,8 +54,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): JsonResponse
     {
-        $post = $blog->with('image')->first();
-        return $this->ok(data: $post);
+        return $this->ok(data: $blog);
     }
 
     /**
@@ -76,8 +75,8 @@ class BlogController extends Controller
             $blog->content = $request->input('content');
         }
 
-        if($request->filled('written_by')) {
-            $blog->written_by = $request->input('written_by');
+        if($request->filled('author')) {
+            $blog->author = $request->input('author');
         }
 
         return $blog->save() ? $this->noContent() : $this->serverError();
@@ -92,7 +91,7 @@ class BlogController extends Controller
      * @param Blog $blog
      * @return JsonResponse
      */
-    public function addCommentToBlog(Request $request, Blog $blog): JsonResponse
+    public function commentToBlog(Request $request, Blog $blog): JsonResponse
     {
         if($request->filled('comment')) {
             $comment = new Comment();
@@ -113,7 +112,7 @@ class BlogController extends Controller
      */
     public function getPublishedBlogs(): JsonResponse
     {
-        $blogs = Blog::where('status', 'published')->paginate(10);
+        $blogs = Blog::where('status', 'published')->get();
         return $this->ok(data: $blogs);
     }
 

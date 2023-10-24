@@ -12,7 +12,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // If following Laravel's naming convention, model to policy already is auto-discovered!
+        // By following Laravel's naming convention, mapping is done automatically.
     ];
 
     /**

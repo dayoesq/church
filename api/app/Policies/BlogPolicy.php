@@ -51,6 +51,27 @@ class BlogPolicy
     }
 
     /**
+     * Determine whether the user can add comment to the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function commentToBlog(User $user): bool
+    {
+        return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
+     * Anyone can access the list of published blogs.
+     *
+     * @return bool
+     */
+    public function getPublishedBlogs(): bool
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param User $user

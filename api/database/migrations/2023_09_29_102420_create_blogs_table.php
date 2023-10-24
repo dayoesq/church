@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->string('content');
+            $table->longText('content');
             $table->enum('status', ['draft', 'archived', 'published'])->default('draft');
             $table->unsignedBigInteger('author');
             $table->foreign('author')->references('id')->on('users')->cascadeOnDelete();
