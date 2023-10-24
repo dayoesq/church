@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
@@ -27,7 +28,6 @@ Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthControlle
 Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
 Route::apiResource('blogs', BlogController::class)->only(['index', 'view']);
 Route::name('blogs.published.all')->get('/blogs/published/all', [BlogController::class, 'getPublishedBlogs']);
-Route::name('blogs.comments.add')->post('/blogs/{blog}/comments/add', [BlogController::class, 'commentToBlog']);
 
 
 //Route::apiResource('users', UserController::class);
@@ -52,7 +52,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
 
+    Route::name('blogs.comments.add')->post('/blogs/{blog}/comments/add', [BlogController::class, 'commentToBlog']);
+
     Route::apiResource('blogs', BlogController::class)->except(['index', 'view']);
+    Route::name('comments.reply')->post('/comments/{comment}/reply', [CommentController::class, 'replyToAComment']);
+    Route::name('comments.reply.all')->get('/comments/{comment}/reply/all', [CommentController::class, 'getCommentReplies']);
 
     Route::apiResources([
         'users' => UserController::class,

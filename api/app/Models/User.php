@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -19,7 +20,7 @@ use App\Utils\Enums\Roles;
  * @property string $last_name
  * @property string $email
  * @property string $password
- * @property int|string $position_id
+ * @property int $position_id
  * @property string $avatar
  * @property string $position
  * @property string $status
@@ -32,10 +33,10 @@ use App\Utils\Enums\Roles;
  * @property string $address_one
  * @property string $address_two
  * @property string $gender
- * @property string|int $id
+ * @property int $id
  * @property string $country
- * @property mixed $country_of_residence
- * @property mixed $home_country
+ * @property string $country_of_residence
+ * @property string $home_country
  * @property mixed $email_verified_at
  */
 class User extends Authenticatable
@@ -225,6 +226,16 @@ class User extends Authenticatable
     private function isAuthorized(): bool
     {
         return $this->isVerified() && $this->isActive();
+    }
+
+    /**
+     * User entitled to comments.
+     *
+     * @return HasMany
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

@@ -9,7 +9,7 @@ class Helper
 {
 
     public static int $RANDOM_STRING_LENGTH = 20;
-    public static int $DEFAULT_RANDOM_NUMBER = 6;
+    public static int $DEFAULT_RANDOM_NUMBER = 9;
     public static int $PASSWORD_MIN_LENGTH = 10;
     public static int $PASSWORD_MAX_LENGTH = 100;
 
@@ -38,9 +38,10 @@ class Helper
      */
     public static function generateRandomNumber(int $length): string
     {
+        $min = 6; $max = 20;
         try {
-            if ($length < 6 || $length > 9) {
-                throw new Exception("Invalid length. The length should be between 6 and 9.");
+            if ($length < $min || $length > $max) {
+                throw new Exception("Invalid length. The length should be between $min and $max.");
             }
 
             $randomBytes = random_bytes($length);
