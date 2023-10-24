@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
@@ -24,6 +25,10 @@ Route::name('auth.password.request')
     ->post('/auth/passwords/request', [AuthController::class, 'requestPasswordReset']);
 Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthController::class, 'resetPassword']);
 Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
+Route::apiResource('blogs', BlogController::class)->only(['index', 'view']);
+Route::name('blogs.published.all')->get('/blogs/published/all', [BlogController::class, 'getPublishedBlogs']);
+Route::name('blogs.comments.add')->post('/blogs/{blog}/comments/add', [BlogController::class, 'commentToBlog']);
+
 
 //Route::apiResource('users', UserController::class);
 
@@ -47,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
 
+    Route::apiResource('blogs', BlogController::class)->except(['index', 'view']);
 
     Route::apiResources([
         'users' => UserController::class,

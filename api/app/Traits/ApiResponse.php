@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\User;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Illuminate\Http\JsonResponse;

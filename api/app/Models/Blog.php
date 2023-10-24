@@ -12,9 +12,8 @@ use Illuminate\Support\Str;
  * @property mixed $images
  * @property string $title
  * @property string $content
- * @property mixed $written_by
  * @property string|int $id
- * @property mixed $author
+ * @property int|string $author
  * @method static where(string $string, string $string1)
  * @method static paginate(int $int)
  */
