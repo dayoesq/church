@@ -25,7 +25,7 @@ class BlogController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Blog::paginate(10);
+        $posts = Blog::with('comments')->get();
         return $this->ok(data: $posts);
     }
 
@@ -38,6 +38,9 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request): JsonResponse
     {
         $request->validated();
+
+        $existingBlog = Blog::where('title', Str::slug($request->input('title')))->first();
+        if($existingBlog) return $this->conflict();
         $blog = new Blog();
         $blog->title = $request->input('title');
         $blog->content = $request->input('content');
@@ -54,7 +57,8 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): JsonResponse
     {
-        return $this->ok(data: $blog);
+        $blogWithComments = $blog->with('comments')->first();
+        return $this->ok(data: $blogWithComments);
     }
 
     /**
@@ -93,16 +97,15 @@ class BlogController extends Controller
      */
     public function commentToBlog(Request $request, Blog $blog): JsonResponse
     {
-        if($request->filled('comment')) {
+        if($request->filled('content')) {
             $comment = new Comment();
             $comment->content = $request->input('content');
-            $comment->author = auth()->user->id;
+            $comment->author = auth()->user()->id;
             $comment->blog_id = $blog->id;
+            return $comment->save() ? $this->ok() : $this->serverError();
 
         }
-
-        return $blog->save() ? $this->noContent() : $this->serverError();
-
+        return $this->ok();
     }
 
     /**
