@@ -1,11 +1,11 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import * as React from 'react';
 
 type ButtonProps = {
     type: 'button' | 'submit' | 'reset' | undefined;
     label: string;
-    className?: HTMLAttributes<HTMLButtonElement>;
-    style?: HTMLAttributes<HTMLButtonElement>;
-    children?: ReactNode;
+    className?: string;
+    style?: React.HTMLAttributes<HTMLButtonElement>;
+    children?: React.ReactNode;
 };
 
 export default function Buton({
@@ -21,7 +21,18 @@ export default function Buton({
             style={style}
             className={`${className && className} ${
                 style && style
-            } group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+            } py-2 px-4 border 
+            border-transparent 
+            text-sm font-medium 
+            rounded-md
+             text-white 
+             bg-indigo-600 
+             hover:bg-indigo-700 
+             focus:outline-none 
+             focus:ring-2 
+             focus:ring-offset-2 
+             focus:ring-indigo-500 
+             cursor-pointer`}
         >
             {children}
         </button>
