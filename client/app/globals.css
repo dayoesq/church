@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --primary-color-light: blue;
   --primary-color-dark: blue;
   --primary-color-light: blue;
   --secondary-color-light: blue;
   --secondary-color-light: blue;
   --secondary-color-light: blue;
-}
+} */
 
 
 * {
@@ -24,13 +24,15 @@
   box-sizing: inherit;
 }
 
-html {
+/* html {
   font-size: 62.5%;
   overflow-x: hidden;
-}
+} */
 
 body {
   line-height: 1;
   font-weight: 400;
 }
+
+
 

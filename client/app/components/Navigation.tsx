@@ -15,11 +15,11 @@ const navItems = [
 
 export default function Navigation() {
     return (
-        <nav className='flex align-middle'>
+        <nav className='sticky top-4 flex align-middle'>
             <div>
                 <a
-                    className='pointer-events-none inline-block'
-                    href='https://gracechapel.fi'
+                    className='inline-block'
+                    href='#'
                     target='_blank'
                     rel='noopener noreferrer'
                 >
@@ -49,9 +49,8 @@ export default function Navigation() {
             <div className='flex justify-between my-auto ml-auto cursor-pointer'>
                 <MagnifyingGlassIcon color='grey' className='h-8 w-8' />
                 <Button
-                    label='Hello!'
                     type='button'
-                    className='ml-4 bg-orange-600 hover:bg-orange-400'
+                    className='ml-4 bg-orange-600 hover:bg-orange-700'
                 >
                     Donate Now
                 </Button>
