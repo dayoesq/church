@@ -1,39 +1,46 @@
-interface Blog {
+export interface Blog {
     title: string;
     author: string;
     postedOn: string;
     imageUrl: string;
+    comments: string[];
 }
 
 export const blogs: Blog[] = [
     {
-        title: 'The Art of Programming',
+        title: 'The Power of Marriage',
         author: 'John Smith',
         postedOn: '2023-10-15',
-        imageUrl: 'https://example.com/image1.jpg'
+        imageUrl: 'https://example.com/image1.jpg',
+        comments: [
+            'This is really good',
+            'Thank you for this article',
+            'The spirit of God is one'
+        ]
     },
     {
-        title: 'Web Development Best Practices',
+        title: 'Faith Without Work is Death',
         author: 'Emily Johnson',
         postedOn: '2023-10-20',
-        imageUrl: 'https://example.com/image2.jpg'
+        imageUrl: 'https://example.com/image2.jpg',
+        comments: [
+            'This is really good',
+            'Thank you for this article',
+            'The spirit of God is one'
+        ]
     },
     {
-        title: 'Machine Learning Demystified',
+        title: 'Jesus, the Saviour',
         author: 'David Brown',
         postedOn: '2023-10-25',
-        imageUrl: 'https://example.com/image3.jpg'
+        imageUrl: 'https://example.com/image3.jpg',
+        comments: ['Who can stand against the Lord', 'Awesome God']
     },
     {
-        title: 'The Power of Data Visualization',
+        title: 'God is Good',
         author: 'Sarah Davis',
         postedOn: '2023-10-27',
-        imageUrl: 'https://example.com/image4.jpg'
-    },
-    {
-        title: 'Cybersecurity in a Digital World',
-        author: 'Michael Johnson',
-        postedOn: '2023-10-30',
-        imageUrl: 'https://example.com/image5.jpg'
+        imageUrl: 'https://example.com/image4.jpg',
+        comments: []
     }
 ];

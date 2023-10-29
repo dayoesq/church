@@ -4,7 +4,6 @@ import Button from './components/Button';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Navigation from './components/Navigation';
 import Banner from './components/Banner';
-import Card from './components/Card';
 import { blogs } from './data/blog';
 
 export default function Home() {
@@ -13,15 +12,15 @@ export default function Home() {
             <Navigation />
             <section className='flex justify-center align-middle min-h-[80vh]'>
                 <div className='m-auto text-white'>
-                    <h1 className='text-[15rem] text-gray-300 font-bold uppercase'>
+                    <h1 className='text-[15rem] text-gray-700 font-bold uppercase'>
                         Jesus
                     </h1>
-                    <h2 className='text-4xl font-light text-gray-300 transition-opacity duration-500 ease-in-out'>
+                    <h2 className='text-4xl font-light text-gray-500 transition-opacity duration-500 ease-in-out'>
                         ...is the way
                     </h2>
                 </div>
             </section>
-            <section className='flex justify-center align-middle min-h-[80vh] -mx-8 bg-white'>
+            <section className='flex justify-center items-center min-h-[80vh] -mx-8 bg-white px-4'>
                 <div className='flex relative m-auto w-[50rem]'>
                     <div className='p-4'>
                         <Image
@@ -44,8 +43,8 @@ export default function Home() {
                         />
                     </div>
                 </div>
-                <div className='w-[50rem] flex flex-col items-start ml-8 leading-8 bg-cyan-50 m-auto p-4'>
-                    <h1 className='uppercase text-gray-700 tracking-wider my-3'>
+                <div className='w-[50rem] flex flex-col items-start ml-8 leading-8 m-auto p-4 flex-wrap'>
+                    <h1 className='uppercase text-gray-700 text-2xl tracking-wider my-3'>
                         Our values
                     </h1>
                     <h1 className='text-5xl my-3'>
@@ -78,28 +77,49 @@ export default function Home() {
                     </Button>
                 </div>
             </section>
-            <section>
-                <div>
-                    <h1>From our blog posts</h1>
-                    <h1>Grace Chapel</h1>
+            <section className='bg-gray-100 -mx-8 py-8'>
+                <div className='text-center'>
+                    <h1 className='text-3xl uppercase mb-4'>
+                        From our blog posts
+                    </h1>
+                    <h2 className='text-2xl text-gray-500'>Grace Chapel</h2>
                 </div>
-                <div className='flex justify-center align-middle'>
+                <div className='flex justify-center items-center gap-6 py-8 flex-wrap'>
                     {blogs.map(blog => (
-                        <Card key={blog.title}>
-                            <div className=''>
-                                <Image
-                                    src='/images/worship.jpg'
-                                    alt={blog.title}
-                                    className=''
-                                    width={500}
-                                    height={500}
-                                    priority
-                                />
+                        <div
+                            key={blog.title}
+                            className='relative rounded border-2 shadow shadow-gray-300 hover:shadow-gray-200'
+                        >
+                            <Image
+                                src='/images/worship.jpg'
+                                alt={blog.title}
+                                className='mb-4'
+                                width={400}
+                                height={500}
+                                priority
+                            />
+                            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-20 right-6 p-2 font-bold text-white'>
+                                <p className='mb-1 text-3xl'>25</p>
+                                <p>APR</p>
                             </div>
-                        </Card>
+                            <div className='flex m-6'>
+                                <p className='text-gray-500'>Dayo Oladapo</p>
+                                <span className='inline-block text-gray-500 ml-2'>
+                                    {'-'} 10 comments
+                                </span>
+                            </div>
+                            <h1 className='text-2xl text-gray-600 m-6'>
+                                {blog.title}
+                            </h1>
+                        </div>
                     ))}
                 </div>
-                <Button type='button'>React all articles</Button>
+                <Button
+                    type='button'
+                    className=' my-3 bg-gray-600 hover:bg-gray-700'
+                >
+                    READ ALL ARTICLES
+                </Button>
             </section>
         </main>
     );

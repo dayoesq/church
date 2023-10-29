@@ -15,7 +15,7 @@ const navItems = [
 
 export default function Navigation() {
     return (
-        <nav className='sticky top-4 flex align-middle'>
+        <nav className='top-4 flex align-middle'>
             <div>
                 <a
                     className='inline-block'
@@ -50,6 +50,8 @@ export default function Navigation() {
                 <MagnifyingGlassIcon color='grey' className='h-8 w-8' />
                 <Button
                     type='button'
+                    linkType='internal'
+                    href='/donate'
                     className='ml-4 bg-orange-600 hover:bg-orange-700'
                 >
                     Donate Now
