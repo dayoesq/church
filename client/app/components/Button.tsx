@@ -23,7 +23,7 @@ ButtonProps) {
     const commonButtonProps = {
         type,
         style,
-        className: `${className} ${style} py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white cursor-pointer tracking-wider`
+        className: `${className} ${style} inline-block py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white cursor-pointer tracking-wider`
     };
 
     if (linkType === 'anchor') {

@@ -16,7 +16,7 @@ const navItems = [
 export default function Navigation() {
     return (
         <nav className='top-4 flex align-middle'>
-            <div>
+            <div className='w-[5rem] h-[2.4rem]'>
                 <a
                     className='inline-block'
                     href='#'
