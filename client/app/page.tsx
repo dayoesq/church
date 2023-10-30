@@ -5,10 +5,12 @@ import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Navigation from './components/Navigation';
 import Banner from './components/Banner';
 import { blogs } from './data/blog';
+import Blog from './components/Blog';
+import Footer from './components/Footer';
 
 export default function Home() {
     return (
-        <main className="p-8 bg-[url('/images/hero-background.svg')]">
+        <main className="p-8">
             <Navigation />
             <section className='flex justify-center align-middle min-h-[80vh]'>
                 <div className='m-auto text-white'>
@@ -48,8 +50,7 @@ export default function Home() {
                         Our values
                     </h1>
                     <h1 className='text-5xl my-3'>
-                        <span className='uppercase tracking-wider '>God</span>{' '}
-                        is{' '}
+                        <span className='uppercase tracking-wider'>God</span> is{' '}
                         <span className='uppercase tracking-wider'>love</span>
                     </h1>
                     <p className='text-gray-600'>
@@ -77,49 +78,36 @@ export default function Home() {
                     </Button>
                 </div>
             </section>
-            <section className='bg-gray-100 -mx-8 py-8'>
-                <div className='text-center'>
-                    <h1 className='text-3xl uppercase mb-4'>
-                        From our blog posts
-                    </h1>
-                    <h2 className='text-2xl text-gray-500'>Grace Chapel</h2>
-                </div>
-                <div className='flex justify-center items-center gap-6 py-8 flex-wrap'>
-                    {blogs.map(blog => (
-                        <div
-                            key={blog.title}
-                            className='relative rounded border-2 shadow shadow-gray-300 hover:shadow-gray-200'
-                        >
-                            <Image
-                                src='/images/worship.jpg'
-                                alt={blog.title}
-                                className='mb-4'
-                                width={400}
-                                height={500}
-                                priority
+            {blogs && blogs.length ? (
+                <section className='bg-gray-100 -mx-8 py-8'>
+                    <div className='text-center'>
+                        <h1 className='text-3xl uppercase mb-4'>
+                            From our blog posts
+                        </h1>
+                        <h2 className='text-2xl text-gray-500'>Grace Chapel</h2>
+                    </div>
+                    <div className='flex justify-center items-center gap-6 py-8 flex-wrap'>
+                        {blogs.map(blog => (
+                            <Blog
+                                key={blog.title}
+                                author={blog.author}
+                                title={blog.title}
+                                postedOn={blog.postedOn}
+                                imageUrl={blog.imageUrl}
+                                comments={blog.comments}
                             />
-                            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-20 right-6 p-2 font-bold text-white'>
-                                <p className='mb-1 text-3xl'>25</p>
-                                <p>APR</p>
-                            </div>
-                            <div className='flex m-6'>
-                                <p className='text-gray-500'>Dayo Oladapo</p>
-                                <span className='inline-block text-gray-500 ml-2'>
-                                    {'-'} 10 comments
-                                </span>
-                            </div>
-                            <h1 className='text-2xl text-gray-600 m-6'>
-                                {blog.title}
-                            </h1>
-                        </div>
-                    ))}
-                </div>
-                <Button
-                    type='button'
-                    className=' my-3 bg-gray-600 hover:bg-gray-700'
-                >
-                    READ ALL ARTICLES
-                </Button>
+                        ))}
+                    </div>
+                    <Button
+                        type='button'
+                        className='flex justify-self-center my-3 bg-gray-600 hover:bg-gray-700'
+                    >
+                        READ ALL ARTICLES
+                    </Button>
+                </section>
+            ) : null}
+            <section>
+                <Footer />
             </section>
         </main>
     );

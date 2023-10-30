@@ -11,7 +11,7 @@ export const blogs: Blog[] = [
         title: 'The Power of Marriage',
         author: 'John Smith',
         postedOn: '2023-10-15',
-        imageUrl: 'https://example.com/image1.jpg',
+        imageUrl: '/images/worship.jpg',
         comments: [
             'This is really good',
             'Thank you for this article',
@@ -22,7 +22,7 @@ export const blogs: Blog[] = [
         title: 'Faith Without Work is Death',
         author: 'Emily Johnson',
         postedOn: '2023-10-20',
-        imageUrl: 'https://example.com/image2.jpg',
+        imageUrl: '/images/worship.jpg',
         comments: [
             'This is really good',
             'Thank you for this article',
@@ -33,14 +33,14 @@ export const blogs: Blog[] = [
         title: 'Jesus, the Saviour',
         author: 'David Brown',
         postedOn: '2023-10-25',
-        imageUrl: 'https://example.com/image3.jpg',
+        imageUrl: '/images/worship.jpg',
         comments: ['Who can stand against the Lord', 'Awesome God']
     },
     {
         title: 'God is Good',
         author: 'Sarah Davis',
         postedOn: '2023-10-27',
-        imageUrl: 'https://example.com/image4.jpg',
+        imageUrl: '/images/worship.jpg',
         comments: []
     }
 ];
