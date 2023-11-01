@@ -16,23 +16,22 @@ const navItems = [
 export default function Navigation() {
     return (
         <nav className='top-4 flex align-middle'>
-            <div className='w-[5rem] h-[2.4rem]'>
-                <a
-                    className='inline-block'
-                    href='#'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    <Image
-                        src='/rccg-logo.svg'
-                        alt='RCCG Logo'
-                        className='dark:invert'
-                        width={50}
-                        height={24}
-                        priority
-                    />
-                </a>
-            </div>
+            <a
+                className='inline-block'
+                href='#'
+                target='_blank'
+                rel='noopener noreferrer'
+            >
+                <Image
+                    src='/rccg-logo.svg'
+                    alt='RCCG Logo'
+                    className='dark:invert'
+                    width={100}
+                    height={100}
+                    priority
+                    objectFit='fit-content'
+                />
+            </a>
 
             <ul className='flex justify-between my-auto'>
                 {navItems.map(item => (

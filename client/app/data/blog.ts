@@ -8,7 +8,7 @@ export interface Blog {
 
 export const blogs: Blog[] = [
     {
-        title: 'The Power of Marriage',
+        title: 'The Power of Marriage as Described By The Bible sdkshdjsdkjbfk',
         author: 'John Smith',
         postedOn: '2023-10-15',
         imageUrl: '/images/worship.jpg',
