@@ -20,7 +20,7 @@ export default function Blog({
     return (
         <div
             key={title}
-            className='relative rounded border-2 shadow shadow-gray-300 hover:shadow-gray-200 cursor-pointer'
+            className='relative rounded border-2 shadow shadow-gray-300 hover:shadow-gray-200 cursor-pointer w-[25rem] h-[30rem] overflow-hidden'
         >
             <Image
                 src={imageUrl}
@@ -30,7 +30,7 @@ export default function Blog({
                 height={500}
                 priority
             />
-            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-20 right-6 p-2 font-bold text-white'>
+            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-[50%] right-6 p-2 font-bold text-white'>
                 <p className='mb-1 text-3xl'>{getDate(postedOn)}</p>
                 <p className='uppercase'>{getMonth(postedOn)}</p>
             </div>

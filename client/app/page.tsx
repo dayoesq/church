@@ -10,10 +10,10 @@ import Footer from './components/Footer';
 
 export default function Home() {
     return (
-        <main className="p-8">
+        <main className='p-8'>
             <Navigation />
-            <section className='flex justify-center align-middle min-h-[80vh]'>
-                <div className='m-auto text-white'>
+            <section className='h-[80vh]'>
+                <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit h-fit'>
                     <h1 className='text-[15rem] text-gray-700 font-bold uppercase'>
                         Jesus
                     </h1>
@@ -22,28 +22,26 @@ export default function Home() {
                     </h2>
                 </div>
             </section>
-            <section className='flex justify-center items-center min-h-[80vh] -mx-8 bg-white px-4'>
-                <div className='flex relative m-auto w-[50rem]'>
-                    <div className='p-4'>
-                        <Image
-                            src='/images/bible-the-way.jpg'
-                            alt='Bible Image'
-                            className=''
-                            width={500}
-                            height={500}
-                            priority
-                        />
-                    </div>
-                    <div className='absolute top-[30%] left-[30%] p-4'>
-                        <Image
-                            src='/images/worship.jpg'
-                            alt='Worship Image'
-                            className=''
-                            width={500}
-                            height={500}
-                            priority
-                        />
-                    </div>
+            {/* <section className='flex justify-center items-center h-[80vh] -mx-8 bg-white px-4 flex-wrap'>
+                <div className='relative m-auto w-[50rem]'>
+                    <Image
+                        src='/images/bible-the-way.jpg'
+                        alt='Bible Image'
+                        className=''
+                        width={500}
+                        height={500}
+                        priority
+                        objectFit='fit-content'
+                    />
+                    <Image
+                        src='/images/worship.jpg'
+                        alt='Worship Image'
+                        className='absolute top-[30%] left-[30%]'
+                        width={500}
+                        height={500}
+                        priority
+                        objectFit='fit-content'
+                    />
                 </div>
                 <div className='w-[50rem] flex flex-col items-start ml-8 leading-8 m-auto p-4 flex-wrap'>
                     <h1 className='uppercase text-gray-700 text-2xl tracking-wider my-3'>
@@ -77,9 +75,9 @@ export default function Home() {
                         ABOUT US
                     </Button>
                 </div>
-            </section>
+            </section> */}
             {blogs && blogs.length ? (
-                <section className='bg-gray-100 -mx-8 py-8'>
+                <section className='flex justify-center items-center flex-col bg-gray-100 -mx-8 py-8'>
                     <div className='text-center'>
                         <h1 className='text-3xl uppercase mb-4'>
                             From our blog posts
@@ -100,7 +98,7 @@ export default function Home() {
                     </div>
                     <Button
                         type='button'
-                        className='flex justify-self-center my-3 bg-gray-600 hover:bg-gray-700'
+                        className='mt-4 mb-12 bg-gray-600 hover:bg-gray-700'
                     >
                         READ ALL ARTICLES
                     </Button>
