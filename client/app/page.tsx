@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Button from './components/Button';
-import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Navigation from './components/Navigation';
 import Banner from './components/Banner';
 import { blogs } from './data/blog';
@@ -22,7 +21,7 @@ export default function Home() {
                     </h2>
                 </div>
             </section>
-            {/* <section className='flex justify-center items-center h-[80vh] -mx-8 bg-white px-4 flex-wrap'>
+            <section className='flex justify-center items-center -mx-8 bg-white px-4 flex-wrap'>
                 <div className='relative m-auto w-[50rem]'>
                     <Image
                         src='/images/bible-the-way.jpg'
@@ -31,7 +30,7 @@ export default function Home() {
                         width={500}
                         height={500}
                         priority
-                        objectFit='fit-content'
+                        quality={100}
                     />
                     <Image
                         src='/images/worship.jpg'
@@ -40,7 +39,7 @@ export default function Home() {
                         width={500}
                         height={500}
                         priority
-                        objectFit='fit-content'
+                        quality={100}
                     />
                 </div>
                 <div className='w-[50rem] flex flex-col items-start ml-8 leading-8 m-auto p-4 flex-wrap'>
@@ -75,7 +74,7 @@ export default function Home() {
                         ABOUT US
                     </Button>
                 </div>
-            </section> */}
+            </section>
             {blogs && blogs.length ? (
                 <section className='flex justify-center items-center flex-col bg-gray-100 -mx-8 py-8'>
                     <div className='text-center'>
@@ -98,7 +97,7 @@ export default function Home() {
                     </div>
                     <Button
                         type='button'
-                        className='mt-4 mb-12 bg-gray-600 hover:bg-gray-700'
+                        className='mt-4 mb-14 bg-gray-600 hover:bg-gray-700'
                     >
                         READ ALL ARTICLES
                     </Button>
