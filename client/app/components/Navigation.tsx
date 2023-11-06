@@ -1,21 +1,30 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 import Button from './Button';
+import { useState } from 'react';
 
 const navItems = [
     { name: 'Home', link: '/' },
-    { name: 'Contact', link: '/' },
-    { name: 'Donation', link: '/' },
-    { name: 'Events', link: '/' },
-    { name: 'Projects', link: '/' },
-    { name: 'About us', link: '/about us' }
+    { name: 'Contact', link: '/contacts' },
+    { name: 'Donations', link: '/donations' },
+    { name: 'Events', link: '/events' },
+    { name: 'Projects', link: '/projects' },
+    { name: 'About us', link: '/about' }
 ];
 
 export default function Navigation() {
+    const [showInput, setShowInput] = useState(false);
+
+    function toggleSearchInput() {
+        setShowInput(!showInput);
+    }
+
+    const inputClass = showInput ? 'visible opacity-1' : 'invisible opacity-0';
+
     return (
-        <nav className='top-4 flex align-middle'>
+        <nav className='top-4 flex justify-between items-center'>
             <a
                 className='inline-block'
                 href='#'
@@ -23,17 +32,17 @@ export default function Navigation() {
                 rel='noopener noreferrer'
             >
                 <Image
-                    src='/rccg-logo.svg'
+                    src='/images/church-logo.png'
                     alt='RCCG Logo'
                     className='dark:invert'
                     width={100}
                     height={100}
                     priority
-                    objectFit='fit-content'
+                    quality={100}
                 />
             </a>
 
-            <ul className='flex justify-between my-auto'>
+            <ul className='flex justify-between'>
                 {navItems.map(item => (
                     <Link href={item.link} key={item.name}>
                         <li
@@ -45,13 +54,23 @@ export default function Navigation() {
                     </Link>
                 ))}
             </ul>
-            <div className='flex justify-between my-auto ml-auto cursor-pointer'>
-                <MagnifyingGlassIcon color='grey' className='h-8 w-8' />
+            <div className='flex justify-between cursor-pointer gap-4'>
+                <form>
+                    <input
+                        type='text'
+                        name='search'
+                        className={`border-2 p-1 ${inputClass}`}
+                    />
+                </form>
+                <FaMagnifyingGlass
+                    className='fill-slate-400 h-8 w-8'
+                    onClick={toggleSearchInput}
+                />
                 <Button
                     type='button'
                     linkType='internal'
                     href='/donate'
-                    className='ml-4 bg-orange-600 hover:bg-orange-700'
+                    className='bg-orange-600 hover:bg-orange-700'
                 >
                     Donate Now
                 </Button>

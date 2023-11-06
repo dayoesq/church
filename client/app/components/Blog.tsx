@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { FaHeart } from 'react-icons/fa6';
 import { Blog } from '../data/blog';
 import { getDate, getMonth } from '@/util/date';
 
@@ -30,7 +31,8 @@ export default function Blog({
                 height={500}
                 priority
             />
-            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-[50%] right-6 p-2 font-bold text-white'>
+            {/* Date tag */}
+            <div className='absolute flex flex-col justify-center items-center w-18 bg-gray-500 bottom-[38%] right-0 p-2 font-bold text-white'>
                 <p className='mb-1 text-3xl'>{getDate(postedOn)}</p>
                 <p className='uppercase'>{getMonth(postedOn)}</p>
             </div>
@@ -39,6 +41,8 @@ export default function Blog({
                 <span className='inline-block text-gray-500 ml-2'>
                     {'-'} {comments.length} comments
                 </span>
+                <FaHeart className='fill-red-500 ml-2'/>
+                <small>100</small>
             </div>
             <h1 className='text-2xl text-gray-600 m-6'>{title}</h1>
         </div>
