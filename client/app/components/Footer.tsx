@@ -1,21 +1,29 @@
 import { FaFacebook, FaXTwitter, FaInstagram } from 'react-icons/fa6';
 
 import { programmes } from '../data/programme';
+import Link from 'next/link';
+
+const footerLinks = [
+    { name: 'Contacts', link: '/contacts' },
+    { name: 'Donations', link: '/donations' },
+    { name: 'Events', link: '/events' },
+    { name: 'Projects', link: '/projects' }
+];
 
 export default function Footer() {
     return (
-        <footer className='bg-[#161716d1] -mx-8 -mb-8 h-[30rem] px-16'>
-            <div className='flex flex-col'>
-                <div className='flex justify-center text-white border-b py-20'>
+        <footer className='bg-gray-700 px-8'>
+            <div className='flex flex-col border-b flex-wrap'>
+                <div className='flex justify-center text-white py-16 flex-wrap'>
                     <div className='my-4 tracking-wider'>
-                        <h1 className='mb-4 uppercase'>Address</h1>
+                        <h1 className='mb-6 uppercase'>Address</h1>
                         <p className='text-slate-400'>
                             Vähä-hamenkatu 12, 20398
                         </p>
                         <p className='text-slate-400'>Turku, Finland</p>
                     </div>
                     <div className='my-4 ml-20 tracking-wider'>
-                        <h1 className='mb-4 uppercase'>Weekly Programmes</h1>
+                        <h1 className='mb-6 uppercase'>Weekly Programmes</h1>
                         <ul>
                             {programmes.map(
                                 programme =>
@@ -27,88 +35,50 @@ export default function Footer() {
                                             <p className='my-2'>
                                                 {programme.day}
                                             </p>
-                                            <small className='text-slate-400'>
+                                            <p className='text-slate-400 text-sm'>
                                                 {programme.title} {' | '}
                                                 <span>
                                                     {programme.startsAt} -{' '}
                                                     {programme.endsAt}
                                                 </span>
                                                 {' | '} {programme.venue}
-                                            </small>
+                                            </p>
                                         </li>
                                     )
                             )}
                         </ul>
                     </div>
-                    <ul className='flex justify-center'>
-                        <li>
-                            <FaFacebook />
-                        </li>
-                        <li>
-                            <FaXTwitter />
-                        </li>
-                        <li>
-                            <FaInstagram />
-                        </li>
-                    </ul>
+                    <div className='my-4 ml-20 tracking-wider'>
+                        <h1 className='mb-6 uppercase'>Links</h1>
+                        <ul>
+                            {footerLinks.map(item => (
+                                <Link href={item.link} key={item.name}>
+                                    <li
+                                        className='text-slate-400 mb-3 hover:text-slate-300'
+                                        key={item.name}
+                                    >
+                                        <p className='text-sm'>{item.name}</p>
+                                    </li>
+                                </Link>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
+                <ul className='flex justify-center mb-6'>
+                    <li className='cursor-pointer'>
+                        <FaFacebook className='fill-blue-400 h-7 w-7' />
+                    </li>
+                    <li className='mx-6 cursor-pointer'>
+                        <FaXTwitter className='fill-slate-200 h-7 w-7' />
+                    </li>
+                    <li className='cursor-pointer '>
+                        <FaInstagram className='h-7 w-7 fill-pink-200' />
+                    </li>
+                </ul>
             </div>
-            <p className='text-center my-6 text-white'>
+            <p className='text-center py-10 text-white'>
                 <small>&copy; {new Date().getFullYear()} gracechapel.fi</small>
             </p>
         </footer>
     );
 }
-
-// import { FaFacebook, FaXTwitter, FaInstagram } from 'react-icons/fa6';
-
-// import { programmes } from '../data/programme';
-
-// export default function Footer() {
-//     return (
-//         <footer className='bg-[#161716d1] -mx-8 -mb-8 h-[30rem] px-16'>
-//             <div className='flex justify-center flex-wrap text-white border-b py-20'>
-//                 <div className='my-4 tracking-wider'>
-//                     <h1 className='mb-4 uppercase'>Address</h1>
-//                     <p className='text-slate-400'>Vähä-hamenkatu 12, 20398</p>
-//                     <p className='text-slate-400'>Turku, Finland</p>
-//                 </div>
-//                 <div className='my-4 ml-20 tracking-wider'>
-//                     <h1 className='mb-4 uppercase'>Weekly Programmes</h1>
-//                     <ul>
-//                         {programmes.map(
-//                             programme =>
-//                                 programme.isTakingPlace && (
-//                                     <li key={programme.day} className='mb-4'>
-//                                         <p className='my-2'>{programme.day}</p>
-//                                         <small className='text-slate-400'>
-//                                             {programme.title} {' | '}
-//                                             <span>
-//                                                 {programme.startsAt} -{' '}
-//                                                 {programme.endsAt}
-//                                             </span>
-//                                             {' | '} {programme.venue}
-//                                         </small>
-//                                     </li>
-//                                 )
-//                         )}
-//                     </ul>
-//                 </div>
-//                 <ul className='flex justify-center'>
-//                     <li>
-//                         <FaFacebook />
-//                     </li>
-//                     <li>
-//                         <FaXTwitter />
-//                     </li>
-//                     <li>
-//                         <FaInstagram />
-//                     </li>
-//                 </ul>
-//             </div>
-//             <p className='text-center my-6 text-white'>
-//                 <small>&copy; {new Date().getFullYear()} gracechapel.fi</small>
-//             </p>
-//         </footer>
-//     );
-// }

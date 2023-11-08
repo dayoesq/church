@@ -21,12 +21,12 @@ export default function Blog({
     return (
         <div
             key={title}
-            className='relative rounded border-2 shadow shadow-gray-300 hover:shadow-gray-200 cursor-pointer w-[25rem] h-[30rem] overflow-hidden'
+            className='relative rounded-lg border-2 shadow shadow-gray-300 hover:shadow-gray-200 cursor-pointer w-[25rem] h-[30rem] overflow-hidden'
         >
             <Image
                 src={imageUrl}
                 alt={title}
-                className='mb-4'
+                className='mb-4 rounded-lg'
                 width={400}
                 height={500}
                 priority
@@ -36,13 +36,13 @@ export default function Blog({
                 <p className='mb-1 text-3xl'>{getDate(postedOn)}</p>
                 <p className='uppercase'>{getMonth(postedOn)}</p>
             </div>
-            <div className='flex m-6'>
+            <div className='flex items-center m-6'>
                 <p className='text-gray-500'>{author}</p>
-                <span className='inline-block text-gray-500 ml-2'>
+                <span className='inline-block text-gray-500 m-2'>
                     {'-'} {comments.length} comments
                 </span>
-                <FaHeart className='fill-red-500 ml-2'/>
-                <small>100</small>
+                <FaHeart className='fill-red-500 mx-1' />
+                <small className='text-gray-500'>100</small>
             </div>
             <h1 className='text-2xl text-gray-600 m-6'>{title}</h1>
         </div>

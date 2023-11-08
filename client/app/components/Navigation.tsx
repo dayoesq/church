@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const navItems = [
     { name: 'Home', link: '/' },
-    { name: 'Contact', link: '/contacts' },
+    { name: 'Contacts', link: '/contacts' },
     { name: 'Donations', link: '/donations' },
     { name: 'Events', link: '/events' },
     { name: 'Projects', link: '/projects' },
@@ -24,7 +24,7 @@ export default function Navigation() {
     const inputClass = showInput ? 'visible opacity-1' : 'invisible opacity-0';
 
     return (
-        <nav className='top-4 flex justify-between items-center'>
+        <nav className='top-4 flex justify-between items-center p-8'>
             <a
                 className='inline-block'
                 href='#'
