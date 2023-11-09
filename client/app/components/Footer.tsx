@@ -1,4 +1,9 @@
-import { FaFacebook, FaXTwitter, FaInstagram } from 'react-icons/fa6';
+import {
+    FaFacebook,
+    FaXTwitter,
+    FaInstagram,
+    FaEnvelope
+} from 'react-icons/fa6';
 
 import { programmes } from '../data/programme';
 import Link from 'next/link';
@@ -21,6 +26,12 @@ export default function Footer() {
                             Vähä-hamenkatu 12, 20398
                         </p>
                         <p className='text-slate-400'>Turku, Finland</p>
+                        <div className='flex items-center mt-4'>
+                            <FaEnvelope className='h-4 w-4 fill-slate-400' />
+                            <span className='text-slate-400 ml-2'>
+                                <p>info@gracechapel.fi</p>
+                            </span>
+                        </div>
                     </div>
                     <div className='my-4 ml-20 tracking-wider'>
                         <h1 className='mb-6 uppercase'>Weekly Programmes</h1>

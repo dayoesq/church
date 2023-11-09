@@ -38,7 +38,7 @@ export const programmes: Programme[] = [
     },
     {
         day: 'Thursday',
-        title: 'The Power of Marriage as Described By The Bible sdkshdjsdkjbfk',
+        title: 'The Power of Marriage as Described By The Bible',
         startsAt: '2023-10-15',
         endsAt: '2023-10-15',
         venue: 'church',

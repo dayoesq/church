@@ -1,12 +1,15 @@
 'use client';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
 import Button from './components/Button';
 import Navigation from './components/Navigation';
 import Banner from './components/Banner';
 import { blogs } from './data/blog';
 import Blog from './components/Blog';
 import Footer from './components/Footer';
+import { events } from './data/event';
+import Event from './components/Event';
 
 const texts = ['Meeting Place', 'Place of Freedom', 'Filling Station'];
 const images = [
@@ -17,7 +20,6 @@ const images = [
 
 export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [animationClass, setAnimationClass] = useState('animate-slideIn');
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -92,9 +94,68 @@ export default function Home() {
                     </Button>
                 </div>
             </section>
-            <section className='flex justify-center flex-col flex-wrap h-[60vh] m-auto  bg-gradient-to-r from-slate-300 to-blue-500] -mb-16'>
+            {/* Events */}
+            {events && events.length > 0 && (
+                <section className='flex justify-center flex-col flex-wrap h-[80vh] m-auto bg-gradient-to-r from-yellow-50 to-green-50'>
+                    <div className='flex justify-between flex-wrap w-3/5 mx-auto mb-8'>
+                        <div className='h-fit w-fit'>
+                            <h1 className='uppercase mb-4 text-gray-800 text-2xl font-bold'>
+                                calendar
+                            </h1>
+                            <h2 className='uppercase font-bold text-gray-500'>
+                                Our Events
+                            </h2>
+                        </div>
+                        <div className='m-auto overflow-hidden w-2/4'>
+                            <p className='leading-wider'>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Quisque gravida risus quis
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Quisque gravida risus quis
+                            </p>
+                        </div>
+                        <div>
+                            <Button
+                                type='button'
+                                className=' bg-gray-600 hover:bg-gray-700'
+                            >
+                                <div className='flex items-center'>
+                                    <p>more</p>
+                                    <FaArrowRight className='w-4 h-4 fill-white-500 ml-2' />
+                                </div>
+                            </Button>
+                        </div>
+                    </div>
+                    <ul className='mx-auto'>
+                        {events.map((event, index, eventsArr) => (
+                            <li
+                                key={event.id}
+                                className={` ${
+                                    index < events.length - 1 &&
+                                    eventsArr.length >= 2
+                                        ? 'border-b-2'
+                                        : ''
+                                }`}
+                            >
+                                <Event
+                                    id={event.id}
+                                    title={event.title}
+                                    startsAt={event.startsAt}
+                                    endsAt={event.endsAt}
+                                    isFree={event.isFree}
+                                    cost={event.cost}
+                                    imageSource={event.imageSource}
+                                    location={event.location}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+            {/* Sample Worship Sound */}
+            <section className='flex justify-center flex-col flex-wrap h-[60vh] m-auto  bg-gradient-to-r from-slate-100 to-blue-200 -mb-16'>
                 <div className='flex justify-center flex-col m-auto'>
-                    <h1 className='my-8 text-4xl uppercase'>
+                    <h1 className='text-3xl my-8 uppercase text-center'>
                         The Sound of Our Worship
                     </h1>
                     <div className='flex overflow-hidden flex-wrap'>
@@ -123,10 +184,11 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            {blogs && blogs.length ? (
+            {/* Latest and Popular Blog Posts*/}
+            {blogs && blogs.length > 0 && (
                 <section className='flex justify-center items-center flex-col bg-gray-100 py-8 mt-16'>
                     <div className='text-center'>
-                        <h1 className='text-3xl uppercase mb-4'>
+                        <h1 className='text-3xl uppercase my-8'>
                             From our blog posts
                         </h1>
                         <h2 className='text-2xl text-gray-500'>Grace Chapel</h2>
@@ -150,7 +212,7 @@ export default function Home() {
                         READ ALL ARTICLES
                     </Button>
                 </section>
-            ) : null}
+            )}
 
             <Footer />
         </main>
