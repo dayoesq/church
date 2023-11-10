@@ -5,7 +5,7 @@ import {
     FaEnvelope
 } from 'react-icons/fa6';
 
-import { programmes } from '../data/programme';
+import { programmes } from '@/data/programme';
 import Link from 'next/link';
 
 const footerLinks = [

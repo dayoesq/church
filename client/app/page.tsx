@@ -2,14 +2,14 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa6';
-import Button from './components/Button';
-import Navigation from './components/Navigation';
-import Banner from './components/Banner';
-import { blogs } from './data/blog';
-import Blog from './components/Blog';
-import Footer from './components/Footer';
-import { events } from './data/event';
-import Event from './components/Event';
+import Button from '@/components/Button';
+import Navigation from '@/components/Navigation';
+import Banner from '@/components/Banner';
+import { blogs } from '@/data/blog';
+import Blog from '@/components/Blog';
+import Footer from '@/components/Footer';
+import { events } from '@/data/event';
+import Event from '@/components/Event';
 
 const texts = ['Meeting Place', 'Place of Freedom', 'Filling Station'];
 const images = [
@@ -24,7 +24,7 @@ export default function Home() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentIndex((currentIndex + 1) % texts.length);
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(timer);
     }, [currentIndex]);
@@ -47,8 +47,8 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className='flex justify-center items-center flex-wrap h-[60vh] w-4/5 m-auto'>
-                <div className='relative w-96 ml-auto'>
+            <section className='flex justify-center items-center flex-wrap h-[60vh] w-4/5 m-auto '>
+                <div className='relative w-96 ml-auto sm:justify-start'>
                     <Image
                         src='/images/bible-the-way.jpg'
                         alt='Bible Image'
