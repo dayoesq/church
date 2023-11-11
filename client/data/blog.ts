@@ -35,12 +35,12 @@ export const blogs: Blog[] = [
         postedOn: '2023-10-25',
         imageUrl: '/images/worship.jpg',
         comments: ['Who can stand against the Lord', 'Awesome God']
-    },
-    {
-        title: 'God is Good',
-        author: 'Sarah Davis',
-        postedOn: '2023-10-27',
-        imageUrl: '/images/worship.jpg',
-        comments: []
     }
+    // {
+    //     title: 'God is Good',
+    //     author: 'Sarah Davis',
+    //     postedOn: '2023-10-27',
+    //     imageUrl: '/images/worship.jpg',
+    //     comments: []
+    // }
 ];

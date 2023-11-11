@@ -18,13 +18,12 @@ const footerLinks = [
 export default function Footer() {
     return (
         <footer className='bg-gray-700 px-8'>
-            <div className='flex flex-col border-b flex-wrap'>
+            <div className='flex flex-col border-b flex-wrap max-w-7xl justify-between m-auto'>
                 <div className='flex justify-center text-white py-16 flex-wrap'>
                     <div className='my-4 tracking-wider'>
                         <h1 className='mb-6 uppercase'>Address</h1>
-                        <p className='text-slate-400'>
-                            Vähä-hamenkatu 12, 20398
-                        </p>
+                        <p className='text-slate-400'>Vähä-hamenkatu 12,</p>
+                        <p className='text-slate-400'>20398</p>
                         <p className='text-slate-400'>Turku, Finland</p>
                         <div className='flex items-center mt-4'>
                             <FaEnvelope className='h-4 w-4 fill-slate-400' />
@@ -33,7 +32,7 @@ export default function Footer() {
                             </span>
                         </div>
                     </div>
-                    <div className='my-4 ml-20 tracking-wider'>
+                    <div className='my-4 tracking-wider mx-20'>
                         <h1 className='mb-6 uppercase'>Weekly Programmes</h1>
                         <ul>
                             {programmes.map(
@@ -59,7 +58,7 @@ export default function Footer() {
                             )}
                         </ul>
                     </div>
-                    <div className='my-4 ml-20 tracking-wider'>
+                    <div className='my-4 tracking-wider'>
                         <h1 className='mb-6 uppercase'>Links</h1>
                         <ul>
                             {footerLinks.map(item => (
