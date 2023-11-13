@@ -5,7 +5,6 @@ import { FaXmark, FaMagnifyingGlass, FaBars } from 'react-icons/fa6';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
-import ActionModal from './modals/ActionModal';
 import SearchModal from './modals/SearchModal';
 import { searchData } from '@/data/search-data';
 
@@ -37,16 +36,6 @@ export default function Navigation() {
                     searchData={searchData}
                 />
             )}
-            {/* {show && (
-                <ActionModal
-                    show={show}
-                    message='Are you sure?'
-                    actionName='Delete'
-                    actionTitle='Delete Account'
-                    onClick={() => alert('hello')}
-                    onCancel={() => setShow(false)}
-                />
-            )} */}
 
             {/* Mobile menu */}
             <Transition.Root show={open} as={Fragment}>

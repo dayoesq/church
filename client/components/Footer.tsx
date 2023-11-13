@@ -17,7 +17,7 @@ const footerLinks = [
 
 export default function Footer() {
     return (
-        <footer className='bg-gray-700 px-8'>
+        <footer className='bg-gray-700 px-4'>
             <div className='flex flex-col border-b flex-wrap max-w-7xl justify-between m-auto'>
                 <div className='flex justify-center text-white py-16 flex-wrap'>
                     <div className='my-4 tracking-wider'>
