@@ -47,71 +47,63 @@ export default function Home() {
                 </div>
             </section>
             {/* What we stand for */}
-            <section className='h-[70vh]'>
-                <div className='flex justify-between items-center flex-wrap max-w-7xl m-auto mt-20'>
-                    <div className='relative mr-20'>
-                        <Image
-                            src='/images/bible-the-way.jpg'
-                            alt='Bible Image'
-                            className='rounded-lg'
-                            width={400}
-                            height={400}
-                            priority
-                            quality={100}
-                        />
-                        <Image
-                            src='/images/worship.jpg'
-                            alt='Worship Image'
-                            className='absolute top-[30%] left-[30%] rounded-lg'
-                            width={400}
-                            height={400}
-                            priority
-                            quality={100}
-                        />
-                    </div>
-                    <div className='max-w-2xl flex flex-col items-start leading-8 p-4 m-auto flex-wrap'>
-                        <h1 className='uppercase text-gray-700 text-2xl tracking-wider my-3'>
-                            Our values
-                        </h1>
-                        <h1 className='text-5xl my-3 text-gray-700'>
-                            <span className='uppercase tracking-wider'>
-                                God
-                            </span>{' '}
-                            is{' '}
-                            <span className='uppercase tracking-wider'>
-                                love
-                            </span>
-                        </h1>
-                        <p className='text-gray-600'>
-                            Welcome to our online space dedicated to the
-                            foundational truth that shapes our faith journey:
-                            &ldquo;God is love.&ldquo; As your pastor, I am
-                            excited to share with you the profound significance
-                            of this simple yet powerful declaration that
-                            underpins the core of our Christian beliefs. In the
-                            tapestry of our faith, we find the threads of love
-                            intricately woven throughout the pages of the Bible.
-                            From Genesis to Revelation, the scriptures reveal
-                            God&rsquo;s unwavering love as the heartbeat of our
-                            spiritual narrative. As it says in 1 John 4:8,
-                            &ldquo;Whoever does not love does not know God,
-                            because God is love.&ldquo; This truth is not just a
-                            theological concept; it is the essence of who our
-                            Creator is—a boundless, unconditional love that
-                            surpasses human understanding.
-                        </p>
-                        <Button
-                            type='button'
-                            className='my-3 bg-gray-600 hover:bg-gray-700'
-                        >
-                            ABOUT US
-                        </Button>
-                    </div>
+            <section className='flex justify-between items-center flex-wrap max-w-7xl m-auto py-8 px-4 my-20'>
+                <div className='relative'>
+                    <Image
+                        src='/images/bible-the-way.jpg'
+                        alt='Bible Image'
+                        className='rounded-lg md:shrink-0'
+                        width={400}
+                        height={400}
+                        priority
+                        quality={100}
+                    />
+                    {/* <Image
+                        src='/images/worship.jpg'
+                        alt='Worship Image'
+                        className='absolute top-[30%] left-[30%] rounded-lg 2xl:hidden'
+                        width={400}
+                        height={400}
+                        priority
+                        quality={100}
+                    /> */}
+                </div>
+                <div className='max-w-2xl flex flex-col items-start leading-8 p-4 m-auto flex-wrap'>
+                    <h1 className='uppercase text-gray-700 text-2xl tracking-wider my-3'>
+                        Our values
+                    </h1>
+                    <h1 className='text-5xl my-3 text-gray-700'>
+                        <span className='uppercase tracking-wider'>God</span> is{' '}
+                        <span className='uppercase tracking-wider'>love</span>
+                    </h1>
+                    <p className='text-gray-600'>
+                        Welcome to our online space dedicated to the
+                        foundational truth that shapes our faith journey:
+                        &ldquo;God is love.&ldquo; As your pastor, I am excited
+                        to share with you the profound significance of this
+                        simple yet powerful declaration that underpins the core
+                        of our Christian beliefs. In the tapestry of our faith,
+                        we find the threads of love intricately woven throughout
+                        the pages of the Bible. From Genesis to Revelation, the
+                        scriptures reveal God&rsquo;s unwavering love as the
+                        heartbeat of our spiritual narrative. As it says in 1
+                        John 4:8, &ldquo;Whoever does not love does not know
+                        God, because God is love.&ldquo; This truth is not just
+                        a theological concept; it is the essence of who our
+                        Creator is—a boundless, unconditional love that
+                        surpasses human understanding.
+                    </p>
+                    <Button
+                        type='button'
+                        className='my-3 bg-gray-600 hover:bg-gray-700'
+                    >
+                        ABOUT US
+                    </Button>
                 </div>
             </section>
             {/* Events */}
             {events && events.length > 0 && (
-                <section className='flex justify-center flex-col flex-wrap h-[80vh] m-auto bg-gradient-to-r from-yellow-50 to-transparent'>
+                <section className='flex justify-center flex-col flex-wrap m-auto bg-gradient-to-r from-yellow-50 to-transparent py-8 px-4 my-20'>
                     <div className='flex justify-between flex-wrap max-w-7xl mx-auto mb-8'>
                         <div className='h-fit w-fit'>
                             <h1 className='uppercase mb-4 text-gray-800 text-2xl font-bold'>
@@ -168,18 +160,18 @@ export default function Home() {
                 </section>
             )}
             {/* Sample Worship Sound */}
-            <section className='flex justify-center flex-col flex-wrap h-[60vh] m-auto -mb-16'>
-                <div className='flex justify-center flex-col m-auto max-w-7xl'>
-                    <h1 className='text-3xl my-10 uppercase text-center'>
-                        The Sound of Our Worship
-                    </h1>
-                    <div className='flex overflow-hidden flex-wrap'>
+            <section className='my-20 py-8'>
+                <h1 className='text-3xl my-10 uppercase text-center'>
+                    The Sound of Our Worship
+                </h1>
+                <div className='m-auto max-w-7xl'>
+                    <div className='flex justify-center flex-wrap'>
                         <Image
                             src='/images/bible-the-way.jpg'
                             alt='Bible Image'
-                            className='rounded-l-lg'
-                            width={400}
-                            height={400}
+                            className='rounded-l-lg object-cover'
+                            width={300}
+                            height={300}
                             priority
                             quality={100}
                         />
@@ -200,40 +192,93 @@ export default function Home() {
                 </div>
             </section>
             {/* The Gallery */}
-            <section>
+            <section className='my-20 py-8'>
                 <div className='max-w-7xl m-auto'>
                     <h1 className='text-3xl my-10 uppercase text-center'>
                         From the gallery
                     </h1>
-                    <div className='grid grid-cols-3 grid-rows-3 gap-4 h-[70vh]'>
-                        <div className='col-span-1 row-span-1 bg-blue-500'>
-                            1
-                        </div>
-                        <div className='col-span-1 row-span-3 bg-green-500'>
+                    <div className='flex justify-center flex-wrap'>
+                        <div className='h-[30rem] w-[25rem] bg-red-500'>1</div>
+                        <div className='h-[30rem] w-[25rem] bg-yellow-500'>
                             2
                         </div>
-                        <div className='col-span-1 row-span-1 bg-red-500'>
-                            3
-                        </div>
-                        <div className='col-span-1 row-span-1 bg-yellow-500'>
+                        <div className='h-[30rem] w-[25rem] bg-red-500'>3</div>
+                        <div className='h-[30rem] w-[25rem] bg-yellow-500'>
                             4
                         </div>
-                        <div className='col-span-1 row-span-1 bg-purple-500'>
-                            5
-                        </div>
-                        <div className='col-span-1 row-span-1 bg-pink-500'>
+                        <div className='h-[30rem] w-[25rem] bg-red-500'>5</div>
+                        <div className='h-[30rem] w-[25rem] bg-yellow-500'>
                             6
-                        </div>
-                        <div className='col-span-1 row-span-1 bg-indigo-500'>
-                            7
                         </div>
                     </div>
                 </div>
             </section>
+            {/* Audio sermons */}
+            <section className='my-20 py-8'>
+                <h1 className='text-3xl my-10 uppercase text-center'>
+                    Latest Messages
+                </h1>
+                <div className='m-auto max-w-7xl'>
+                    <div className='mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl'>
+                        <div className='md:flex'>
+                            <div className='md:shrink-0'>
+                                <Image
+                                    src='/images/bible-the-way.jpg'
+                                    alt='Jesus is the Way'
+                                    className='rounded h-48 w-full object-cover md:h-full md:w-48'
+                                    width={100}
+                                    height={100}
+                                    priority
+                                    quality={100}
+                                />
+                            </div>
+                            <div className='bg-white p-4'>
+                                <h1 className='my-4 text-2xl'>
+                                    He That Has Breath, Praise The Lord!
+                                </h1>
+                                <span className='text-gray-500'>Sermon</span>
+                                <audio controls className='my-8'>
+                                    <source
+                                        src='/audios/random-praise.m4a'
+                                        type='audio/mpeg'
+                                    />
+                                    Your browser does not support the audio
+                                    element.
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className='flex justify-center flex-wrap'>
+                        <Image
+                            src='/images/bible-the-way.jpg'
+                            alt='Bible Image'
+                            className='rounded'
+                            width={100}
+                            height={100}
+                            priority
+                            quality={100}
+                            // style={props.imageStyle}
+                        />
+                        <div className='bg-white p-4'>
+                            <h1 className='my-4 text-2xl'>
+                                He That Has Breath, Praise The Lord!
+                            </h1>
+                            <span className='text-gray-500'>Sermon</span>
+                            <audio controls className='my-8'>
+                                <source
+                                    src='/audios/random-praise.m4a'
+                                    type='audio/mpeg'
+                                />
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div> */}
+                </div>
+            </section>
             {/* Latest and Popular Blog Posts*/}
             {blogs && blogs.length > 0 && (
-                <section className='flex justify-center items-center flex-col bg-gradient-to-r from-transparent to-gray-100  py-8 mt-16'>
-                    <div className='max-w-7xl'>
+                <section className='bg-gradient-to-r from-transparent to-gray-100  py-8 my-20'>
+                    <div className='max-w-7xl m-auto'>
                         <div className='text-center'>
                             <h1 className='text-3xl uppercase my-10'>
                                 From our blog posts
