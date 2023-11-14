@@ -1,16 +1,16 @@
 import { Audio } from '@/data/audio';
 import Image from 'next/image';
 
-export default function Audio({ ...props }: Audio) {
+export default function AudioMessage({ ...props }: Audio) {
     return (
-        <div className='mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl'>
+        <div className='mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-4'>
             <div className='md:flex'>
                 <div className='md:shrink-0'>
                     <Image
                         src={props.imageUrl}
                         alt={props.title}
-                        className='rounded h-48 w-full object-cover md:h-full md:w-48'
-                        width={100}
+                        className='rounded-l-sm h-48 w-full object-cover md:h-full md:w-48'
+                        width={400}
                         height={100}
                         priority
                         quality={100}
