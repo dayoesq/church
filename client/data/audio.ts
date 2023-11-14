@@ -5,7 +5,7 @@ export interface Audio {
     genre: 'worship' | 'sermon' | 'praise';
     imageUrl: string;
     audioUrl: string;
-    deliveredOn: string;
+    deliveredOn?: string;
 }
 
 export const audios: Audio[] = [
@@ -30,19 +30,11 @@ export const audios: Audio[] = [
     {
         id: 3,
         author: undefined,
-        title: 'Ligh of the World',
+        title: 'Light of the World',
         genre: 'worship',
         imageUrl: '/images/bible-the-way.jpg',
         audioUrl: '/audios/random-praise.m4a',
         deliveredOn: '2023-10-26'
     },
-    {
-        id: 4,
-        author: undefined,
-        title: 'No one Like Him',
-        genre: 'worship',
-        imageUrl: '/images/bible-the-way.jpg',
-        audioUrl: '/audios/random-praise.m4a',
-        deliveredOn: '2023-10-26'
-    }
+    
 ];
