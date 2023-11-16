@@ -18,7 +18,7 @@ const footerLinks = [
 export default function Footer() {
     return (
         <footer className='bg-gray-700 px-4'>
-            <div className='flex flex-col border-b flex-wrap max-w-7xl justify-between m-auto'>
+            <div className='flex flex-col border-b flex-wrap md:max-w-7xl justify-between m-auto'>
                 <div className='flex justify-center text-white py-16 flex-wrap'>
                     <div className='my-4 tracking-wider'>
                         <h1 className='mb-6 uppercase'>Address</h1>
@@ -76,13 +76,13 @@ export default function Footer() {
                 </div>
                 <ul className='flex justify-center mb-6'>
                     <li className='cursor-pointer'>
-                        <FaFacebook className='fill-blue-400 h-7 w-7' />
+                        <FaFacebook className='fill-blue-400 h-7 md:w-7' />
                     </li>
                     <li className='mx-6 cursor-pointer'>
-                        <FaXTwitter className='fill-slate-200 h-7 w-7' />
+                        <FaXTwitter className='fill-slate-200 h-7 md:w-7' />
                     </li>
                     <li className='cursor-pointer '>
-                        <FaInstagram className='h-7 w-7 fill-pink-200' />
+                        <FaInstagram className='h-7 md:w-7 fill-pink-200' />
                     </li>
                 </ul>
             </div>

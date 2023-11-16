@@ -14,24 +14,16 @@ import Event from '@/components/Event';
 import { Audio, audios } from '@/data/audio';
 import Header from '@/components/Header';
 import Section from '@/components/Section';
+import Link from 'next/link';
 
 const texts = ['Meeting Place', 'Place of Freedom', 'Filling Station'];
 const images = [
     '/images/bible-the-way.jpg',
     '/images/worship.jpg',
-    '/images/bible-the-way.jpg'
+    '/images/bible.jpg'
 ];
 
 export default function Home() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentIndex((currentIndex + 1) % texts.length);
-        }, 5000);
-
-        return () => clearInterval(timer);
-    }, [currentIndex]);
 
     function getAudio(genre: Audio['genre']) {
         if (audios && audios.length > 0) {
@@ -43,27 +35,57 @@ export default function Home() {
         <>
             <Header />
             <main>
-                <section className='h-screen relative'>
-                    <Image
-                        src={images[currentIndex]}
-                        alt='Background'
-                        className='w-full h-full object-cover transition-opacity duration-500 ease-in-out'
-                        width={500}
-                        height={500}
-                        priority
-                        quality={100}
-                    />
-                    <div className='text-8xl font-bold text-white uppercase absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10'>
-                        {texts[currentIndex]}
+                <section className='hero-section'>
+                    <div
+                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
+                        style={{
+                            backgroundImage: 'url("/images/bible-the-way.jpg")',
+                            animationDelay: '0s',
+                            opacity: '1'
+                        }}
+                    >
+                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
+                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
+                                place of freedom
+                            </h2>
+                        </div>
+                    </div>
+                    <div
+                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
+                        style={{
+                            backgroundImage: 'url("/images/worship.jpg")',
+                            animationDelay: '8s',
+                            opacity: '0'
+                        }}
+                    >
+                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
+                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
+                                filling station
+                            </h2>
+                        </div>
+                    </div>
+                    <div
+                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
+                        style={{
+                            backgroundImage: 'url("/images/bible.jpg")',
+                            animationDelay: '16s',
+                            opacity: '0'
+                        }}
+                    >
+                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
+                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
+                                meeting place
+                            </h2>
+                        </div>
                     </div>
                 </section>
                 {/* What we stand for */}
-                <section className='flex justify-between items-center flex-wrap max-w-7xl m-auto py-8 px-4 my-20'>
-                    <div className='relative'>
+                <section className='md:flex justify-between items-center flex-wrap md:max-w-7xl m-auto py-8 px-4 my-20 md:items-center'>
+                    <div className='md:shrink-0'>
                         <Image
                             src='/images/bible-the-way.jpg'
                             alt='Bible Image'
-                            className='rounded-lg md:shrink-0'
+                            className='rounded-lg object-cover w-full md:w-full md:h-60'
                             width={400}
                             height={400}
                             priority
@@ -101,21 +123,23 @@ export default function Home() {
                             Creator is—a boundless, unconditional love that
                             surpasses human understanding.
                         </p>
-                        <Button
-                            type='button'
-                            className='my-3 bg-gray-600 hover:bg-gray-700'
-                        >
-                            ABOUT US
-                        </Button>
+                        <Link href='/about'>
+                            <Button
+                                type='button'
+                                className='my-3 bg-gray-600 hover:bg-gray-700'
+                            >
+                                ABOUT US
+                            </Button>
+                        </Link>
                     </div>
                 </section>
                 {/* Events */}
                 {events && events.length > 0 && (
                     <section className='flex justify-center flex-col flex-wrap m-auto bg-gradient-to-r from-yellow-50 to-transparent py-8 px-4 my-20'>
-                        <div className='flex justify-between flex-wrap max-w-7xl mx-auto mb-8'>
+                        <div className='flex justify-between flex-wrap md:max-w-7xl mx-auto mb-8'>
                             <div className='h-fit w-fit'>
                                 <h1 className='uppercase mb-4 text-gray-800 text-2xl font-bold'>
-                                    calendar
+                                    Calendar
                                 </h1>
                                 <h2 className='uppercase font-bold text-gray-500'>
                                     Our Events
@@ -171,17 +195,19 @@ export default function Home() {
                 {/* Sample Worship Sound */}
                 {getAudio('worship') && getAudio('worship').length > 0 && (
                     <Section title='Our Worship'>
-                        <div className='m-auto max-w-7xl px-4'>
+                        <div className='m-auto md:max-w-7xl px-4'>
                             <ul>
                                 {getAudio('worship').map(audio => (
-                                    <AudioMessage
-                                        id={audio.id}
-                                        key={audio.id}
-                                        title={audio.title}
-                                        imageUrl={audio.imageUrl}
-                                        audioUrl={audio.audioUrl}
-                                        genre={audio.genre}
-                                    />
+                                    <li key={audio.id}>
+                                        <AudioMessage
+                                            id={audio.id}
+                                            key={audio.id}
+                                            title={audio.title}
+                                            imageUrl={audio.imageUrl}
+                                            audioUrl={audio.audioUrl}
+                                            genre={audio.genre}
+                                        />
+                                    </li>
                                 ))}
                             </ul>
                         </div>
@@ -189,47 +215,57 @@ export default function Home() {
                 )}
 
                 {/* The Gallery */}
-                <Section title='From Our Gallery'>
-                    <div className='max-w-7xl m-auto'>
+                <section>
+                    <div className='md:max-w-7xl lg:max-w-7xl xl:max-w-7xl m-auto px-4'>
                         <div className='flex justify-center flex-wrap'>
-                            <div className='h-[30rem] w-[25rem] bg-red-500'>
+                            <div className='h-[30rem] md:w-[25rem] w-full bg-red-500'>
                                 1
                             </div>
-                            <div className='h-[30rem] w-[25rem] bg-yellow-500'>
+                            <div className='h-[30rem] lg:w-[25rem] md:w-[25rem] w-full bg-yellow-500'>
                                 2
                             </div>
-                            <div className='h-[30rem] w-[25rem] bg-red-500'>
+                            <div className='h-[30rem] md:w-[25rem] w-full bg-red-500'>
                                 3
                             </div>
-                            <div className='h-[30rem] w-[25rem] bg-yellow-500'>
+                            <div className='h-[30rem] md:w-[25rem] w-full bg-yellow-500'>
                                 4
                             </div>
-                            <div className='h-[30rem] w-[25rem] bg-red-500'>
+                            <div className='h-[30rem] md:w-[25rem] w-full bg-red-500'>
                                 5
                             </div>
-                            <div className='h-[30rem] w-[25rem] bg-yellow-500'>
+                            <div className='h-[30rem] md:w-[25rem] w-full bg-yellow-500'>
                                 6
                             </div>
                         </div>
                     </div>
-                </Section>
+                </section>
                 {/* Audio sermons */}
                 {getAudio('sermon')?.length > 0 && (
                     <Section title='Latest Messages'>
-                        <div className='m-auto max-w-7xl px-4'>
+                        <div className='m-auto max-w-7xl px-4 mb-8'>
                             <ul>
                                 {getAudio('sermon').map(audio => (
-                                    <AudioMessage
-                                        id={audio.id}
-                                        key={audio.id}
-                                        title={audio.title}
-                                        imageUrl={audio.imageUrl}
-                                        audioUrl={audio.audioUrl}
-                                        genre={audio.genre}
-                                    />
+                                    <li key={audio.id}>
+                                        <AudioMessage
+                                            id={audio.id}
+                                            key={audio.id}
+                                            title={audio.title}
+                                            imageUrl={audio.imageUrl}
+                                            audioUrl={audio.audioUrl}
+                                            genre={audio.genre}
+                                        />
+                                    </li>
                                 ))}
                             </ul>
                         </div>
+                        <Link href='/sermons'>
+                            <Button
+                                type='button'
+                                className='flex mt-4 mb-14 bg-gray-600 hover:bg-gray-700 m-auto'
+                            >
+                                MORE MESSAGES
+                            </Button>
+                        </Link>
                     </Section>
                 )}
                 {/* Latest and Popular Blog Posts*/}
@@ -238,30 +274,34 @@ export default function Home() {
                         title='From our blog posts'
                         className='bg-gradient-to-r from-transparent to-gray-100'
                     >
-                        <div className='max-w-7xl m-auto'>
+                        <div className='md:max-w-7xl m-auto px-4'>
                             <div className='text-center'>
                                 <h2 className='text-2xl text-gray-500'>
                                     Grace Chapel
                                 </h2>
                             </div>
-                            <div className='flex justify-center items-center gap-6 py-8 flex-wrap'>
+                            <ul className='flex justify-center items-center md:gap-4 py-8 flex-wrap gap-y-4'>
                                 {blogs.map(blog => (
-                                    <Blog
-                                        key={blog.title}
-                                        author={blog.author}
-                                        title={blog.title}
-                                        postedOn={blog.postedOn}
-                                        imageUrl={blog.imageUrl}
-                                        comments={blog.comments}
-                                    />
+                                    <li key={blog.id}>
+                                        <Blog
+                                            id={blog.id}
+                                            author={blog.author}
+                                            title={blog.title}
+                                            postedOn={blog.postedOn}
+                                            imageUrl={blog.imageUrl}
+                                            comments={blog.comments}
+                                        />
+                                    </li>
                                 ))}
-                            </div>
-                            <Button
-                                type='button'
-                                className='flex mt-4 mb-14 bg-gray-600 hover:bg-gray-700 m-auto'
-                            >
-                                READ ALL ARTICLES
-                            </Button>
+                            </ul>
+                            <Link href='/blogs'>
+                                <Button
+                                    type='button'
+                                    className='flex mt-4 mb-14 bg-gray-600 hover:bg-gray-700 m-auto'
+                                >
+                                    READ ALL ARTICLES
+                                </Button>
+                            </Link>
                         </div>
                     </Section>
                 )}
