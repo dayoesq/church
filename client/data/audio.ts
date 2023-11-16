@@ -24,7 +24,7 @@ export const audios: Audio[] = [
         title: 'Jesus is Lord',
         genre: 'sermon',
         imageUrl: '/images/bible-the-way.jpg',
-        audioUrl: '',
+        audioUrl: '/audios/random-praise.m4a',
         deliveredOn: '2023-10-26'
     },
     {
@@ -35,6 +35,5 @@ export const audios: Audio[] = [
         imageUrl: '/images/bible-the-way.jpg',
         audioUrl: '/audios/random-praise.m4a',
         deliveredOn: '2023-10-26'
-    },
-    
+    }
 ];

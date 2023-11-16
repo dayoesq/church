@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function AudioMessage({ ...props }: Audio) {
     return (
-        <div className='mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-4'>
+        <article className='mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-4'>
             <div className='md:flex'>
                 <div className='md:shrink-0'>
                     <Image
@@ -25,6 +25,6 @@ export default function AudioMessage({ ...props }: Audio) {
                     </audio>
                 </div>
             </div>
-        </div>
+        </article>
     );
 }
