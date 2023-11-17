@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { blogs, BlogPost } from '@/data/blog';
 import Blog from '@/components/Blog';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Navigation from '@/components/Navigation';
 
 export default function Page() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -17,7 +17,7 @@ export default function Page() {
 
     return (
         <>
-            <Header />
+            <Navigation />
             <div className=''>
                 <h1 className='text-center text-5xl uppercase my-20'>
                     Our Blog Posts

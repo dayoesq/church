@@ -23,6 +23,11 @@ export default function AudioMessage({ ...props }: Audio) {
                         <source src={props.audioUrl} type='audio/mpeg' />
                         Your browser does not support the audio element.
                     </audio>
+                    {props.author && (
+                        <p className='text-gray-500'>
+                            Delivered by: {props.author}
+                        </p>
+                    )}
                 </div>
             </div>
         </article>

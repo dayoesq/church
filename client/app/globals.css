@@ -28,35 +28,12 @@
   background: url('/images/vector-image.jpg')
 } */
 
-@keyframes imageCarousel {
-
-  0%,
-  100% {
-    opacity: 0;
+/* @layer base {
+  html {
+    font-family: "Ubuntu", sans-serif;
   }
+} */
 
-  20%,
-  80% {
-    opacity: 1;
-  }
-}
-
-.hero-section {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.carousel-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  animation: imageCarousel 12s infinite;
-}
 
 
 
