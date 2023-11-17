@@ -2,7 +2,8 @@ import {
     FaFacebook,
     FaXTwitter,
     FaInstagram,
-    FaEnvelope
+    FaEnvelope,
+    FaPhone
 } from 'react-icons/fa6';
 
 import { programmes } from '@/data/programme';
@@ -12,7 +13,9 @@ const footerLinks = [
     { name: 'Contacts', link: '/contacts' },
     { name: 'Donations', link: '/donations' },
     { name: 'Events', link: '/events' },
-    { name: 'Projects', link: '/projects' }
+    { name: 'Projects', link: '/projects' },
+    { name: 'Gallery', link: '/galleries' },
+    { name: 'Blogs', link: '/blogs' }
 ];
 
 export default function Footer() {
@@ -28,7 +31,20 @@ export default function Footer() {
                         <div className='flex items-center mt-4'>
                             <FaEnvelope className='h-4 w-4 fill-slate-400' />
                             <span className='text-slate-400 ml-2'>
-                                <p>info@gracechapel.fi</p>
+                                <p>
+                                    <a
+                                        href='mailto:info@gracechapel.fi'
+                                        target='_blank'
+                                    >
+                                        info@gracechapel.fi
+                                    </a>
+                                </p>
+                            </span>
+                        </div>
+                        <div className='flex items-center mt-4'>
+                            <FaPhone className='h-4 w-4 fill-slate-400' />
+                            <span className='text-slate-400 ml-2'>
+                                <p>+358-45-6352887</p>
                             </span>
                         </div>
                     </div>
@@ -62,14 +78,14 @@ export default function Footer() {
                         <h1 className='mb-6 uppercase'>Links</h1>
                         <ul>
                             {footerLinks.map(item => (
-                                <Link href={item.link} key={item.name}>
-                                    <li
-                                        className='text-slate-400 mb-3 hover:text-slate-300'
-                                        key={item.name}
-                                    >
+                                <li
+                                    className='text-slate-400 mb-3 hover:text-slate-300'
+                                    key={item.name}
+                                >
+                                    <Link href={item.link} key={item.name}>
                                         <p className='text-sm'>{item.name}</p>
-                                    </li>
-                                </Link>
+                                    </Link>
+                                </li>
                             ))}
                         </ul>
                     </div>

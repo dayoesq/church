@@ -87,7 +87,7 @@ export default function Navigation() {
 
                                 <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
                                     {navigation.pages.map(page => (
-                                        <div
+                                        <ul
                                             key={page.name}
                                             className='flow-root'
                                         >
@@ -97,7 +97,7 @@ export default function Navigation() {
                                             >
                                                 {page.name}
                                             </Link>
-                                        </div>
+                                        </ul>
                                     ))}
                                 </div>
                             </Dialog.Panel>

@@ -1,29 +1,35 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa6';
 import Button from '@/components/Button';
-import Navigation from '@/components/Navigation';
 import AudioMessage from '@/components/AudioMessage';
-import Banner from '@/components/Banner';
 import { blogs } from '@/data/blog';
 import Blog from '@/components/Blog';
 import Footer from '@/components/Footer';
 import { events } from '@/data/event';
 import Event from '@/components/Event';
 import { Audio, audios } from '@/data/audio';
-import Header from '@/components/Header';
 import Section from '@/components/Section';
 import Link from 'next/link';
-
-const texts = ['Meeting Place', 'Place of Freedom', 'Filling Station'];
-const images = [
-    '/images/bible-the-way.jpg',
-    '/images/worship.jpg',
-    '/images/bible.jpg'
-];
+import Navigation from '@/components/Navigation';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const slides = [
+        { image: '/images/worship.jpg', text: 'place of freedom' },
+        { image: '/images/bible.jpg', text: 'filling station' },
+        { image: '/images/bible-the-way.jpg', text: 'meeting place' }
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide(prevSlide => (prevSlide + 1) % slides.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [slides.length]);
 
     function getAudio(genre: Audio['genre']) {
         if (audios && audios.length > 0) {
@@ -33,51 +39,29 @@ export default function Home() {
 
     return (
         <>
-            <Header />
+            <Navigation />
             <main>
-                <section className='hero-section'>
-                    <div
-                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
-                        style={{
-                            backgroundImage: 'url("/images/bible-the-way.jpg")',
-                            animationDelay: '0s',
-                            opacity: '1'
-                        }}
-                    >
-                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
-                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
-                                place of freedom
-                            </h2>
+                {/* Hero */}
+                <section className='relative overflow-hidden h-screen'>
+                    {slides.map((slide, index) => (
+                        <div
+                            key={index}
+                            className={`absolute top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
+                                currentSlide === index
+                                    ? 'opacity-1'
+                                    : 'opacity-0'
+                            }`}
+                            style={{
+                                backgroundImage: `url(${slide.image})`
+                            }}
+                        >
+                            <div className='container mx-auto h-full flex items-center justify-center relative z-10 text-center'>
+                                <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl text-white'>
+                                    {slide.text}
+                                </h2>
+                            </div>
                         </div>
-                    </div>
-                    <div
-                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
-                        style={{
-                            backgroundImage: 'url("/images/worship.jpg")',
-                            animationDelay: '8s',
-                            opacity: '0'
-                        }}
-                    >
-                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
-                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
-                                filling station
-                            </h2>
-                        </div>
-                    </div>
-                    <div
-                        className='carousel-image bg-cover bg-center transition-opacity duration-2000 ease-in-out'
-                        style={{
-                            backgroundImage: 'url("/images/bible.jpg")',
-                            animationDelay: '16s',
-                            opacity: '0'
-                        }}
-                    >
-                        <div className='container mx-auto flex items-center justify-center h-full relative z-10 text-white text-center'>
-                            <h2 className='text-7xl font-bold leading-tight mb-4 uppercase lg:text-9xl md:text-9xl'>
-                                meeting place
-                            </h2>
-                        </div>
-                    </div>
+                    ))}
                 </section>
                 {/* What we stand for */}
                 <section className='md:flex justify-between items-center flex-wrap md:max-w-7xl m-auto py-8 px-4 my-20 md:items-center'>
@@ -105,7 +89,7 @@ export default function Home() {
                                 love
                             </span>
                         </h1>
-                        <p className='text-gray-600'>
+                        <p className='text-gray-700'>
                             Welcome to our online space dedicated to the
                             foundational truth that shapes our faith journey:
                             &ldquo;God is love.&ldquo; As your pastor, I am
@@ -123,6 +107,7 @@ export default function Home() {
                             Creator is—a boundless, unconditional love that
                             surpasses human understanding.
                         </p>
+
                         <Link href='/about'>
                             <Button
                                 type='button'
@@ -206,6 +191,7 @@ export default function Home() {
                                             imageUrl={audio.imageUrl}
                                             audioUrl={audio.audioUrl}
                                             genre={audio.genre}
+                                            author={audio.author}
                                         />
                                     </li>
                                 ))}
@@ -213,7 +199,6 @@ export default function Home() {
                         </div>
                     </Section>
                 )}
-
                 {/* The Gallery */}
                 <section>
                     <div className='md:max-w-7xl lg:max-w-7xl xl:max-w-7xl m-auto px-4'>
@@ -253,6 +238,7 @@ export default function Home() {
                                             imageUrl={audio.imageUrl}
                                             audioUrl={audio.audioUrl}
                                             genre={audio.genre}
+                                            author={audio.author}
                                         />
                                     </li>
                                 ))}
