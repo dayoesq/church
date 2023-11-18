@@ -5,6 +5,7 @@ import { blogs, BlogPost } from '@/data/blog';
 import Blog from '@/components/Blog';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
+import Pagination from '@/components/Pagination';
 
 export default function Page() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -18,7 +19,7 @@ export default function Page() {
     return (
         <>
             <Navigation />
-            <div className=''>
+            <>
                 <h1 className='text-center text-5xl uppercase my-20'>
                     Our Blog Posts
                 </h1>
@@ -35,7 +36,8 @@ export default function Page() {
                         />
                     ))}
                 </div>
-            </div>
+                <Pagination className='w-[30rem] m-auto' />
+            </>
             <Footer />
         </>
     );
