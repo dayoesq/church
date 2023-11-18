@@ -42,7 +42,7 @@ export default function Home() {
             <Navigation />
             <main>
                 {/* Hero */}
-                <section className='relative overflow-hidden h-screen'>
+                <section className='relative overflow-hidden h-screen bg-[url("/images/bible.jpg")]'>
                     {slides.map((slide, index) => (
                         <div
                             key={index}
@@ -262,7 +262,10 @@ export default function Home() {
                     >
                         <div className='md:max-w-7xl m-auto px-4'>
                             <div className='text-center'>
-                                <h2 className='text-2xl text-gray-500'>
+                                {/* <h2 className='text-2xl text-gray-500'>
+                                    Grace Chapel
+                                </h2> */}
+                                <h2 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
                                     Grace Chapel
                                 </h2>
                             </div>
