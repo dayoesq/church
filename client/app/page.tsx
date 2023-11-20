@@ -9,10 +9,11 @@ import Footer from '@/components/Footer';
 import { events } from '@/data/event';
 import Event from '@/components/Event';
 import { Audio, audios } from '@/data/audio';
-import Section from '@/components/Section';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import { useEffect, useState } from 'react';
+import PrimaryHeaders from '@/components/PrimaryHeaders';
+import DefaultBgImage from '@/components/DefaultBgImage';
 
 export default function Home() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,44 +66,7 @@ export default function Home() {
                 </section>
                 {/* What we stand for */}
                 <section className='md:flex justify-between items-center flex-wrap md:max-w-7xl m-auto py-8 px-4 mb-20 md:items-center relative isolate overflow-hidden bg-white sm:py-32 lg:overflow-visible lg:px-0'>
-                    <div className='absolute inset-0 -z-10 overflow-hidden'>
-                        <svg
-                            className='absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]'
-                            aria-hidden='true'
-                        >
-                            <defs>
-                                <pattern
-                                    id='e813992c-7d03-4cc4-a2bd-151760b470a0'
-                                    width={200}
-                                    height={200}
-                                    x='50%'
-                                    y={-1}
-                                    patternUnits='userSpaceOnUse'
-                                >
-                                    <path
-                                        d='M100 200V.5M.5 .5H200'
-                                        fill='none'
-                                    />
-                                </pattern>
-                            </defs>
-                            <svg
-                                x='50%'
-                                y={-1}
-                                className='overflow-visible fill-gray-50'
-                            >
-                                <path
-                                    d='M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z'
-                                    strokeWidth={0}
-                                />
-                            </svg>
-                            <rect
-                                width='100%'
-                                height='100%'
-                                strokeWidth={0}
-                                fill='url(#e813992c-7d03-4cc4-a2bd-151760b470a0)'
-                            />
-                        </svg>
-                    </div>
+                    <DefaultBgImage />
                     <div className='md:shrink-0'>
                         <Image
                             src='/images/bible-the-way.jpg'
@@ -158,15 +122,13 @@ export default function Home() {
                 </section>
                 {/* Events */}
                 {events && events.length > 0 && (
-                    <section className='flex justify-center flex-col flex-wrap m-auto  py-8 px-4 my-20 bg-gradient-to-r from-transparent from-5% via-slate-50 via-10%  to-transparent'>
+                    <section className='flex justify-center flex-col flex-wrap m-auto  py-8 px-4 my-20 bg-gradient-to-r from-transparent from-5% via-slate-100 via-20%  to-transparent'>
                         <div className='flex justify-between flex-wrap md:max-w-7xl mx-auto mb-8'>
                             <div className='h-fit w-fit'>
-                                <h1 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
-                                    Our events
-                                </h1>
-                                <h2 className='mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center my-4'>
-                                    Calendar
-                                </h2>
+                                <PrimaryHeaders
+                                    title='Our events'
+                                    subTitle='Calendar'
+                                />
                             </div>
                             <div className='m-auto overflow-hidden w-2/4'>
                                 <p className='leading-wider'>
@@ -183,8 +145,12 @@ export default function Home() {
                                     className='bg-gray-600 hover:bg-gray-700'
                                 >
                                     <div className='flex items-center'>
-                                        <p>more</p>
-                                        <FaArrowRight className='w-4 h-4 fill-white-500 ml-2' />
+                                        <Link href='/events'>
+                                            <div className='flex items-center'>
+                                                <p>more</p>
+                                                <FaArrowRight className='w-4 h-4 fill-white-500 ml-2' />
+                                            </div>
+                                        </Link>
                                     </div>
                                 </Button>
                             </div>
@@ -217,16 +183,20 @@ export default function Home() {
                 )}
                 {/* Sample Worship Sound */}
                 {getAudio('worship') && getAudio('worship').length > 0 && (
-                    <Section title='Our worship sound'>
+                    <section className='mb-20 -mt-20 py-8 bg-gradient-to-r from-transparent from-5% via-gray-200 via-30%  to-transparent'>
                         <div className='m-auto md:max-w-7xl px-4'>
-                            <ul>
+                            <PrimaryHeaders
+                                title='music'
+                                subTitle='The sound of our worship'
+                                className='text-center'
+                            />
+                            <ul className='mt-10'>
                                 {getAudio('worship').map(audio => (
                                     <li key={audio.id}>
                                         <AudioMessage
                                             id={audio.id}
                                             key={audio.id}
                                             title={audio.title}
-                                            imageUrl={audio.imageUrl}
                                             audioUrl={audio.audioUrl}
                                             genre={audio.genre}
                                             author={audio.author}
@@ -235,10 +205,10 @@ export default function Home() {
                                 ))}
                             </ul>
                         </div>
-                    </Section>
+                    </section>
                 )}
                 {/* The Gallery */}
-                <section>
+                <section className='bg-gradient-to-r from-transparent from-5% via-blue-200 via-30%  to-transparent -mt-20 pt-20'>
                     <div className='md:max-w-7xl lg:max-w-7xl xl:max-w-7xl m-auto px-4'>
                         <div className='flex justify-center flex-wrap'>
                             <div className='h-[30rem] md:w-[25rem] w-full bg-red-500'>
@@ -264,16 +234,20 @@ export default function Home() {
                 </section>
                 {/* Audio sermons */}
                 {getAudio('sermon')?.length > 0 && (
-                    <Section title='Latest messages'>
+                    <section className='my-20 py-8'>
                         <div className='m-auto max-w-7xl px-4 mb-8'>
-                            <ul>
+                            <PrimaryHeaders
+                                title='podcast'
+                                subTitle='Latest messages'
+                                className='text-center'
+                            />
+                            <ul className='mt-10'>
                                 {getAudio('sermon').map(audio => (
                                     <li key={audio.id}>
                                         <AudioMessage
                                             id={audio.id}
                                             key={audio.id}
                                             title={audio.title}
-                                            imageUrl={audio.imageUrl}
                                             audioUrl={audio.audioUrl}
                                             genre={audio.genre}
                                             author={audio.author}
@@ -290,22 +264,17 @@ export default function Home() {
                                 MORE MESSAGES
                             </Button>
                         </Link>
-                    </Section>
+                    </section>
                 )}
                 {/* Latest and Popular Blog Posts*/}
                 {blogs && blogs.length > 0 && (
-                    <Section
-                        title='From our blog posts'
-                        className='bg-gradient-to-r from-transparent to-slate-50 -mb-8'
-                    >
+                    <section className='my-20 py-8  bg-gradient-to-r from-transparent to-slate-100 -mb-8'>
                         <div className='md:max-w-7xl m-auto px-4'>
                             <div className='text-center'>
-                                {/* <h2 className='text-2xl text-gray-500'>
-                                    Grace Chapel
-                                </h2> */}
-                                <h2 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
-                                    Grace Chapel
-                                </h2>
+                                <PrimaryHeaders
+                                    title='blogs'
+                                    subTitle='From our blog posts'
+                                />
                             </div>
                             <ul className='flex justify-center items-center md:gap-4 py-8 flex-wrap gap-y-4'>
                                 {blogs.map(blog => (
@@ -330,7 +299,7 @@ export default function Home() {
                                 </Button>
                             </Link>
                         </div>
-                    </Section>
+                    </section>
                 )}
             </main>
             <Footer />
