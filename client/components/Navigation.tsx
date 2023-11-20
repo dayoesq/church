@@ -147,7 +147,7 @@ export default function Navigation() {
                                         <Link
                                             key={page.name}
                                             href={page.href}
-                                            className='flex items-center text-sm font-medium text-gray-700 hover:text-gray-800'
+                                            className='flex items-center text-sm font-medium text-gray-700 hover:text-gray-800 hover:underline'
                                         >
                                             {page.name}
                                         </Link>
