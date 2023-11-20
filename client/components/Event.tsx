@@ -1,11 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { FaCalendarDays } from 'react-icons/fa6';
-import {
-    getDay,
-    getFullDateWithTime,
-    getShortMonthAndFullYear
-} from '@/util/date';
+import { CustomDate } from '@/util/date';
 import { Event } from '@/types/event';
 
 type EventProps = {
@@ -19,9 +15,11 @@ export default function Event({ ...props }: EventProps) {
     return (
         <div className={`flex justify-between gap-6 p-4 ${props.className}`}>
             <div>
-                <p className='font-bold text-3xl'>{getDay(props.startsAt)}</p>
+                <p className='font-bold text-3xl'>
+                    {CustomDate.getDay(props.startsAt)}
+                </p>
                 <p className='text-gray-500'>
-                    {getShortMonthAndFullYear(props.startsAt)}
+                    {CustomDate.getMonth(props.startsAt)}
                 </p>
             </div>
             <div>
@@ -45,8 +43,11 @@ export default function Event({ ...props }: EventProps) {
                             <FaCalendarDays className='h-4 w-4 fill-slate-400 mr-1' />
                             <p>
                                 <small>
-                                    {getFullDateWithTime(props.startsAt)} -{' '}
-                                    {getFullDateWithTime(props.endsAt)}
+                                    {CustomDate.formatCustomDate(
+                                        props.startsAt
+                                    )}{' '}
+                                    -{' '}
+                                    {CustomDate.formatCustomDate(props.endsAt)}
                                 </small>
                             </p>
                         </div>

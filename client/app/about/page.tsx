@@ -1,6 +1,8 @@
 'use client';
+import DefaultBgImage from '@/components/DefaultBgImage';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
+import PrimaryHeaders from '@/components/PrimaryHeaders';
 import TestimonialCard from '@/components/TestimonialCard';
 import { testimonials } from '@/data/testimonials';
 import Image from 'next/image';
@@ -43,54 +45,15 @@ export default function AboutPage() {
             <Navigation />
             <main>
                 <div className='relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0'>
-                    <div className='absolute inset-0 -z-10 overflow-hidden'>
-                        <svg
-                            className='absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]'
-                            aria-hidden='true'
-                        >
-                            <defs>
-                                <pattern
-                                    id='e813992c-7d03-4cc4-a2bd-151760b470a0'
-                                    width={200}
-                                    height={200}
-                                    x='50%'
-                                    y={-1}
-                                    patternUnits='userSpaceOnUse'
-                                >
-                                    <path
-                                        d='M100 200V.5M.5 .5H200'
-                                        fill='none'
-                                    />
-                                </pattern>
-                            </defs>
-                            <svg
-                                x='50%'
-                                y={-1}
-                                className='overflow-visible fill-gray-50'
-                            >
-                                <path
-                                    d='M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z'
-                                    strokeWidth={0}
-                                />
-                            </svg>
-                            <rect
-                                width='100%'
-                                height='100%'
-                                strokeWidth={0}
-                                fill='url(#e813992c-7d03-4cc4-a2bd-151760b470a0)'
-                            />
-                        </svg>
-                    </div>
+                    <DefaultBgImage />
                     <div className='mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10'>
                         <div className='lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
                             <div className='lg:pr-4'>
                                 <div className='lg:max-w-lg'>
-                                    <h1 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
-                                        About us
-                                    </h1>
-                                    <h2 className='mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-                                        We stand for the gospel
-                                    </h2>
+                                    <PrimaryHeaders
+                                        title='About us'
+                                        subTitle='We stand for the gospel'
+                                    />
                                     <p className='mt-6 text-xl leading-8 text-gray-700'>
                                         We believe that the Bible is the written
                                         and the revealed Will of God. All the
@@ -326,12 +289,10 @@ export default function AboutPage() {
                         <div className='lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
                             <div className='lg:pr-4'>
                                 <div className='lg:max-w-lg'>
-                                    <h1 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
-                                        Our History
-                                    </h1>
-                                    <h2 className='mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-                                        We belong to RCCG Global
-                                    </h2>
+                                    <PrimaryHeaders
+                                        title='Our history'
+                                        subTitle='We belong to RCCG global'
+                                    />
                                     <p className='mt-6 text-xl leading-8 text-gray-700'>
                                         Discover the remarkable journey of Grace
                                         Chapel Parish, a thriving community
@@ -461,12 +422,10 @@ export default function AboutPage() {
                 </div>
                 {/* Testimonials section */}
                 <section className='m-auto max-w-7xl mb-8 mt-10 px-6'>
-                    <h1 className='text-base font-semibold leading-7 text-indigo-600 uppercase'>
-                        Testimonials
-                    </h1>
-                    <h2 className='my-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-                        What people say about us
-                    </h2>
+                    <PrimaryHeaders
+                        title='Testimonials'
+                        subTitle='What people say about us'
+                    />
                     {testimonials && testimonials.length > 0 && (
                         <ul className='flex justify-center flex-wrap gap-4 my-8'>
                             {testimonials.map(testimonial => (
