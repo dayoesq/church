@@ -172,7 +172,7 @@ export default function Navigation() {
                                         href='/donate'
                                         className='bg-orange-600 hover:bg-orange-700 ml-4'
                                     >
-                                        Donate Now
+                                        Give Now
                                     </Button>
                                 </div>
                             </div>

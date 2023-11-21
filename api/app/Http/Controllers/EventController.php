@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Models\Event;
 use App\Utils\Assets\Asset;
-use App\Utils\Enums\Events;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 
 class EventController extends Controller
@@ -29,7 +27,7 @@ class EventController extends Controller
      */
     public function index(): JsonResponse
     {
-        $events = Event::all();
+        $events = Event::with('anchors')->get();
         return $this->ok(data: $events);
     }
 
@@ -48,11 +46,11 @@ class EventController extends Controller
 
             $event = new Event();
             $event->title = $request->input('title');
-            $event->type = $request->input('type');
+            $event->slug = Str::slug($request->input('title'));
+            $event->description = $request->input('description');
             $event->organized_by = $request->input('organized_by');
             $event->starts_at = $request->input('starts_at');
             $event->ends_at = $request->input('ends_at');
-            $event->created_by = auth()->user->id;
 
             if ($event->save()) {
                 if ($request->hasFile(Asset::$EVENT)) {
@@ -105,14 +103,14 @@ class EventController extends Controller
             $event->title = Str::lower($request->input('title'));
         }
 
-        if($request->filled('type')) {
-            $request->validate(['type' => new Enum(Events::class)]);
-            $event->type = $request->input('type');
+        if($request->filled('organized_by')) {
+            $request->validate(['organized_by' => 'string', 'min:2', 'max:150']);
+            $event->organised_by = Str::lower($request->input('organized_by'));
         }
 
-        if($request->filled('organised_by')) {
-            $request->validate(['organised_by' => 'string', 'min:2', 'max:150']);
-            $event->organised_by = Str::lower($request->input('organised_by'));
+        if($request->filled('description')) {
+            $request->validate(['description' => 'string', 'min:2', 'max:500']);
+            $event->description = $request->input('description');
         }
 
         if($request->filled('starts_at')) {
