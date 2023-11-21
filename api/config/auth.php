@@ -112,4 +112,22 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Database seeder
+    |--------------------------------------------------------------------------
+    |
+    | When creating a user with seed, a default admin user is seeded
+    | for convenience.
+    |
+    */
+
+    'seeders' => [
+        'first_name' => env('SEEDER_USER_FIRST_NAME', 'John'),
+        'last_name' => env('SEEDER_USER_LAST_NAME', 'Doe'),
+        'email' => env('SEEDER_USER_EMAIL', 'john.doe@example.com'),
+        'password' => env('SEEDER_USER_PASSWORD', 'secret007#'),
+        'roles' => env('SEEDER_USER_ROLES', 'user'),
+    ]
+
 ];

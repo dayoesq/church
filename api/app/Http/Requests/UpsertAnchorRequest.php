@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEventRequest extends FormRequest
+class UpsertAnchorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,10 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'min:2', 'max:150'],
-            'organized_by' => ['required', 'string', 'min:2', 'max:150'],
-            'description' => ['required', 'string', 'max:500'],
-            'starts_at' => ['required', 'date'],
-            'ends_at' => ['required', 'date'],
-
+            'first_name' => ['sometimes', 'required', 'min:2', 'max:50'],
+            'last_name' => ['sometimes', 'required', 'min:2', 'max:50'],
+            'email' => ['sometimes', 'required', 'email:rfc,dns', 'unique:anchors'],
+            'title' => ['sometimes', 'required', 'max:15'],
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnchorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
@@ -62,7 +63,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'users' => UserController::class,
         'positions' => PositionController::class,
         'events' => EventController::class,
-        'projects' => ProjectController::class
+        'projects' => ProjectController::class,
+        'anchors' => AnchorController::class
     ]);
 
 });

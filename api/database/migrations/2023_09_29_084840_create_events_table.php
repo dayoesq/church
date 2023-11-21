@@ -15,23 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->enum('type', [
-                'daily',
-                'weekly',
-                'monthly',
-                'quarterly',
-                'annually',
-                'bi_weekly',
-                'bi_monthly',
-                'bi_annual',
-                'miscellaneous'
-                ]
-            );
-            $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users');
             $table->string('organized_by');
+            $table->string('anchors')->nullable();
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
+            $table->unsignedBigInteger('anchor')->nullable();
+            $table->foreign('anchor')->references('id')->on('anchors')->cascadeOnDelete();
             $table->timestamps();
         });
     }
