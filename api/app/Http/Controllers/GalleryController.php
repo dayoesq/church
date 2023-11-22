@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertGalleryRequest;
 use App\Models\Gallery;
 use App\Utils\Assets\Asset;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class GalleryController extends Controller
@@ -35,21 +39,19 @@ class GalleryController extends Controller
      */
     public function store(UpsertGalleryRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $gallery = Gallery::create($data);
-        if($gallery->save()) {
-            if ($request->hasFile(Asset::$GALLERY)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$IMAGE_EXTENSIONS);
-                foreach ($paths as $path) {
-                    $gallery->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+        $validated = $request->validated();
+        $validated = $request->safe()->except($validated[Asset::$PHOTO]);
+        $gallery = Gallery::create($validated);
+        if ($request->hasFile(Asset::$PHOTO)) {
+            $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+            foreach ($paths as $path) {
+                $gallery->images()->updateOrCreate([
+                    'url' => $path
+                ]);
             }
-            return $this->created(data: $gallery);
         }
 
-        return $this->serverError();
+        return $this->created(data: $gallery);
 
     }
 
@@ -70,24 +72,22 @@ class GalleryController extends Controller
      *
      * @param UpsertGalleryRequest $request
      * @param Gallery $gallery
-     * @return JsonResponse|void
-     * @throws ValidationException
+     * @return JsonResponse
      */
-    public function update(UpsertGalleryRequest $request, Gallery $gallery)
+    public function update(UpsertGalleryRequest $request, Gallery $gallery): JsonResponse
     {
-        $data = $request->validated();
-        $gallery->update($data);
-        if($gallery->save()) {
-            if ($request->hasFile(Asset::$GALLERY)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$GALLERY, Asset::$IMAGE_EXTENSIONS);
-                foreach ($paths as $path) {
-                    $gallery->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+        $validated = $request->validated();
+        $validated = $request->safe()->except($validated[Asset::$PHOTO]);
+        $gallery->update($validated);
+        if ($request->hasFile(Asset::$PHOTO)) {
+            $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+            foreach ($paths as $path) {
+                $gallery->images()->updateOrCreate([
+                    'url' => $path
+                ]);
             }
-            return $this->noContent();
         }
+        return $this->noContent();
 
     }
 
@@ -99,7 +99,23 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery): JsonResponse
     {
-        $gallery->delete();
-        return $this->ok();
+        try {
+            DB::beginTransaction();
+            $photos = $gallery->images;
+            foreach ($photos as $photo) {
+                if (Storage::disk('audios')->exists($photo->url)) {
+                    Storage::disk('audios')->delete($photo->url);
+                    $photo->delete();
+                }
+            }
+
+            $gallery->delete();
+            DB::commit();
+            return $this->noContent();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return $this->serverError();
+        }
     }
 }

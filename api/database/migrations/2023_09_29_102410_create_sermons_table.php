@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('sermons', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('content');
             $table->enum('status', ['draft', 'archived', 'published'])->default('draft');
-            $table->unsignedBigInteger('delivered_by');
-            $table->foreign('delivered_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->string('delivered_by');
             $table->timestamps();
         });
     }

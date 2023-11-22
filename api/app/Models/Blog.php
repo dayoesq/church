@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string $content
  * @property string|int $id
  * @property int|string $author
+ * @property mixed $slug
  * @method static where(string $string, string $string1)
  * @method static paginate(int $int)
  */
@@ -30,6 +31,7 @@ class Blog extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
         'content',
         'status'
     ];
@@ -44,10 +46,22 @@ class Blog extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value)
+            set: fn ($value) => Str::words($value)
         );
     }
 
+    /**
+     * Sluggify blog's title.
+     *
+     * @return Attribute
+     */
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->slug,
+            set: fn () => Str::slug($this->title)
+        );
+    }
 
     /**
      * Interact with the blog's relationship with the comment.

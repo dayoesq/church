@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-/**
- * @method static findOrFail(mixed $id)
- * @property int $id
- */
-class Image extends Model
+class Audio extends Model
 {
     use HasFactory;
+
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +18,9 @@ class Image extends Model
      */
     protected $fillable = [
         'url',
+        'caption',
+        'genre',
+        'author'
     ];
 
     /**
@@ -28,7 +28,7 @@ class Image extends Model
      *
      * @return MorphTo
      */
-    public function imageable(): MorphTo
+    public function audioable(): MorphTo
     {
         return $this->morphTo();
     }

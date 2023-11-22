@@ -44,34 +44,34 @@ return [
             'throw' => false,
         ],
 
-        'gallery' => [
+        'photo' => [
             'driver' => 'local',
-            'root' => storage_path('app/galleries'),
-            'url' => env('APP_URL').'/storage/galleries',
+            'root' => storage_path('app/photo'),
+            'url' => env('APP_URL').'/storage/photo',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'avatar' => [
+        'attachment' => [
             'driver' => 'local',
-            'root' => storage_path('app/avatars'),
-            'url' => env('APP_URL').'/storage/avatars',
+            'root' => storage_path('app/attachment'),
+            'url' => env('APP_URL').'/storage/attachment',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'event' => [
+        'audio' => [
             'driver' => 'local',
-            'root' => storage_path('app/events'),
-            'url' => env('APP_URL').'/storage/events',
+            'root' => storage_path('app/audio'),
+            'url' => env('APP_URL').'/storage/audio',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'project' => [
+        'video' => [
             'driver' => 'local',
-            'root' => storage_path('app/projects'),
-            'url' => env('APP_URL').'/storage/projects',
+            'root' => storage_path('app/videos'),
+            'url' => env('APP_URL').'/storage/video',
             'visibility' => 'public',
             'throw' => false,
         ],

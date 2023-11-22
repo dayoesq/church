@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\AdminUserRequest;
+use App\Http\Requests\UpsertUserRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Utils\Assets\Asset;
 use App\Utils\Enums\Countries;
 use App\Utils\Enums\Gender;
 use App\Utils\Enums\Roles;
@@ -43,18 +45,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUserRequest $request
+     * @param UpsertUserRequest $request
      * @return JsonResponse
      * @throws Exception
      */
-    public function store(StoreUserRequest $request): JsonResponse
+    public function store(AdminUserRequest $request): JsonResponse
     {
 
         try {
             DB::beginTransaction();
 
-            $request->validated();
-
+            $validated = $request->validated();
             $passwordResetToken = Helper::generateRandomNumber(Helper::$DEFAULT_RANDOM_NUMBER);
             $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
             $tempPassword = Helper::generateRandomString(Helper::$RANDOM_STRING_LENGTH);
@@ -95,14 +96,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param AdminUserRequest $request
      * @param User $user
      * @return JsonResponse
      */
-    public function update(Request $request, User $user): JsonResponse
+    public function update(AdminUserRequest $request, User $user): JsonResponse
     {
-        $this->updateUserByAdmin($request, $user);
-        return $user->save() ? $this->ok() : $this->serverError();
+        $validated = $request->validated();
+        $success = $user->update($validated);
+        return $success ? $this->ok() : $this->serverError();
     }
 
     /**
@@ -132,8 +134,8 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
-                Storage::disk('avatar')->delete($user->avatar);
+            if($user->avatar && Storage::disk(Asset::$PHOTO)->exists($user->avatar)) {
+                Storage::disk(Asset::$PHOTO)->delete($user->avatar);
             }
             $user->delete();
             DB::commit();
@@ -146,139 +148,30 @@ class UserController extends Controller
     }
 
     /**
-     * Update user resource.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return void
-     */
-    private function updateUserByAdmin(Request $request, User $user): void
-    {
-
-        $this->updateUserFieldsBySelf($request, $user);
-
-        // Fields only super admin can update
-        if ($request->filled('position')) {
-            $request->validate(['position' => ['min:2', 'max:100']]);
-            $user->position = Str::lower($request->input('position'));
-        }
-
-        if ($request->enum('status', UserStatus::class)) {
-            $request->validate(['status' => new Enum(UserStatus::class)]);
-            $user->status = $request->input('status');
-        }
-
-        if ($request->filled('member_since')) {
-            $request->validate(['member_since' => ['date']]);
-            $user->member_since = $request->input('member_since');
-        }
-
-        if ($request->enum('roles', Roles::class)) {
-            $request->validate(['roles' => new Enum(Roles::class)]);
-            $user->roles = $request->input('roles');
-        }
-
-        if ($request->filled('title')) {
-            $request->validate(['title' => ['string', 'min:2', 'max:100']]);
-            $user->title = $request->input('title');
-        }
-
-        if ($request->filled('email') && $user->email !== $request->input('email')) {
-            $request->validate(['email' => 'email:rfc,dns|unique:users']);
-            $user->email = Str::lower($request->input('email'));
-        }
-
-
-    }
-
-    /**
      * Update user by self.
      *
-     * @param Request $request
+     * @param UpsertUserRequest $request
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function updateSelf(Request $request): JsonResponse
+    public function updateSelf(UpsertUserRequest $request): JsonResponse
     {
         $user = auth()->user();
+        $validated = $request->validated();
         $this->authorize('updateSelf', $user);
-        $this->updateUserFieldsBySelf($request, $user);
-        return $user->save() ? $this->noContent() : $this->serverError();
-    }
+        $user->update($validated);
 
-
-    /**
-     * Update user resource.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return void
-     */
-    private function updateUserFieldsBySelf(Request $request, User $user): void
-    {
-        if ($request->filled('first_name')) {
-            $request->validate(['first_name' => ['min:2', 'max:40']]);
-            $user->first_name = Str::lower($request->input('first_name'));
-        }
-
-        if ($request->filled('last_name')) {
-            $request->validate(['last_name' => ['min:2', 'max:40']]);
-            $user->last_name = Str::lower($request->input('last_name'));
-        }
-
-        if ($request->enum('gender', Gender::class)) {
-            $request->validate(['gender' => new Enum(Gender::class)]);
-            $user->gender = $request->input('gender');
-        }
-
-        if ($request->enum('country_of_residence', Countries::class)) {
-            $request->validate(['country_of_residence' => new Enum(Countries::class)]);
-            $user->country_of_residence = $request->input('country_of_residence');
-        }
-
-        if ($request->enum('home_country', Countries::class)) {
-            $request->validate(['home_country' => new Enum(Countries::class)]);
-            $user->home_country = $request->input('home_country');
-        }
-
-        if ($request->filled('postal_code')) {
-            $request->validate(['postal_code' => 'max:20']);
-            $user->postal_code = Str::upper($request->input('postal_code'));
-        }
-
-        if ($request->filled('city')) {
-            $request->validate(['city' => 'max:20']);
-            $user->city = Str::upper($request->input('city'));
-        }
-
-        if ($request->filled('telephone')) {
-            $request->validate(['telephone' => 'max:20']);
-            $user->telephone = $request->input('telephone');
-        }
-
-        if ($request->filled('address_one')) {
-            $request->validate(['address_one' => 'max:255']);
-            $user->address_one = ucwords(Str::upper($request->input('address_one')));
-        }
-
-        if ($request->filled('address_two')) {
-            $request->validate(['address_two' => 'max:255']);
-            $user->address_two = ucwords(Str::upper($request->input('address_two')));
-        }
-
-        if($request->hasFile('avatar')) {
-            $request->validate(['avatar' => [
-                'file', 'mimes:jpeg,png,jpg,svg',
-                'max:300', 'dimensions:min_width=200,min_height=200,max_width=400,max_height=400'
-            ]]);
-
-            if($user->avatar && Storage::disk('avatar')->exists($user->avatar)) {
-                Storage::disk('avatar')->delete($user->avatar);
+        if($request->hasFile(Asset::$PHOTO)) {
+            if($user->avatar && Storage::disk(Asset::$PHOTO)->exists($user->avatar)) {
+                Storage::disk(Asset::$PHOTO)->delete($user->avatar);
             }
-            $path = $request->file('avatar')->store('avatars');
+            $path = $request->file(Asset::$PHOTO)->store(Asset::$PHOTO);
             $user->avatar = basename($path);
-
+            $user->save();
+            return $this->ok();
         }
+        return $this->ok();
 
     }
+
 }

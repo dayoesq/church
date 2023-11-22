@@ -2,14 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Utils\Enums\GalleryCategories;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File;
 
-class UpsertGalleryRequest extends FormRequest
+class UpsertEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,15 +26,18 @@ class UpsertGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required', 'string', 'min:4', 'max:100'],
-            'description' => ['sometimes', 'required', 'string', 'max:200'],
-            'category' => ['sometimes', 'required', new Enum(GalleryCategories::class)],
+            'title' => ['sometimes', 'required', 'string', 'min:2', 'max:150'],
+            'organized_by' => ['sometimes', 'required', 'string', 'min:2', 'max:150'],
+            'description' => ['sometimes', 'required', 'string', 'max:500'],
+            'starts_at' => ['sometimes', 'required', 'date'],
+            'ends_at' => ['sometimes', 'required', 'date'],
             'photo.*' => ['sometimes',
                 File::image()
                     ->min('500kb')
                     ->max('5mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
+
         ];
     }
 }

@@ -53,6 +53,20 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'telephone',
+        'gender',
+        'address_one',
+        'address_two',
+        'membership',
+        'member_since',
+        'city',
+        'postal_code',
+        'home_country',
+        'country_of_residence',
+        'avatar',
+        'position_id',
+        'status',
+        'roles',
         'password'
     ];
 
@@ -237,5 +251,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
 
 }

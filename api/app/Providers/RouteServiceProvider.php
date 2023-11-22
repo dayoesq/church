@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Blog;
+use App\Models\Event;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -25,6 +27,15 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api/v1')
                 ->group(base_path('routes/api.php'));
 
+        });
+
+        // Custom model binding
+        Route::bind('event', function (string $value) {
+            return Event::where('slug', $value)->firstOrFail();
+        });
+
+        Route::bind('blog', function (string $value) {
+            return Blog::where('slug', $value)->firstOrFail();
         });
     }
 }

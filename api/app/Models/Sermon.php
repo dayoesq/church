@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 
 /**
@@ -15,13 +16,14 @@ use Illuminate\Support\Str;
  * @property mixed $excerpt
  * @property mixed $delivered_by
  * @property mixed $content
+ * @property mixed $audios
  * @method static create(mixed $data)
  */
 class Sermon extends Model
 {
     use HasFactory;
 
-    protected array $images = [];
+    protected array $audios = [];
 
     /**
      * The attributes that are mass assignable.
@@ -30,13 +32,12 @@ class Sermon extends Model
      */
     protected $fillable = [
         'title',
-        'excerpt',
-        'content',
-        'status'
+        'status',
+        'delivered_by'
     ];
 
     /**
-     * Interact with the blog's title.
+     * Interact with the sermon's title.
      *
      * @return Attribute
      */
@@ -44,8 +45,18 @@ class Sermon extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value)
+            set: fn ($value) => Str::words($value)
         );
+    }
+
+    /**
+     * The sermon morphs many audios
+     *
+     * @return MorphMany
+     */
+    public function audios(): MorphMany
+    {
+        return $this->morphMany(Audio::class, 'audioable');
     }
 
 }

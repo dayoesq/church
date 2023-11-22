@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->enum('category', [
+                'children', 'sunday_school', 'summer_camp', 'adults', 'revival',
+                'evangelism', 'baptism', 'special_event', 'birthday', 'anniversary', 'child_dedication'
+            ]);
             $table->longText('description');
             $table->timestamps();
         });

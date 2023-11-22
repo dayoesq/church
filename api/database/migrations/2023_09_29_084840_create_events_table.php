@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->string('slug')->nullable();
             $table->string('organized_by');
-            $table->string('anchors')->nullable();
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
             $table->unsignedBigInteger('anchor')->nullable();
