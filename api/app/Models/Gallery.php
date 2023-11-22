@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @method static create(mixed $data)
+ * @property mixed $images
  */
 class Gallery extends Model
 {

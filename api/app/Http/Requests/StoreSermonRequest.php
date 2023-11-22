@@ -6,6 +6,7 @@ use App\Utils\Enums\PostStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\File;
 
 class StoreSermonRequest extends FormRequest
 {
@@ -26,9 +27,15 @@ class StoreSermonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['string', 'min:4', 'max:100'],
-            'content' => ['required', 'string'],
-            'status' => new Enum(PostStatus::class)
+            'title' => ['sometimes', 'string', 'min:4', 'max:100'],
+            'status' => ['sometimes', new Enum(PostStatus::class)],
+            'delivered_by' => ['sometimes', 'string', 'min:2', 'max:50'],
+            'audio.*' => [
+                'sometimes',
+                File::types(['mp3','wav'])
+                    ->min('1kb')
+                    ->max('5mb')
+            ],
         ];
     }
 }

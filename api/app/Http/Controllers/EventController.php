@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpsertEventRequest;
 use App\Models\Event;
 use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class EventController extends Controller
 {
@@ -34,43 +35,37 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreEventRequest $request
+     * @param UpsertEventRequest $request
      * @return JsonResponse
      */
-    public function store(StoreEventRequest $request): JsonResponse
+    public function store(UpsertEventRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $request->validated();
+            $validated = $request->validated();
+            $validated = $request->safe()->except($validated[Asset::$PHOTO]);
 
-            $event = new Event();
-            $event->title = $request->input('title');
-            $event->slug = Str::slug($request->input('title'));
-            $event->description = $request->input('description');
-            $event->organized_by = $request->input('organized_by');
-            $event->starts_at = $request->input('starts_at');
-            $event->ends_at = $request->input('ends_at');
+            $event = Event::create($validated);
 
-            if ($event->save()) {
-                if ($request->hasFile(Asset::$EVENT)) {
-                    $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$IMAGE_EXTENSIONS);
+            if ($request->filled('anchor')) $event->anchor = $request->input('anchor');
+            $event->save();
 
-                    foreach ($paths as $path) {
-                        $event->images()->updateOrCreate(
-                            [
-                                'url' => $path
-                            ],
-                        );
-                    }
+            if ($request->hasFile(Asset::$PHOTO)) {
+                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+
+                foreach ($paths as $path) {
+                    $event->images()->updateOrCreate(
+                        [
+                            'url' => $path
+                        ],
+                    );
                 }
-
-                DB::commit();
-
-                return $this->created(data: $event);
             }
-            DB::rollBack();
-            return $this->serverError();
+
+            DB::commit();
+            return $this->created(data: $event);
+
         } catch (Exception $e) {
             DB::rollBack();
             return $this->badRequest($e->getMessage());
@@ -91,41 +86,24 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpsertEventRequest $request
      * @param Event $event
      * @return JsonResponse
      * @throws ValidationException
+     * @throws Throwable
      */
-    public function update(Request $request, Event $event): JsonResponse
+    public function update(UpsertEventRequest $request, Event $event): JsonResponse
     {
-        if($request->filled('title')) {
-            $request->validate(['title' => ['string', 'min:2', 'max:150']]);
-            $event->title = Str::lower($request->input('title'));
-        }
 
-        if($request->filled('organized_by')) {
-            $request->validate(['organized_by' => 'string', 'min:2', 'max:150']);
-            $event->organised_by = Str::lower($request->input('organized_by'));
-        }
+        try {
+            DB::beginTransaction();
 
-        if($request->filled('description')) {
-            $request->validate(['description' => 'string', 'min:2', 'max:500']);
-            $event->description = $request->input('description');
-        }
+            $validated = $request->validated();
+            $validated = $request->safe()->except($validated[Asset::$PHOTO]);
+            $event->updateOrFail($validated);
 
-        if($request->filled('starts_at')) {
-            $request->validate(['starts_at' => ['date']]);
-            $event->starts_at = $request->input('starts_at');
-        }
-
-        if($request->filled('ends_at')) {
-            $request->validate(['ends_at' => ['date']]);
-            $event->starts_at = $request->input('ends_at');
-        }
-
-        if ($event->save()) {
-            if ($request->hasFile(Asset::$EVENT)) {
-                $paths = $this->handleAssetsStorage($request, Asset::$EVENT, Asset::$IMAGE_EXTENSIONS);
+            if ($request->hasFile(Asset::$PHOTO)) {
+                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
 
                 foreach ($paths as $path) {
                     $event->images()->updateOrCreate(
@@ -135,10 +113,14 @@ class EventController extends Controller
                     );
                 }
             }
+
+            DB::commit();
+            return $this->created(data: $event);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->badRequest($e->getMessage());
         }
-
-        return $event->save() ? $this->ok() : $this->serverError();
-
     }
 
     /**
@@ -149,7 +131,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event): JsonResponse
     {
-        $event->delete();
-        return $this->ok();
+        return ! $this->deleteAsset($event) ? $this->serverError() : $this->noContent();
+
     }
 }

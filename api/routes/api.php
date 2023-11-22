@@ -39,9 +39,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
 
-    Route::name('projects.images.caption.upsert')
-        ->patch('/projects/{project}/images/{image}/caption/upsert', [ProjectController::class, 'upsertCaptionOnProjectImage']);
-
     Route::name('projects.images.update')
         ->patch('/projects/{project}/images/{image}/update', [ProjectController::class, 'updateProjectImage']);
 

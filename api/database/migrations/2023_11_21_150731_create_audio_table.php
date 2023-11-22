@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('audio', function (Blueprint $table) {
             $table->id();
             $table->string('url');
-            $table->unsignedBigInteger('imageable_id');
-            $table->string('imageable_type');
+            $table->string('caption');
+            $table->enum('genre', ['worship', 'sermon', 'other'])->nullable();
+            $table->string('author')->nullable();
+            $table->unsignedBigInteger('audioable_id');
+            $table->string('audioable_type');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('audio');
     }
 };

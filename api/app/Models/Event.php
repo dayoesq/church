@@ -17,6 +17,9 @@ use Illuminate\Support\Str;
  * @property string $anchors
  * @property string $slug
  * @property string $description
+ * @property mixed $images
+ * @method static create(array $validated)
+ * @method static where(string $string, string $value)
  */
 class Event extends Model
 {
@@ -66,8 +69,8 @@ class Event extends Model
     protected function slug(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value),
+            get: fn () => $this->slug,
+            set: fn () => Str::slug($this->title),
         );
     }
 

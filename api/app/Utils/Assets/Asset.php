@@ -4,10 +4,9 @@ namespace App\Utils\Assets;
 
 class Asset
 {
-    public static string $GALLERY = 'gallery';
-    public static string $EVENT = 'event';
-    public static string $PROJECT = 'project';
-    public static array $IMAGE_EXTENSIONS = ['jpg','jpeg','png','svg'];
-
+    public static string $PHOTO = 'photo';
+    public static string $AUDIO = 'audio';
+    public static string $ATTACHMENT = 'attachment';
+    public static string $VIDEO = 'video';
 
 }

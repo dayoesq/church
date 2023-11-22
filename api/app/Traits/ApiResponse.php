@@ -4,9 +4,17 @@ namespace App\Traits;
 
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
+use Exception;
+use App\Utils\Assets;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\ValidationException;
+
 
 trait ApiResponse
 {
@@ -134,37 +142,34 @@ trait ApiResponse
     }
 
     /**
-     * Process image files before storage.
+     * Process assets before storage.
      *
      * @param Request $request
      * @param string $fileName
-     * @param array $allowedExtensions
      * @return array
-     * @throws ValidationException
      */
-    public function handleAssetsStorage(Request $request, string $fileName, array $allowedExtensions): array
+    public function processAssetsStorage(mixed $request, string $fileName): array
     {
         $files = [];
-        $directory = 'gallery' ? $fileName . "ies" : $fileName . "s";
+        $directory = $fileName . 's';
+        $attachment = $request->file($fileName);
+        $attachments = [...$attachment];
 
-        $attachments = $request->file($fileName);
-
-        foreach ($attachments as $attachment) {
-            if(! in_array($attachment->extension(), $allowedExtensions)) {
-                throw ValidationException::withMessages([
-                    "$fileName" => ['Invalid file type.']
-                ]);
-            }
-        }
-
-        $request->validate([
-            "$fileName.*" => [
-                'file',
-                'mimes:' . implode(',', $allowedExtensions),
-                'max:5000',
-                'dimensions:min_width=200,min_height=200,max_width=800,max_height=600',
+        match ($fileName) {
+            'photo.*' => [
+                File::image()
+                    ->max('5mb')
+                    ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
-        ]);
+            'attachment.*' => [
+                File::types(['pdf, png, svg, jpg, jpeg'])
+                    ->max('5mb')
+            ],
+            'audio.*' => [
+                File::types(['mp3','wav'])
+                    ->max('5mb')
+            ],
+        };
 
         foreach ($attachments as $attachment) {
             $storedPath = $attachment->store($directory);
@@ -175,38 +180,31 @@ trait ApiResponse
     }
 
     /**
-     * Process image file before storage.
+     * Delete assets.
      *
-     * @param Request $request
-     * @param string $fileName
-     * @param array $allowedExtensions
-     * @return string
-     * @throws ValidationException
+     * @param mixed $model
+     * @return bool
      */
-    public function handleAssetStorage(Request $request, string $fileName, array $allowedExtensions): string
+    protected function deleteAsset(mixed $model) : bool
     {
+        try {
+            DB::beginTransaction();
+            $photos = $model->images;
+            foreach ($photos as $photo) {
+                if (Storage::disk(Asset::$PHOTO)->exists($photo->url)) {
+                    Storage::disk(Asset::$PHOTO)->delete($photo->url);
+                    $photo->delete();
+                }
+            }
 
-        $attachment = $request->file($fileName);
-        $directory = 'gallery' ? $fileName . "ies" : $fileName . "s";
-
-        if(! in_array($attachment->extension(), $allowedExtensions)) {
-            throw ValidationException::withMessages([
-                "$fileName" => ['Invalid file type.']
-            ]);
+            $model->delete();
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return false;
         }
-
-        $request->validate([
-            "$fileName" => [
-                'file',
-                'mimes:' . implode(',', $allowedExtensions),
-                'max:5000',
-                'dimensions:min_width=200,min_height=200,max_width=800,max_height=600',
-            ],
-        ]);
-
-        $storedPath = $attachment->store($directory);
-        return basename($storedPath);
-
     }
 
 }
