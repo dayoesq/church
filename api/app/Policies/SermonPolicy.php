@@ -51,4 +51,5 @@ class SermonPolicy
         return $user->isAuthorizedSuperAdmin() || $user->id === $sermon->delivered_by;
     }
 
+
 }

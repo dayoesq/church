@@ -9,8 +9,10 @@ use App\Utils\Enums\UserStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\Rules\File;
 
+/**
+ * @property mixed $client_current_time
+ */
 class AdminUserRequest extends FormRequest
 {
     /**
@@ -44,7 +46,7 @@ class AdminUserRequest extends FormRequest
             'status' => ['sometimes', new Enum(UserStatus::class)],
             'roles' => ['sometimes', new Enum(Roles::class)],
             'position_id' => ['sometimes', 'exists:App\Models\Position,id'],
-            
+
         ];
     }
 }

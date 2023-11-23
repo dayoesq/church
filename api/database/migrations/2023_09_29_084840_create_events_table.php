@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
             $table->unsignedBigInteger('anchor')->nullable();
-            $table->foreign('anchor')->references('id')->on('anchors')->cascadeOnDelete();
+            $table->foreign('anchor')->references('id')->on('anchors');
             $table->timestamps();
         });
     }

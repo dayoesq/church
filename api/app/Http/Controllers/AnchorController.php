@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\AnchorDto;
 use App\Http\Requests\UpsertAnchorRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Resources\Anchors\AnchorResource;
 use App\Models\Anchor;
+use Illuminate\Http\JsonResponse;
 
 class AnchorController extends Controller
 {
@@ -21,7 +21,7 @@ class AnchorController extends Controller
     public function index(): JsonResponse
     {
         $anchors = Anchor::all();
-        return $this->ok(data: $anchors);
+        return $this->ok(data: AnchorResource::collection($anchors));
     }
 
     /**
@@ -31,9 +31,9 @@ class AnchorController extends Controller
      */
     public function store(UpsertAnchorRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $transformedData = new AnchorDto($data['first_name'], $data['last_name'], $data['email'], $data['title']);
-        return Anchor::create($transformedData) ? $this->created() : $this->serverError();
+        $validated = $request->validated();
+        $anchor = Anchor::create($validated);
+        return $anchor ? $this->created(data: new AnchorResource($anchor)) : $this->serverError();
     }
 
     /**
@@ -44,7 +44,7 @@ class AnchorController extends Controller
      */
     public function show(Anchor $anchor): JsonResponse
     {
-        return $this->ok(data: $anchor);
+        return $this->ok(data: new AnchorResource($anchor));
     }
 
     /**
@@ -56,9 +56,8 @@ class AnchorController extends Controller
      */
     public function update(UpsertAnchorRequest $request, Anchor $anchor): JsonResponse
     {
-        $data = $request->validated();
-        $transformedData = new AnchorDto($data['first_name'], $data['last_name'], $data['email'], $data['title']);
-        return $anchor->fill([$transformedData]) ? $this->ok() : $this->serverError();
+        $validated = $request->validated();
+        return $anchor->update($validated) ? $this->ok() : $this->serverError();
 
     }
 

@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 
 /**
- * @property mixed $images
- * @property mixed $title
- * @property mixed $status
- * @property mixed $body
- * @property mixed $excerpt
- * @property mixed $delivered_by
- * @property mixed $content
+ * @property string $title
+ * @property string $slug
+ * @property string $status
+ * @property string $summary
+ * @property string author
  * @property mixed $audios
  * @method static create(mixed $data)
  */
@@ -32,8 +30,10 @@ class Sermon extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
         'status',
-        'delivered_by'
+        'summary',
+        'author'
     ];
 
     /**
@@ -46,6 +46,19 @@ class Sermon extends Model
         return Attribute::make(
             get: fn ($value) => $value,
             set: fn ($value) => Str::words($value)
+        );
+    }
+
+    /**
+     * Sluggify the sermon's title.
+     *
+     * @return Attribute
+     */
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::slug($value)
         );
     }
 

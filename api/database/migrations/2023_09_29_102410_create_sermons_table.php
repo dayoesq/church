@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('sermons', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug');
+            $table->string('summary')->nullable();
             $table->enum('status', ['draft', 'archived', 'published'])->default('draft');
-            $table->string('delivered_by');
+            $table->string('author');
             $table->timestamps();
         });
     }

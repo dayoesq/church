@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Utils\Assets\Asset;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Exception;
@@ -183,17 +184,21 @@ trait ApiResponse
      * Delete assets.
      *
      * @param mixed $model
+     * @param string $assetName
      * @return bool
      */
-    protected function deleteAsset(mixed $model) : bool
+    protected function deleteAsset(mixed $model, string $assetName) : bool
     {
+
+        $assets = $assetName === 'images' ? $model->images : $model->audios;
+
         try {
             DB::beginTransaction();
-            $photos = $model->images;
-            foreach ($photos as $photo) {
-                if (Storage::disk(Asset::$PHOTO)->exists($photo->url)) {
-                    Storage::disk(Asset::$PHOTO)->delete($photo->url);
-                    $photo->delete();
+            foreach ($assets as $asset) {
+                $diskName = $assetName === 'images' ? Asset::$PHOTO : Asset::$AUDIO;
+                if (Storage::disk($diskName)->exists($asset->url)) {
+                    Storage::disk($diskName)->delete($asset->url);
+                    $asset->delete();
                 }
             }
 

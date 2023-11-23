@@ -7,6 +7,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SermonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +30,7 @@ Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthControlle
 Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
 Route::apiResource('blogs', BlogController::class)->only(['index', 'view']);
 Route::name('blogs.published.all')->get('/blogs/published/all', [BlogController::class, 'getPublishedBlogs']);
-
-
-//Route::apiResource('users', UserController::class);
+Route::name('sermons.published.all')->get('/sermons/published/all', [SermonController::class, 'getPublishedSermons']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
