@@ -45,16 +45,14 @@ class Helper
             }
 
             $randomBytes = random_bytes($length);
-            $randomNumber = hexdec(bin2hex($randomBytes));
-            $minValue = pow(10, $length - 1);
-            $maxValue = pow(10, $length) - 1;
-            $randomNumber = $randomNumber % ($maxValue - $minValue + 1) + $minValue;
+            $randomNumber = current(unpack('L', $randomBytes)) % (pow(10, $length) - pow(10, $length - 1)) + pow(10, $length - 1);
 
             return str_pad($randomNumber, $length, '0', STR_PAD_LEFT);
         } catch (Exception $e) {
             throw new Exception(ErrorResponse::$SERVER_ERROR);
         }
     }
+
 
 
 

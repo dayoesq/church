@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Utils\Enums\Roles;
 
 /**
- * @method static findOrFail(string $id)
+ * @method static findOrFail(int $id)
  * @method static create(array $array)
  * @method static where(string $string, mixed $input)
  * @property string $first_name
@@ -27,7 +27,7 @@ use App\Utils\Enums\Roles;
  * @property mixed $member_since
  * @property string $roles
  * @property string $title
- * @property mixed|string $postal_code
+ * @property string $postal_code
  * @property string $city
  * @property mixed $telephone
  * @property string $address_one
@@ -139,6 +139,45 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn ($value) => Str::ucfirst($value),
             set: fn ($value) => Str::lower($value),
+        );
+    }
+
+    /**
+     * Convert address to uppercase.
+     *
+     * @return Attribute
+     */
+    protected function addressOne(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::upper($value),
+        );
+    }
+
+    /**
+     * Convert address to uppercase.
+     *
+     * @return Attribute
+     */
+    protected function addressTwo(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::upper($value),
+        );
+    }
+
+    /**
+     * Convert address to uppercase.
+     *
+     * @return Attribute
+     */
+    protected function postalCode(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::upper($value),
         );
     }
 

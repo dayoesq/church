@@ -4,24 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\UpsertUserRequest;
+use App\Http\Resources\Users\NewUserResource;
+use App\Http\Resources\Users\UserResource;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Assets\Asset;
-use App\Utils\Enums\Countries;
-use App\Utils\Enums\Gender;
-use App\Utils\Enums\Roles;
-use App\Utils\Enums\UserStatus;
 use App\Utils\Strings\Helper;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
+
 
 class UserController extends Controller
 {
@@ -45,9 +41,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param UpsertUserRequest $request
+     * @param AdminUserRequest $request
      * @return JsonResponse
-     * @throws Exception
      */
     public function store(AdminUserRequest $request): JsonResponse
     {
@@ -56,25 +51,29 @@ class UserController extends Controller
             DB::beginTransaction();
 
             $validated = $request->validated();
+            $firstName = $validated['first_name'];
+            $lastName = $validated['last_name'];
+            $email = $validated['email'];
             $passwordResetToken = Helper::generateRandomNumber(Helper::$DEFAULT_RANDOM_NUMBER);
             $clientCurrentTime = Carbon::createFromTimestampMs($request->client_current_time)->toDateTimeString();
             $tempPassword = Helper::generateRandomString(Helper::$RANDOM_STRING_LENGTH);
+            $hashedPassword = Helper::hashPassword($tempPassword);
 
             $resetTokenModel = new PasswordResetToken();
-            $resetTokenModel->email = $request->input('email');
+            $resetTokenModel->email = $email;
             $resetTokenModel->token = $passwordResetToken;
             $resetTokenModel->created_at = $clientCurrentTime;
             $resetTokenModel->save();
 
             $user = new User();
-            $user->first_name = $request->input('first_name');
-            $user->last_name = $request->input('last_name');
-            $user->email = $request->input('email');
-            $user->password = Helper::hashPassword($tempPassword);
+            $user->first_name = $firstName;
+            $user->last_name = $lastName;
+            $user->email = $email;
+            $user->password = $hashedPassword;
             $user->save();
 
             DB::commit();
-            return $this->created(data: $user);
+            return $this->created(data: new NewUserResource($user));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -117,7 +116,7 @@ class UserController extends Controller
     {
         $this->authorize('getActiveUsers', auth()->user());
         $users = User::where('status', 'active')->get();
-        return $this->ok(data: $users);
+        return $this->ok(data: UserResource::collection($users));
     }
 
     /**
