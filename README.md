@@ -98,13 +98,13 @@ The Church API provides several endpoints to interact with different aspects of 
 - **PATCH /api/sermons/{id}**: Update information about a sermon.
 - **DELETE /api/sermons/{id}**: Delete a sermon.
 
-### 4. Donations
+### 4. Projects
 
-- **GET /api/donations**: Retrieve a list of all donations.
-- **GET /api/donations/{id}**: Retrieve information about a specific donation by ID.
-- **POST /api/donations**: Record a new donation.
-- **PATCH /api/donations/{id}**: Update information about a donation.
-- **DELETE /api/donations/{id}**: Delete a donation.
+- **GET /api/projects**: Retrieve a list of all projects.
+- **GET /api/projects/{id}**: Retrieve information about a specific project by ID.
+- **POST /api/projects**: Record a new project.
+- **PATCH /api/projects/{id}**: Update information about a projects.
+- **DELETE /api/projects/{id}**: Delete a project.
 
 - ### 5. Blogs
 
@@ -130,24 +130,25 @@ For endpoints that return multiple items (e.g., congregations, members), paginat
 
 To help you get started, here are some example API requests:
 
-- **Retrieve information about a specific member (ID: 1)**:
+- **Retrieve information about a specific user (ID: 1)**:
 
   ```
-  GET /api/members/1
+  GET /api/users/1
   ```
 
-- **Create a new event**:
+  - **Create a new event**:
 
-  ```
-  POST /api/events
-  Body: {
-      "title": "Sunday Service",
-      "starts_at": "2023-09-10 15:00",
-      "ends_at": "2023-09-10 15:45",
-      "type": "weekly",
-      "description": "Weekly church service."
-  }
-  ```
+    ```
+    POST /api/events
+    Body: {
+        "title": "Sunday Service",
+        "description": "Weekly church service."
+        "organizedBy": "John Doe."
+        "anchor": 1,
+        "startsAt": "2023-09-10 15:00",
+        "endsAt": "2023-09-10 15:45",
+    }
+    ```
 
 ## Conclusion
 
