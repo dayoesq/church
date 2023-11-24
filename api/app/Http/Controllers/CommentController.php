@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Comments\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class CommentController extends Controller
     public function index(): JsonResponse
     {
         $comments = Comment::all();
-        return $this->ok(data: $comments);
+        return $this->ok(data: CommentResource::collection($comments));
     }
 
     /**
@@ -34,7 +35,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment): JsonResponse
     {
-        return $this->ok(data: $comment);
+        return $this->ok(data: new CommentResource($comment));
     }
 
     /**
@@ -52,7 +53,7 @@ class CommentController extends Controller
         $reply->author = Auth::id();
         $reply->parent_id = $comment->id;
         $reply->save();
-        return $this->ok();
+        return $this->ok(data: new CommentResource($reply));
     }
 
     /**
@@ -64,7 +65,7 @@ class CommentController extends Controller
     public function getCommentReplies(Comment $comment): JsonResponse
     {
         $replies = $comment->replies()->get();
-        return $this->ok(data: $replies);
+        return $this->ok(data: CommentResource::collection($replies));
     }
 
     /**
@@ -76,6 +77,6 @@ class CommentController extends Controller
     public function destroy(Comment $comment): JsonResponse
     {
         $comment->delete();
-        return $this->ok();
+        return $this->noContent();
     }
 }

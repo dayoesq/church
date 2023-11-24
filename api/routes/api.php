@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SermonController;
@@ -60,7 +61,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'positions' => PositionController::class,
         'events' => EventController::class,
         'projects' => ProjectController::class,
-        'anchors' => AnchorController::class
+        'anchors' => AnchorController::class,
+        'galleries' => GalleryController::class
     ]);
 
 });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $project_id
@@ -24,7 +25,6 @@ class Donation extends Model
         'payment_method',
         'notes',
         'acknowledge_sent',
-        'source',
         'currency',
         'status',
         'refund_status',
@@ -44,5 +44,15 @@ class Donation extends Model
         'acknowledgement_sent' => 'boolean',
         'is_refund_requested' => 'boolean'
     ];
+
+    /**
+     * Donation belongs to project.
+     *
+     * @return BelongsTo
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
 

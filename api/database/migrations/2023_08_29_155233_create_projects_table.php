@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
+            $table->longText('description');
+            $table->boolean('donation_required')->default(false);
+            $table->boolean('continuous')->default(false);
+            $table->timestamp('starts_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
             $table->enum('status', ['on_going', 'proposed', 'completed', 'abandoned'])->default('proposed');
             $table->unsignedBigInteger('target_amount');
             $table->timestamps();
