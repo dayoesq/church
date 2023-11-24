@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBlogRequest;
+use App\Http\Resources\Blogs\BlogResource;
 use App\Models\Blog;
 use App\Models\Comment;
+use App\Utils\Enums\PostStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,7 +28,7 @@ class BlogController extends Controller
     public function index(): JsonResponse
     {
         $posts = Blog::with('comments')->get();
-        return $this->ok(data: $posts);
+        return $this->ok(data: BlogResource::collection($posts));
     }
 
     /**
@@ -39,14 +41,14 @@ class BlogController extends Controller
     {
         $request->validated();
 
-        $existingBlog = Blog::where('title', Str::slug($request->input('title')))->first();
+        $existingBlog = Blog::where('slug', Str::slug($request->input('title')))->first();
         if($existingBlog) return $this->conflict();
         $blog = new Blog();
         $blog->title = $request->input('title');
         $blog->content = $request->input('content');
         $blog->author = auth()->user()->id;
 
-        return $blog->save() ? $this->created(data: $blog) : $this->serverError();
+        return $blog->save() ? $this->created(data: new BlogResource($blog)) : $this->serverError();
     }
 
     /**
@@ -58,7 +60,7 @@ class BlogController extends Controller
     public function show(Blog $blog): JsonResponse
     {
         $blogWithComments = $blog->with('comments')->first();
-        return $this->ok(data: $blogWithComments);
+        return $this->ok(data: new BlogResource($blogWithComments));
     }
 
     /**
@@ -115,8 +117,8 @@ class BlogController extends Controller
      */
     public function getPublishedBlogs(): JsonResponse
     {
-        $blogs = Blog::where('status', 'published')->get();
-        return $this->ok(data: $blogs);
+        $blogs = Blog::where('status', PostStatus::Published->value)->get();
+        return $this->ok(data: BlogResource::collection($blogs));
     }
 
     /**
@@ -128,6 +130,6 @@ class BlogController extends Controller
     public function destroy(Blog $blog): JsonResponse
     {
         $blog->delete();
-        return $this->ok();
+        return $this->noContent();
     }
 }

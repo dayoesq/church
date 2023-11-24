@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('organized_by');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
-            $table->unsignedBigInteger('anchor')->nullable();
-            $table->foreign('anchor')->references('id')->on('anchors');
+            $table->foreignId('anchor')->nullable()->constrained('anchors');
             $table->timestamps();
         });
     }

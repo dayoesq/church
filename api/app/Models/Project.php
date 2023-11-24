@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -26,10 +27,25 @@ class Project extends Model
         'title',
         'description',
         'target_amount',
+        'donation_required',
+        'continuous',
         'acknowledgement_sent',
         'status',
-        'start_date',
-        'end_date'
+        'starts_at',
+        'ends_at'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'donation_required' => 'boolean',
+        'continuous' => 'boolean',
+        'acknowledgement_sent' => 'boolean',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime'
     ];
 
     /**
@@ -40,6 +56,16 @@ class Project extends Model
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
+     * Project has many donations.
+     *
+     * @return HasMany
+     */
+    public function donations(): HasMany
+    {
+        return $this->hasMany(Donation::class);
     }
 
 }

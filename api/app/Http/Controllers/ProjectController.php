@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertProjectRequest;
+use App\Http\Resources\Projects\ProjectResource;
 use App\Models\Image;
 use App\Models\Project;
 use App\Utils\Assets\Asset;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -32,7 +33,7 @@ class ProjectController extends Controller
     public function index(): JsonResponse
     {
         $projects = Project::with('images')->get();
-        return $this->ok(data: $projects);
+        return $this->ok(data: ProjectResource::collection($projects));
     }
 
     /**
@@ -43,9 +44,25 @@ class ProjectController extends Controller
      */
     public function store(UpsertProjectRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $project = Project::create($data);
-        return $project ? $this->created(data: $project) : $this->serverError();
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+            $project = Project::create($data);
+            if ($request->hasFile(Asset::$PHOTO)) {
+                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+                foreach ($paths as $path) {
+                    $project->images()->updateOrCreate([
+                        'url' => $path
+                    ]);
+                }
+            }
+            DB::commit();
+            return $this->created(data: new ProjectResource($project));
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return $this->serverError($e->getMessage());
+        }
     }
 
     /**
@@ -57,7 +74,7 @@ class ProjectController extends Controller
     public function show(Project $project): JsonResponse
     {
         $data = $project->with('images')->first();
-        return $this->ok(data: $data);
+        return $this->ok(data: new ProjectResource($data));
     }
 
     /**
@@ -66,12 +83,29 @@ class ProjectController extends Controller
      * @param UpsertProjectRequest $request
      * @param Project $project
      * @return JsonResponse
+     * @throws Throwable
      */
     public function update(UpsertProjectRequest $request, Project $project): JsonResponse
     {
-        $data = $request->validated();
-        $project->update($data);
-        return $project->save() ? $this->noContent() : $this->serverError();
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+            $project->updateOrFail($data);
+            if ($request->hasFile(Asset::$PHOTO)) {
+                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+                foreach ($paths as $path) {
+                    $project->images()->updateOrCreate([
+                        'url' => $path
+                    ]);
+                }
+            }
+            DB::commit();
+            return $this->ok(data: new ProjectResource($project));
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return $this->serverError($e->getMessage());
+        }
 
     }
 
@@ -121,7 +155,7 @@ class ProjectController extends Controller
 
             $projectImage->delete();
 
-            return $this->ok();
+            return $this->noContent();
         }
 
         return $this->serverError();
@@ -162,7 +196,7 @@ class ProjectController extends Controller
     public function destroy(Project $project): JsonResponse
     {
 
-        return ! $this->deleteAsset($project) ? $this->serverError() : $this->noContent();
+        return ! $this->deleteAsset($project, 'images') ? $this->serverError() : $this->noContent();
 
     }
 

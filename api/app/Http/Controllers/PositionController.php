@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertPositionRequest;
+use App\Http\Resources\Sermons\PositionResource;
 use App\Models\Position;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
+use Throwable;
 
 class PositionController extends Controller
 {
@@ -23,7 +24,7 @@ class PositionController extends Controller
     public function index(): JsonResponse
     {
         $positions = Position::all();
-        return $this->ok(data: $positions);
+        return $this->ok(data: PositionResource::collection($positions));
     }
 
     /**
@@ -36,7 +37,7 @@ class PositionController extends Controller
     {
         $data = $request->validated();
         $position = Position::create($data);
-        return $position->save() ? $this->created(data: $position) : $this->serverError();
+        return $position ? $this->created(data: new PositionResource($position)) : $this->serverError();
     }
 
     /**
@@ -47,22 +48,22 @@ class PositionController extends Controller
      */
     public function show(Position $position): JsonResponse
     {
-        return $this->ok($position);
+        return $this->ok(data: new PositionResource($position));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpsertPositionRequest $request
-     * @param int $id
+     * @param Position $position
      * @return JsonResponse
+     * @throws Throwable
      */
-    public function update(UpsertPositionRequest $request, int $id): JsonResponse
+    public function update(UpsertPositionRequest $request, Position $position): JsonResponse
     {
-        $position = Position::findOrFail($id);
-        $request->validated();
-        $position->title = Str::lower($request->input('title'));
-        return $position->save() ? $this->noContent() : $this->serverError();
+        $validated = $request->validated();
+        $updatedPosition = $position->updateOrFail($validated);
+        return $updatedPosition ? $this->ok(data: new PositionResource($updatedPosition)) : $this->serverError();
 
     }
 
@@ -75,6 +76,6 @@ class PositionController extends Controller
     public function destroy(Position $position): JsonResponse
     {
         $position->delete();
-        return $this->ok();
+        return $this->noContent();
     }
 }

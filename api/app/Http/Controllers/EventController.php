@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertEventRequest;
+use App\Http\Resources\Events\EventResource;
 use App\Models\Event;
 use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
@@ -29,7 +29,7 @@ class EventController extends Controller
     public function index(): JsonResponse
     {
         $events = Event::with('anchors')->get();
-        return $this->ok(data: $events);
+        return $this->ok(data: EventResource::collection($events));
     }
 
     /**
@@ -44,8 +44,6 @@ class EventController extends Controller
             DB::beginTransaction();
 
             $validated = $request->validated();
-            $validated = $request->safe()->except($validated[Asset::$PHOTO]);
-
             $event = Event::create($validated);
 
             if ($request->filled('anchor')) $event->anchor = $request->input('anchor');
@@ -64,10 +62,11 @@ class EventController extends Controller
             }
 
             DB::commit();
-            return $this->created(data: $event);
+            return $this->created(data: new EventResource($event));
 
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return $this->badRequest($e->getMessage());
         }
     }
@@ -80,7 +79,7 @@ class EventController extends Controller
      */
     public function show(Event $event): JsonResponse
     {
-        return $this->ok(data: $event);
+        return $this->ok(data: new EventResource($event));
     }
 
     /**
@@ -99,7 +98,6 @@ class EventController extends Controller
             DB::beginTransaction();
 
             $validated = $request->validated();
-            $validated = $request->safe()->except($validated[Asset::$PHOTO]);
             $event->updateOrFail($validated);
 
             if ($request->hasFile(Asset::$PHOTO)) {
@@ -115,10 +113,11 @@ class EventController extends Controller
             }
 
             DB::commit();
-            return $this->created(data: $event);
+            return $this->ok(data: new EventResource($event));
 
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return $this->badRequest($e->getMessage());
         }
     }
@@ -131,7 +130,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event): JsonResponse
     {
-        return ! $this->deleteAsset($event) ? $this->serverError() : $this->noContent();
+        return ! $this->deleteAsset($event, 'images') ? $this->serverError() : $this->noContent();
 
     }
 }
