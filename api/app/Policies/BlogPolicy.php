@@ -35,7 +35,7 @@ class BlogPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAuthorizedSuperAdmin();
+        return $user->isAuthorizedUser();
     }
 
     /**
@@ -58,29 +58,18 @@ class BlogPolicy
      */
     public function commentToBlog(User $user): bool
     {
-        return $user->isAuthorizedSuperAdmin();
-    }
-
-    /**
-     * Anyone can access the list of published blogs.
-     *
-     * @return bool
-     */
-    public function getPublishedBlogs(): bool
-    {
-        return true;
+        return $user->isAuthorizedUser();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param Blog $blog
      * @return bool
      */
-    public function delete(User $user, Blog $blog): bool
+    public function delete(User $user): bool
     {
-        return $user->isAuthorizedSuperAdmin() || $user->id === $blog->author;
+        return $user->isAuthorizedSuperAdmin();
     }
 
 }

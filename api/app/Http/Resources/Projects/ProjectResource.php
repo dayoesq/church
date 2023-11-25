@@ -10,14 +10,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $id
  * @property string $title
  * @property string $description
- * @property boolean $donation_required
- * @property boolean $continuous
  * @property string $starts_at
  * @property string $ends_at
  * @property string $status
  * @property mixed $target_amount
  * @property string $created_at
  * @property string $updated_at
+ * @property string $requires_donation
+ * @property string $duration
  */
 class ProjectResource extends JsonResource
 {
@@ -32,8 +32,8 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'donationRequired' => $this->donation_required,
-            'continuous' => $this->continuous,
+            'requiresDonation' => $this->requires_donation,
+            'duration' => $this->duration,
             'startsAt' => $this->starts_at,
             'endsAt' => $this->ends_at,
             'status' => $this->status,

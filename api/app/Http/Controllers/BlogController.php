@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Utils\Enums\PostStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -46,7 +47,7 @@ class BlogController extends Controller
         $blog = new Blog();
         $blog->title = $request->input('title');
         $blog->content = $request->input('content');
-        $blog->author = auth()->user()->id;
+        $blog->author = Auth::id();
 
         return $blog->save() ? $this->created(data: new BlogResource($blog)) : $this->serverError();
     }
@@ -102,7 +103,7 @@ class BlogController extends Controller
         if($request->filled('content')) {
             $comment = new Comment();
             $comment->content = $request->input('content');
-            $comment->author = auth()->user()->id;
+            $comment->author = Auth::id();
             $comment->blog_id = $blog->id;
             return $comment->save() ? $this->ok() : $this->serverError();
 

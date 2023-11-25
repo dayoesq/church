@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 
 import { blogs, BlogPost } from '@/data/blog';
 import Blog from '@/components/Blog';
-import Footer from '@/components/Footer';
-import Navigation from '@/components/Navigation';
 import Pagination from '@/components/Pagination';
 import PrimaryHeaders from '@/components/PrimaryHeaders';
 
@@ -19,7 +17,6 @@ export default function BlogsPage() {
 
     return (
         <>
-            <Navigation />
             <div className='text-center mt-20'>
                 <PrimaryHeaders title='Blogs' subTitle='All posts' />
             </div>
@@ -37,8 +34,6 @@ export default function BlogsPage() {
                 ))}
             </div>
             <Pagination className='w-[30rem] m-auto' />
-
-            <Footer />
         </>
     );
 }
