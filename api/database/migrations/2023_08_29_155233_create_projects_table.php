@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('description');
-            $table->boolean('donation_required')->default(false);
-            $table->boolean('continuous')->default(false);
+            $table->enum('requires_donation', ['yes', 'no'])->default('no');
+            $table->enum('duration', ['continuous', 'specific'])->default('specific');
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->enum('status', ['on_going', 'proposed', 'completed', 'abandoned'])->default('proposed');

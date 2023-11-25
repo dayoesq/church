@@ -7,6 +7,7 @@ use App\Http\Resources\Projects\ProjectResource;
 use App\Models\Image;
 use App\Models\Project;
 use App\Utils\Assets\Asset;
+use App\Utils\Enums\ProjectStatus;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -33,6 +34,22 @@ class ProjectController extends Controller
     public function index(): JsonResponse
     {
         $projects = Project::with('images')->get();
+        return $this->ok(data: ProjectResource::collection($projects));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function getProjectsThatRequireDonations(): JsonResponse
+    {
+        $this->authorize('viewAny', Project::class);
+        $projects = Project::with('images')
+            ->where('donation_required', true)
+            ->where('status', ProjectStatus::OnGoing->value)
+            ->get();
         return $this->ok(data: ProjectResource::collection($projects));
     }
 

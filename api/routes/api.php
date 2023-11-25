@@ -32,6 +32,7 @@ Route::name('auth.users.login')->post('/auth/users/login', [AuthController::clas
 Route::apiResource('blogs', BlogController::class)->only(['index', 'view']);
 Route::name('blogs.published.all')->get('/blogs/published/all', [BlogController::class, 'getPublishedBlogs']);
 Route::name('sermons.published.all')->get('/sermons/published/all', [SermonController::class, 'getPublishedSermons']);
+Route::name('projects.donations.all')->get('/projects/donations/all', [ProjectController::class, 'getProjectsThatRequireDonations']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

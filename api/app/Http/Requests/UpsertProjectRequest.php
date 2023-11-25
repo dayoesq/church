@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Utils\Enums\ProjectStatus;
+use App\Utils\Enums\YesOrNo;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -36,7 +37,7 @@ class UpsertProjectRequest extends FormRequest
             'title' => ['sometimes', 'string', 'min:2', 'max:150'],
             'description' => ['sometimes', 'string', 'min:20', 'max:500'],
             'target_amount' => ['sometimes', 'required'],
-            'donation_required' => ['sometimes', 'boolean'],
+            'donation_required' => ['sometimes', new Enum(YesOrNo::class)],
             'continuous' => ['sometimes', 'boolean'],
             'acknowledgement_sent' => ['sometimes', 'boolean'],
             'status' => ['sometimes', new Enum(ProjectStatus::class)],

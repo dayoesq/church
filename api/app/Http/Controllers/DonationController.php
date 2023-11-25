@@ -51,7 +51,7 @@ class DonationController extends Controller
     {
         $data = $request->validated();
         $donation->project_id = $project->id;
-        $donation->fill($data);
+        $donation->update($data);
         return $donation->save() ? $this->noContent() : $this->serverError();
 
     }

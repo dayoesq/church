@@ -15,6 +15,7 @@ use App\Utils\Enums\Roles;
 /**
  * @method static findOrFail(int $id)
  * @method static create(array $array)
+ * @method static update(array $array)
  * @method static where(string $string, mixed $input)
  * @property string $first_name
  * @property string $last_name
@@ -206,6 +207,16 @@ class User extends Authenticatable
      *
      * @return bool
      */
+    public function isUser(): bool
+    {
+        return $this->roles === Roles::User->value;
+    }
+
+    /**
+     * Check if user has 'super' role.
+     *
+     * @return bool
+     */
     public function isSuperAdmin(): bool
     {
         return $this->isSuper() || $this->isAdmin();
@@ -248,7 +259,7 @@ class User extends Authenticatable
      */
     public function isAuthorizedUser(): bool
     {
-        return $this->isAuthorized();
+        return $this->isAuthorized() && $this->isUser();
     }
 
     /**
