@@ -10,7 +10,7 @@ Welcome to the Church RESTful API documentation! This API is built using the Lar
 2. [Authentication](#authentication)
     - [API Key](#api-key)
 3. [Endpoints](#endpoints)
-    - [1. Members](#1-members)
+    - [1. Users](#1-users)
     - [2. Events](#2-events)
     - [3. Sermons](#3-sermons)
     - [4. Donations](#4-donations)
@@ -74,13 +74,13 @@ Your Church API should now be up and running on `http://localhost:8000`.
 
 The Church API provides several endpoints to interact with different aspects of church management. Below is an overview of the available endpoints:
 
-### 1. Members
+### 1. Users
 
-- **GET /api/members**: Retrieve a list of all church members.
-- **GET /api/members/{id}**: Retrieve information about a specific member by ID.
-- **POST /api/members**: Create a new member.
-- **PATCH /api/members/{id}**: Update information about a member.
-- **DELETE /api/members/{id}**: Delete a member.
+- **GET /api/users**: Retrieve a list of all church members.
+- **GET /api/users/{id}**: Retrieve information about a specific member by ID.
+- **POST /api/users**: Create a new member.
+- **PATCH /api/users/{id}**: Update information about a member.
+- **DELETE /api/users/{id}**: Delete a member.
 
 ### 2. Events
 
@@ -93,10 +93,10 @@ The Church API provides several endpoints to interact with different aspects of 
 ### 3. Sermons
 
 - **GET /api/sermons**: Retrieve a list of all sermons.
-- **GET /api/sermons/{id}**: Retrieve information about a specific sermon by ID.
+- **GET /api/sermons/{slug}**: Retrieve information about a specific sermon by slug.
 - **POST /api/sermons**: Create a new sermon.
-- **PATCH /api/sermons/{id}**: Update information about a sermon.
-- **DELETE /api/sermons/{id}**: Delete a sermon.
+- **PATCH /api/sermons/{slug}**: Update information about a sermon.
+- **DELETE /api/sermons/{slug}**: Delete a sermon.
 
 ### 4. Projects
 
@@ -109,10 +109,10 @@ The Church API provides several endpoints to interact with different aspects of 
 - ### 5. Blogs
 
 - **GET /api/blogs**: Retrieve a list of all blogs.
-- **GET /api/blogs/{id}**: Retrieve information about a specific blog by ID.
+- **GET /api/blogs/{slug}**: Retrieve information about a specific blog by slug.
 - **POST /api/blogs**: Post a new blog.
-- **PATCH /api/blogs/{id}**: Update information about a blog.
-- **DELETE /api/blogs/{id}**: Delete a blog.
+- **PATCH /api/blogs/{slug}**: Update information about a slug.
+- **DELETE /api/blogs/{slug}**: Delete a blog.
 
 ## Error Handling
 
