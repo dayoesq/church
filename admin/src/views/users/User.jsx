@@ -11,7 +11,7 @@ import {
     useNavigation,
     useLoaderData,
     useActionData,
-    Link
+    
 } from 'react-router-dom';
 import {
     cilUser,
@@ -28,9 +28,9 @@ import {
 import { memo, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
-import { isAdmin, isSuper } from '../../util/helpers';
+import { isAdmin, isSuper } from '../../utils/helpers';
 import { useRedirect } from '../../hooks/redirect';
-import { loadUser, updateUser } from '../../util/requests/general-request';
+import { loadUser, updateUser } from '../../utils/requests/general-request';
 
 const User = () => {
     const [disabled, setDisabled] = useState(true);
@@ -279,9 +279,7 @@ const User = () => {
                                             <option value='active'>
                                                 Active
                                             </option>
-                                            <option value='deleted' disabled>
-                                                Deleted
-                                            </option>
+                                           
                                             <option value='banned'>
                                                 Banned
                                             </option>

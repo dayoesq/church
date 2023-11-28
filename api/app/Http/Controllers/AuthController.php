@@ -28,7 +28,7 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function logIn(Request $request): JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => ['required', 'email:rfc,dns'],
@@ -64,7 +64,7 @@ class AuthController extends Controller
         $login->logged_in_at = Carbon::now();
         $login->save();
 
-        return response()->json(['data' => $user, 'token' => $token]);
+        return response()->json(['data' => $user, 'message' => 'success', 'token' => $token, 'statusCode' => 200]);
     }
 
     /**
@@ -72,7 +72,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function logOut(): JsonResponse
+    public function logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
         return $this->ok();

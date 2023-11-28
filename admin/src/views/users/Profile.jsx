@@ -26,12 +26,12 @@ import {
     cilBank
 } from '@coreui/icons';
 import { memo, useState } from 'react';
-import avatar from '../assets/images/avatars/generic-avatar.png';
-import { useRedirect } from '../hooks/redirect';
-import Alert from '../components/Alert';
-import Input from '../components/Input';
-import { ENV } from '../utils/constants';
-import { updateSelf } from '../utils/requests/general-request';
+import avatar from '../../assets/images/generic-avatar.png';
+import { useRedirect } from '../../hooks/redirect';
+import Alert from '../../components/Alert';
+import Input from '../../components/Input';
+import { ENV } from '../../utils/constants';
+import { updateSelf } from '../../utils/requests/general-request';
 
 const Profile = () => {
     const [disabled, setDisabled] = useState(true);

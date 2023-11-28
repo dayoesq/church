@@ -22,21 +22,7 @@ const routes = [
         name: 'User',
         element: User
     },
-    {
-        path: '/events',
-        name: 'Events',
-        element: Event
-    },
-    {
-        path: '/galleries/new',
-        name: 'New Gallery',
-        element: Gallery
-    },
-    {
-        path: '/investments/:id',
-        name: 'Investment',
-        element: Investment
-    }
+    
 ];
 
 export default routes;

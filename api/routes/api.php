@@ -28,7 +28,7 @@ Route::name('auth.self.verify')->post('/auth/verify', [AuthController::class, 'v
 Route::name('auth.password.request')
     ->post('/auth/passwords/request', [AuthController::class, 'requestPasswordReset']);
 Route::name('auth.password.reset')->post('/auth/passwords/reset', [AuthController::class, 'resetPassword']);
-Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'logIn']);
+Route::name('auth.users.login')->post('/auth/users/login', [AuthController::class, 'login']);
 Route::apiResource('blogs', BlogController::class)->only(['index', 'view']);
 Route::name('blogs.published.all')->get('/blogs/published/all', [BlogController::class, 'getPublishedBlogs']);
 Route::name('sermons.published.all')->get('/sermons/published/all', [SermonController::class, 'getPublishedSermons']);
@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('projects.images.assign')
         ->patch('/projects/{project}/images/assign', [ProjectController::class, 'assignImagesToProject']);
 
-    Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logOut']);
+    Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logout']);
 
     Route::name('blogs.comments.add')->post('/blogs/{blog}/comments/add', [BlogController::class, 'commentToBlog']);
 

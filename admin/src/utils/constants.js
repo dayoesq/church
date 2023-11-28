@@ -16,19 +16,16 @@ export const STATUS = {
     no: 'no'
 };
 
-
 export const POST_STATUS = {
     active: 'draft',
     banned: 'published',
-    suspended: 'suspended',
+    suspended: 'suspended'
 };
-
-
-
 
 export const ENV = {
     baseUrl: process.env.REACT_APP_BASE_URL,
-    images: process.env.REACT_APP_IMAGE_URL
+    images: process.env.REACT_APP_IMAGE_URL,
+    attachment: process.env.REACT_APP_ATTACHMENT_URL
 };
 
 export const STATUS_CODE = {

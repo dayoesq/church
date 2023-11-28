@@ -1,5 +1,5 @@
 import { CBadge } from '@coreui/react';
-import { ROLE, STATUS } from './constants';
+import { ROLES, STATUS } from './constants';
 
 /**
  * Covert first letter to uppercase.
@@ -90,7 +90,7 @@ export const isAuthorized = () => {
     if (data) {
         return (
             data.token.length &&
-            [ROLE.user, ROLE.admin, ROLE.super].includes(data.user.role) &&
+            [ROLES.user, ROLES.admin, ROLES.super].includes(data.user.roles) &&
             data.user.status === STATUS.active
         );
     }
@@ -105,7 +105,7 @@ export const isAuthorized = () => {
  */
 export const isAdmin = () => {
     const data = getDataFromStorage();
-    return data && data.user.role === ROLE.admin;
+    return data && data.user.roles === ROLES.admin;
 };
 
 /**
@@ -116,7 +116,7 @@ export const isAdmin = () => {
  */
 export const isSuper = () => {
     const data = getDataFromStorage();
-    return data && data.user.role === ROLE.super;
+    return data && data.user.roles === ROLES.super;
 };
 
 /**
@@ -127,7 +127,7 @@ export const isSuper = () => {
  */
 export const isUser = () => {
     const data = getDataFromStorage();
-    return data && data.user.role === ROLE.user;
+    return data && data.user.roles === ROLES.user;
 };
 
 /**

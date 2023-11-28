@@ -8,7 +8,7 @@ import {
     cilUserPlus,
     cilCasino,
     cilNotes,
-    cilCalen
+    cilAvTimer
 } from '@coreui/icons';
 import { CNavGroup, CNavItem } from '@coreui/react';
 
@@ -42,13 +42,13 @@ const _nav = [
     {
         component: CNavGroup,
         name: 'Events',
-        icon: <CIcon icon={cilCalen} customClassName='nav-icon' />,
+        icon: <CIcon icon={cilAvTimer} customClassName='nav-icon' />,
         items: [
             {
                 component: CNavItem,
                 name: 'All Events',
                 to: '/dashboard/events',
-                icon: <CIcon icon={cilCalen} customClassName='nav-icon' />
+                icon: <CIcon icon={cilAvTimer} customClassName='nav-icon' />
             },
             {
                 component: CNavItem,

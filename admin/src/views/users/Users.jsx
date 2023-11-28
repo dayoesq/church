@@ -8,10 +8,10 @@ import {
 } from '@coreui/react';
 import { memo, Suspense } from 'react';
 import { Await, defer, useLoaderData } from 'react-router-dom';
-import UserTable from '../../components/UserTable';
+import UsersTable from '../../components/UsersTable';
 import Spinner from '../../components/Spinner';
-import { getDataFromStorage, transformedData } from '../../util/helpers';
-import { ENV } from '../../util/constants';
+import { getDataFromStorage, transformedData } from '../../utils/helpers';
+import { ENV } from '../../utils/constants';
 
 const Users = () => {
     const { users } = useLoaderData();
@@ -31,7 +31,7 @@ const Users = () => {
                                             An error occurred!
                                         </CAlert>
                                     }
-                                    children={el => <UserTable users={el} />}
+                                    children={el => <UsersTable users={el} />}
                                 />
                             </CCardBody>
                         </CCard>
@@ -59,7 +59,7 @@ export const loader = async () => {
 
 export const getUsers = async () => {
     const dataStorage = getDataFromStorage();
-    const res = await fetch(`${ENV.baseUrl}/users`, {
+    const res = await fetch(`${ENV.baseUrl}/users/active/all`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${dataStorage?.token}`
