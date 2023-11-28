@@ -1,5 +1,8 @@
 <?php
 
+use App\Utils\Enums\ProjectDuration;
+use App\Utils\Enums\ProjectStatus;
+use App\Utils\Enums\YesOrNo;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +18,19 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('description');
-            $table->enum('requires_donation', ['yes', 'no'])->default('no');
-            $table->enum('duration', ['continuous', 'specific'])->default('specific');
+            $table->enum('requires_donation', [YesOrNo::Yes->value, YesOrNo::No->value])->default(YesOrNo::No->value);
+            $table->enum('duration', [
+                ProjectDuration::Continuous->value,
+                ProjectDuration::Fixed->value
+            ])->default(ProjectDuration::Fixed->value);
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
-            $table->enum('status', ['on_going', 'proposed', 'completed', 'abandoned'])->default('proposed');
+            $table->enum('status', [
+                ProjectStatus::OnGoing->value,
+                ProjectStatus::Completed->value,
+                ProjectStatus::Abandoned->value,
+                ProjectStatus::Proposed->value
+            ])->default(ProjectStatus::Proposed->value);
             $table->unsignedBigInteger('target_amount');
             $table->timestamps();
         });
