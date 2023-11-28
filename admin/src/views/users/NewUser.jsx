@@ -7,12 +7,12 @@ import {
     CButton
 } from '@coreui/react';
 import { Form, useActionData, useNavigation } from 'react-router-dom';
-import { cilUser, cilAt, cilUserX } from '@coreui/icons';
+import { cilUser, cilAt } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import CustomDate from '../../utils/dates/date';
+import CustomDate from '../../utils/date';
 import { createUser } from '../../utils/requests/general-request';
 
 const NewUser = () => {
@@ -80,26 +80,6 @@ const NewUser = () => {
                                     />
                                 </CCol>
                             </CRow>
-                            <CRow>
-                                <CCol xs={12}>
-                                    <Input
-                                        element='select'
-                                        id='gender'
-                                        name='gender'
-                                        placeholder='Gender'
-                                        labelTitle='Gender'
-                                        icon={cilUserX}
-                                        data={data}
-                                    >
-                                        <option value={null}>
-                                            Select Gender
-                                        </option>
-                                        <option value='male'>Male</option>
-                                        <option value='female'>Female</option>
-                                    </Input>
-                                </CCol>
-                            </CRow>
-
                             <CRow>
                                 <CCol xs={12} sm={12}>
                                     <CButton

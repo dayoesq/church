@@ -4,9 +4,9 @@ namespace App\Utils\Success;
 
 class SuccessResponse
 {
-    public static string $CREATED = 'Created.';
-    public static string $NO_CONTENT = 'No content.';
-    public static string $OK = 'Success.';
+    public static string $CREATED = 'created.';
+    public static string $NO_CONTENT = 'no content.';
+    public static string $OK = 'success.';
 
 
 }

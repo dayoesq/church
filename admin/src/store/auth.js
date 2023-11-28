@@ -6,7 +6,7 @@ export const AuthContext = createContext({
         first_name: undefined,
         last_name: undefined,
         avatar: undefined,
-        role: undefined,
+        roles: undefined,
         status: undefined
     },
     token: undefined,

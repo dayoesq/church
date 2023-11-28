@@ -5,10 +5,10 @@ import Spinner from './components/Spinner';
 // Actions.
 import { action as newUserAction } from './views/users/NewUser';
 import { action as loginAction } from './views/pages/Login';
-import { action as passwordResetRequestAction } from './views/pages/password-reset/PasswordResetRequest';
-import { action as passwordResetAction } from './views/pages/password-reset/PasswordReset';
+import { action as passwordResetRequestAction } from './views/pages/passwords/PasswordResetRequest';
+import { action as passwordResetAction } from './views/pages/passwords/PasswordReset';
 import { action as userAction } from './views/users/User';
-import { action as profileAction } from './views/Profile';
+// import { action as profileAction } from './views/users/Profile';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -17,7 +17,7 @@ import { loader as userLoader } from './views/users/User';
 import './scss/style.scss';
 
 // Containers
-const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
+const DefaultLayout = lazy(() => import('./components/DefaultLayout'));
 
 // Pages
 const Login = lazy(() => import('./views/pages/Login'));
@@ -27,14 +27,14 @@ const Dashboard = lazy(() => import('./views/Dashboard'));
 const Users = lazy(() => import('./views/users/Users'));
 const NewUser = lazy(() => import('./views/users/NewUser'));
 const User = lazy(() => import('./views/users/User'));
-const Profile = lazy(() => import('./views/Profile'));
+// const Profile = lazy(() => import('./views/users/Profile'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
-    import('./views/pages/password-reset/PasswordResetRequest')
+    import('./views/pages/passwords/PasswordResetRequest')
 );
 const PasswordReset = lazy(() =>
-    import('./views/pages/password-reset/PasswordReset')
+    import('./views/pages/passwords/PasswordReset')
 );
 
 // Error boundary

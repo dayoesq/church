@@ -16,12 +16,12 @@ import { cilMenu } from '@coreui/icons';
 import { AppBreadcrumb } from './index';
 import { AppHeaderDropdown } from './header/index';
 // import { logo } from '../assets/brand/logo';
-import { isAuthorized } from '../util/helpers';
+import { isAuthorized } from '../utils/helpers';
 
 const AppHeader = ({ toggleSidebar }) => {
     return (
         <>
-            {/* {!isAuthorized() && <Navigate to='/' />} */}
+            {!isAuthorized() && <Navigate to='/' />}
             <CHeader position='sticky' className='mb-4'>
                 <CContainer fluid>
                     <CHeaderToggler className='ps-1' onClick={toggleSidebar}>

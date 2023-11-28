@@ -43,7 +43,7 @@ trait ApiResponse
     protected function ok(string $message = null, mixed $data = null): JsonResponse
     {
         if (empty($message)) $message = SuccessResponse::$OK;
-        return response()->json(['message' => $message, 'data' => $data]);
+        return response()->json(['message' => $message, 'data' => $data, 'statusCode' => 200]);
     }
 
     /**
@@ -55,7 +55,7 @@ trait ApiResponse
     protected function conflict(string $message = null): JsonResponse
     {
         if (empty($message)) $message = ErrorResponse::$CONFLICT;
-        return response()->json(['message' => $message], 409);
+        return response()->json(['message' => $message, 'statusCode' => 409], 409);
     }
 
     /**
@@ -67,7 +67,7 @@ trait ApiResponse
     protected function forbidden(string $message = null): JsonResponse
     {
         if(empty($message)) $message = ErrorResponse::$FORBIDDEN;
-        return response()->json(['message' => $message], 403);
+        return response()->json(['message' => $message, 'statusCode' => 403], 403);
     }
 
     /**
@@ -79,7 +79,7 @@ trait ApiResponse
     protected function notFound(string $message = null): JsonResponse
     {
         if(empty($message)) $message = ErrorResponse::$NOT_FOUND;
-        return response()->json(['message' => $message], 404);
+        return response()->json(['message' => $message, 'statusCode' => 404], 404);
     }
 
     /**
@@ -91,7 +91,7 @@ trait ApiResponse
     protected function noContent(string $message = null): JsonResponse
     {
         if(empty($message)) $message = SuccessResponse::$NO_CONTENT;
-        return response()->json(['message' => $message], 204);
+        return response()->json(['message' => $message, 'statusCode' => 204], 204);
     }
 
     /**
@@ -103,7 +103,7 @@ trait ApiResponse
     protected function notAllowed(string $message = null): JsonResponse
     {
         if(empty($message)) $message = ErrorResponse::$NOT_ALLOWED;
-        return response()->json(['message' => $message], 405);
+        return response()->json(['message' => $message, 'statusCode' => 405], 405);
     }
 
     /**
@@ -115,7 +115,7 @@ trait ApiResponse
     protected function invalidMethod(string $message = null): JsonResponse
     {
         if(empty($message)) $message = ErrorResponse::$INVALID_METHOD;
-        return response()->json(['message' => $message], 405);
+        return response()->json(['message' => $message, 'statusCode' => 405], 405);
     }
 
     /**
@@ -127,7 +127,7 @@ trait ApiResponse
     protected function serverError(string $message = null): JsonResponse
     {
         if(empty($message)) $message = ErrorResponse::$SERVER_ERROR;
-        return response()->json(['message' => $message], 500);
+        return response()->json(['message' => $message, 'statusCode' => 500], 500);
     }
 
     /**
@@ -139,7 +139,7 @@ trait ApiResponse
      */
     protected function badRequest(string $message, int $statusCode = 400): JsonResponse
     {
-        return response()->json(['message' => $message], $statusCode);
+        return response()->json(['message' => $message, 'statusCode' => $statusCode], $statusCode);
     }
 
     /**

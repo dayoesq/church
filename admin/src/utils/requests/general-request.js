@@ -13,7 +13,7 @@ const storedData = getDataFromStorage();
  */
 export const login = async request => {
     return await Http.post(
-        `${ENV.baseUrl}/login`,
+        `${ENV.baseUrl}/auth/users/login`,
         {
             'Content-Type': 'application/json'
         },
@@ -87,9 +87,9 @@ export const updateSelf = async (request, params) => {
  * @return Promise
  *
  */
-export const createInvestment = async request => {
+export const createEvent = async request => {
     return await Http.post(
-        `${ENV.baseUrl}/investments`,
+        `${ENV.baseUrl}/events`,
         {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedData?.token}`
@@ -106,9 +106,9 @@ export const createInvestment = async request => {
  * @return Promise
  *
  */
-export const updateInvestment = async (request, params) => {
+export const updateEvent = async (request, params) => {
     return await Http.patch(
-        `${ENV.baseUrl}/investments/${params.id}`,
+        `${ENV.baseUrl}/events/${params.id}`,
         {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedData?.token}`
@@ -125,142 +125,13 @@ export const updateInvestment = async (request, params) => {
  * @return Promise
  *
  */
-export const getInvestment = async (request, params) => {
+export const getEvent = async (request, params) => {
     return await Http.get(
-        `${ENV.baseUrl}/investments/${params.id}`,
+        `${ENV.baseUrl}/events/${params.id}`,
         {
             Authorization: `Bearer ${storedData?.token}`
         },
         request
-    );
-};
-
-/**
- * Create due.
- *
- * @params Object {request}
- * @return Promise
- *
- */
-export const createDue = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/dues`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
-};
-
-/**
- * Create due for a specific user.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const createDueForOneUser = async (request, params) => {
-    return await Http.patch(
-        `${ENV.baseUrl}/users/${params.userId}/dues/new`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
-};
-
-/**
- * Update the due for the specified user.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const upsertDue = async (request, params) => {
-    return await Http.patch(
-        `${ENV.baseUrl}/dues/${params.dueId}/users/${params.userId}/due-amounts/${params.dueAmountId}`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
-};
-
-/**
- * Get dues for the specified user.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const loadUserDues = async (request, params) => {
-    return await Http.get(
-        `${ENV.baseUrl}/dues/${params.dueId}/users/${params.userId}/due-amounts/${params.dueAmountId}`,
-        {
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request
-    );
-};
-
-/**
- * Create due amount.
- *
- * @params Object {request}
- * @return Promise
- *
- */
-export const createDueAmount = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/due-amounts`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
-};
-
-/**
- * Get the specified due amount.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const getDueAmount = async (request, params) => {
-    return await Http.get(
-        `${ENV.baseUrl}/due-amounts/${params.id}`,
-        {
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request
-    );
-};
-
-/**
- * Update due amount.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const updateDueAmount = async (request, params) => {
-    return await Http.patch(
-        `${ENV.baseUrl}/due-amounts/${params.id}`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
     );
 };
 
@@ -309,7 +180,7 @@ export const loadUser = async (request, params) => {
  */
 export const updateUser = async (request, params) => {
     const url =
-        storedData?.user.role === ROLE.user
+        storedData?.user.role === ROLES.user
             ? `${params.id}/update-self`
             : `${params.id}`;
     return await Http.patch(
@@ -323,33 +194,3 @@ export const updateUser = async (request, params) => {
     );
 };
 
-/**
- * Update next of kin.
- *
- * @params Object {request} Object {params}
- * @return Promise
- *
- */
-export const updateNextOfKin = async (request, params) => {
-    return await Http.patch(
-        `${ENV.baseUrl}/users/${params.id}/update-next-of-kin`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
-};
-
-/**
- * Fetch total dues from all users.
- *
- * @return Promise
- *
- */
-export const getTotalDues = async () => {
-    return await Http.getRequest(`${ENV.baseUrl}/users/dues/total-dues/all`, {
-        Authorization: `Bearer ${storedData?.token}`
-    });
-};

@@ -11,8 +11,8 @@ import {
 import { cilLockLocked, cilUser } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
-import avatar from './../../assets/images/avatars/generic-avatar.png';
-import { AuthContext } from '../../context/auth';
+import avatar from './../../assets/images/generic-avatar.png';
+import { AuthContext } from '../../store/auth';
 import { ENV } from '../../utils/constants';
 import { Link, Navigate } from 'react-router-dom';
 import { isAuthorized } from '../../utils/helpers';
@@ -31,7 +31,7 @@ const AppHeaderDropdown = () => {
                 >
                     {authCtx && authCtx.user.avatar ? (
                         <CAvatar
-                            src={`${ENV.images}/${authCtx.user.avatar}`}
+                            src={`${ENV.images}/${authCtx.user.photo}`}
                             size='md'
                         />
                     ) : (

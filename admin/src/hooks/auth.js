@@ -40,7 +40,7 @@ export const useAuth = () => {
      *
      */
     const logout = useCallback(async () => {
-        const res = await fetch(`${ENV.baseUrl}/logout`, {
+        const res = await fetch(`${ENV.baseUrl}/auth/users/logout`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

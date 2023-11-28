@@ -35,7 +35,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $users = User::all();
-        return $this->ok(data: $users);
+        return $this->ok(data: UserResource::collection($users));
     }
 
     /**
