@@ -1,5 +1,9 @@
 <?php
 
+use App\Utils\Enums\Gender;
+use App\Utils\Enums\Membership;
+use App\Utils\Enums\Roles;
+use App\Utils\Enums\UserStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +21,11 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('telephone')->nullable();
-            $table->enum('gender', ['male', 'female', 'others'])->nullable();
+            $table->enum('gender', [
+                Gender::Male->value,
+                Gender::Female->value,
+                Gender::Others->value
+            ])->nullable();
             $table->string('address_one')->nullable();
             $table->string('address_two')->nullable();
             $table->string('postal_code')->nullable();
@@ -26,9 +34,21 @@ return new class extends Migration
             $table->string('country_of_residence')->nullable();
             $table->timestamp('member_since')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('membership', ['member', 'guest'])->default('guest');
-            $table->enum('status', ['banned', 'suspended', 'pending', 'active'])->default('pending');
-            $table->enum('roles', ['admin', 'super', 'user'])->default('user');
+            $table->enum('membership', [
+                Membership::Member->value,
+                Membership::Guest->value
+            ])->default(Membership::Guest->value);
+            $table->enum('status', [
+                UserStatus::Active->value,
+                UserStatus::Banned->value,
+                UserStatus::Suspended->value,
+                UserStatus::Pending->value,
+            ])->default(UserStatus::Pending->value);
+            $table->enum('roles', [
+                Roles::Admin->value,
+                Roles::Super->value,
+                Roles::User->value,
+            ])->default(Roles::User->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('position_id')->nullable();
             $table->string('password');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Utils\Enums\GalleryCategories;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +16,17 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->enum('category', [
-                'children', 'sunday_school', 'summer_camp', 'adults', 'revival',
-                'evangelism', 'baptism', 'special_event', 'birthday', 'anniversary', 'child_dedication'
+                GalleryCategories::Adults->value,
+                GalleryCategories::Anniversary->value,
+                GalleryCategories::Baptism->value,
+                GalleryCategories::Birthday->value,
+                GalleryCategories::Children->value,
+                GalleryCategories::ChildDedication->value,
+                GalleryCategories::Revival->value,
+                GalleryCategories::SummerCamp->value,
+                GalleryCategories::Evangelism->value,
+                GalleryCategories::SundaySchool->value,
+                GalleryCategories::SpecialEvent->value
             ]);
             $table->longText('description');
             $table->timestamps();
