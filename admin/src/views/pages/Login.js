@@ -18,33 +18,32 @@ import {
 } from '@coreui/react';
 import { cilLockLocked, cilAt } from '@coreui/icons';
 import { AuthContext } from '../../store/auth';
-import CustomDate from '../../utils/date';
-import { disableButton, isAuthorized, reloadPage } from '../../utils/helpers';
+import { disableButton, isAuthorized } from '../../utils/helpers';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { login } from '../../utils/requests/general-request';
 
 const Login = () => {
     const data = useActionData();
-    const authCtx = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const navigation = useNavigation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (data && data.message === 'success') {
+        if (data && data.statusCode === 200) {
             const user = {
                 id: data.data.id,
-                first_name: data.data.first_name,
-                last_name: data.data.last_name,
+                firstName: data.data.firstName,
+                lastName: data.data.lastName,
                 avatar: data.data.avatar,
                 roles: data.data.roles,
-                status: data.data.status
+                membershipStatus: data.data.membershipStatus
             };
-            authCtx.login(user, data.token, CustomDate.addDays(300));
-            reloadPage();
+
+            login(user, data.token);
             navigate('/dashboard');
         }
-    }, [authCtx, data, navigate]);
+    }, [data, login, navigate]);
 
     return (
         <>

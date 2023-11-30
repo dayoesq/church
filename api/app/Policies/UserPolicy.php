@@ -71,7 +71,7 @@ class UserPolicy
      */
     public function getActiveUsers(User $user): bool
     {
-        return $user->isAuthorizedUser() && $user->isAuthorizedSuperAdmin();
+        return $user->isAuthorizedUser() || $user->isAuthorizedSuperAdmin();
     }
 
     /**

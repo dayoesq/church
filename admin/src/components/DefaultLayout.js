@@ -6,10 +6,9 @@ import { isAuthorized } from '../utils/helpers';
 
 const DefaultLayout = () => {
     const [show, setShow] = useState(true);
-
     return (
         <>
-            {!isAuthorized() && <Navigate to='/' replace={true} />}
+            {!isAuthorized() && <Navigate to='/' />}
             <AppSidebar
                 onClick={() => setShow(show => !show)}
                 unfoldable={show}

@@ -33,7 +33,9 @@ const AppBreadcrumb = () => {
 
     return (
         <CBreadcrumb className='m-0 ms-2'>
-            <NavLink to='/dashboard' className='mx-1'>Home</NavLink>
+            <NavLink to='/dashboard' className='mx-1'>
+                Home
+            </NavLink>
             {breadcrumbs.map((breadcrumb, index) => {
                 return (
                     <CBreadcrumbItem

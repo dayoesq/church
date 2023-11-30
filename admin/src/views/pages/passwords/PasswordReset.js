@@ -8,17 +8,17 @@ import {
     CContainer,
     CRow
 } from '@coreui/react';
-import { cilAt } from '@coreui/icons';
+
+import { cilLockLocked } from '@coreui/icons';
 
 import Input from '../../../components/Input';
-import CustomDate from '../../../utils/date';
 import { useRedirect } from '../../../hooks/redirect';
 import { disableButton } from '../../../utils/helpers';
 import Alert from '../../../components/Alert';
-import { memo } from 'react';
-import { passwordResetRequest } from '../../../utils/requests/general-request';
+import CustomDate from '../../../utils/date';
+import { passwordReset } from '../../../utils/requests/general-request';
 
-const PasswordResetRequest = () => {
+const PasswordReset = () => {
     const data = useActionData();
     const navigation = useNavigation();
 
@@ -31,36 +31,49 @@ const PasswordResetRequest = () => {
                     <CCol md={6}>
                         <Alert
                             data={data}
-                            message='Request made successfully. A new reset link has been sent to your email!'
+                            message='Password reset successfully.'
                         />
                         <CCardGroup>
                             <CCard className='p-4'>
                                 <CCardBody>
                                     <Form method='post' noValidate>
-                                        <h1 className='text-center'>
-                                            Password Reset Request
-                                        </h1>
-                                        <p className='text-medium-emphasis text-center'>
-                                            Forgot your password? We've all been
-                                            there.
+                                        <h1>Password Reset</h1>
+                                        <p className='text-medium-emphasis'>
+                                            A password reset token has been sent
+                                            to your email
                                         </p>
                                         <CRow>
                                             <CCol xs={12}>
                                                 <Input
                                                     element='input'
-                                                    type='email'
-                                                    id='email'
-                                                    name='email'
-                                                    placeholder='Email'
+                                                    type='password'
+                                                    id='password'
+                                                    name='password'
+                                                    placeholder='New Password'
+                                                    labelTitle='New Password'
                                                     data={data}
-                                                    icon={cilAt}
+                                                    icon={cilLockLocked}
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow>
+                                            <CCol xs={12}>
+                                                <Input
+                                                    element='input'
+                                                    type='password'
+                                                    id='password_confirmation'
+                                                    name='password_confirmation'
+                                                    placeholder='Repeat New Password'
+                                                    labelTitle='New Password Repeat'
+                                                    data={data}
+                                                    icon={cilLockLocked}
                                                 />
                                                 <Input
                                                     element='input'
                                                     type='hidden'
-                                                    id='expiry_date'
-                                                    name='expiry_date'
-                                                    value={CustomDate.addHour()}
+                                                    id='date_now'
+                                                    name='date_now'
+                                                    value={CustomDate.now()}
                                                 />
                                             </CCol>
                                         </CRow>
@@ -102,8 +115,8 @@ const PasswordResetRequest = () => {
     );
 };
 
-export const action = async ({ request }) => {
-    return await passwordResetRequest(request);
+export const action = async ({ request, params }) => {
+    return await passwordReset(request, params);
 };
 
-export default memo(PasswordResetRequest);
+export default PasswordReset;

@@ -7,6 +7,8 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 
+import { Navigate } from 'react-router-dom';
+
 import { AppSidebarNav } from './AppSidebarNav';
 
 // import { logoNegative } from '../assets/brand/logo-negative';
@@ -15,21 +17,17 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 // sidebar nav config
-import _adminNav from '../_nav';
-import { _generalNav } from '../_nav';
-import { isAdmin, isAuthorized, isSuper, isUser } from '../utils/helpers';
-import { Navigate } from 'react-router-dom';
+import { generalNavigation } from '../_nav';
 import { cilStar } from '@coreui/icons';
+import { isAuthorized } from '../utils/helpers';
 
 const AppSidebar = ({ sidebarShow, onVisibleChange, unfoldable, onClick }) => {
     const getRoutes = () => {
-        if (isAuthorized() && (isAdmin() || isSuper())) return _adminNav;
-        if (isAuthorized() && isUser()) return _generalNav;
+        return isAuthorized() ? generalNavigation : null;
     };
 
     return (
         <>
-            {!isAuthorized() && <Navigate to='/' replace={true} />}
             <CSidebar
                 position='fixed'
                 unfoldable={unfoldable}

@@ -75,7 +75,7 @@ export const transformedData = data => {
     return data.map((obj, index) => ({
         count: index + 1,
         ...obj,
-        status: <CBadge color={getStatus(obj.status)}>{obj.status}</CBadge>
+        status: <CBadge color={getStatus(obj.membershipStatus)}>{obj.status}</CBadge>
     }));
 };
 
@@ -91,43 +91,10 @@ export const isAuthorized = () => {
         return (
             data.token.length &&
             [ROLES.user, ROLES.admin, ROLES.super].includes(data.user.roles) &&
-            data.user.status === STATUS.active
+            data.user.membershipStatus === STATUS.active
         );
     }
     return false;
-};
-
-/**
- * Check if user has a role 'admin'.
- *
- * @return Boolean
- *
- */
-export const isAdmin = () => {
-    const data = getDataFromStorage();
-    return data && data.user.roles === ROLES.admin;
-};
-
-/**
- * Check if user has a role 'super'.
- *
- * @return Boolean
- *
- */
-export const isSuper = () => {
-    const data = getDataFromStorage();
-    return data && data.user.roles === ROLES.super;
-};
-
-/**
- * Check if user has role 'user'.
- *
- * @return Boolean
- *
- */
-export const isUser = () => {
-    const data = getDataFromStorage();
-    return data && data.user.roles === ROLES.user;
 };
 
 /**
@@ -137,10 +104,8 @@ export const isUser = () => {
  *
  */
 export const getDataFromStorage = () => {
-    return (
-        sessionStorage.getItem('user') &&
-        JSON.parse(sessionStorage.getItem('user'))
-    );
+    const userData = sessionStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
 };
 
 /**
@@ -164,7 +129,7 @@ export const disableButton = (navigation, data) => {
     return (
         navigation?.state === 'submitting' ||
         navigation?.state === 'loading' ||
-        data?.message === 'success'
+        data?.message === 'success.'
     );
 };
 
@@ -202,5 +167,3 @@ export const formatDateWithDay = date => {
         })
     );
 };
-
-

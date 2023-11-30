@@ -30,5 +30,4 @@ const Alert = ({ data, message }) => {
     }
 };
 
-
 export default Alert;

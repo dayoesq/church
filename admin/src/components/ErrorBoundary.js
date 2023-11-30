@@ -22,7 +22,9 @@ const ErrorBoundary = () => {
             [
                 STATUS_CODE.methodNotAllowed,
                 STATUS_CODE.tooManyRequests,
-                STATUS_CODE.serviceUnavailable
+                STATUS_CODE.serviceUnavailable,
+                STATUS_CODE.unauthorized,
+
             ].includes(error.status)
         ) {
             sessionStorage.removeItem('user');
