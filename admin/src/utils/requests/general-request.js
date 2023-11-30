@@ -7,7 +7,7 @@ const storedData = getDataFromStorage();
 /**
  * Login.
  *
- * @params Object {request}
+ * @param Object {request}
  * @return Promise
  *
  */
@@ -25,7 +25,7 @@ export const login = async request => {
 /**
  * Password reset request.
  *
- * @params Object {request}
+ * @param Object {request}
  * @return Promise
  *
  */
@@ -43,7 +43,8 @@ export const passwordResetRequest = async request => {
 /**
  * Password reset.
  *
- * @params Object {request} Object {params}
+ * @param Object {request} 
+ * @param Object {params}
  * @return Promise
  *
  */
@@ -65,74 +66,85 @@ export const passwordReset = async (request, params) => {
 /**
  * User updates self.
  *
- * @params Object {request} Object {params}
+ * @param Object {request} 
+ * @param Object {params}
  * @return Promise
  *
  */
 export const updateSelf = async (request, params) => {
-    return await Http.post(
-        `${ENV.baseUrl}/users/${params.id}/update-self`,
-        {
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: true }
-    );
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/users/${params.id}/update-self`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: true }
+        );
+    }
 };
 
 /**
  * Create investment.
  *
- * @params Object {request}
+ * @param Object {request}
  * @return Promise
  *
  */
 export const createEvent = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/events`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/events`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
 };
 
 /**
  * Update a specific investment.
  *
- * @params Object {request} Object {params}
+ * @param Object {request} 
+ * @param Object {params}
  * @return Promise
  *
  */
 export const updateEvent = async (request, params) => {
-    return await Http.patch(
-        `${ENV.baseUrl}/events/${params.id}`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
+    if (storedData) {
+        return await Http.patch(
+            `${ENV.baseUrl}/events/${params.id}`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
 };
 
 /**
  * Get a specific investment.
  *
- * @params Object {request} Object {params}
+ * @param Object {request} 
+ * @param Object {params}
  * @return Promise
  *
  */
 export const getEvent = async (request, params) => {
-    return await Http.get(
-        `${ENV.baseUrl}/events/${params.id}`,
-        {
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request
-    );
+    if(storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/events/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
 };
 
 /**
@@ -147,7 +159,7 @@ export const createUser = async request => {
         `${ENV.baseUrl}/users`,
         {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
+            Authorization: `Bearer ${storedData.token}`
         },
         request,
         { isFormData: false }
@@ -157,40 +169,45 @@ export const createUser = async request => {
 /**
  * Get the specified user.
  *
- * @params Object {request} Object {params}
+ * @param Object {request}
+ * @param Object {params}
  * @return Promise
  *
  */
 export const loadUser = async (request, params) => {
-    return await Http.get(
-        `${ENV.baseUrl}/users/${params.id}`,
-        {
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request
-    );
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/users/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
 };
 
 /**
  * Update user.
  *
- * @params Object {request} Object {params}
+ * @param Object {request}
+ * @param Object {params}
  * @return Promise
  *
  */
 export const updateUser = async (request, params) => {
-    const url =
-        storedData?.user.role === ROLES.user
-            ? `${params.id}/update-self`
-            : `${params.id}`;
-    return await Http.patch(
-        `${ENV.baseUrl}/users/${url}`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData?.token}`
-        },
-        request,
-        { isFormData: false }
-    );
+    if (storedData) {
+        const url =
+            storedData?.user.role === ROLES.user
+                ? `${params.id}/update-self`
+                : `${params.id}`;
+        return await Http.patch(
+            `${ENV.baseUrl}/users/${url}`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
 };
-

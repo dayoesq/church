@@ -11,8 +11,7 @@ import {
     Form,
     useNavigation,
     useLoaderData,
-    useActionData,
-    
+    useActionData
 } from 'react-router-dom';
 import {
     cilUser,
@@ -338,7 +337,6 @@ const Profile = () => {
                                             </span>
                                         </CButton>
                                     </CCol>
-                                    
                                 </CRow>
                             </Form>
                         </CCardBody>

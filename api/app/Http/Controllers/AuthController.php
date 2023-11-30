@@ -7,6 +7,7 @@ use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Utils\Enums\UserStatus;
 use App\Utils\Errors\ErrorResponse;
+use App\Http\Resources\Users\UserResource;
 use App\Utils\Strings\Helper;
 use Carbon\Carbon;
 use Exception;
@@ -64,7 +65,7 @@ class AuthController extends Controller
         $login->logged_in_at = Carbon::now();
         $login->save();
 
-        return response()->json(['data' => $user, 'message' => 'success', 'token' => $token, 'statusCode' => 200]);
+        return response()->json(['data' => new UserResource($user), 'message' => 'success', 'token' => $token, 'statusCode' => 200]);
     }
 
     /**

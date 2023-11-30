@@ -13,7 +13,7 @@ import {
 import { CNavGroup, CNavItem } from '@coreui/react';
 
 // Admin navigation
-const _nav = [
+const adminNavigation = [
     {
         component: CNavItem,
         name: 'Dashboard',
@@ -130,7 +130,7 @@ const _nav = [
 ];
 
 // User navigation
-export const _generalNav = [
+export const generalNavigation = [
     {
         component: CNavItem,
         name: 'Dashboard',
@@ -152,4 +152,4 @@ export const _generalNav = [
     }
 ];
 
-export default _nav;
+export default adminNavigation;

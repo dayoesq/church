@@ -58,11 +58,11 @@ export const loader = async () => {
 };
 
 export const getUsers = async () => {
-    const dataStorage = getDataFromStorage();
+    const { token } = getDataFromStorage();
     const res = await fetch(`${ENV.baseUrl}/users/active/all`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${dataStorage?.token}`
+            Authorization: `Bearer ${token}`
         }
     });
     if (!res.ok) throw res;

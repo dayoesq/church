@@ -49,7 +49,7 @@ class UserResource extends JsonResource
             'city' => $this->city,
             'countryOfBirth' => $this->home_country,
             'countryOfResidence' => $this->country_residence,
-            'JoinedOn' => $this->member_since,
+            'joinedOn' => $this->member_since,
             'membership' => $this->membership,
             'membershipStatus' => $this->status,
             'roles' => $this->roles,

@@ -6,7 +6,7 @@ const AppFooter = () => {
         <CFooter className='mt-4'>
             <div>
                 <a
-                    href='https://starbom.org'
+                    href='https://gracechapel.fi'
                     target='_blank'
                     rel='noopener noreferrer'
                 >

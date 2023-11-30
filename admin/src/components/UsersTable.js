@@ -17,12 +17,10 @@ import { formatDateWithDay } from '../utils/helpers';
 const UsersTable = props => {
     const navigate = useNavigate();
 
-    const authCtx = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const clickHandler = id => {
-        if (
-            [ROLES.admin, ROLES.super].includes(authCtx.user.roles)
-        ) {
+        if ([ROLES.admin, ROLES.super].includes(user.roles)) {
             navigate(`/dashboard/users/${id}`);
         }
     };
@@ -50,13 +48,15 @@ const UsersTable = props => {
                             onClick={() => clickHandler(user.id)}
                         >
                             <CTableDataCell>{user.count}</CTableDataCell>
-                            <CTableDataCell>{user.first_name}</CTableDataCell>
-                            <CTableDataCell>{user.last_name}</CTableDataCell>
+                            <CTableDataCell>{user.firstName}</CTableDataCell>
+                            <CTableDataCell>{user.lastName}</CTableDataCell>
                             <CTableDataCell>{user.email}</CTableDataCell>
-                            <CTableDataCell>{user.status}</CTableDataCell>
+                            <CTableDataCell>
+                                {user.membershipStatus}
+                            </CTableDataCell>
                             <CTableDataCell>{user.position}</CTableDataCell>
                             <CTableDataCell>
-                                {formatDateWithDay(user.member_since)}
+                                {formatDateWithDay(user.joinedOn)}
                             </CTableDataCell>
                             <CTableDataCell>
                                 {
@@ -76,6 +76,5 @@ const UsersTable = props => {
         </CTable>
     );
 };
-
 
 export default UsersTable;
