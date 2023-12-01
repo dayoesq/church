@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Blog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->longText('content');
-            $table->foreignId('blog_id')->constrained('blogs')->cascadeOnDelete();
+            $table->foreignIdFor(Blog::class)->constrained('blogs')->cascadeOnDelete();
             $table->foreignId('author')->constrained('users');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();

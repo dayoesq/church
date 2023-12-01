@@ -15,7 +15,6 @@ import { loader as usersLoader } from './views/users/Users';
 import { loader as userLoader } from './views/users/User';
 
 import './scss/style.scss';
-import { isAuthorized } from './utils/helpers';
 
 // Containers
 const DefaultLayout = lazy(() => import('./components/DefaultLayout'));
@@ -42,7 +41,6 @@ const PasswordReset = lazy(() =>
 const ErrorBoundary = lazy(() => import('./components/ErrorBoundary'));
 
 const App = () => {
-    if (isAuthorized()) console.log(isAuthorized());
     const router = createBrowserRouter([
         {
             path: '/dashboard',

@@ -37,7 +37,7 @@ const Login = () => {
                 lastName: data.data.lastName,
                 avatar: data.data.avatar,
                 roles: data.data.roles,
-                membershipStatus: data.data.membershipStatus
+                status: data.data.status
             };
 
             login(user, data.token);

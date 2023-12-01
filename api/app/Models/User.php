@@ -6,6 +6,7 @@ use App\Utils\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -65,7 +66,6 @@ class User extends Authenticatable
         'home_country',
         'country_of_residence',
         'avatar',
-        'position_id',
         'status',
         'roles',
         'password'
@@ -126,19 +126,6 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::lower($value),
-        );
-    }
-
-    /**
-     * Interact with the user's position.
-     *
-     * @return Attribute
-     */
-    protected function position(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Str::ucfirst($value),
             set: fn ($value) => Str::lower($value),
         );
     }
@@ -301,6 +288,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * User has one position.
+     *
+     * @return HasOne
+     */
+    public function position(): HasOne
+    {
+        return $this->hasOne(Position::class, 'id', 'position_id');
+    }
+
 
 
 }

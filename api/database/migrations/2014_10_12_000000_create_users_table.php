@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Position;
 use App\Utils\Enums\Gender;
 use App\Utils\Enums\Membership;
 use App\Utils\Enums\Roles;
@@ -50,7 +51,7 @@ return new class extends Migration
                 Roles::User->value,
             ])->default(Roles::User->value);
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('position_id')->nullable();
+            $table->foreignIdFor(Position::class)->nullable();
             $table->string('password');
             $table->timestamps();
         });

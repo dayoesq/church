@@ -75,7 +75,7 @@ export const transformedData = data => {
     return data.map((obj, index) => ({
         count: index + 1,
         ...obj,
-        status: <CBadge color={getStatus(obj.membershipStatus)}>{obj.status}</CBadge>
+        status: <CBadge color={getStatus(obj.status)}>{obj.status}</CBadge>
     }));
 };
 
@@ -91,7 +91,25 @@ export const isAuthorized = () => {
         return (
             data.token.length &&
             [ROLES.user, ROLES.admin, ROLES.super].includes(data.user.roles) &&
-            data.user.membershipStatus === STATUS.active
+            data.user.status === STATUS.active
+        );
+    }
+    return false;
+};
+
+/**
+ * Check if user is authorized.
+ *
+ * @return Boolean
+ *
+ */
+export const isAuthorizedSuperAdmin = () => {
+    const data = getDataFromStorage();
+    if (data) {
+        return (
+            data.token.length &&
+            [ROLES.admin, ROLES.super].includes(data.user.roles) &&
+            data.user.status === STATUS.active
         );
     }
     return false;

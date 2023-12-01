@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertPositionRequest;
-use App\Http\Resources\Sermons\PositionResource;
+use App\Http\Resources\Positions\PositionResource;
 use App\Models\Position;
 use Illuminate\Http\JsonResponse;
 use Throwable;
