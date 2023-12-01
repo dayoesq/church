@@ -24,7 +24,6 @@ class Position extends Model
         'title',
     ];
 
-
     /**
      * Interact with the position's title.
      *

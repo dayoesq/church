@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\PaymentMethod;
+use App\Models\Project;
 use App\Utils\Enums\Currencies;
 use App\Utils\Enums\PaymentStatus;
 use App\Utils\Enums\RefundStatus;
@@ -16,8 +18,8 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained('projects');
-            $table->foreignId('payment_method')->constrained('payment_methods');
+            $table->foreignIdFor(Project::class);
+            $table->foreignIdFor(PaymentMethod::class);
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();

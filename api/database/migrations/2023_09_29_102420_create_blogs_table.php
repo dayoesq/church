@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Utils\Enums\PostStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +22,7 @@ return new class extends Migration
                 PostStatus::Published->value,
                 PostStatus::Draft->value,
                 PostStatus::Archived->value])->default(PostStatus::Draft->value);
-            $table->foreignId('author')->constrained('users');
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

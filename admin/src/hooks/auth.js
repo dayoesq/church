@@ -57,7 +57,7 @@ export const useAuth = () => {
         if (storedData) {
             if (
                 !!storedData.token.length &&
-                storedData.user.membershipStatus === STATUS.active
+                storedData.user.status === STATUS.active
             ) {
                 login(storedData.user, storedData.token);
             }

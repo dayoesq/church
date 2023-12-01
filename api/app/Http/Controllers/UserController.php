@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -89,7 +90,9 @@ class UserController extends Controller
      */
     public function show(User $user): JsonResponse
     {
-        return $this->ok(data: $user);
+        $user->load('position');
+        //$user->with('position')->first();
+        return $this->ok(data: new UserResource($user));
     }
 
     /**
@@ -114,7 +117,7 @@ class UserController extends Controller
      */
     public function getActiveUsers(): JsonResponse
     {
-        $this->authorize('getActiveUsers', auth()->user());
+        $this->authorize('getActiveUsers', Auth::user());
         $users = User::where('status', 'active')->get();
         return $this->ok(data: UserResource::collection($users));
     }
@@ -155,7 +158,7 @@ class UserController extends Controller
      */
     public function updateSelf(UpsertUserRequest $request): JsonResponse
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $validated = $request->validated();
         $this->authorize('updateSelf', $user);
         $user->update($validated);

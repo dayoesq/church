@@ -34,7 +34,7 @@ const UsersTable = props => {
                     <CTableHeaderCell>Last Name</CTableHeaderCell>
                     <CTableHeaderCell>Email</CTableHeaderCell>
                     <CTableHeaderCell>Status</CTableHeaderCell>
-                    <CTableHeaderCell>Position</CTableHeaderCell>
+                    {/* <CTableHeaderCell>Position</CTableHeaderCell> */}
                     <CTableHeaderCell>Member Since</CTableHeaderCell>
                     <CTableHeaderCell>Avatar</CTableHeaderCell>
                 </CTableRow>
@@ -51,24 +51,20 @@ const UsersTable = props => {
                             <CTableDataCell>{user.firstName}</CTableDataCell>
                             <CTableDataCell>{user.lastName}</CTableDataCell>
                             <CTableDataCell>{user.email}</CTableDataCell>
+                            <CTableDataCell>{user.status}</CTableDataCell>
+                            {/* <CTableDataCell>{user.position}</CTableDataCell> */}
                             <CTableDataCell>
-                                {user.membershipStatus}
-                            </CTableDataCell>
-                            <CTableDataCell>{user.position}</CTableDataCell>
-                            <CTableDataCell>
-                                {formatDateWithDay(user.joinedOn)}
+                                {formatDateWithDay(user.memberSince)}
                             </CTableDataCell>
                             <CTableDataCell>
-                                {
+                                {user.avatar ? (
                                     <CAvatar
                                         size='md'
-                                        src={
-                                            user.avatar === null
-                                                ? avatar
-                                                : `${ENV.images}/${user.avatar}`
-                                        }
+                                        src={`${ENV.images}/${user.avatar}`}
                                     />
-                                }
+                                ) : (
+                                    <CAvatar size='md' src={`${avatar}`} />
+                                )}
                             </CTableDataCell>
                         </CTableRow>
                     ))}

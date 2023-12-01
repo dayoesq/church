@@ -65,7 +65,7 @@ class AuthController extends Controller
         $login->logged_in_at = Carbon::now();
         $login->save();
 
-        return response()->json(['data' => new UserResource($user), 'message' => 'success', 'token' => $token, 'statusCode' => 200]);
+        return response()->json(['data' => new UserResource($user), 'message' => 'success.', 'token' => $token, 'statusCode' => 200]);
     }
 
     /**

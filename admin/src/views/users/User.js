@@ -30,13 +30,16 @@ import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import { loadUser, updateUser } from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
+import { isAuthorizedSuperAdmin } from '../../utils/helpers';
+import { ROLES } from '../../utils/constants';
 
 const User = () => {
     const [disabled, setDisabled] = useState(true);
     const data = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
-    const { isAuthorizedSuperAdmin } = useContext(AuthContext);
+
+    const authCtx = useContext(AuthContext);
     // Redirect to users!
     useRedirect(actionData, '/dashboard/users', true);
 
@@ -46,7 +49,7 @@ const User = () => {
 
     return (
         <CRow className='justify-content-center'>
-            {isAuthorizedSuperAdmin && (
+            {[ROLES.admin, ROLES.super].includes(authCtx.user.roles) && (
                 <CCol md={8}>
                     <Alert
                         data={actionData}
@@ -77,9 +80,7 @@ const User = () => {
                                             labelTitle='First Name'
                                             icon={cilUser}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.first_name
-                                            }
+                                            defaultValue={data.data.firstName}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -93,9 +94,7 @@ const User = () => {
                                             labelTitle='Last Name'
                                             icon={cilUser}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.last_name
-                                            }
+                                            defaultValue={data.data.lastName}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -110,24 +109,38 @@ const User = () => {
                                             placeholder='User email'
                                             labelTitle='Email'
                                             icon={cilAt}
-                                            defaultValue={data.data.user.email}
+                                            defaultValue={data.data.email}
                                             data={actionData}
                                             disabled
+                                        />
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='input'
+                                            type='text'
+                                            id='address_one'
+                                            name='address_one'
+                                            placeholder='Address'
+                                            labelTitle='Address'
+                                            icon={cilAddressBook}
+                                            data={actionData}
+                                            defaultValue={data.data.addressOne}
+                                            disabled={disabled}
                                         />
                                     </CCol>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
-                                            id='address'
-                                            name='address'
-                                            placeholder='Address'
-                                            labelTitle='Address'
+                                            id='address_two'
+                                            name='address_two'
+                                            placeholder='Address Two'
+                                            labelTitle='Address Two'
                                             icon={cilAddressBook}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.address
-                                            }
+                                            defaultValue={data.data.addressTwo}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -143,9 +156,7 @@ const User = () => {
                                             labelTitle='Postal Code'
                                             icon={cilCode}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.postal_code
-                                            }
+                                            defaultValue={data.data.postalCode}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -159,8 +170,7 @@ const User = () => {
                                             icon={cilGlobeAlt}
                                             data={actionData}
                                             defaultValue={
-                                                data.data.user
-                                                    .country_of_residence
+                                                data.data.countryOfResidence
                                             }
                                             disabled={disabled}
                                         >
@@ -189,14 +199,14 @@ const User = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
-                                            id='nationality'
-                                            name='nationality'
-                                            placeholder='Nationality'
-                                            labelTitle='Nationality'
+                                            id='country_of_origin'
+                                            name='country_of_origin'
+                                            placeholder='Country of Origin'
+                                            labelTitle='Country of Origin'
                                             icon={cilGlobeAlt}
                                             data={actionData}
                                             defaultValue={
-                                                data.data.user.nationality
+                                                data.data.countryOfOrigin
                                             }
                                             disabled={disabled}
                                         >
@@ -229,7 +239,7 @@ const User = () => {
                                             labelTitle='Gender'
                                             icon={cilUserX}
                                             data={actionData}
-                                            defaultValue={data.data.user.gender}
+                                            defaultValue={data.data.gender}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -253,9 +263,7 @@ const User = () => {
                                             labelTitle='Telephone'
                                             icon={cilPhone}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.telephone
-                                            }
+                                            defaultValue={data.data.telephone}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -267,7 +275,7 @@ const User = () => {
                                             labelTitle='Status'
                                             icon={cilFile}
                                             data={actionData}
-                                            defaultValue={data.data.user.status}
+                                            defaultValue={data.data.status}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -293,12 +301,12 @@ const User = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
-                                            id='role'
-                                            name='role'
+                                            id='roles'
+                                            name='roles'
                                             labelTitle='Role'
                                             icon={cilBadge}
                                             data={actionData}
-                                            defaultValue={data.data.user.role}
+                                            defaultValue={data.data.roles}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -306,17 +314,10 @@ const User = () => {
                                             </option>
                                             <option value='user'>User</option>
                                             <option value='admin'>Admin</option>
-                                            <option
-                                                value='super'
-                                                disabled={
-                                                    !isAuthorizedSuperAdmin
-                                                }
-                                            >
-                                                Super
-                                            </option>
+                                            <option value='super'>Super</option>
                                         </Input>
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    {/* <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -331,39 +332,20 @@ const User = () => {
                                             }
                                             disabled={disabled}
                                         />
-                                    </CCol>
+                                    </CCol> */}
                                 </CRow>
                                 <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='date'
-                                            id='joined_on'
-                                            name='joined_on'
+                                            id='member_since'
+                                            name='member_since'
                                             placeholder='Date Joined'
                                             labelTitle='Date Joined'
                                             icon={cilBadge}
                                             data={actionData}
-                                            defaultValue={
-                                                data.data.user.joined_on
-                                            }
-                                            disabled={disabled}
-                                        />
-                                    </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='input'
-                                            type='text'
-                                            id='bank_account_number'
-                                            name='bank_account_number'
-                                            placeholder='Account Number'
-                                            labelTitle='Account Number'
-                                            icon={cilBank}
-                                            data={actionData}
-                                            defaultValue={
-                                                data.data.user
-                                                    .bank_account_number
-                                            }
+                                            defaultValue={data.data.memberSince}
                                             disabled={disabled}
                                         />
                                     </CCol>

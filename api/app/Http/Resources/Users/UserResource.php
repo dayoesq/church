@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Users;
 
+
+use App\Http\Resources\Positions\PositionResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -49,12 +51,12 @@ class UserResource extends JsonResource
             'city' => $this->city,
             'countryOfBirth' => $this->home_country,
             'countryOfResidence' => $this->country_residence,
-            'joinedOn' => $this->member_since,
+            'memberSince' => $this->member_since,
             'membership' => $this->membership,
-            'membershipStatus' => $this->status,
+            'status' => $this->status,
             'roles' => $this->roles,
             'accountVerifiedAt' => $this->email_verified_at,
-            'positionId' => $this->position_id,
+            'position' => new PositionResource($this->whenLoaded('position')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
