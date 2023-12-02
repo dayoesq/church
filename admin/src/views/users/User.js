@@ -21,8 +21,7 @@ import {
     cilCode,
     cilAddressBook,
     cilBadge,
-    cilUserX,
-    cilBank
+    cilUserX
 } from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
@@ -30,7 +29,6 @@ import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import { loadUser, updateUser } from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
-import { isAuthorizedSuperAdmin } from '../../utils/helpers';
 import { ROLES } from '../../utils/constants';
 
 const User = () => {
@@ -56,7 +54,7 @@ const User = () => {
                         message='User updated successfully.'
                     />
                     <CCard>
-                        <CCardHeader className='d-flex'>
+                        <CCardHeader className='d-flex justify-content-between'>
                             <small> User Details</small>
 
                             <CButton
@@ -114,37 +112,22 @@ const User = () => {
                                             disabled
                                         />
                                     </CCol>
-                                </CRow>
-                                <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
-                                            id='address_one'
-                                            name='address_one'
+                                            id='address'
+                                            name='address'
                                             placeholder='Address'
                                             labelTitle='Address'
                                             icon={cilAddressBook}
                                             data={actionData}
-                                            defaultValue={data.data.addressOne}
-                                            disabled={disabled}
-                                        />
-                                    </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='input'
-                                            type='text'
-                                            id='address_two'
-                                            name='address_two'
-                                            placeholder='Address Two'
-                                            labelTitle='Address Two'
-                                            icon={cilAddressBook}
-                                            data={actionData}
-                                            defaultValue={data.data.addressTwo}
+                                            defaultValue={data.data.address}
                                             disabled={disabled}
                                         />
                                     </CCol>
                                 </CRow>
+
                                 <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
@@ -317,24 +300,6 @@ const User = () => {
                                             <option value='super'>Super</option>
                                         </Input>
                                     </CCol>
-                                    {/* <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='input'
-                                            type='text'
-                                            id='position'
-                                            name='position'
-                                            placeholder='Position'
-                                            labelTitle='Position'
-                                            icon={cilBadge}
-                                            data={actionData}
-                                            defaultValue={
-                                                data.data.user.position
-                                            }
-                                            disabled={disabled}
-                                        />
-                                    </CCol> */}
-                                </CRow>
-                                <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'

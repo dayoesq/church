@@ -38,12 +38,11 @@ class UpsertUserRequest extends FormRequest
             'last_name' => ['sometimes', 'string', 'min:2', 'max:50'],
             'gender' => ['sometimes', new Enum(Gender::class)],
             'country_of_residence' => ['sometimes', new Enum(Countries::class)],
-            'home_country' => ['sometimes', new Enum(Countries::class)],
+            'country_of_origin' => ['sometimes', new Enum(Countries::class)],
             'postal_code' => ['sometimes', 'max:20'],
             'city' => ['sometimes', 'max:20'],
             'telephone' => ['sometimes', 'max:20'],
-            'address_one' => ['sometimes', 'max:255'],
-            'address_two' => ['sometimes', 'max:255'],
+            'address' => ['sometimes', 'max:255'],
             'photo' => ['sometimes',
                 File::image()
                     ->max('1mb')

@@ -9,6 +9,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SermonController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,7 +64,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'events' => EventController::class,
         'projects' => ProjectController::class,
         'anchors' => AnchorController::class,
-        'galleries' => GalleryController::class
+        'galleries' => GalleryController::class,
+        'testimonials' => TestimonialController::class
     ]);
 
 });
