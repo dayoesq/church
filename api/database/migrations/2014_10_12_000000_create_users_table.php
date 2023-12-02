@@ -27,11 +27,10 @@ return new class extends Migration
                 Gender::Female->value,
                 Gender::Others->value
             ])->nullable();
-            $table->string('address_one')->nullable();
-            $table->string('address_two')->nullable();
+            $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('city')->nullable();
-            $table->string('home_country')->nullable();
+            $table->string('country_of_origin')->nullable();
             $table->string('country_of_residence')->nullable();
             $table->timestamp('member_since')->nullable();
             $table->string('avatar')->nullable();

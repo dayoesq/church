@@ -15,19 +15,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $created_at
  * @property string $updated_at
  * @property string $telephone
- * @property string $address_one
+ * @property string $address
  * @property string $gender
- * @property string $address_two
  * @property string $postal_code
  * @property string $city
- * @property string $home_country
- * @property string $country_residence
+ * @property string $country_of_origin
+ * @property string $country_of_residence
  * @property string $member_since
  * @property string $membership
  * @property string $status
  * @property string $roles
  * @property string $email_verified_at
  * @property int $position_id
+ * @property string $avatar
  */
 class UserResource extends JsonResource
 {
@@ -45,12 +45,12 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'telephone' => $this->telephone,
             'gender' => $this->gender,
-            'addressOne' => $this->address_one,
-            'addressTwo' => $this->address_two,
+            'address' => $this->address,
             'postalCode' => $this->postal_code,
             'city' => $this->city,
-            'countryOfBirth' => $this->home_country,
-            'countryOfResidence' => $this->country_residence,
+            'avatar' => $this->avatar,
+            'countryOfOrigin' => $this->country_of_origin,
+            'countryOfResidence' => $this->country_of_residence,
             'memberSince' => $this->member_since,
             'membership' => $this->membership,
             'status' => $this->status,

@@ -63,7 +63,7 @@ class User extends Authenticatable
         'member_since',
         'city',
         'postal_code',
-        'home_country',
+        'country_of_origin',
         'country_of_residence',
         'avatar',
         'status',

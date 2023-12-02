@@ -187,6 +187,26 @@ export const loadUser = async (request, params) => {
 };
 
 /**
+ * Get active users.
+ *
+ * @param Object {request}
+ * @param Object {params}
+ * @return Promise
+ *
+ */
+export const loadActiveUsers = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/users/active/all`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+
+/**
  * Update user.
  *
  * @param Object {request}
