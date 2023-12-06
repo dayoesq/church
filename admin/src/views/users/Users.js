@@ -1,17 +1,10 @@
-import {
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CCol,
-    CRow,
-    CAlert
-} from '@coreui/react';
-import { memo, Suspense } from 'react';
-import { Await, defer, useLoaderData } from 'react-router-dom';
+import {CAlert, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react';
+import {memo, Suspense} from 'react';
+import {Await, defer, useLoaderData} from 'react-router-dom';
 import UsersTable from '../../components/UsersTable';
 import Spinner from '../../components/Spinner';
-import { getDataFromStorage, transformedData } from '../../utils/helpers';
-import { ENV } from '../../utils/constants';
+import {getDataFromStorage, transformedData} from '../../utils/helpers';
+import {ENV} from '../../utils/constants';
 
 const Users = () => {
     const { users } = useLoaderData();
@@ -59,7 +52,7 @@ export const loader = async () => {
 
 export const getUsers = async () => {
     const { token } = getDataFromStorage();
-    const res = await fetch(`${ENV.baseUrl}/users/active/all`, {
+    const res = await fetch(`${ENV.baseUrl}/users`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`
@@ -67,8 +60,7 @@ export const getUsers = async () => {
     });
     if (!res.ok) throw res;
     const resData = await res.json();
-    const transformed = transformedData(resData.data);
-    return transformed;
+    return transformedData(resData.data);
 };
 
 export default memo(Users);

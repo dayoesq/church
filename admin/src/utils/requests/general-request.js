@@ -7,9 +7,9 @@ const storedData = getDataFromStorage();
 /**
  * Login.
  *
- * @param Object {request}
  * @return Promise
  *
+ * @param request
  */
 export const login = async request => {
     return await Http.post(
@@ -25,9 +25,9 @@ export const login = async request => {
 /**
  * Password reset request.
  *
- * @param Object {request}
  * @return Promise
  *
+ * @param request
  */
 export const passwordResetRequest = async request => {
     return await Http.post(
@@ -43,10 +43,10 @@ export const passwordResetRequest = async request => {
 /**
  * Password reset.
  *
- * @param Object {request} 
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const passwordReset = async (request, params) => {
     const { password_reset_token } = params;
@@ -66,15 +66,14 @@ export const passwordReset = async (request, params) => {
 /**
  * User updates self.
  *
- * @param Object {request} 
- * @param Object {params}
  * @return Promise
  *
+ * @param request
  */
-export const updateSelf = async (request, params) => {
+export const updateSelf = async (request) => {
     if (storedData) {
         return await Http.post(
-            `${ENV.baseUrl}/users/${params.id}/update-self`,
+            `${ENV.baseUrl}/users/self/update`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },
@@ -87,9 +86,9 @@ export const updateSelf = async (request, params) => {
 /**
  * Create investment.
  *
- * @param Object {request}
  * @return Promise
  *
+ * @param request
  */
 export const createEvent = async request => {
     if (storedData) {
@@ -108,10 +107,10 @@ export const createEvent = async request => {
 /**
  * Update a specific investment.
  *
- * @param Object {request} 
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const updateEvent = async (request, params) => {
     if (storedData) {
@@ -130,10 +129,10 @@ export const updateEvent = async (request, params) => {
 /**
  * Get a specific investment.
  *
- * @param Object {request} 
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const getEvent = async (request, params) => {
     if(storedData) {
@@ -150,7 +149,7 @@ export const getEvent = async (request, params) => {
 /**
  * Create user.
  *
- * @params Object {request}
+ * @param request
  * @return Promise
  *
  */
@@ -169,10 +168,10 @@ export const createUser = async request => {
 /**
  * Get the specified user.
  *
- * @param Object {request}
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const loadUser = async (request, params) => {
     if (storedData) {
@@ -189,10 +188,10 @@ export const loadUser = async (request, params) => {
 /**
  * Get active users.
  *
- * @param Object {request}
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const loadActiveUsers = async (request, params) => {
     if (storedData) {
@@ -206,13 +205,56 @@ export const loadActiveUsers = async (request, params) => {
     }
 };
 
+
+/**
+ * Load all users.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadAllUsers = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/users`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+
+/**
+ * Update user by admin.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const updateUserByAdmin = async (request, params) => {
+    if (storedData) {
+        return await Http.patch(
+            `${ENV.baseUrl}/users/${params.id}`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
+};
+
 /**
  * Update user.
  *
- * @param Object {request}
- * @param Object {params}
  * @return Promise
  *
+ * @param request
+ * @param params
  */
 export const updateUser = async (request, params) => {
     if (storedData) {

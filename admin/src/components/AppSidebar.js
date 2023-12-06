@@ -17,13 +17,14 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 // sidebar nav config
-import { generalNavigation } from '../_nav';
+import { generalNavigation, adminNavigation } from '../_nav';
 import { cilStar } from '@coreui/icons';
-import { isAuthorized } from '../utils/helpers';
+import {isAuthorized, isAuthorizedSuperAdmin} from '../utils/helpers';
 
 const AppSidebar = ({ sidebarShow, onVisibleChange, unfoldable, onClick }) => {
     const getRoutes = () => {
-        return isAuthorized() ? generalNavigation : null;
+        if(isAuthorizedSuperAdmin()) return adminNavigation;
+        //if(isAuthorized()) return adminNavigation;
     };
 
     return (

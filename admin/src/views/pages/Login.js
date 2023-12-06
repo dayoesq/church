@@ -18,7 +18,7 @@ import {
 } from '@coreui/react';
 import { cilLockLocked, cilAt } from '@coreui/icons';
 import { AuthContext } from '../../store/auth';
-import { disableButton, isAuthorized } from '../../utils/helpers';
+import {disableButton, isAuthorized, reloadPage} from '../../utils/helpers';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { login } from '../../utils/requests/general-request';
@@ -41,6 +41,7 @@ const Login = () => {
             };
 
             login(user, data.token);
+            reloadPage();
             navigate('/dashboard');
         }
     }, [data, login, navigate]);

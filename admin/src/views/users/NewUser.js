@@ -74,9 +74,9 @@ const NewUser = () => {
                                     <Input
                                         element='input'
                                         type='hidden'
-                                        id='expiry_date'
-                                        name='expiry_date'
-                                        value={CustomDate.addDay()}
+                                        id='client_current_time'
+                                        name='client_current_time'
+                                        value={new Date().getMilliseconds()}
                                     />
                                 </CCol>
                             </CRow>

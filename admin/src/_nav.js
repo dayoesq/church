@@ -13,7 +13,7 @@ import {
 import { CNavGroup, CNavItem } from '@coreui/react';
 
 // Admin navigation
-const adminNavigation = [
+export const adminNavigation = [
     {
         component: CNavItem,
         name: 'Dashboard',

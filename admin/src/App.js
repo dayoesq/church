@@ -8,13 +8,14 @@ import { action as loginAction } from './views/pages/Login';
 import { action as passwordResetRequestAction } from './views/pages/passwords/PasswordResetRequest';
 import { action as passwordResetAction } from './views/pages/passwords/PasswordReset';
 import { action as userAction } from './views/users/User';
-// import { action as profileAction } from './views/users/Profile';
+import { action as profileAction } from './views/users/Profile';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
 import { loader as userLoader } from './views/users/User';
 
 import './scss/style.scss';
+import Profile from "./views/users/Profile";
 
 // Containers
 const DefaultLayout = lazy(() => import('./components/DefaultLayout'));
@@ -67,6 +68,12 @@ const App = () => {
                     path: 'users/new',
                     element: <NewUser />,
                     action: newUserAction
+                },
+                {
+                    path: 'users/:id/profile',
+                    element: <Profile />,
+                    loader: userLoader,
+                    action: profileAction
                 }
             ]
         },

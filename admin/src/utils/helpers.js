@@ -4,9 +4,9 @@ import { ROLES, STATUS } from './constants';
 /**
  * Covert first letter to uppercase.
  *
- * @param String {data}
  * @return String
  *
+ * @param data
  */
 export const capitalize = data => {
     return data.charAt(0).toUpperCase() + data.toLowerCase().slice(1);
@@ -23,9 +23,9 @@ export const reloadPage = () => {
 /**
  * Get the status and return the appropriate element with matching color.
  *
- * @param String {status}
  * @return String
  *
+ * @param status
  */
 export const getStatus = status => {
     switch (status) {
@@ -54,9 +54,9 @@ export const getStatus = status => {
  * Replace more than one space with one space and...
  * ...and more than one hyphen, '-', with just one hyphen.
  *
- * @param String {data}
  * @return String
  *
+ * @param data
  */
 export const replaceSpaceAndToUpperCase = data => {
     data.replace(/\s{1,}/gi, ' ');
@@ -67,9 +67,9 @@ export const replaceSpaceAndToUpperCase = data => {
 /**
  * Transform the user data.
  *
- * @param Array Object {data}
  * @return Object {data}
  *
+ * @param data
  */
 export const transformedData = data => {
     return data.map((obj, index) => ({
@@ -139,9 +139,10 @@ export const sessionIsEmpty = () => {
 /**
  * While loading or submitting, disable the button.
  *
- * @param Object {navigation} Object {data}
  * @return Boolean
  *
+ * @param navigation
+ * @param data
  */
 export const disableButton = (navigation, data) => {
     return (
@@ -154,9 +155,9 @@ export const disableButton = (navigation, data) => {
 /**
  * Format date to human-readable version.
  *
- * @param Object {date}
  * @return String
  *
+ * @param date
  */
 export const formatDate = date => {
     return (
@@ -171,9 +172,9 @@ export const formatDate = date => {
 /**
  * Format date to human-readable version.
  *
- * @param Object {date}
  * @return String
  *
+ * @param date
  */
 export const formatDateWithDay = date => {
     return (
