@@ -27,13 +27,13 @@ import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
-import { loadUser, updateUser } from '../../utils/requests/general-request';
+import {loadUser, updateUser, updateUserByAdmin} from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
 import { ROLES } from '../../utils/constants';
 
 const User = () => {
     const [disabled, setDisabled] = useState(true);
-    const data = useLoaderData();
+    const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
 
@@ -78,7 +78,7 @@ const User = () => {
                                             labelTitle='First Name'
                                             icon={cilUser}
                                             data={actionData}
-                                            defaultValue={data.data.firstName}
+                                            defaultValue={loadedData.data.firstName}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -92,27 +92,27 @@ const User = () => {
                                             labelTitle='Last Name'
                                             icon={cilUser}
                                             data={actionData}
-                                            defaultValue={data.data.lastName}
+                                            defaultValue={loadedData.data.lastName}
                                             disabled={disabled}
                                         />
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='input'
-                                            type='email'
-                                            id='email'
-                                            name='email'
-                                            placeholder='User email'
-                                            labelTitle='Email'
-                                            icon={cilAt}
-                                            defaultValue={data.data.email}
-                                            data={actionData}
-                                            disabled
-                                        />
-                                    </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <Input
+                                        element='input'
+                                        type='email'
+                                        id='email'
+                                        name='email'
+                                        placeholder='User email'
+                                        labelTitle='Email'
+                                        icon={cilAt}
+                                        defaultValue={loadedData.data.email}
+                                        data={actionData}
+                                        disabled
+                                    />
+                                </CRow>
+                                <CRow>
+                                    <CCol xs={12} md={4} lg={4} xl={4}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -122,14 +122,11 @@ const User = () => {
                                             labelTitle='Address'
                                             icon={cilAddressBook}
                                             data={actionData}
-                                            defaultValue={data.data.address}
+                                            defaultValue={loadedData.data.address}
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                </CRow>
-
-                                <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} md={4} lg={4} xl={4}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -139,10 +136,26 @@ const User = () => {
                                             labelTitle='Postal Code'
                                             icon={cilCode}
                                             data={actionData}
-                                            defaultValue={data.data.postalCode}
+                                            defaultValue={loadedData.data.postalCode}
                                             disabled={disabled}
                                         />
                                     </CCol>
+                                    <CCol xs={12} md={4} lg={4} xl={4}>
+                                        <Input
+                                            element='input'
+                                            type='text'
+                                            id='city'
+                                            name='city'
+                                            placeholder='City'
+                                            labelTitle='City'
+                                            icon={cilCode}
+                                            data={actionData}
+                                            defaultValue={loadedData.data.city}
+                                            disabled={disabled}
+                                        />
+                                    </CCol>
+                                </CRow>
+                                <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
@@ -153,7 +166,41 @@ const User = () => {
                                             icon={cilGlobeAlt}
                                             data={actionData}
                                             defaultValue={
-                                                data.data.countryOfResidence
+                                                loadedData.data.countryOfResidence
+                                            }
+                                            disabled={disabled}
+                                        >
+                                            <option value={null}>
+                                                Select Country
+                                            </option>
+                                            <option value='Nigeria'>
+                                                Nigeria
+                                            </option>
+                                            <option value='Ireland'>
+                                                Ireland
+                                            </option>
+                                            <option value='Finland'>
+                                                Finland
+                                            </option>
+                                            <option value='United Kingdom'>
+                                                United Kingdom
+                                            </option>
+                                            <option value='United States'>
+                                                United States
+                                            </option>
+                                        </Input>
+                                    </CCol>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='select'
+                                            id='country_of_origin'
+                                            name='country_of_origin'
+                                            placeholder='Country of Origin'
+                                            labelTitle='Country of Origin'
+                                            icon={cilGlobeAlt}
+                                            data={actionData}
+                                            defaultValue={
+                                                loadedData.data.countryOfOrigin
                                             }
                                             disabled={disabled}
                                         >
@@ -182,47 +229,13 @@ const User = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
-                                            id='country_of_origin'
-                                            name='country_of_origin'
-                                            placeholder='Country of Origin'
-                                            labelTitle='Country of Origin'
-                                            icon={cilGlobeAlt}
-                                            data={actionData}
-                                            defaultValue={
-                                                data.data.countryOfOrigin
-                                            }
-                                            disabled={disabled}
-                                        >
-                                            <option value={null}>
-                                                Select Country
-                                            </option>
-                                            <option value='Nigeria'>
-                                                Nigeria
-                                            </option>
-                                            <option value='Ireland'>
-                                                Ireland
-                                            </option>
-                                            <option value='Finland'>
-                                                Finland
-                                            </option>
-                                            <option value='United Kingdom'>
-                                                United Kingdom
-                                            </option>
-                                            <option value='United States'>
-                                                United States
-                                            </option>
-                                        </Input>
-                                    </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='select'
                                             id='gender'
                                             name='gender'
                                             placeholder='Gender'
                                             labelTitle='Gender'
                                             icon={cilUserX}
                                             data={actionData}
-                                            defaultValue={data.data.gender}
+                                            defaultValue={loadedData.data.gender}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -234,22 +247,6 @@ const User = () => {
                                             </option>
                                         </Input>
                                     </CCol>
-                                </CRow>
-                                <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
-                                        <Input
-                                            element='input'
-                                            type='text'
-                                            id='telephone'
-                                            name='telephone'
-                                            placeholder='Telephone. E.g +44123456789'
-                                            labelTitle='Telephone'
-                                            icon={cilPhone}
-                                            data={actionData}
-                                            defaultValue={data.data.telephone}
-                                            disabled={disabled}
-                                        />
-                                    </CCol>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
@@ -258,7 +255,7 @@ const User = () => {
                                             labelTitle='Status'
                                             icon={cilFile}
                                             data={actionData}
-                                            defaultValue={data.data.status}
+                                            defaultValue={loadedData.data.status}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -281,6 +278,21 @@ const User = () => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
+                                    <Input
+                                        element='input'
+                                        type='text'
+                                        id='telephone'
+                                        name='telephone'
+                                        placeholder='Telephone. E.g +44123456789'
+                                        labelTitle='Telephone'
+                                        icon={cilPhone}
+                                        data={actionData}
+                                        defaultValue={loadedData.data.telephone}
+                                        disabled={disabled}
+                                    />
+
+                                </CRow>
+                                <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
@@ -289,7 +301,7 @@ const User = () => {
                                             labelTitle='Role'
                                             icon={cilBadge}
                                             data={actionData}
-                                            defaultValue={data.data.roles}
+                                            defaultValue={loadedData.data.roles}
                                             disabled={disabled}
                                         >
                                             <option value={null}>
@@ -310,7 +322,7 @@ const User = () => {
                                             labelTitle='Date Joined'
                                             icon={cilBadge}
                                             data={actionData}
-                                            defaultValue={data.data.memberSince}
+                                            defaultValue={loadedData.data.memberSince}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -331,7 +343,7 @@ const User = () => {
                                             <span>
                                                 {navigation.state ===
                                                 'submitting'
-                                                    ? 'Sumitting...'
+                                                    ? 'Submitting...'
                                                     : 'Submit'}
                                             </span>
                                         </CButton>
@@ -347,7 +359,7 @@ const User = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updateUser(request, params);
+    return await updateUserByAdmin(request, params);
 };
 
 export const loader = async ({ request, params }) => {

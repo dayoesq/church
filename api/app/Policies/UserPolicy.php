@@ -14,7 +14,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAuthorizedSuperAdmin();
+        return $user->isAuthorizedSuperAdmin() || $user->isAuthorizedUser();
     }
 
     /**
@@ -60,7 +60,7 @@ class UserPolicy
      */
     public function updateSelf(User $user): bool
     {
-        return $user->isAuthorizedUser() && $user->id === auth()->user()->id;
+        return $user->isAuthorizedUser() || $user->id === auth()->user()->id;
     }
 
     /**

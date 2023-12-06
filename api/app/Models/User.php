@@ -18,6 +18,7 @@ use App\Utils\Enums\Roles;
  * @method static create(array $array)
  * @method static update(array $array)
  * @method static where(string $string, mixed $input)
+ * @method static get(string $string, string $string1, string $string2, string $string3, string $string4, string $string5)
  * @property string $first_name
  * @property string $last_name
  * @property string $email
@@ -57,8 +58,7 @@ class User extends Authenticatable
         'email',
         'telephone',
         'gender',
-        'address_one',
-        'address_two',
+        'address',
         'membership',
         'member_since',
         'city',

@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        $users = User::all();
+        $users = User::with('position')->get(['first_name', 'last_name', 'email', 'status', 'member_since', 'avatar']);
         return $this->ok(data: UserResource::collection($users));
     }
 
@@ -105,7 +105,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
         $success = $user->update($validated);
-        return $success ? $this->ok() : $this->serverError();
+        return $success ? $this->ok(data: new UserResource($user)) : $this->serverError();
     }
 
     /**

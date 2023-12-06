@@ -21,7 +21,7 @@ const UsersTable = props => {
 
     const clickHandler = id => {
         if ([ROLES.admin, ROLES.super].includes(user.roles)) {
-            navigate(`/dashboard/users/${id}`);
+            navigate(`/dashboard/users/${user.id}`);
         }
     };
 
@@ -34,7 +34,7 @@ const UsersTable = props => {
                     <CTableHeaderCell>Last Name</CTableHeaderCell>
                     <CTableHeaderCell>Email</CTableHeaderCell>
                     <CTableHeaderCell>Status</CTableHeaderCell>
-                    {/* <CTableHeaderCell>Position</CTableHeaderCell> */}
+                    <CTableHeaderCell>Position</CTableHeaderCell>
                     <CTableHeaderCell>Member Since</CTableHeaderCell>
                     <CTableHeaderCell>Avatar</CTableHeaderCell>
                 </CTableRow>
@@ -52,7 +52,7 @@ const UsersTable = props => {
                             <CTableDataCell>{user.lastName}</CTableDataCell>
                             <CTableDataCell>{user.email}</CTableDataCell>
                             <CTableDataCell>{user.status}</CTableDataCell>
-                            {/* <CTableDataCell>{user.position}</CTableDataCell> */}
+                            <CTableDataCell>{user.position}</CTableDataCell>
                             <CTableDataCell>
                                 {formatDateWithDay(user.memberSince)}
                             </CTableDataCell>
