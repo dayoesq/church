@@ -32,8 +32,8 @@ class AdminUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['sometimes', 'string', 'min:2', 'max:50'],
-            'last_name' => ['sometimes', 'string', 'min:2', 'max:50'],
+            'first_name' => ['sometimes', 'min:2', 'max:50'],
+            'last_name' => ['sometimes', 'min:2', 'max:50'],
             'email' => ['sometimes', 'email:rfc,dns', 'unique:users'],
             'gender' => ['sometimes', new Enum(Gender::class)],
             'country_of_residence' => ['sometimes', new Enum(Countries::class)],

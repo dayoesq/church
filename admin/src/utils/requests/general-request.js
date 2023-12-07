@@ -70,7 +70,7 @@ export const passwordReset = async (request, params) => {
  *
  * @param request
  */
-export const updateSelf = async (request) => {
+export const updateSelf = async request => {
     if (storedData) {
         return await Http.post(
             `${ENV.baseUrl}/users/self/update`,
@@ -135,7 +135,7 @@ export const updateEvent = async (request, params) => {
  * @param params
  */
 export const getEvent = async (request, params) => {
-    if(storedData) {
+    if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/events/${params.id}`,
             {
@@ -205,7 +205,6 @@ export const loadActiveUsers = async (request, params) => {
     }
 };
 
-
 /**
  * Load all users.
  *
@@ -266,6 +265,68 @@ export const updateUser = async (request, params) => {
             `${ENV.baseUrl}/users/${url}`,
             {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
+};
+
+/**
+ * Create testimony.
+ *
+ * @param request
+ * @return Promise
+ *
+ */
+export const createTestimonial = async request => {
+    return await Http.post(
+        `${ENV.baseUrl}/testimonials`,
+        {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${storedData.token}`
+        },
+        request,
+        { isFormData: false }
+    );
+};
+
+/**
+ * Update testimonials.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const updateTestimonial = async (request, params) => {
+    if (storedData) {
+        return await Http.patch(
+            `${ENV.baseUrl}/testimonials/${params.id}`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
+};
+
+/**
+ * Update testimonials.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadTestimonial = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/testimonials/${params.id}`,
+            {
                 Authorization: `Bearer ${storedData.token}`
             },
             request,

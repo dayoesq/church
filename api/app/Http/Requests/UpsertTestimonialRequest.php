@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\Enum;
+use App\Utils\Enums\PostStatus;
 
 class UpsertTestimonialRequest extends FormRequest
 {
@@ -25,9 +27,11 @@ class UpsertTestimonialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['sometimes', 'required', 'string', 'min:2', 'max:50'],
-            'last_name' => ['sometimes', 'required', 'string', 'min:2', 'max:50'],
+            'title' => ['sometimes', 'required', 'min:3', 'max:6'],
+            'first_name' => ['sometimes', 'required', 'min:2', 'max:50'],
+            'last_name' => ['sometimes', 'required', 'min:2', 'max:50'],
             'content' => ['sometimes', 'required', 'min:20', 'max:300'],
+            'status' => ['sometimes', new Enum(PostStatus::class)],
             'photo' => ['sometimes',
                 File::image()
                     ->max('500kb')

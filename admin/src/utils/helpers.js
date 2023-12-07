@@ -27,7 +27,7 @@ export const reloadPage = () => {
  *
  * @param status
  */
-export const getStatus = status => {
+export const getBadge = status => {
     switch (status) {
         case STATUS.active:
             return 'success';
@@ -45,6 +45,12 @@ export const getStatus = status => {
             return 'success';
         case STATUS.no:
             return 'warning';
+        case STATUS.archived:
+            return 'info';
+        case STATUS.draft:
+            return 'warning';
+        case STATUS.published:
+            return 'success';
         default:
             return 'primary';
     }
@@ -75,7 +81,7 @@ export const transformedData = data => {
     return data.map((obj, index) => ({
         count: index + 1,
         ...obj,
-        status: <CBadge color={getStatus(obj.status)}>{obj.status}</CBadge>
+        status: <CBadge color={getBadge(obj.status)}>{obj.status}</CBadge>
     }));
 };
 

@@ -24,6 +24,7 @@ class Testimonial extends Model
         'title',
         'first_name',
         'last_name',
+        'status',
         'content',
         'avatar'
     ];

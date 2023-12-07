@@ -34,8 +34,8 @@ class UpsertProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'string', 'min:2', 'max:150'],
-            'description' => ['sometimes', 'string', 'min:20', 'max:500'],
+            'title' => ['sometimes', 'min:2', 'max:150'],
+            'description' => ['sometimes', 'min:20', 'max:500'],
             'target_amount' => ['sometimes', 'required'],
             'donation_required' => ['sometimes', new Enum(YesOrNo::class)],
             'continuous' => ['sometimes', 'boolean'],

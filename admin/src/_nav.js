@@ -126,6 +126,25 @@ export const adminNavigation = [
                 icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
             }
         ]
+    },
+    {
+        component: CNavGroup,
+        name: 'Testimonials',
+        icon: <CIcon icon={cilMoney} customClassName='nav-icon' />,
+        items: [
+            {
+                component: CNavItem,
+                name: 'Testimonials',
+                to: '/dashboard/testimonials',
+                icon: <CIcon icon={cilNotes} customClassName='nav-icon' />
+            },
+            {
+                component: CNavItem,
+                name: 'New Testimonial',
+                to: '/dashboard/testimonials/new',
+                icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
+            }
+        ]
     }
 ];
 
@@ -152,4 +171,3 @@ export const generalNavigation = [
     }
 ];
 
-export default adminNavigation;

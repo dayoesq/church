@@ -28,8 +28,8 @@ class UpsertGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required', 'string', 'min:4', 'max:100'],
-            'description' => ['sometimes', 'required', 'string', 'max:200'],
+            'title' => ['sometimes', 'required', 'min:4', 'max:100'],
+            'description' => ['sometimes', 'required', 'max:200'],
             'category' => ['sometimes', 'required', new Enum(GalleryCategories::class)],
             'photo.*' => ['sometimes',
                 File::image()

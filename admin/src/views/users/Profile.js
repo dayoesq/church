@@ -15,14 +15,13 @@ import {
 } from 'react-router-dom';
 import {
     cilUser,
-    cilAt,
     cilPhone,
     cilGlobeAlt,
     cilCode,
     cilAddressBook,
     cilUserX,
     cilImage,
-    cilBank
+    cilHome
 } from '@coreui/icons';
 import { memo, useState } from 'react';
 import avatar from '../../assets/images/generic-avatar.png';
@@ -158,17 +157,14 @@ const Profile = () => {
                                             name='city'
                                             placeholder='City'
                                             labelTitle='City'
-                                            icon={cilCode}
+                                            icon={cilHome}
                                             data={actionData}
-                                            defaultValue={
-                                                loadedData.data.city
-                                            }
+                                            defaultValue={loadedData.data.city}
                                             disabled={disabled}
                                         />
                                     </CCol>
                                 </CRow>
                                 <CRow>
-
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='select'
@@ -265,7 +261,9 @@ const Profile = () => {
                                             labelTitle='Gender'
                                             icon={cilUserX}
                                             data={actionData}
-                                            defaultValue={loadedData.data.gender}
+                                            defaultValue={
+                                                loadedData.data.gender
+                                            }
                                             disabled
                                         >
                                             <option value={null}>
@@ -300,7 +298,7 @@ const Profile = () => {
                                         value='PATCH'
                                     />
                                 </CRow>
-                                
+
                                 <CRow className='my-2 d-flex align-items-center'>
                                     <CCol xs={6} md={6} lg={6} xl={6}>
                                         <CButton

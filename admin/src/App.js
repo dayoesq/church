@@ -9,13 +9,18 @@ import { action as passwordResetRequestAction } from './views/pages/passwords/Pa
 import { action as passwordResetAction } from './views/pages/passwords/PasswordReset';
 import { action as userAction } from './views/users/User';
 import { action as profileAction } from './views/users/Profile';
+import { action as newTestimonialAction } from './views/testimonials/NewTestimonial';
+import { action as testimonialAction } from './views/testimonials/Testimonial';
+
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
 import { loader as userLoader } from './views/users/User';
+import { loader as testimonialLoader } from './views/testimonials/Testimonial';
+import { loader as testimonialsLoader } from './views/testimonials/Testimonials';
 
 import './scss/style.scss';
-import Profile from "./views/users/Profile";
+
 
 // Containers
 const DefaultLayout = lazy(() => import('./components/DefaultLayout'));
@@ -28,7 +33,10 @@ const Dashboard = lazy(() => import('./views/Dashboard'));
 const Users = lazy(() => import('./views/users/Users'));
 const NewUser = lazy(() => import('./views/users/NewUser'));
 const User = lazy(() => import('./views/users/User'));
-// const Profile = lazy(() => import('./views/users/Profile'));
+const Profile = lazy(() => import('./views/users/Profile'));
+const NewTestimonial = lazy(() => import('./views/testimonials/NewTestimonial'));
+const Testimonials = lazy(() => import('./views/testimonials/Testimonials'));
+const Testimonial = lazy(() => import('./views/testimonials/Testimonial'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -74,7 +82,23 @@ const App = () => {
                     element: <Profile />,
                     loader: userLoader,
                     action: profileAction
-                }
+                },
+                {
+                    path: 'testimonials',
+                    element: <Testimonials />,
+                    loader: testimonialsLoader
+                },
+                {
+                    path: 'testimonials/new',
+                    element: <NewTestimonial />,
+                    action: newTestimonialAction
+                },
+                {
+                    path: 'testimonials/:id',
+                    element: <Testimonial />,
+                    loader: testimonialLoader,
+                    action: testimonialAction
+                },
             ]
         },
         {
