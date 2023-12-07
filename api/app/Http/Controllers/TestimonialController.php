@@ -27,7 +27,7 @@ class TestimonialController extends Controller
     public function index(): JsonResponse
     {
         $testimonials = Testimonial::all();
-        return $this->ok(data: new TestimonialResource($testimonials));
+        return $this->ok(data: TestimonialResource::collection($testimonials));
     }
 
     /**
@@ -41,13 +41,18 @@ class TestimonialController extends Controller
         try {
             DB::beginTransaction();
             $validated = $request->validated();
-            $testimonial = Testimonial::create($validated);
+
+            $testimonial = new Testimonial();
+            $testimonial->first_name = $request->input('first_name');
+            $testimonial->last_name = $request->input('last_name');
+            $testimonial->content = $request->input('content');
 
             if ($request->hasFile(Asset::$PHOTO)) {
                 return $this->handleFileUpload($request, $testimonial);
             }
 
             DB::commit();
+            $testimonial->save();
             return $this->created(data: new TestimonialResource($testimonial));
         } catch (Exception $e) {
             DB::rollBack();
@@ -78,13 +83,9 @@ class TestimonialController extends Controller
     {
         $validated = $request->validated();
         $updated = $testimonial->update($validated);
-
-        if ($request->hasFile(Asset::$PHOTO)) {
-            return $this->handleFileUpload($request, $testimonial);
-        }
-
-        return $updated ? $this->ok() : $this->serverError();
+        return $updated ? $this->ok(data: new TestimonialResource($testimonial)) : $this->serverError();
     }
+
 
     /**
      * Remove the specified resource from storage.

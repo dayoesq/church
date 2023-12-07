@@ -10,7 +10,7 @@ const AppFooter = () => {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    Starbom
+                    RCCG Grace Chapel
                 </a>
                 <span className='ms-1'>
                     &copy; {new Date().getFullYear()} gracechapel.fi

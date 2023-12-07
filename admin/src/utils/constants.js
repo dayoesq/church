@@ -12,6 +12,9 @@ export const STATUS = {
     pending: 'pending',
     current: 'current',
     closed: 'closed',
+    archived: 'archived',
+    published: 'published',
+    draft: 'draft',
     yes: 'yes',
     no: 'no'
 };
@@ -19,7 +22,7 @@ export const STATUS = {
 export const POST_STATUS = {
     active: 'draft',
     banned: 'published',
-    suspended: 'suspended'
+    suspended: 'archived'
 };
 
 export const ENV = {

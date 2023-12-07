@@ -24,10 +24,10 @@ class UpsertAnchorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['sometimes', 'required', 'string', 'min:2', 'max:50'],
-            'last_name' => ['sometimes', 'required', 'string', 'min:2', 'max:50'],
+            'first_name' => ['sometimes', 'required', 'min:2', 'max:50'],
+            'last_name' => ['sometimes', 'required', 'min:2', 'max:50'],
             'email' => ['sometimes', 'required', 'email:rfc,dns', 'unique:anchors'],
-            'title' => ['sometimes', 'string', 'max:15'],
+            'title' => ['sometimes', 'min:3', 'max:15'],
         ];
     }
 }

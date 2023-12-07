@@ -8,21 +8,14 @@ import {
     CAvatar
 } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../store/auth';
-import { ENV, ROLES } from '../utils/constants';
+import { ENV } from '../utils/constants';
 import avatar from '../assets/images/generic-avatar.png';
-import { formatDateWithDay } from '../utils/helpers';
 
-const UsersTable = props => {
+const TestimonialsTable = props => {
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
-
-    const clickHandler = () => {
-        if ([ROLES.admin, ROLES.super].includes(user.roles)) {
-            navigate(`/dashboard/users/${user.id}`);
-        }
+    const clickHandler = (id) => {
+        navigate(`/dashboard/testimonials/${id}`);
     };
 
     return (
@@ -32,35 +25,37 @@ const UsersTable = props => {
                     <CTableHeaderCell>#</CTableHeaderCell>
                     <CTableHeaderCell>First Name</CTableHeaderCell>
                     <CTableHeaderCell>Last Name</CTableHeaderCell>
-                    <CTableHeaderCell>Email</CTableHeaderCell>
+                    <CTableHeaderCell>Content</CTableHeaderCell>
                     <CTableHeaderCell>Status</CTableHeaderCell>
-                    <CTableHeaderCell>Position</CTableHeaderCell>
-                    <CTableHeaderCell>Member Since</CTableHeaderCell>
                     <CTableHeaderCell>Avatar</CTableHeaderCell>
                 </CTableRow>
             </CTableHead>
             <CTableBody>
-                {props.users &&
-                    props.users.map(user => (
+                {props.testimonials &&
+                    props.testimonials.map(testimonial => (
                         <CTableRow
                             role='button'
-                            key={user.email}
-                            onClick={() => clickHandler()}
+                            key={testimonial.id}
+                            onClick={() => clickHandler(testimonial.id)}
                         >
-                            <CTableDataCell>{user.count}</CTableDataCell>
-                            <CTableDataCell>{user.firstName}</CTableDataCell>
-                            <CTableDataCell>{user.lastName}</CTableDataCell>
-                            <CTableDataCell>{user.email}</CTableDataCell>
-                            <CTableDataCell>{user.status}</CTableDataCell>
-                            <CTableDataCell>{user.position}</CTableDataCell>
+                            <CTableDataCell>{testimonial.count}</CTableDataCell>
                             <CTableDataCell>
-                                {formatDateWithDay(user.memberSince)}
+                                {testimonial.firstName}
                             </CTableDataCell>
                             <CTableDataCell>
-                                {user.avatar ? (
+                                {testimonial.lastName}
+                            </CTableDataCell>
+                            <CTableDataCell>
+                                {`${testimonial.content.substring(0, 15)}...`}
+                            </CTableDataCell>
+                            <CTableDataCell>
+                                {testimonial.status}
+                            </CTableDataCell>
+                            <CTableDataCell>
+                                {testimonial.avatar ? (
                                     <CAvatar
                                         size='md'
-                                        src={`${ENV.images}/${user.avatar}`}
+                                        src={`${ENV.images}/${testimonial.avatar}`}
                                     />
                                 ) : (
                                     <CAvatar size='md' src={`${avatar}`} />
@@ -73,4 +68,4 @@ const UsersTable = props => {
     );
 };
 
-export default UsersTable;
+export default TestimonialsTable;

@@ -27,10 +27,10 @@ class UpsertSermonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'string', 'min:4', 'max:100'],
+            'title' => ['sometimes', 'min:4', 'max:100'],
             'status' => ['sometimes', new Enum(PostStatus::class)],
-            'summary' => ['sometimes', 'string', 'min:4', 'max:200'],
-            'author' => ['sometimes', 'string', 'min:2', 'max:50'],
+            'summary' => ['sometimes', 'min:4', 'max:200'],
+            'author' => ['sometimes', 'min:2', 'max:50'],
             'audio.*' => [
                 'sometimes',
                 File::types(['mp3','wav'])

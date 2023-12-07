@@ -26,9 +26,9 @@ class UpsertEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required', 'string', 'min:2', 'max:150'],
-            'organized_by' => ['sometimes', 'required', 'string', 'min:2', 'max:150'],
-            'description' => ['sometimes', 'required', 'string', 'max:500'],
+            'title' => ['sometimes', 'required', 'min:2', 'max:150'],
+            'organized_by' => ['sometimes', 'required', 'min:2', 'max:150'],
+            'description' => ['sometimes', 'required', 'max:500'],
             'starts_at' => ['sometimes', 'required', 'date'],
             'ends_at' => ['sometimes', 'required', 'date'],
             'photo.*' => ['sometimes',

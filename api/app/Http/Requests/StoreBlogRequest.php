@@ -24,7 +24,7 @@ class StoreBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['string', 'min:4', 'max:100'],
+            'title' => ['string', 'required', 'min:4', 'max:100'],
             'content' => ['required']
         ];
     }

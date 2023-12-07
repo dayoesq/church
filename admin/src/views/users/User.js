@@ -27,7 +27,7 @@ import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
-import {loadUser, updateUser, updateUserByAdmin} from '../../utils/requests/general-request';
+import {loadUser, updateUserByAdmin} from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
 import { ROLES } from '../../utils/constants';
 

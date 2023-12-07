@@ -30,7 +30,7 @@ class UpdateDonationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['nullable', 'string', 'min:2', 'max:50'],
+            'first_name' => ['sometimes', 'min:2', 'max:50'],
             'last_name' => ['nullable', 'string', 'min:2', 'max:50'],
             'email' => ['nullable', 'email:rfc,dns'],
             'payment_method' => ['nullable', 'string'],
