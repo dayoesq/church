@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Anchors;
+namespace App\Http\Resources\Coordinator;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,11 +11,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $last_name
  * @property string $email
  * @property string $telephone
- * @property string $title
  * @property string $created_at
  * @property string $updated_at
  */
-class AnchorResource extends JsonResource
+class CoordinatorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -30,7 +29,6 @@ class AnchorResource extends JsonResource
             'lastName' => $this->last_name,
             'email' => $this->email,
             'telephone' => $this->telephone,
-            'title' => $this->title,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

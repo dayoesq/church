@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpsertAnchorRequest extends FormRequest
+class UpsertCoordinatorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,8 @@ class UpsertAnchorRequest extends FormRequest
         return [
             'first_name' => ['sometimes', 'required', 'min:2', 'max:50'],
             'last_name' => ['sometimes', 'required', 'min:2', 'max:50'],
-            'email' => ['sometimes', 'required', 'email:rfc,dns', 'unique:anchors'],
-            'title' => ['sometimes', 'min:3', 'max:15'],
+            'email' => ['sometimes', 'required', 'email:rfc,dns', 'unique:organizers'],
+            'telephone' => ['sometimes', 'max:15'],
         ];
     }
 }

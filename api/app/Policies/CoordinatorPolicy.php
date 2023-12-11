@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class AnchorPolicy
+class CoordinatorPolicy
 {
     /**
      * Determine whether the user can view any models.

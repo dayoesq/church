@@ -1,30 +1,27 @@
 import { memo } from 'react';
 import {
+    CImage,
     CSidebar,
     CSidebarBrand,
     CSidebarNav,
     CSidebarToggler
 } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-
-import { Navigate } from 'react-router-dom';
 
 import { AppSidebarNav } from './AppSidebarNav';
-
-// import { logoNegative } from '../assets/brand/logo-negative';
+import logo from '../assets/images/rccg-logo.png';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 // sidebar nav config
-import { generalNavigation, adminNavigation } from '../_nav';
-import { cilStar } from '@coreui/icons';
-import {isAuthorized, isAuthorizedSuperAdmin} from '../utils/helpers';
+import generalNavigation, { adminNavigation } from '../_nav';
+import { isAuthorizedSuperAdmin, isAuthorizedUser } from '../utils/helpers';
 
 const AppSidebar = ({ sidebarShow, onVisibleChange, unfoldable, onClick }) => {
     const getRoutes = () => {
-        if(isAuthorizedSuperAdmin()) return adminNavigation;
-        //if(isAuthorized()) return adminNavigation;
+        if (isAuthorizedSuperAdmin()) return adminNavigation;
+        if (isAuthorizedUser()) return generalNavigation;
+        return null;
     };
 
     return (
@@ -36,15 +33,9 @@ const AppSidebar = ({ sidebarShow, onVisibleChange, unfoldable, onClick }) => {
                 onVisibleChange={onVisibleChange}
             >
                 <CSidebarBrand className='d-none d-md-flex' to='/dashboard'>
-                    <CIcon
-                        className='sidebar-brand-full'
-                        icon={cilStar}
-                        height={35}
-                    />
-                    <CIcon
-                        className='sidebar-brand-narrow'
-                        icon={cilStar}
-                        height={35}
+                    <CImage
+                        src={logo}
+                        style={{ height: '3rem', width: '3rem' }}
                     />
                 </CSidebarBrand>
                 <CSidebarNav>
