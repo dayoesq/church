@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Events;
 
-use App\Http\Resources\Anchors\AnchorResource;
+use App\Http\Resources\Coordinators\CoordinatorResource;
 use App\Http\Resources\Images\ImageResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -12,7 +12,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $title
  * @property string $description
  * @property string $slug
- * @property mixed $organized_by
+ * @property string $fee
+ * @property string $location
+ * @property string $status
+ * @property string $organizer
  * @property string $starts_at
  * @property string $ends_at
  * @property string $created_at
@@ -32,10 +35,13 @@ class EventResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'slug' => $this->slug,
-            'organizedBy' => $this->organized_by,
+            'fee' => $this->fee,
+            'location' => $this->location,
+            'status' => $this->status,
+            'organizer' => $this->organizer,
             'startsAt' => $this->starts_at,
             'endsAt' => $this->ends_at,
-            'anchor' => new AnchorResource($this->whenLoaded('anchor')),
+            'coordinators' => new CoordinatorResource($this->whenLoaded('coordinators')),
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,

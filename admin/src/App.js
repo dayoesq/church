@@ -11,16 +11,18 @@ import { action as userAction } from './views/users/User';
 import { action as profileAction } from './views/users/Profile';
 import { action as newTestimonialAction } from './views/testimonials/NewTestimonial';
 import { action as testimonialAction } from './views/testimonials/Testimonial';
-
+import { action as newEventAction } from './views/events/NewEvent';
+import { action as eventAction } from './views/events/Event';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
 import { loader as userLoader } from './views/users/User';
 import { loader as testimonialLoader } from './views/testimonials/Testimonial';
 import { loader as testimonialsLoader } from './views/testimonials/Testimonials';
+import { loader as eventsLoader } from './views/events/Events';
+import { loader as eventLoader } from './views/events/Event';
 
 import './scss/style.scss';
-
 
 // Containers
 const DefaultLayout = lazy(() => import('./components/DefaultLayout'));
@@ -34,9 +36,14 @@ const Users = lazy(() => import('./views/users/Users'));
 const NewUser = lazy(() => import('./views/users/NewUser'));
 const User = lazy(() => import('./views/users/User'));
 const Profile = lazy(() => import('./views/users/Profile'));
-const NewTestimonial = lazy(() => import('./views/testimonials/NewTestimonial'));
+const NewTestimonial = lazy(() =>
+    import('./views/testimonials/NewTestimonial')
+);
 const Testimonials = lazy(() => import('./views/testimonials/Testimonials'));
 const Testimonial = lazy(() => import('./views/testimonials/Testimonial'));
+const NewEvent = lazy(() => import('./views/events/NewEvent'));
+const Events = lazy(() => import('./views/events/Events'));
+const Event = lazy(() => import('./views/events/Event'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -98,6 +105,22 @@ const App = () => {
                     element: <Testimonial />,
                     loader: testimonialLoader,
                     action: testimonialAction
+                },
+                {
+                    path: 'events/new',
+                    element: <NewEvent />,
+                    action: newEventAction
+                },
+                {
+                    path: 'events',
+                    element: <Events />,
+                    loader: eventsLoader
+                },
+                {
+                    path: 'events/:id',
+                    element: <Event />,
+                    loader: eventLoader,
+                    action: eventAction
                 },
             ]
         },

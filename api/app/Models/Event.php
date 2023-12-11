@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
@@ -32,8 +33,11 @@ class Event extends Model
      */
     protected $fillable = [
         'title',
-        'organized_by',
+        'organizer',
         'description',
+        'location',
+        'fee',
+        'status',
         'starts_at',
         'ends_at',
     ];
@@ -75,16 +79,6 @@ class Event extends Model
     }
 
     /**
-     * Event's relationship with the anchor.
-     *
-     * @return HasMany
-     */
-    public function anchors(): HasMany
-    {
-        return $this->hasMany(Anchor::class);
-    }
-
-    /**
      * Event's relationship with the image.
      *
      * @return MorphMany
@@ -93,4 +87,15 @@ class Event extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    /**
+     * Event's relationship with the coordinator.
+     *
+     * @return BelongsToMany
+     */
+    public function coordinators(): BelongsToMany
+    {
+        return $this->belongsToMany(Coordinator::class);
+    }
+
 }

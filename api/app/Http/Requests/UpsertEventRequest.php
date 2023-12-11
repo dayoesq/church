@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Utils\Enums\EventStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 
@@ -27,8 +29,11 @@ class UpsertEventRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'required', 'min:2', 'max:150'],
-            'organized_by' => ['sometimes', 'required', 'min:2', 'max:150'],
+            'organizer' => ['sometimes', 'required', 'min:2', 'max:150'],
             'description' => ['sometimes', 'required', 'max:500'],
+            'fee' => ['sometimes', 'required', 'numeric'],
+            'location' => ['sometimes', 'required'],
+            'status' => ['sometimes', new Enum(EventStatus::class)],
             'starts_at' => ['sometimes', 'required', 'date'],
             'ends_at' => ['sometimes', 'required', 'date'],
             'photo.*' => ['sometimes',

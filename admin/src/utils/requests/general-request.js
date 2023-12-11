@@ -117,11 +117,10 @@ export const updateEvent = async (request, params) => {
         return await Http.patch(
             `${ENV.baseUrl}/events/${params.id}`,
             {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${storedData.token}`
             },
             request,
-            { isFormData: false }
+            { isFormData: true }
         );
     }
 };
@@ -134,7 +133,7 @@ export const updateEvent = async (request, params) => {
  * @param request
  * @param params
  */
-export const getEvent = async (request, params) => {
+export const loadEvent = async (request, params) => {
     if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/events/${params.id}`,

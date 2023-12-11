@@ -28,7 +28,7 @@ class EventController extends Controller
      */
     public function index(): JsonResponse
     {
-        $events = Event::with('anchors')->get();
+        $events = Event::with('coordinators')->get();
         return $this->ok(data: EventResource::collection($events));
     }
 

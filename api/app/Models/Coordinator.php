@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
  * @method static create(mixed $data)
  */
-class Anchor extends Model
+class Coordinator extends Model
 {
     use HasFactory;
 
@@ -23,11 +24,11 @@ class Anchor extends Model
         'first_name',
         'last_name',
         'email',
-        'title'
+        'telephone'
     ];
 
     /**
-     * Interact with the anchor's first name.
+     * Interact with the coordinator's first name.
      *
      * @return Attribute
      */
@@ -40,7 +41,7 @@ class Anchor extends Model
     }
 
     /**
-     * Interact with the anchor's last name.
+     * Interact with the coordinator's last name.
      *
      * @return Attribute
      */
@@ -53,7 +54,7 @@ class Anchor extends Model
     }
 
     /**
-     * Interact with the anchor's email.
+     * Interact with the coordinator's email.
      *
      * @return Attribute
      */
@@ -66,16 +67,13 @@ class Anchor extends Model
     }
 
     /**
-     * Interact with the anchor's title.
+     * Coordinator's relationship with the event.
      *
-     * @return Attribute
+     * @return BelongsToMany
      */
-    protected function title(): Attribute
+    public function events(): BelongsToMany
     {
-        return Attribute::make(
-            get: fn ($value) => Str::ucfirst($value),
-            set: fn ($value) => Str::lower($value),
-        );
+        return $this->belongsToMany(Event::class);
     }
 
 }

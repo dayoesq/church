@@ -122,6 +122,24 @@ export const isAuthorizedSuperAdmin = () => {
 };
 
 /**
+ * Check if user is authorized.
+ *
+ * @return Boolean
+ *
+ */
+export const isAuthorizedUser = () => {
+    const data = getDataFromStorage();
+    if (data) {
+        return (
+            data.token.length &&
+            [ROLES.user].includes(data.user.roles) &&
+            data.user.status === STATUS.active
+        );
+    }
+    return false;
+};
+
+/**
  * Get localStorage object.
  *
  * @return Object {user}
