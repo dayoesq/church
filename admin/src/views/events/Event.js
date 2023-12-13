@@ -12,7 +12,15 @@ import {
     useLoaderData,
     useActionData
 } from 'react-router-dom';
-import { cilUser, cilFile, cilPencil, cilCalendar } from '@coreui/icons';
+import {
+    cilPencil,
+    cilCalendar,
+    cilAsterisk,
+    cilContact,
+    cilBadge,
+    cilLocationPin,
+    cilMoney
+} from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
@@ -20,6 +28,15 @@ import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
 import { ROLES } from '../../utils/constants';
 import { loadEvent, updateEvent } from '../../utils/requests/general-request';
+import { CustomDate } from '../../utils/requests/date';
+
+const eventStatus = [
+    { name: 'Select Status', value: '' },
+    { name: 'Upcoming', value: 'upcoming' },
+    { name: 'Ongoing', value: 'ongoing' },
+    { name: 'Concluded', value: 'concluded' },
+    { name: 'Cancelled', value: 'cancelled' }
+];
 
 const Event = () => {
     const [disabled, setDisabled] = useState(true);
@@ -58,7 +75,7 @@ const Event = () => {
                         <CCardBody>
                             <Form method='patch' noValidate>
                                 <CRow>
-                                    <CCol xs={12}>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -66,9 +83,25 @@ const Event = () => {
                                             name='title'
                                             placeholder='Title'
                                             labelTitle='Title'
-                                            icon={cilUser}
+                                            icon={cilAsterisk}
                                             data={actionData}
                                             defaultValue={loadedData.data.title}
+                                            disabled={disabled}
+                                        />
+                                    </CCol>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='input'
+                                            type='text'
+                                            id='organizer'
+                                            name='organizer'
+                                            placeholder='Organizer'
+                                            labelTitle='Organizer'
+                                            data={actionData}
+                                            icon={cilContact}
+                                            defaultValue={
+                                                loadedData.data.organizer
+                                            }
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -81,11 +114,11 @@ const Event = () => {
                                             id='description'
                                             name='description'
                                             placeholder='Max 200 letters'
-                                            labelTitle='Content'
+                                            labelTitle='Description'
                                             data={actionData}
                                             icon={cilPencil}
                                             defaultValue={
-                                                loadedData.data.decription
+                                                loadedData.data.description
                                             }
                                             disabled={disabled}
                                         />
@@ -96,14 +129,14 @@ const Event = () => {
                                         <Input
                                             element='input'
                                             type='text'
-                                            id='organized_by'
-                                            name='organized_by'
-                                            placeholder='Organizer'
-                                            labelTitle='Organizer'
+                                            id='location'
+                                            name='location'
+                                            placeholder='Location'
+                                            labelTitle='Location'
                                             data={actionData}
-                                            icon={cilUser}
+                                            icon={cilLocationPin}
                                             defaultValue={
-                                                loadedData.data.organizedBy
+                                                loadedData.data.location
                                             }
                                             disabled={disabled}
                                         />
@@ -113,11 +146,51 @@ const Event = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
-                                            type='date'
+                                            type='number'
+                                            id='fee'
+                                            name='fee'
+                                            placeholder='Fee'
+                                            labelTitle='Fee'
+                                            min={0}
+                                            icon={cilMoney}
+                                            data={actionData}
+                                            defaultValue={loadedData.data.fee}
+                                            disabled={disabled}
+                                        />
+                                    </CCol>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='select'
+                                            id='status'
+                                            name='status'
+                                            placeholder='Status'
+                                            labelTitle='Status'
+                                            icon={cilBadge}
+                                            data={actionData}
+                                            defaultValue={
+                                                loadedData.data.status
+                                            }
+                                            disabled={disabled}
+                                        >
+                                            {eventStatus.map(status => (
+                                                <option value={status.value}>
+                                                    {status.name}
+                                                </option>
+                                            ))}
+                                        </Input>
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='input'
+                                            type='datetime-local'
                                             id='starts_at'
                                             name='starts_at'
                                             placeholder='Start Date'
-                                            labelTitle='Start Date'
+                                            labelTitle={`Start Date: ${CustomDate.formatCustomDate(
+                                                loadedData.data.startsAt
+                                            )}`}
                                             icon={cilCalendar}
                                             data={actionData}
                                             defaultValue={
@@ -129,11 +202,14 @@ const Event = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
-                                            type='date'
+                                            type='datetime-local'
                                             id='ends_at'
                                             name='ends_at'
                                             placeholder='End Date'
-                                            labelTitle='End Date'
+                                            labelTitle={`End Date: ${CustomDate.formatCustomDate(
+                                                loadedData.data.endsAt
+                                            )}`}
+                                            labelClassName=''
                                             icon={cilCalendar}
                                             data={actionData}
                                             defaultValue={

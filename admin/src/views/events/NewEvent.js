@@ -9,10 +9,13 @@ import {
 import { Form, useActionData, useNavigation } from 'react-router-dom';
 import {
     cilUser,
-    cilAt,
     cilPencil,
     cilCalendar,
-    cilImage
+    cilImage,
+    cilContact,
+    cilLocationPin,
+    cilMoney,
+    cilAsterisk
 } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
@@ -37,7 +40,7 @@ const NewEvent = () => {
                     <CCardBody>
                         <Form method='post' noValidate>
                             <CRow>
-                                <CCol xs={12}>
+                                <CCol xs={12} md={6} lg={6} xl={6}>
                                     <Input
                                         element='input'
                                         type='text'
@@ -46,7 +49,19 @@ const NewEvent = () => {
                                         placeholder='Title'
                                         labelTitle='Title'
                                         data={data}
-                                        icon={cilUser}
+                                        icon={cilAsterisk}
+                                    />
+                                </CCol>
+                                <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <Input
+                                        element='input'
+                                        type='text'
+                                        id='organizer'
+                                        name='organizer'
+                                        placeholder='Organizer'
+                                        labelTitle='Organizer'
+                                        data={data}
+                                        icon={cilContact}
                                     />
                                 </CCol>
                             </CRow>
@@ -69,12 +84,12 @@ const NewEvent = () => {
                                     <Input
                                         element='input'
                                         type='text'
-                                        id='organized_by'
-                                        name='organized_by'
-                                        placeholder='Organizer'
-                                        labelTitle='Organizer'
+                                        id='location'
+                                        name='location'
+                                        placeholder='Location'
+                                        labelTitle='Location'
                                         data={data}
-                                        icon={cilAt}
+                                        icon={cilLocationPin}
                                     />
                                 </CCol>
                             </CRow>
@@ -82,7 +97,7 @@ const NewEvent = () => {
                                 <CCol xs={12} md={6} lg={6} xl={6}>
                                     <Input
                                         element='input'
-                                        type='date'
+                                        type='datetime-local'
                                         id='starts_at'
                                         name='starts_at'
                                         placeholder='Start Date'
@@ -94,7 +109,7 @@ const NewEvent = () => {
                                 <CCol xs={12} md={6} lg={6} xl={6}>
                                     <Input
                                         element='input'
-                                        type='date'
+                                        type='datetime-local'
                                         id='ends_at'
                                         name='ends_at'
                                         placeholder='End Date'

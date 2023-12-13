@@ -148,25 +148,6 @@ export const adminNavigation = [
                 icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
             }
         ]
-    },
-    {
-        component: CNavGroup,
-        name: 'Anchors',
-        icon: <CIcon icon={cilBoatAlt} customClassName='nav-icon' />,
-        items: [
-            {
-                component: CNavItem,
-                name: 'Anchors',
-                to: '/dashboard/anchors',
-                icon: <CIcon icon={cilNotes} customClassName='nav-icon' />
-            },
-            {
-                component: CNavItem,
-                name: 'New Anchor',
-                to: '/dashboard/anchors/new',
-                icon: <CIcon icon={cilPenAlt} customClassName='nav-icon' />
-            }
-        ]
     }
 ];
 

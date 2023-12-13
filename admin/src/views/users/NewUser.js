@@ -12,7 +12,6 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import CustomDate from '../../utils/date';
 import { createUser } from '../../utils/requests/general-request';
 
 const NewUser = () => {

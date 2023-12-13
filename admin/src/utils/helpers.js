@@ -35,6 +35,14 @@ export const getBadge = status => {
             return 'warning';
         case STATUS.deleted:
             return 'danger';
+        case STATUS.cancelled:
+            return 'danger';
+        case STATUS.concluded:
+            return 'success';
+        case STATUS.ongoing:
+            return 'warning';
+        case STATUS.upcoming:
+            return 'info';
         case STATUS.closed:
             return 'danger';
         case STATUS.banned:

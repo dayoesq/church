@@ -28,7 +28,7 @@ class EventController extends Controller
      */
     public function index(): JsonResponse
     {
-        $events = Event::with('coordinators')->get();
+        $events = Event::with('images')->get();
         return $this->ok(data: EventResource::collection($events));
     }
 
@@ -45,9 +45,6 @@ class EventController extends Controller
 
             $validated = $request->validated();
             $event = Event::create($validated);
-
-            if ($request->filled('anchor')) $event->anchor = $request->input('anchor');
-            $event->save();
 
             if ($request->hasFile(Asset::$PHOTO)) {
                 $paths = $this->processAssetsStorage($request, Asset::$PHOTO);

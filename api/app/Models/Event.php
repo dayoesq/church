@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
@@ -37,6 +35,7 @@ class Event extends Model
         'description',
         'location',
         'fee',
+        'slug',
         'status',
         'starts_at',
         'ends_at',
@@ -57,24 +56,11 @@ class Event extends Model
      *
      * @return Attribute
      */
-    protected function organizedBy(): Attribute
+    protected function organizer(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Str::words($value),
-            set: fn ($value) => Str::lower($value),
-        );
-    }
-
-    /**
-     * Create slug out of event's title.
-     *
-     * @return Attribute
-     */
-    protected function slug(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->slug,
-            set: fn () => Str::slug($this->title),
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::upper($value),
         );
     }
 
@@ -88,14 +74,5 @@ class Event extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    /**
-     * Event's relationship with the coordinator.
-     *
-     * @return BelongsToMany
-     */
-    public function coordinators(): BelongsToMany
-    {
-        return $this->belongsToMany(Coordinator::class);
-    }
 
 }

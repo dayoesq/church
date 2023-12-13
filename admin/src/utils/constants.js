@@ -7,6 +7,7 @@ export const ROLES = {
 export const STATUS = {
     active: 'active',
     banned: 'banned',
+    cancelled: 'cancelled',
     suspended: 'suspended',
     deleted: 'deleted',
     pending: 'pending',
