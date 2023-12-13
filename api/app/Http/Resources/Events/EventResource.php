@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Events;
 
-use App\Http\Resources\Coordinators\CoordinatorResource;
 use App\Http\Resources\Images\ImageResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -41,7 +40,6 @@ class EventResource extends JsonResource
             'organizer' => $this->organizer,
             'startsAt' => $this->starts_at,
             'endsAt' => $this->ends_at,
-            'coordinators' => new CoordinatorResource($this->whenLoaded('coordinators')),
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
