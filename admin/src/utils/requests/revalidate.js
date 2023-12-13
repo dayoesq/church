@@ -17,10 +17,10 @@ export const revalidate = async (login, logout) => {
                 const resData = await res.json();
                 const userObj = {
                     id: resData.data.id,
-                    first_name: resData.data.first_name,
-                    last_name: resData.data.last_name,
+                    first_name: resData.data.firstName,
+                    last_name: resData.data.lastName,
                     avatar: resData.data.avatar,
-                    role: resData.data.role,
+                    roles: resData.data.roles,
                     status: resData.data.status
                 };
 
@@ -31,13 +31,13 @@ export const revalidate = async (login, logout) => {
                 }
                 if (
                     storedData.user.status !== resData.data.status ||
-                    storedData.user.first_name !== resData.data.first_name ||
-                    storedData.user.last_name !== resData.data.last_name ||
-                    storedData.user.role !== resData.data.role ||
+                    storedData.user.first_name !== resData.data.firstName ||
+                    storedData.user.last_name !== resData.data.lastName ||
+                    storedData.user.roles !== resData.data.roles ||
                     storedData.user.avatar !== resData.data.avatar
                 ) {
-                    login(userObj, storedData.token, storedData.expiration);
-                    window.location.replace('/dashboard/users');
+                    login(userObj, storedData.token);
+                    //window.location.replace('/dashboard/users');
                 }
             }
         } catch (error) {

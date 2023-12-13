@@ -16,13 +16,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('slug')->nullable();
             $table->unsignedInteger('fee')->nullable();
             $table->string('location')->nullable();
             $table->enum('status', [
                 EventStatus::Ongoing->value,
                 EventStatus::Upcoming->value,
-                EventStatus::Concluded->value
+                EventStatus::Concluded->value,
+                EventStatus::Cancelled->value
                 ])->default(EventStatus::Upcoming->value);
             $table->string('organizer');
             $table->timestamp('starts_at');

@@ -58,7 +58,6 @@ const Input = props => {
                                     id={props.id}
                                     name={props.id}
                                     value={props.value}
-                                    hidden={props.hidden}
                                     onChange={props.onChange}
                                     multiple={props.multiple}
                                     accept={
@@ -79,7 +78,7 @@ const Input = props => {
                     </>
                 );
             }
-            if (props.type.toLowerCase() === 'date') {
+            if (props.type.toLowerCase() === 'datetime-local') {
                 return (
                     <>
                         <CCol>
@@ -112,6 +111,7 @@ const Input = props => {
                     </>
                 );
             }
+
             if (props.type.toLowerCase() === 'hidden') {
                 return (
                     <>
@@ -138,7 +138,6 @@ const Input = props => {
                                     id={props.id}
                                     name={props.id}
                                     value={props.value}
-                                    hidden={props.hidden}
                                     onChange={props.onChange}
                                     className={`${
                                         props.className && props.className
@@ -146,6 +145,39 @@ const Input = props => {
                                     style={props.style}
                                     disabled={props.disabled}
                                     checked={props.checked}
+                                    defaultChecked={props.defaultChecked}
+                                />
+                            </CInputGroup>
+                        </CCol>
+                        {errorMessage()}
+                    </>
+                );
+            }
+
+            if (props.type.toLowerCase() === 'number') {
+                return (
+                    <>
+                        <CCol>
+                            <CFormLabel htmlFor={props.id}>
+                                {props.labelTitle}
+                            </CFormLabel>
+                            <CInputGroup className='mb-2'>
+                                <CInputGroupText>
+                                    <CIcon icon={props.icon} />
+                                </CInputGroupText>
+                                <CFormInput
+                                    type={props.type}
+                                    id={props.id}
+                                    name={props.id}
+                                    value={props.value}
+                                    min={props.min}
+                                    max={props.max}
+                                    onChange={props.onChange}
+                                    className={`${
+                                        props.className && props.className
+                                    } ${errorStyle(props.id)}`}
+                                    style={props.style}
+                                    disabled={props.disabled}
                                     defaultChecked={props.defaultChecked}
                                 />
                             </CInputGroup>
@@ -203,7 +235,6 @@ const Input = props => {
                                 id={props.id}
                                 name={props.id}
                                 value={props.value}
-                                hidden={props.hidden}
                                 onChange={props.onChange}
                                 placeholder={props.placeholder}
                                 className={`${
@@ -237,7 +268,6 @@ const Input = props => {
                                 id={props.id}
                                 name={props.id}
                                 value={props.value}
-                                hidden={props.hidden}
                                 onChange={props.onChange}
                                 placeholder={props.placeholder}
                                 multiple={props.multiple}

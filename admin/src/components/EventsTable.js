@@ -4,12 +4,10 @@ import {
     CTableRow,
     CTableHeaderCell,
     CTableHead,
-    CTableBody,
-    CAvatar
+    CTableBody
 } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
-import { ENV } from '../utils/constants';
-import avatar from '../assets/images/generic-avatar.png';
+import { CustomDate } from '../utils/requests/date';
 
 const EventsTable = props => {
     const navigate = useNavigate();
@@ -24,11 +22,12 @@ const EventsTable = props => {
                 <CTableRow>
                     <CTableHeaderCell>#</CTableHeaderCell>
                     <CTableHeaderCell>Title</CTableHeaderCell>
-                    <CTableHeaderCell>Organized By</CTableHeaderCell>
+                    <CTableHeaderCell>Organizer</CTableHeaderCell>
                     <CTableHeaderCell>Description</CTableHeaderCell>
+                    <CTableHeaderCell>Status</CTableHeaderCell>
+                    <CTableHeaderCell>Fee</CTableHeaderCell>
                     <CTableHeaderCell>Start Date</CTableHeaderCell>
                     <CTableHeaderCell>End Date</CTableHeaderCell>
-                    <CTableHeaderCell>Image</CTableHeaderCell>
                 </CTableRow>
             </CTableHead>
             <CTableBody>
@@ -41,20 +40,17 @@ const EventsTable = props => {
                         >
                             <CTableDataCell>{event.count}</CTableDataCell>
                             <CTableDataCell>{event.title}</CTableDataCell>
-                            <CTableDataCell>{event.organizedBy}</CTableDataCell>
+                            <CTableDataCell>{event.organizer}</CTableDataCell>
                             <CTableDataCell>
                                 {`${event.description.substring(0, 15)}...`}
                             </CTableDataCell>
                             <CTableDataCell>{event.status}</CTableDataCell>
+                            <CTableDataCell>{event.fee}</CTableDataCell>
                             <CTableDataCell>
-                                {event.images && event.images.length > 0 ? (
-                                    <CAvatar
-                                        size='md'
-                                        src={`${ENV.images}/${event.images[0]}`}
-                                    />
-                                ) : (
-                                    <CAvatar size='md' src={`${avatar}`} />
-                                )}
+                                {CustomDate.formatCustomDate(event.startsAt)}
+                            </CTableDataCell>
+                            <CTableDataCell>
+                                {CustomDate.formatCustomDate(event.endsAt)}
                             </CTableDataCell>
                         </CTableRow>
                     ))}
