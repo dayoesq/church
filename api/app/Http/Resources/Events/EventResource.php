@@ -10,8 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $id
  * @property string $title
  * @property string $description
- * @property string $slug
- * @property string $fee
+ * @property int $fee
  * @property string $location
  * @property string $status
  * @property string $organizer

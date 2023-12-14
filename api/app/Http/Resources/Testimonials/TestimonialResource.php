@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
- * @property string $title
  * @property string $last_name
  * @property string $last_name
  * @property string $content
@@ -27,10 +26,8 @@ class TestimonialResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
             'firstName' => $this->first_name,
             'lastName' => $this->last_name,
-            'fullName' => $this->first_name . ' ' . $this->last_name,
             'content' => $this->content,
             'avatar' => $this->avatar,
             'status' => $this->status,

@@ -31,12 +31,12 @@ class UpsertEventRequest extends FormRequest
             'title' => ['sometimes', 'required', 'min:2', 'max:150'],
             'organizer' => ['sometimes', 'required', 'min:2', 'max:150'],
             'description' => ['sometimes', 'required', 'max:500'],
-            'fee' => ['sometimes', 'required', 'numeric'],
+            'fee' => ['sometimes'],
             'location' => ['sometimes', 'required'],
             'status' => ['sometimes', new Enum(EventStatus::class)],
-            'starts_at' => ['sometimes', 'required', 'date'],
-            'ends_at' => ['sometimes', 'required', 'date'],
-            'photo.*' => ['sometimes',
+            'starts_at' => ['sometimes', 'date'],
+            'ends_at' => ['sometimes', 'date'],
+            'images.*' => ['sometimes',
                 File::image()
                     ->min('500kb')
                     ->max('5mb')

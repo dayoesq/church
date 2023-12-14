@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        $users = User::with('position')->get(['first_name', 'last_name', 'email', 'status', 'member_since', 'avatar']);
+        $users = User::with('position')->get(['id', 'first_name', 'last_name', 'email', 'status', 'member_since', 'avatar']);
         return $this->ok(data: UserResource::collection($users));
     }
 
@@ -135,8 +135,8 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            if($user->avatar && Storage::disk(Asset::$PHOTO)->exists($user->avatar)) {
-                Storage::disk(Asset::$PHOTO)->delete($user->avatar);
+            if($user->avatar && Storage::disk(Asset::$IMAGES)->exists($user->avatar)) {
+                Storage::disk(Asset::$IMAGES)->delete($user->avatar);
             }
             $user->delete();
             DB::commit();
@@ -162,11 +162,11 @@ class UserController extends Controller
         $this->authorize('updateSelf', $user);
         $user->update($validated);
 
-        if($request->hasFile(Asset::$PHOTO)) {
-            if($user->avatar && Storage::disk(Asset::$PHOTO)->exists($user->avatar)) {
-                Storage::disk(Asset::$PHOTO)->delete($user->avatar);
+        if($request->hasFile('avatar')) {
+            if($user->avatar && Storage::disk(Asset::$IMAGES)->exists($user->avatar)) {
+                Storage::disk(Asset::$IMAGES)->delete($user->avatar);
             }
-            $path = $request->file(Asset::$PHOTO)->store(Asset::$PHOTO);
+            $path = $request->file('avatar')->store(Asset::$IMAGES);
             $user->avatar = basename($path);
             $user->save();
             return $this->ok();

@@ -114,7 +114,7 @@ export const createEvent = async request => {
  */
 export const updateEvent = async (request, params) => {
     if (storedData) {
-        return await Http.patch(
+        return await Http.post(
             `${ENV.baseUrl}/events/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
@@ -247,21 +247,16 @@ export const updateUserByAdmin = async (request, params) => {
 };
 
 /**
- * Update user.
- *
- * @return Promise
+ * Create testimony.
  *
  * @param request
- * @param params
+ * @return Promise
+ *
  */
-export const updateUser = async (request, params) => {
+export const createTestimonial = async request => {
     if (storedData) {
-        const url =
-            storedData?.user.role === ROLES.user
-                ? `${params.id}/update-self`
-                : `${params.id}`;
-        return await Http.patch(
-            `${ENV.baseUrl}/users/${url}`,
+        return await Http.post(
+            `${ENV.baseUrl}/testimonials`,
             {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${storedData.token}`
@@ -270,25 +265,6 @@ export const updateUser = async (request, params) => {
             { isFormData: false }
         );
     }
-};
-
-/**
- * Create testimony.
- *
- * @param request
- * @return Promise
- *
- */
-export const createTestimonial = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/testimonials`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData.token}`
-        },
-        request,
-        { isFormData: false }
-    );
 };
 
 /**
@@ -301,14 +277,13 @@ export const createTestimonial = async request => {
  */
 export const updateTestimonial = async (request, params) => {
     if (storedData) {
-        return await Http.patch(
+        return await Http.post(
             `${ENV.baseUrl}/testimonials/${params.id}`,
             {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${storedData.token}`
             },
             request,
-            { isFormData: false }
+            { isFormData: true }
         );
     }
 };
@@ -328,8 +303,7 @@ export const loadTestimonial = async (request, params) => {
             {
                 Authorization: `Bearer ${storedData.token}`
             },
-            request,
-            { isFormData: false }
+            request
         );
     }
 };

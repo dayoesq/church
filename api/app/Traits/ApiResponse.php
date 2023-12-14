@@ -152,21 +152,21 @@ trait ApiResponse
     public function processAssetsStorage(mixed $request, string $fileName): array
     {
         $files = [];
-        $directory = $fileName . 's';
+        $directory = $fileName;
         $attachment = $request->file($fileName);
         $attachments = [...$attachment];
 
         match ($fileName) {
-            'photo.*' => [
+            'images.*' => [
                 File::image()
                     ->max('5mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
-            'attachment.*' => [
+            'attachments.*' => [
                 File::types(['pdf, png, svg, jpg, jpeg'])
                     ->max('5mb')
             ],
-            'audio.*' => [
+            'audios.*' => [
                 File::types(['mp3','wav'])
                     ->max('5mb')
             ],

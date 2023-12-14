@@ -7,7 +7,7 @@ import {
     CButton
 } from '@coreui/react';
 import { Form, useActionData, useNavigation } from 'react-router-dom';
-import { cilUser, cilPencil } from '@coreui/icons';
+import { cilUser, cilPencil, cilImage } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';

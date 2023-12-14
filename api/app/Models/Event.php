@@ -12,9 +12,7 @@ use Illuminate\Support\Str;
  * @property string $title
  * @property mixed $starts_at
  * @property mixed $ends_at
- * @property string $organized_by
- * @property string $anchors
- * @property string $slug
+ * @property string $organizer
  * @property string $description
  * @property mixed $images
  * @method static create(array $validated)
@@ -35,7 +33,6 @@ class Event extends Model
         'description',
         'location',
         'fee',
-        'slug',
         'status',
         'starts_at',
         'ends_at',
@@ -50,6 +47,19 @@ class Event extends Model
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
     ];
+
+    /**
+     * Interact with the event's title.
+     *
+     * @return Attribute
+     */
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::upper($value),
+        );
+    }
 
     /**
      * Interact with the event's organiser.

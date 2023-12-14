@@ -19,9 +19,9 @@ const UsersTable = props => {
 
     const { user } = useContext(AuthContext);
 
-    const clickHandler = () => {
+    const clickHandler = (id) => {
         if ([ROLES.admin, ROLES.super].includes(user.roles)) {
-            navigate(`/dashboard/users/${user.id}`);
+            navigate(`/dashboard/users/${id}`);
         }
     };
 
@@ -45,7 +45,7 @@ const UsersTable = props => {
                         <CTableRow
                             role='button'
                             key={user.email}
-                            onClick={() => clickHandler()}
+                            onClick={() => clickHandler(user.id)}
                         >
                             <CTableDataCell>{user.count}</CTableDataCell>
                             <CTableDataCell>{user.firstName}</CTableDataCell>

@@ -8,13 +8,10 @@ import {
 } from '@coreui/react';
 import { Form, useActionData, useNavigation } from 'react-router-dom';
 import {
-    cilUser,
     cilPencil,
     cilCalendar,
-    cilImage,
     cilContact,
     cilLocationPin,
-    cilMoney,
     cilAsterisk
 } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
@@ -115,21 +112,6 @@ const NewEvent = () => {
                                         placeholder='End Date'
                                         labelTitle='End Date'
                                         icon={cilCalendar}
-                                        data={data}
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CRow>
-                                <CCol xs={12} md={6} lg={6} xl={6}>
-                                    <Input
-                                        element='input'
-                                        id='photo'
-                                        type='file'
-                                        name='photo'
-                                        labelTitle='Images'
-                                        accept='.jpeg, .png, .jpg, .svg'
-                                        icon={cilImage}
-                                        multiple
                                         data={data}
                                     />
                                 </CCol>

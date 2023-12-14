@@ -19,7 +19,8 @@ import {
     cilContact,
     cilBadge,
     cilLocationPin,
-    cilMoney
+    cilMoney,
+    cilImage
 } from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
@@ -73,7 +74,11 @@ const Event = () => {
                             </CButton>
                         </CCardHeader>
                         <CCardBody>
-                            <Form method='patch' noValidate>
+                            <Form
+                                method='post'
+                                noValidate
+                                encType='multipart/form-data'
+                            >
                                 <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
@@ -125,7 +130,7 @@ const Event = () => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CCol xs={12}>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -138,6 +143,19 @@ const Event = () => {
                                             defaultValue={
                                                 loadedData.data.location
                                             }
+                                            disabled={disabled}
+                                        />
+                                    </CCol>
+                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                        <Input
+                                            element='input'
+                                            id='avatar'
+                                            type='file'
+                                            name='avatar'
+                                            labelTitle='Avatar'
+                                            accept='.jpeg, .png, .jpg, .svg'
+                                            icon={cilImage}
+                                            data={actionData}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -173,7 +191,10 @@ const Event = () => {
                                             disabled={disabled}
                                         >
                                             {eventStatus.map(status => (
-                                                <option value={status.value}>
+                                                <option
+                                                    value={status.value}
+                                                    key={status.name}
+                                                >
                                                     {status.name}
                                                 </option>
                                             ))}
@@ -209,7 +230,6 @@ const Event = () => {
                                             labelTitle={`End Date: ${CustomDate.formatCustomDate(
                                                 loadedData.data.endsAt
                                             )}`}
-                                            labelClassName=''
                                             icon={cilCalendar}
                                             data={actionData}
                                             defaultValue={

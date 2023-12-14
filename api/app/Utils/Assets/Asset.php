@@ -4,9 +4,9 @@ namespace App\Utils\Assets;
 
 class Asset
 {
-    public static string $PHOTO = 'photo';
-    public static string $AUDIO = 'audio';
-    public static string $ATTACHMENT = 'attachment';
-    public static string $VIDEO = 'video';
+    public static string $IMAGES = 'images';
+    public static string $AUDIOS = 'audios';
+    public static string $ATTACHMENTS = 'attachments';
+    public static string $VIDEOS = 'videos';
 
 }

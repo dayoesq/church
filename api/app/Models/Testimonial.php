@@ -21,7 +21,6 @@ class Testimonial extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
         'first_name',
         'last_name',
         'status',

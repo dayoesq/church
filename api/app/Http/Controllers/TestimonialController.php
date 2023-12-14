@@ -38,27 +38,13 @@ class TestimonialController extends Controller
      */
     public function store(UpsertTestimonialRequest $request): JsonResponse
     {
-        try {
-            DB::beginTransaction();
-            $validated = $request->validated();
-
-            $testimonial = new Testimonial();
-            $testimonial->first_name = $request->input('first_name');
-            $testimonial->last_name = $request->input('last_name');
-            $testimonial->content = $request->input('content');
-
-            if ($request->hasFile(Asset::$PHOTO)) {
-                return $this->handleFileUpload($request, $testimonial);
-            }
-
-            DB::commit();
-            $testimonial->save();
-            return $this->created(data: new TestimonialResource($testimonial));
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return $this->serverError($e->getMessage());
-        }
+        $validated = $request->validated();
+        $testimonial = new Testimonial();
+        $testimonial->first_name = $request->input('first_name');
+        $testimonial->last_name = $request->input('last_name');
+        $testimonial->content = $request->input('content');
+        $testimonial->save();
+        return $this->created(data: new TestimonialResource($testimonial));
     }
 
     /**
@@ -81,9 +67,30 @@ class TestimonialController extends Controller
      */
     public function update(UpsertTestimonialRequest $request, Testimonial $testimonial): JsonResponse
     {
-        $validated = $request->validated();
-        $updated = $testimonial->update($validated);
-        return $updated ? $this->ok(data: new TestimonialResource($testimonial)) : $this->serverError();
+        try {
+            DB::beginTransaction();
+            $validated = $request->validated();
+            $updated = $testimonial->update($validated);
+
+        if($request->hasFile('avatar')) {
+            if ($testimonial->avatar && Storage::disk(Asset::$IMAGES)->exists($testimonial->avatar)) {
+                Storage::disk(Asset::$IMAGES)->delete($testimonial->avatar);
+            }
+
+            $path = $request->file('avatar')->store(Asset::$IMAGES);
+            $testimonial->avatar = basename($path);
+        }
+
+        $testimonial->save();
+        DB::commit();
+        return $this->ok(data: new TestimonialResource($testimonial));
+
+        } catch(Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return $this->serverError();
+        }
+
     }
 
 
@@ -97,8 +104,8 @@ class TestimonialController extends Controller
     {
         try {
             DB::beginTransaction();
-            if($testimonial->avatar && Storage::disk(Asset::$PHOTO)->exists($testimonial->avatar)) {
-                Storage::disk(Asset::$PHOTO)->delete($testimonial->avatar);
+            if($testimonial->avatar && Storage::disk(Asset::$IMAGES)->exists($testimonial->avatar)) {
+                Storage::disk(Asset::$IMAGES)->delete($testimonial->avatar);
             }
             $testimonial->delete();
             DB::commit();
@@ -110,24 +117,4 @@ class TestimonialController extends Controller
         }
     }
 
-
-    /**
-     * Process file storage.
-     *
-     * @param UpsertTestimonialRequest $request
-     * @param Testimonial $testimonial
-     * @return JsonResponse
-     */
-    private function handleFileUpload(UpsertTestimonialRequest $request, Testimonial $testimonial): JsonResponse
-    {
-        if ($testimonial->avatar && Storage::disk(Asset::$PHOTO)->exists($testimonial->avatar)) {
-            Storage::disk(Asset::$PHOTO)->delete($testimonial->avatar);
-        }
-
-        $path = $request->file(Asset::$PHOTO)->store(Asset::$PHOTO);
-        $testimonial->avatar = basename($path);
-        $testimonial->save();
-
-        return $this->ok();
-    }
 }
