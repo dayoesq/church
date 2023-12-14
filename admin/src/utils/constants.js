@@ -29,7 +29,9 @@ export const POST_STATUS = {
 export const ENV = {
     baseUrl: process.env.REACT_APP_BASE_URL,
     images: process.env.REACT_APP_IMAGE_URL,
-    attachment: process.env.REACT_APP_ATTACHMENT_URL
+    audios: process.env.REACT_APP_AUDIO_URL,
+    videos: process.env.REACT_APP_VIDEO_URL,
+    attachments: process.env.REACT_APP_ATTACHMENT_URL
 };
 
 export const STATUS_CODE = {

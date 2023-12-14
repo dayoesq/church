@@ -43,7 +43,7 @@ class UpsertUserRequest extends FormRequest
             'city' => ['sometimes', 'max:20'],
             'telephone' => ['sometimes', 'max:20'],
             'address' => ['sometimes', 'max:255'],
-            'photo' => ['sometimes',
+            'avatar' => ['sometimes',
                 File::image()
                     ->max('1mb')
             ],

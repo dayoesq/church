@@ -44,34 +44,34 @@ return [
             'throw' => false,
         ],
 
-        'photo' => [
+        'images' => [
             'driver' => 'local',
-            'root' => storage_path('app/photo'),
-            'url' => env('APP_URL').'/storage/photo',
+            'root' => storage_path('app/images'),
+            'url' => env('APP_URL').'/storage/images',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'attachment' => [
+        'attachments' => [
             'driver' => 'local',
-            'root' => storage_path('app/attachment'),
-            'url' => env('APP_URL').'/storage/attachment',
+            'root' => storage_path('app/attachments'),
+            'url' => env('APP_URL').'/storage/attachments',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'audio' => [
+        'audios' => [
             'driver' => 'local',
-            'root' => storage_path('app/audio'),
-            'url' => env('APP_URL').'/storage/audio',
+            'root' => storage_path('app/audios'),
+            'url' => env('APP_URL').'/storage/audios',
             'visibility' => 'public',
             'throw' => false,
         ],
 
-        'video' => [
+        'videos' => [
             'driver' => 'local',
             'root' => storage_path('app/videos'),
-            'url' => env('APP_URL').'/storage/video',
+            'url' => env('APP_URL').'/storage/videos',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -102,7 +102,11 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public')
+        public_path('storage') => storage_path('app/public'),
+        public_path('images') => storage_path('app/images'),
+        public_path('attachments') => storage_path('app/attachments'),
+        public_path('videos') => storage_path('app/videos'),
+        public_path('audios') => storage_path('app/audios'),
     ],
 
 ];

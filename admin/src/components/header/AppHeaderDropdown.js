@@ -30,7 +30,7 @@ const AppHeaderDropdown = () => {
                     >
                         {user.avatar ? (
                             <CAvatar
-                                src={`${ENV.images}/${user.photo}`}
+                                src={`${ENV.images}/${user.avatar}`}
                                 size='md'
                             />
                         ) : (

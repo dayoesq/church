@@ -12,7 +12,7 @@ import {
     useLoaderData,
     useActionData
 } from 'react-router-dom';
-import { cilUser, cilFile, cilPencil } from '@coreui/icons';
+import { cilUser, cilFile, cilPencil, cilImage } from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
@@ -44,7 +44,7 @@ const Testimonial = () => {
                 <CCol md={8}>
                     <Alert
                         data={actionData}
-                        message='User updated successfully.'
+                        message='Testimonial updated successfully.'
                     />
                     <CCard>
                         <CCardHeader className='d-flex justify-content-between'>
@@ -59,7 +59,11 @@ const Testimonial = () => {
                             </CButton>
                         </CCardHeader>
                         <CCardBody>
-                            <Form method='patch' noValidate>
+                            <Form
+                                method='post'
+                                noValidate
+                                encType='multipart/form-data'
+                            >
                                 <CRow>
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
@@ -134,6 +138,23 @@ const Testimonial = () => {
                                         defaultValue={loadedData.data.content}
                                         disabled={disabled}
                                     />
+                                </CRow>
+                                <CRow>
+                                    <CCol xs={12}>
+                                        <Input
+                                            element='input'
+                                            id='avatar'
+                                            type='file'
+                                            name='avatar'
+                                            labelTitle='Avatar'
+                                            accept='.jpeg, .png, .jpg, .svg'
+                                            icon={cilImage}
+                                            data={actionData}
+                                            defaultValue={
+                                                loadedData.data.avatar
+                                            }
+                                        />
+                                    </CCol>
                                     <Input
                                         element='input'
                                         id='_method'

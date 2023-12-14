@@ -28,7 +28,7 @@ class EventController extends Controller
      */
     public function index(): JsonResponse
     {
-        $events = Event::with('images')->get();
+        $events = Event::get(['id', 'title', 'organizer', 'description', 'status', 'fee', 'starts_at', 'ends_at']);
         return $this->ok(data: EventResource::collection($events));
     }
 
@@ -40,32 +40,9 @@ class EventController extends Controller
      */
     public function store(UpsertEventRequest $request): JsonResponse
     {
-        try {
-            DB::beginTransaction();
-
-            $validated = $request->validated();
-            $event = Event::create($validated);
-
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-
-                foreach ($paths as $path) {
-                    $event->images()->updateOrCreate(
-                        [
-                            'url' => $path
-                        ],
-                    );
-                }
-            }
-
-            DB::commit();
-            return $this->created(data: new EventResource($event));
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return $this->badRequest($e->getMessage());
-        }
+        $validated = $request->validated();
+        $event = Event::create($validated);
+        return $event ? $this->created(data: new EventResource($event)) : $this->serverError();
     }
 
     /**
@@ -95,10 +72,10 @@ class EventController extends Controller
             DB::beginTransaction();
 
             $validated = $request->validated();
-            $event->updateOrFail($validated);
+            $event->update($validated);
 
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
+            if ($request->hasFile(Asset::$IMAGES)) {
+                $paths = $this->processAssetsStorage($request, Asset::$IMAGES);
 
                 foreach ($paths as $path) {
                     $event->images()->updateOrCreate(

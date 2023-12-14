@@ -57,8 +57,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL'),
-
     'client_base_url' => env('APP_CLIENT_BASE_URL'),
 
     /*
@@ -186,6 +184,6 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-    
+
 
 ];

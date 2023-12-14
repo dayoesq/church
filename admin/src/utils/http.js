@@ -51,7 +51,7 @@ export class Http {
 
     static async patch(uri, headers, request, options) {
         const inputs = await Http.fromEntries(request, {
-            formData: options.isFormData
+            isFormData: options.isFormData
         });
         try {
             const res = await fetch(`${uri}`, {
