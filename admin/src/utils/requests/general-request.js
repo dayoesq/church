@@ -1,4 +1,4 @@
-import { ENV, ROLES } from '../constants';
+import { ENV } from '../constants';
 import { getDataFromStorage } from '../helpers';
 import { Http } from '../http';
 

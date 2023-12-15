@@ -32,7 +32,7 @@ import { loadEvent, updateEvent } from '../../utils/requests/general-request';
 import { CustomDate } from '../../utils/requests/date';
 
 const eventStatus = [
-    { name: 'Select Status', value: '' },
+    { name: 'Select Status', value: undefined },
     { name: 'Upcoming', value: 'upcoming' },
     { name: 'Ongoing', value: 'ongoing' },
     { name: 'Concluded', value: 'concluded' },
@@ -49,9 +49,7 @@ const Event = () => {
     // Redirect to users!
     useRedirect(actionData, '/dashboard/events', true);
 
-    const disableInputField = () => {
-        setDisabled(disabled => !disabled);
-    };
+    const disableInputField = () => setDisabled(disabled => !disabled);
 
     return (
         <CRow className='justify-content-center'>
@@ -80,7 +78,7 @@ const Event = () => {
                                 encType='multipart/form-data'
                             >
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -94,7 +92,7 @@ const Event = () => {
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -130,7 +128,7 @@ const Event = () => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -146,7 +144,7 @@ const Event = () => {
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             id='avatar'
@@ -161,14 +159,14 @@ const Event = () => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='number'
                                             id='fee'
                                             name='fee'
                                             placeholder='Fee'
-                                            labelTitle='Fee'
+                                            labelTitle='Fee (€)'
                                             min={0}
                                             icon={cilMoney}
                                             data={actionData}
@@ -176,7 +174,7 @@ const Event = () => {
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='select'
                                             id='status'
@@ -202,39 +200,37 @@ const Event = () => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='datetime-local'
                                             id='starts_at'
                                             name='starts_at'
                                             placeholder='Start Date'
-                                            labelTitle={`Start Date: ${CustomDate.formatCustomDate(
-                                                loadedData.data.startsAt
-                                            )}`}
+                                            labelTitle='Start Date'
                                             icon={cilCalendar}
                                             data={actionData}
-                                            defaultValue={
-                                                loadedData.data.startsAt
-                                            }
+                                            defaultValue={loadedData.data.startsAt.slice(
+                                                0,
+                                                16
+                                            )}
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='datetime-local'
                                             id='ends_at'
                                             name='ends_at'
                                             placeholder='End Date'
-                                            labelTitle={`End Date: ${CustomDate.formatCustomDate(
-                                                loadedData.data.endsAt
-                                            )}`}
+                                            labelTitle='End Date'
                                             icon={cilCalendar}
                                             data={actionData}
-                                            defaultValue={
-                                                loadedData.data.endsAt
-                                            }
+                                            defaultValue={loadedData.data.endsAt.slice(
+                                                0,
+                                                16
+                                            )}
                                             disabled={disabled}
                                         />
                                     </CCol>
@@ -250,7 +246,7 @@ const Event = () => {
                                 </CRow>
 
                                 <CRow className='my-2 d-flex align-items-center'>
-                                    <CCol xs={6} md={6} lg={6} xl={6}>
+                                    <CCol>
                                         <CButton
                                             className='btn-facebook my-2'
                                             type='submit'

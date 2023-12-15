@@ -11,7 +11,6 @@ import {
 import { cilAt } from '@coreui/icons';
 
 import Input from '../../../components/Input';
-import CustomDate from '../../../utils/date';
 import { useRedirect } from '../../../hooks/redirect';
 import { disableButton } from '../../../utils/helpers';
 import Alert from '../../../components/Alert';
@@ -60,7 +59,7 @@ const PasswordResetRequest = () => {
                                                     type='hidden'
                                                     id='expiry_date'
                                                     name='expiry_date'
-                                                    value={CustomDate.addHour()}
+                                                    value={new Date().getMilliseconds()}
                                                 />
                                             </CCol>
                                         </CRow>

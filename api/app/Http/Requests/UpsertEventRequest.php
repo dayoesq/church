@@ -31,7 +31,7 @@ class UpsertEventRequest extends FormRequest
             'title' => ['sometimes', 'required', 'min:2', 'max:150'],
             'organizer' => ['sometimes', 'required', 'min:2', 'max:150'],
             'description' => ['sometimes', 'required', 'max:500'],
-            'fee' => ['sometimes'],
+            'fee' => ['sometimes', 'numeric'],
             'location' => ['sometimes', 'required'],
             'status' => ['sometimes', new Enum(EventStatus::class)],
             'starts_at' => ['sometimes', 'date'],

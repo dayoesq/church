@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Http\Requests\UpsertEventRequest;
 use App\Http\Resources\Events\EventResource;
 use App\Models\Event;
@@ -73,6 +74,13 @@ class EventController extends Controller
 
             $validated = $request->validated();
             $event->update($validated);
+
+            $startDate = Carbon::create($request->input('starts_at'));
+            $endDate = Carbon::create($request->input('ends_at'));
+
+            if($endDate->lessThan($startDate)) {
+                return $this->badRequest('The end date must be creater than the start date.');
+            }
 
             if ($request->hasFile(Asset::$IMAGES)) {
                 $paths = $this->processAssetsStorage($request, Asset::$IMAGES);

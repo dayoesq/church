@@ -111,6 +111,39 @@ const Input = props => {
                     </>
                 );
             }
+            if (props.type.toLowerCase() === 'date') {
+                return (
+                    <>
+                        <CCol>
+                            <CFormLabel htmlFor={props.id}>
+                                {props.labelTitle}
+                            </CFormLabel>
+                            <CInputGroup className='mb-2'>
+                                <CInputGroupText>
+                                    <CIcon icon={props.icon} />
+                                </CInputGroupText>
+                                <CFormInput
+                                    type={props.type}
+                                    id={props.id}
+                                    name={props.id}
+                                    onChange={props.onChange}
+                                    value={props.value}
+                                    hidden={props.hidden}
+                                    min={props.min ?? '2000-01-01'}
+                                    max={props.max ?? '2090-01-01'}
+                                    className={`${
+                                        props.className && props.className
+                                    } ${errorStyle(props.id)}`}
+                                    style={props.style}
+                                    disabled={props.disabled}
+                                    defaultValue={props.defaultValue}
+                                />
+                            </CInputGroup>
+                        </CCol>
+                        {errorMessage()}
+                    </>
+                );
+            }
 
             if (props.type.toLowerCase() === 'hidden') {
                 return (
@@ -178,7 +211,7 @@ const Input = props => {
                                     } ${errorStyle(props.id)}`}
                                     style={props.style}
                                     disabled={props.disabled}
-                                    defaultChecked={props.defaultChecked}
+                                    defaultValue={props.defaultValue}
                                 />
                             </CInputGroup>
                         </CCol>

@@ -12,14 +12,14 @@ import { useContext } from 'react';
 import { AuthContext } from '../store/auth';
 import { ENV, ROLES } from '../utils/constants';
 import avatar from '../assets/images/generic-avatar.png';
-import { formatDateWithDay } from '../utils/helpers';
+import { CustomDate } from '../utils/requests/date';
 
 const UsersTable = props => {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
 
-    const clickHandler = (id) => {
+    const clickHandler = id => {
         if ([ROLES.admin, ROLES.super].includes(user.roles)) {
             navigate(`/dashboard/users/${id}`);
         }
@@ -54,7 +54,7 @@ const UsersTable = props => {
                             <CTableDataCell>{user.status}</CTableDataCell>
                             <CTableDataCell>{user.position}</CTableDataCell>
                             <CTableDataCell>
-                                {formatDateWithDay(user.memberSince)}
+                                {CustomDate.formatDateWithDay(user.memberSince)}
                             </CTableDataCell>
                             <CTableDataCell>
                                 {user.avatar ? (

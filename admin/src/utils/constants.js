@@ -4,11 +4,20 @@ export const ROLES = {
     super: 'super'
 };
 
+export const GENDER = {
+    male: 'male',
+    female: 'user',
+    others: 'others'
+};
+
 export const STATUS = {
     active: 'active',
     banned: 'banned',
     cancelled: 'cancelled',
     suspended: 'suspended',
+    upcoming: 'upcoming',
+    ongoing: 'ongoing',
+    concluded: 'concluded',
     deleted: 'deleted',
     pending: 'pending',
     current: 'current',
@@ -21,9 +30,9 @@ export const STATUS = {
 };
 
 export const POST_STATUS = {
-    active: 'draft',
-    banned: 'published',
-    suspended: 'archived'
+    draft: 'draft',
+    published: 'published',
+    archived: 'archived'
 };
 
 export const ENV = {

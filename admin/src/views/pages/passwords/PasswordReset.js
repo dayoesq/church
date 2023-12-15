@@ -15,7 +15,6 @@ import Input from '../../../components/Input';
 import { useRedirect } from '../../../hooks/redirect';
 import { disableButton } from '../../../utils/helpers';
 import Alert from '../../../components/Alert';
-import CustomDate from '../../../utils/date';
 import { passwordReset } from '../../../utils/requests/general-request';
 
 const PasswordReset = () => {
@@ -73,7 +72,7 @@ const PasswordReset = () => {
                                                     type='hidden'
                                                     id='date_now'
                                                     name='date_now'
-                                                    value={CustomDate.now()}
+                                                    value={new Date().getMilliseconds()}
                                                 />
                                             </CCol>
                                         </CRow>

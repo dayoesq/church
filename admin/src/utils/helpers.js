@@ -183,38 +183,3 @@ export const disableButton = (navigation, data) => {
         data?.message === 'success.'
     );
 };
-
-/**
- * Format date to human-readable version.
- *
- * @return String
- *
- * @param date
- */
-export const formatDate = date => {
-    return (
-        date &&
-        new Date(date).toLocaleDateString('en-fi', {
-            year: 'numeric',
-            month: 'long'
-        })
-    );
-};
-
-/**
- * Format date to human-readable version.
- *
- * @return String
- *
- * @param date
- */
-export const formatDateWithDay = date => {
-    return (
-        date &&
-        new Date(date).toLocaleDateString('en-fi', {
-            year: '2-digit',
-            month: 'short',
-            day: '2-digit'
-        })
-    );
-};
