@@ -42,6 +42,7 @@ class AdminUserRequest extends FormRequest
             'city' => ['sometimes', 'max:20'],
             'telephone' => ['sometimes', 'max:20'],
             'address' => ['sometimes', 'max:255'],
+            'member_since' => ['sometimes', 'date'],
             'status' => ['sometimes', new Enum(UserStatus::class)],
             'roles' => ['sometimes', new Enum(Roles::class)],
             'position_id' => ['sometimes', 'exists:App\Models\Position,id'],

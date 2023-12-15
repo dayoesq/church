@@ -33,8 +33,7 @@ use App\Utils\Enums\Roles;
  * @property string $postal_code
  * @property string $city
  * @property mixed $telephone
- * @property string $address_one
- * @property string $address_two
+ * @property string $address
  * @property string $gender
  * @property int $id
  * @property string $country
@@ -87,7 +86,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'member_since' => 'datetime',
         'password' => 'hashed'
     ];
 
@@ -135,20 +133,7 @@ class User extends Authenticatable
      *
      * @return Attribute
      */
-    protected function addressOne(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Str::upper($value),
-        );
-    }
-
-    /**
-     * Convert address to uppercase.
-     *
-     * @return Attribute
-     */
-    protected function addressTwo(): Attribute
+    protected function address(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value,

@@ -22,7 +22,14 @@ import {
     updateTestimonial
 } from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
-import { ROLES } from '../../utils/constants';
+import { POST_STATUS, ROLES } from '../../utils/constants';
+
+export const postStatus = [
+    { name: 'Select Status', value: undefined },
+    { name: 'Draft', value: POST_STATUS.draft },
+    { name: 'Archived', value: POST_STATUS.archived },
+    { name: 'Published', value: POST_STATUS.published }
+];
 
 const Testimonial = () => {
     const [disabled, setDisabled] = useState(true);
@@ -65,7 +72,7 @@ const Testimonial = () => {
                                 encType='multipart/form-data'
                             >
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -81,7 +88,7 @@ const Testimonial = () => {
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
                                             type='text'
@@ -100,7 +107,7 @@ const Testimonial = () => {
                                 </CRow>
 
                                 <CRow>
-                                    <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='select'
                                             id='status'
@@ -113,17 +120,14 @@ const Testimonial = () => {
                                             }
                                             disabled={disabled}
                                         >
-                                            <option value={null}>
-                                                Select Status
-                                            </option>
-                                            <option value='archived'>
-                                                Archived
-                                            </option>
-                                            <option value='draft'>Draft</option>
-
-                                            <option value='published'>
-                                                Published
-                                            </option>
+                                            {postStatus.map(status => (
+                                                <option
+                                                    value={status.value}
+                                                    key={status.name}
+                                                >
+                                                    {status.name}
+                                                </option>
+                                            ))}
                                         </Input>
                                     </CCol>
                                 </CRow>
@@ -150,9 +154,6 @@ const Testimonial = () => {
                                             accept='.jpeg, .png, .jpg, .svg'
                                             icon={cilImage}
                                             data={actionData}
-                                            defaultValue={
-                                                loadedData.data.avatar
-                                            }
                                         />
                                     </CCol>
                                     <Input
@@ -165,7 +166,7 @@ const Testimonial = () => {
                                 </CRow>
 
                                 <CRow className='my-2 d-flex align-items-center'>
-                                    <CCol xs={6} md={6} lg={6} xl={6}>
+                                    <CCol>
                                         <CButton
                                             className='btn-facebook my-2'
                                             type='submit'
