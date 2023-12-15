@@ -29,7 +29,6 @@ import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
 import { ROLES } from '../../utils/constants';
 import { loadEvent, updateEvent } from '../../utils/requests/general-request';
-import { CustomDate } from '../../utils/requests/date';
 
 const eventStatus = [
     { name: 'Select Status', value: undefined },

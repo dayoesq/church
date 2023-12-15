@@ -19,7 +19,6 @@ class Audio extends Model
     protected $fillable = [
         'url',
         'caption',
-        'genre',
         'author'
     ];
 
