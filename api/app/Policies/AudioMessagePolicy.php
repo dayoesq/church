@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Sermon;
 use App\Models\User;
 
-class SermonPolicy
+class AudioMessagePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -31,24 +30,22 @@ class SermonPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param Sermon $sermon
      * @return bool
      */
-    public function update(User $user, Sermon $sermon): bool
+    public function update(User $user): bool
     {
-       return $user->isAuthorizedSuperAdmin() || $user->id === $sermon->delivered_by;
+       return $user->isAuthorizedSuperAdmin();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param Sermon $sermon
      * @return bool
      */
-    public function delete(User $user, Sermon $sermon): bool
+    public function delete(User $user): bool
     {
-        return $user->isAuthorizedSuperAdmin() || $user->id === $sermon->delivered_by;
+        return $user->isAuthorizedSuperAdmin();
     }
 
 

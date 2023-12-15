@@ -6,5 +6,8 @@ enum AudioGenre : string
 {
     case Sermon = 'sermon';
     case Worship = 'worship';
-    case Other = 'other';
+    case Praise = 'praise';
+    case PraiseWorship = 'praise & worship';
+    case Message = 'message';
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Utils\Enums\PostStatus;
+use App\Utils\Enums\AudioGenre;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +13,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sermons', function (Blueprint $table) {
+        Schema::create('audio_messages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('summary')->nullable();
+            $table->enum('genre', [
+                AudioGenre::Sermon->value,
+                AudioGenre::Worship->value,
+                AudioGenre::Praise->value,
+                AudioGenre::PraiseWorship->value,
+                AudioGenre::Message->value
+            ])->nullable();
             $table->enum('status', [
                 PostStatus::Published->value,
                 PostStatus::Draft->value,
@@ -32,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sermons');
+        Schema::dropIfExists('audio_messages');
     }
 };

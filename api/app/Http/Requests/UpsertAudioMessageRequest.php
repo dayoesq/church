@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Utils\Enums\PostStatus;
+use App\Utils\Enums\AudioGenre;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File;
 
-class UpsertSermonRequest extends FormRequest
+class UpsertAudioMessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,9 +30,10 @@ class UpsertSermonRequest extends FormRequest
         return [
             'title' => ['sometimes', 'min:4', 'max:100'],
             'status' => ['sometimes', new Enum(PostStatus::class)],
+            'genre' => ['sometimes', new Enum(AudioGenre::class)],
             'summary' => ['sometimes', 'min:4', 'max:200'],
             'author' => ['sometimes', 'min:2', 'max:50'],
-            'audio.*' => [
+            'audio' => [
                 'sometimes',
                 File::types(['mp3','wav'])
                     ->max('5mb')
