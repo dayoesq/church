@@ -84,7 +84,7 @@ export const updateSelf = async request => {
 };
 
 /**
- * Create investment.
+ * Create event.
  *
  * @return Promise
  *
@@ -105,7 +105,7 @@ export const createEvent = async request => {
 };
 
 /**
- * Update a specific investment.
+ * Update a specific event.
  *
  * @return Promise
  *
@@ -126,7 +126,7 @@ export const updateEvent = async (request, params) => {
 };
 
 /**
- * Get a specific investment.
+ * Get a specific event.
  *
  * @return Promise
  *
@@ -300,6 +300,67 @@ export const loadTestimonial = async (request, params) => {
     if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/testimonials/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+
+/**
+ * Create audio.
+ *
+ * @return Promise
+ *
+ * @param request
+ */
+export const createAudio = async request => {
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/audiomessages`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: true }
+        );
+    }
+};
+
+/**
+ * Update a specific audio message.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const updateAudio = async (request, params) => {
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/audiomessages/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: true }
+        );
+    }
+};
+
+/**
+ * Get a specific audio.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadAudio = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/audiomessages/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },

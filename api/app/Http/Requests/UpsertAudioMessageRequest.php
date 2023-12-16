@@ -35,7 +35,7 @@ class UpsertAudioMessageRequest extends FormRequest
             'author' => ['sometimes', 'min:2', 'max:50'],
             'audio' => [
                 'sometimes',
-                File::types(['mp3','wav'])
+                File::types(['mp3', 'wav', 'ogg', 'm4a', 'flac'])
                     ->max('5mb')
             ],
         ];

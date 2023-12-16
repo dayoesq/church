@@ -35,6 +35,14 @@ export const POST_STATUS = {
     archived: 'archived'
 };
 
+export const AUDIO_GENRE = {
+    sermon: 'sermon',
+    praise: 'praise',
+    worship: 'worship',
+    praiseWorship: 'praise & worship',
+    message: 'message'
+};
+
 export const ENV = {
     baseUrl: process.env.REACT_APP_BASE_URL,
     images: process.env.REACT_APP_IMAGE_URL,

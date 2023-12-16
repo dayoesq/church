@@ -146,10 +146,10 @@ const Event = () => {
                                     <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                         <Input
                                             element='input'
-                                            id='avatar'
+                                            id='images'
                                             type='file'
-                                            name='avatar'
-                                            labelTitle='Avatar'
+                                            name='images'
+                                            labelTitle='Images'
                                             accept='.jpeg, .png, .jpg, .svg'
                                             icon={cilImage}
                                             data={actionData}
@@ -234,16 +234,14 @@ const Event = () => {
                                         />
                                     </CCol>
                                 </CRow>
-                                <CRow>
-                                    <Input
-                                        element='input'
-                                        id='_method'
-                                        type='hidden'
-                                        name='_method'
-                                        value='PATCH'
-                                    />
-                                </CRow>
-
+                                {/* Hidden input to allow for update when file is involved */}
+                                <input
+                                    element='input'
+                                    id='_method'
+                                    type='hidden'
+                                    name='_method'
+                                    value='PATCH'
+                                />
                                 <CRow className='my-2 d-flex align-items-center'>
                                     <CCol>
                                         <CButton

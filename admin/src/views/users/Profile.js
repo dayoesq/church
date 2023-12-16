@@ -290,15 +290,15 @@ const Profile = () => {
                                             disabled={disabled}
                                         />
                                     </CCol>
-                                    <Input
-                                        element='input'
-                                        id='_method'
-                                        type='hidden'
-                                        name='_method'
-                                        value='PATCH'
-                                    />
                                 </CRow>
-
+                                {/* Hidden input to allow for update when file is involved */}
+                                <input
+                                    element='input'
+                                    id='_method'
+                                    type='hidden'
+                                    name='_method'
+                                    value='PATCH'
+                                />
                                 <CRow className='my-2 d-flex align-items-center'>
                                     <CCol xs={6} md={6} lg={6} xl={6}>
                                         <CButton

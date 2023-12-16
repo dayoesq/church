@@ -1,324 +1,174 @@
+import React from 'react';
 import {
-    CFormInput,
+    CCol,
     CFormLabel,
-    CFormSelect,
-    CFormSwitch,
-    CFormTextarea,
     CInputGroup,
     CInputGroupText,
+    CFormInput,
+    CFormTextarea,
+    CFormSelect,
+    CFormSwitch,
     CListGroup,
-    CListGroupItem,
-    CCol
+    CListGroupItem
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { STATUS_CODE } from '../utils/constants';
 
-const Input = props => {
-    const errorStyle = field => {
-        return props.data &&
-            props.data.message[field] &&
-            props.data.statusCode === STATUS_CODE.unprocessableContent &&
-            props.data.message[field].length > 0
-            ? 'border border-danger'
-            : undefined;
+const Input = ({
+    id,
+    labelTitle,
+    icon,
+    type,
+    value,
+    onChange,
+    min,
+    max,
+    placeholder,
+    className,
+    style,
+    disabled,
+    defaultValue,
+    multiple,
+    accept,
+    checked,
+    defaultChecked,
+    cols,
+    rows,
+    children,
+    element,
+    data
+}) => {
+    const hasError = () => {
+        return (
+            data &&
+            data.message[id] &&
+            data.statusCode === STATUS_CODE.unprocessableContent &&
+            Object.keys(data.message).includes(id)
+        );
+    };
+
+    const errorStyle = () => {
+        return hasError() ? 'border border-danger' : undefined;
     };
 
     const errorMessage = () => {
-        return (
-            props.data &&
-            props.data.message[props.id] &&
-            props.data.statusCode === STATUS_CODE.unprocessableContent &&
-            Object.keys(props.data.message).includes(props.id) && (
+        if (hasError()) {
+            return (
                 <CListGroup>
-                    {props.data.message[props.id].map(el => (
+                    {data.message[id].map(el => (
                         <CListGroupItem key={el} className='text-danger'>
                             {el}
                         </CListGroupItem>
                     ))}
                 </CListGroup>
-            )
-        );
+            );
+        }
+        return null;
     };
 
-    switch (props.element) {
-        case 'input': {
-            if (props.type.toLowerCase() === 'file') {
-                return (
-                    <>
-                        <CCol>
-                            <CFormLabel htmlFor={props.id}>
-                                {props.labelTitle}
-                            </CFormLabel>
-                            <CInputGroup className='mb-2'>
-                                <CInputGroupText>
-                                    <CIcon icon={props.icon} />
-                                </CInputGroupText>
+    const commonProps = {
+        id,
+        name: id,
+        value,
+        onChange,
+        className: `${className} ${errorStyle()}`,
+        style,
+        disabled,
+        defaultValue
+    };
+
+    switch (element) {
+        case 'input':
+            return (
+                <>
+                    <CCol>
+                        <CFormLabel htmlFor={id}>{labelTitle}</CFormLabel>
+                        <CInputGroup className='mb-2'>
+                            <CInputGroupText>
+                                <CIcon icon={icon} />
+                            </CInputGroupText>
+                            {type.toLowerCase() === 'file' ? (
                                 <CFormInput
-                                    type={props.type}
-                                    id={props.id}
-                                    name={props.id}
-                                    value={props.value}
-                                    onChange={props.onChange}
-                                    multiple={props.multiple}
+                                    type={type}
                                     accept={
-                                        props.accept ??
+                                        accept ??
                                         '.jpg, .png, .jpeg, .svg, .pdf'
                                     }
-                                    placeholder={props.placeholder}
-                                    className={`${
-                                        props.className && props.className
-                                    } ${errorStyle(props.id)}`}
-                                    style={props.style}
-                                    disabled={props.disabled}
-                                    defaultValue={props.defaultValue}
+                                    placeholder={placeholder}
+                                    {...commonProps}
                                 />
-                            </CInputGroup>
-                        </CCol>
-                        {errorMessage()}
-                    </>
-                );
-            }
-            if (props.type.toLowerCase() === 'datetime-local') {
-                return (
-                    <>
-                        <CCol>
-                            <CFormLabel htmlFor={props.id}>
-                                {props.labelTitle}
-                            </CFormLabel>
-                            <CInputGroup className='mb-2'>
-                                <CInputGroupText>
-                                    <CIcon icon={props.icon} />
-                                </CInputGroupText>
+                            ) : type.toLowerCase() === 'datetime-local' ||
+                              type.toLowerCase() === 'date' ? (
                                 <CFormInput
-                                    type={props.type}
-                                    id={props.id}
-                                    name={props.id}
-                                    onChange={props.onChange}
-                                    value={props.value}
-                                    hidden={props.hidden}
-                                    min={props.min ?? '2000-01-01'}
-                                    max={props.max ?? '2090-01-01'}
-                                    className={`${
-                                        props.className && props.className
-                                    } ${errorStyle(props.id)}`}
-                                    style={props.style}
-                                    disabled={props.disabled}
-                                    defaultValue={props.defaultValue}
+                                    type={type}
+                                    min={min ?? '2000-01-01'}
+                                    max={max ?? '2090-01-01'}
+                                    {...commonProps}
                                 />
-                            </CInputGroup>
-                        </CCol>
-                        {errorMessage()}
-                    </>
-                );
-            }
-            if (props.type.toLowerCase() === 'date') {
-                return (
-                    <>
-                        <CCol>
-                            <CFormLabel htmlFor={props.id}>
-                                {props.labelTitle}
-                            </CFormLabel>
-                            <CInputGroup className='mb-2'>
-                                <CInputGroupText>
-                                    <CIcon icon={props.icon} />
-                                </CInputGroupText>
-                                <CFormInput
-                                    type={props.type}
-                                    id={props.id}
-                                    name={props.id}
-                                    onChange={props.onChange}
-                                    value={props.value}
-                                    hidden={props.hidden}
-                                    min={props.min ?? '2000-01-01'}
-                                    max={props.max ?? '2090-01-01'}
-                                    className={`${
-                                        props.className && props.className
-                                    } ${errorStyle(props.id)}`}
-                                    style={props.style}
-                                    disabled={props.disabled}
-                                    defaultValue={props.defaultValue}
-                                />
-                            </CInputGroup>
-                        </CCol>
-                        {errorMessage()}
-                    </>
-                );
-            }
-
-            if (props.type.toLowerCase() === 'hidden') {
-                return (
-                    <>
-                        <CFormInput
-                            type={props.type}
-                            id={props.id}
-                            name={props.id}
-                            value={props.value}
-                        />
-                    </>
-                );
-            }
-
-            if (props.type.toLowerCase() === 'checkbox') {
-                return (
-                    <>
-                        <CCol>
-                            <CFormLabel htmlFor={props.id}>
-                                {props.labelTitle}
-                            </CFormLabel>
-                            <CInputGroup className='mb-2'>
+                            ) : type.toLowerCase() === 'checkbox' ? (
                                 <CFormSwitch
-                                    type={props.type}
-                                    id={props.id}
-                                    name={props.id}
-                                    value={props.value}
-                                    onChange={props.onChange}
-                                    className={`${
-                                        props.className && props.className
-                                    } ${errorStyle(props.id)}`}
-                                    style={props.style}
-                                    disabled={props.disabled}
-                                    checked={props.checked}
-                                    defaultChecked={props.defaultChecked}
+                                    type={type}
+                                    checked={checked}
+                                    defaultChecked={defaultChecked}
+                                    {...commonProps}
                                 />
-                            </CInputGroup>
-                        </CCol>
-                        {errorMessage()}
-                    </>
-                );
-            }
-
-            if (props.type.toLowerCase() === 'number') {
-                return (
-                    <>
-                        <CCol>
-                            <CFormLabel htmlFor={props.id}>
-                                {props.labelTitle}
-                            </CFormLabel>
-                            <CInputGroup className='mb-2'>
-                                <CInputGroupText>
-                                    <CIcon icon={props.icon} />
-                                </CInputGroupText>
+                            ) : type.toLowerCase() === 'number' ? (
                                 <CFormInput
-                                    type={props.type}
-                                    id={props.id}
-                                    name={props.id}
-                                    value={props.value}
-                                    min={props.min}
-                                    max={props.max}
-                                    onChange={props.onChange}
-                                    className={`${
-                                        props.className && props.className
-                                    } ${errorStyle(props.id)}`}
-                                    style={props.style}
-                                    disabled={props.disabled}
-                                    defaultValue={props.defaultValue}
+                                    type={type}
+                                    min={min}
+                                    max={max}
+                                    {...commonProps}
                                 />
-                            </CInputGroup>
-                        </CCol>
-                        {errorMessage()}
-                    </>
-                );
-            }
-
-            return (
-                <>
-                    <CCol>
-                        <CFormLabel htmlFor={props.id}>
-                            {props.labelTitle}
-                        </CFormLabel>
-                        <CInputGroup className='mb-2'>
-                            <CInputGroupText>
-                                <CIcon icon={props.icon} />
-                            </CInputGroupText>
-                            <CFormInput
-                                type={props.type}
-                                id={props.id}
-                                placeholder={props.placeholder}
-                                name={props.id}
-                                value={props.value}
-                                hidden={props.hidden}
-                                onChange={props.onChange}
-                                className={`${
-                                    props.className && props.className
-                                } ${errorStyle(props.id)}`}
-                                style={props.style}
-                                disabled={props.disabled}
-                                defaultValue={props.defaultValue}
-                            />
+                            ) : (
+                                <CFormInput
+                                    type={type}
+                                    placeholder={placeholder}
+                                    {...commonProps}
+                                />
+                            )}
                         </CInputGroup>
                     </CCol>
                     {errorMessage()}
                 </>
             );
-        }
 
-        case 'textarea': {
+        case 'textarea':
             return (
                 <>
                     <CCol>
-                        <CFormLabel htmlFor={props.id}>
-                            {props.labelTitle}
-                        </CFormLabel>
+                        <CFormLabel htmlFor={id}>{labelTitle}</CFormLabel>
                         <CInputGroup className='mb-2'>
                             <CInputGroupText>
-                                <CIcon icon={props.icon} />
+                                <CIcon icon={icon} />
                             </CInputGroupText>
                             <CFormTextarea
-                                type={props.type}
-                                id={props.id}
-                                name={props.id}
-                                value={props.value}
-                                onChange={props.onChange}
-                                placeholder={props.placeholder}
-                                className={`${
-                                    props.className && props.className
-                                } ${errorStyle(props.id)}`}
-                                style={props.style}
-                                disabled={props.disabled}
-                                cols={props.cols ?? 10}
-                                rows={props.rows ?? 10}
-                                defaultValue={props.defaultValue}
+                                cols={cols ?? 10}
+                                rows={rows ?? 10}
+                                {...commonProps}
                             />
                         </CInputGroup>
                     </CCol>
                     {errorMessage()}
                 </>
             );
-        }
-        case 'select': {
+
+        case 'select':
             return (
                 <>
                     <CCol>
-                        <CFormLabel htmlFor={props.id}>
-                            {props.labelTitle}
-                        </CFormLabel>
+                        <CFormLabel htmlFor={id}>{labelTitle}</CFormLabel>
                         <CInputGroup className='mb-2'>
                             <CInputGroupText>
-                                <CIcon icon={props.icon} />
+                                <CIcon icon={icon} />
                             </CInputGroupText>
-                            <CFormSelect
-                                type={props.type}
-                                id={props.id}
-                                name={props.id}
-                                value={props.value}
-                                onChange={props.onChange}
-                                placeholder={props.placeholder}
-                                multiple={props.multiple}
-                                className={`${
-                                    props.className && props.className
-                                } ${errorStyle(props.id)}`}
-                                style={props.style}
-                                disabled={props.disabled}
-                                defaultValue={props.defaultValue}
-                            >
-                                {props.children}
+                            <CFormSelect multiple={multiple} {...commonProps}>
+                                {children}
                             </CFormSelect>
                         </CInputGroup>
                     </CCol>
                     {errorMessage()}
                 </>
             );
-        }
 
         default:
             return null;

@@ -38,6 +38,17 @@ class AudioMessagePolicy
     }
 
     /**
+     * Determine whether the user can create the model.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user): bool
+    {
+       return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
