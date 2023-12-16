@@ -149,28 +149,12 @@ trait ApiResponse
      * @param string $fileName
      * @return array
      */
-    public function processAssetsStorage(mixed $request, string $fileName): array
+    protected function processAssetsStorage(mixed $request, string $fileName): array
     {
         $files = [];
         $directory = $fileName;
         $attachment = $request->file($fileName);
-        $attachments = [...$attachment];
-
-        match ($fileName) {
-            'images.*' => [
-                File::image()
-                    ->max('5mb')
-                    ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
-            ],
-            'attachments.*' => [
-                File::types(['pdf', 'png', 'svg', 'jpg', 'jpeg'])
-                    ->max('5mb')
-            ],
-            'audios.*' => [
-                File::types(['mp3','wav'])
-                    ->max('5mb')
-            ],
-        };
+        $attachments = is_array($attachment) ? $attachment : [$attachment];
 
         foreach ($attachments as $attachment) {
             $storedPath = $attachment->store($directory);
@@ -184,20 +168,20 @@ trait ApiResponse
      * Delete assets.
      *
      * @param mixed $model
-     * @param string $assetName
+     * @param string $assetType
      * @return bool
      */
-    protected function deleteAsset(mixed $model, string $assetName) : bool
+    protected function deleteAsset(mixed $model, string $assetType): bool
     {
-
-        $assets = $assetName === 'images' ? $model->images : $model->audios;
-
         try {
             DB::beginTransaction();
+
+            // Dynamically access the assets based on the provided $assetType
+            $assets = is_array($assetType) ? $model->{$assetType} : [$model->{$assetType}];
+
             foreach ($assets as $asset) {
-                $diskName = $assetName === 'images' ? Asset::$PHOTO : Asset::$AUDIO;
-                if (Storage::disk($diskName)->exists($asset->url)) {
-                    Storage::disk($diskName)->delete($asset->url);
+                if (Storage::disk($assetType)->exists($asset->url)) {
+                    Storage::disk($assetType)->delete($asset->url);
                     $asset->delete();
                 }
             }
@@ -211,5 +195,6 @@ trait ApiResponse
             return false;
         }
     }
+
 
 }

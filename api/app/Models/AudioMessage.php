@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 
+
 /**
  * @property string $title
  * @property string $status
@@ -21,7 +22,7 @@ class AudioMessage extends Model
 {
     use HasFactory;
 
-    //protected array $audios = [];
+    protected mixed $audio = null;
 
     /**
      * The attributes that are mass assignable.
@@ -50,7 +51,7 @@ class AudioMessage extends Model
     }
 
     /**
-     * Sluggify the sermon's title.
+     * Sluggify the audio-message's title.
      *
      * @return Attribute
      */
@@ -63,7 +64,7 @@ class AudioMessage extends Model
     }
 
     /**
-     * The sermon morphs many audios
+     * The audio message morphs audios
      *
      * @return MorphOne
      */

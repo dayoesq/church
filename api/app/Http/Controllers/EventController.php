@@ -54,6 +54,7 @@ class EventController extends Controller
      */
     public function show(Event $event): JsonResponse
     {
+        $event->load('images');
         return $this->ok(data: new EventResource($event));
     }
 
@@ -82,7 +83,7 @@ class EventController extends Controller
                 return $this->badRequest('The end date must be creater than the start date.');
             }
 
-            if ($request->hasFile(Asset::$IMAGES)) {
+            if ($request->hasFile('images')) {
                 $paths = $this->processAssetsStorage($request, Asset::$IMAGES);
 
                 foreach ($paths as $path) {
