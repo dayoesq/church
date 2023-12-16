@@ -22,6 +22,8 @@ class Event extends Model
 {
     use HasFactory;
 
+     protected array $images = [];
+
     /**
      * The attributes that are mass assignable.
      *

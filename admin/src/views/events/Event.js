@@ -151,6 +151,7 @@ const Event = () => {
                                             name='images'
                                             labelTitle='Images'
                                             accept='.jpeg, .png, .jpg, .svg'
+                                            multiple
                                             icon={cilImage}
                                             data={actionData}
                                             disabled={disabled}

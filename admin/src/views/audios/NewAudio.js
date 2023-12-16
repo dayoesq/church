@@ -13,7 +13,7 @@ import {
     cilContact,
     cilAsterisk,
     cilImage,
-    cilBadge
+    cilElevator
 } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
@@ -31,7 +31,7 @@ const NewAudio = () => {
     return (
         <CRow className='justify-content-center'>
             <CCol md={6}>
-                <Alert data={data} message='Event created successfully.' />
+                <Alert data={data} message='Audio created successfully.' />
                 <CCard>
                     <CCardHeader>
                         <small> New Audio Form</small>
@@ -102,7 +102,7 @@ const NewAudio = () => {
                                         name='genre'
                                         placeholder='Genre'
                                         labelTitle='Genre'
-                                        icon={cilBadge}
+                                        icon={cilElevator}
                                         data={data}
                                     >
                                         {audioGenre.map(status => (

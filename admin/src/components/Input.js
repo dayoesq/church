@@ -95,6 +95,7 @@ const Input = ({
                                         '.jpg, .png, .jpeg, .svg, .pdf'
                                     }
                                     placeholder={placeholder}
+                                    multiple={multiple}
                                     {...commonProps}
                                 />
                             ) : type.toLowerCase() === 'datetime-local' ||

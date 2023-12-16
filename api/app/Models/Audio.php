@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 
 class Audio extends Model
 {
@@ -21,6 +23,19 @@ class Audio extends Model
         'caption',
         'author'
     ];
+
+    /**
+     * Convert caption to lowercase.
+     *
+     * @return Attribute
+     */
+    protected function caption(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::lower($value),
+        );
+    }
 
     /**
      * The image is morphed to many models.

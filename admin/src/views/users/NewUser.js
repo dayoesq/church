@@ -70,15 +70,16 @@ const NewUser = () => {
                                         data={data}
                                         icon={cilAt}
                                     />
-                                    <Input
-                                        element='input'
-                                        type='hidden'
-                                        id='client_current_time'
-                                        name='client_current_time'
-                                        value={new Date().getMilliseconds()}
-                                    />
                                 </CCol>
                             </CRow>
+                            {/* Hidden input to get the client's current time */}
+                            <input
+                                element='input'
+                                id='client_current_time'
+                                type='hidden'
+                                name='client_current_time'
+                                value={new Date().getMilliseconds()}
+                            />
                             <CRow>
                                 <CCol xs={12} sm={12}>
                                     <CButton

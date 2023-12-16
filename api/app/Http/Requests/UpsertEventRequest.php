@@ -38,7 +38,7 @@ class UpsertEventRequest extends FormRequest
             'ends_at' => ['sometimes', 'date'],
             'images.*' => ['sometimes',
                 File::image()
-                    ->min('500kb')
+                    // ->min('500kb')
                     ->max('5mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],

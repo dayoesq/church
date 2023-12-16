@@ -5,22 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertAudioMessageRequest;
 use App\Http\Resources\AudioMessages\AudioMessageResource;
 use App\Models\AudioMessage;
-use App\Utils\Enums\AudioGenre;
 use App\Utils\Assets\Asset;
+use App\Utils\Enums\AudioGenre;
 use App\Utils\Enums\PostStatus;
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Throwable;
 
 class AudioMessageController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(AudioMessage::class, 'audio_message');
+        $this->authorizeResource(AudioMessage::class, 'audiomessage');
     }
 
 
@@ -66,12 +64,12 @@ class AudioMessageController extends Controller
             if ($request->hasFile('audio')) {
                 $path = $request->file('audio')->store(Asset::$AUDIOS);
                 $audioMessage->audio()->create(
-                        [
-                            'url' => $path,
-                            'caption' => $validated['title'],
-                            'author' => $validated['author']
-                        ],
-                    );
+                    [
+                        'url' => $path,
+                        'caption' => $validated['title'],
+                        'author' => $validated['author']
+                    ],
+                );
 
             }
 
@@ -93,16 +91,17 @@ class AudioMessageController extends Controller
      */
     public function show(AudioMessage $audioMessage): JsonResponse
     {
-        // return $this->ok(data: $audioMessage);
+
+        $audioMessage->load('audio');
         return $this->ok(data: new AudioMessageResource($audioMessage));
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param UpsertAudioMessageRequest $request
      * @param AudioMessage $audioMessage
      * @return JsonResponse
-     * @throws Throwable
      */
     public function update(UpsertAudioMessageRequest $request, AudioMessage $audioMessage): JsonResponse
     {

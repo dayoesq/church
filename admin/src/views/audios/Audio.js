@@ -17,7 +17,8 @@ import {
     cilAsterisk,
     cilContact,
     cilBadge,
-    cilImage
+    cilImage,
+    cilElevator
 } from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
@@ -171,7 +172,7 @@ const Audio = () => {
                                             name='genre'
                                             placeholder='Genre'
                                             labelTitle='Genre'
-                                            icon={cilBadge}
+                                            icon={cilElevator}
                                             data={actionData}
                                             defaultValue={loadedData.data.genre}
                                             disabled={disabled}
