@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('audio_messages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->unique();
             $table->string('summary')->nullable();
             $table->enum('genre', [
                 AudioGenre::Sermon->value,

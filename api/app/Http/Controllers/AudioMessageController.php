@@ -30,7 +30,7 @@ class AudioMessageController extends Controller
      */
     public function index(): JsonResponse
     {
-        $audioMessages = AudioMessage::with('audio')->cursorPaginate(20);
+        $audioMessages = AudioMessage::get(['id', 'title', 'summary', 'status', 'genre', 'author']);
         return $this->ok(data: AudioMessageResource::collection($audioMessages));
 
     }
@@ -69,7 +69,7 @@ class AudioMessageController extends Controller
                         [
                             'url' => $path,
                             'caption' => $validated['title'],
-                            'author' => Str::slug($validated['author'])
+                            'author' => $validated['author']
                         ],
                     );
 
@@ -93,6 +93,7 @@ class AudioMessageController extends Controller
      */
     public function show(AudioMessage $audioMessage): JsonResponse
     {
+        // return $this->ok(data: $audioMessage);
         return $this->ok(data: new AudioMessageResource($audioMessage));
     }
 

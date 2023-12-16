@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 
 /**
  * @property string $title
- * @property string $slug
  * @property string $status
  * @property string $summary
  * @property string author
@@ -31,9 +30,8 @@ class AudioMessage extends Model
      */
     protected $fillable = [
         'title',
-        'slug',
         'status',
-        'genre'
+        'genre',
         'summary',
         'author'
     ];
@@ -71,7 +69,7 @@ class AudioMessage extends Model
      */
     public function audio(): MorphOne
     {
-        return $this->morphMany(Audio::class, 'audioable');
+        return $this->morphOne(Audio::class, 'audioable');
     }
 
 }

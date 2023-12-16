@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\UpsertUserRequest;
-use App\Http\Resources\Users\NewUserResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\PasswordResetToken;
 use App\Models\User;
@@ -74,7 +73,7 @@ class UserController extends Controller
             $user->save();
 
             DB::commit();
-            return $this->created(data: new NewUserResource($user));
+            return $this->created(data: new UserResource($user));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

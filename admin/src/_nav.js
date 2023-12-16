@@ -8,7 +8,9 @@ import {
     cilUserPlus,
     cilCasino,
     cilNotes,
-    cilAvTimer
+    cilAvTimer,
+    cilSpeaker,
+    cilMicrophone
 } from '@coreui/icons';
 import { CNavGroup, CNavItem } from '@coreui/react';
 
@@ -61,13 +63,13 @@ export const adminNavigation = [
     {
         component: CNavGroup,
         name: 'Audios',
-        icon: <CIcon icon={cilNotes} customClassName='nav-icon' />,
+        icon: <CIcon icon={cilSpeaker} customClassName='nav-icon' />,
         items: [
             {
                 component: CNavItem,
                 name: 'Audios',
                 to: '/dashboard/audios',
-                icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
+                icon: <CIcon icon={cilMicrophone} customClassName='nav-icon' />
             },
             {
                 component: CNavItem,

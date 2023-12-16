@@ -13,6 +13,8 @@ import { action as newTestimonialAction } from './views/testimonials/NewTestimon
 import { action as testimonialAction } from './views/testimonials/Testimonial';
 import { action as newEventAction } from './views/events/NewEvent';
 import { action as eventAction } from './views/events/Event';
+import { action as audioAction } from './views/audios/Audio';
+import { action as newAudioAction } from './views/audios/NewAudio';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -21,6 +23,8 @@ import { loader as testimonialLoader } from './views/testimonials/Testimonial';
 import { loader as testimonialsLoader } from './views/testimonials/Testimonials';
 import { loader as eventsLoader } from './views/events/Events';
 import { loader as eventLoader } from './views/events/Event';
+import { loader as audiosLoader } from './views/audios/Audios';
+import { loader as audioLoader } from './views/audios/Audio';
 
 import './scss/style.scss';
 
@@ -44,6 +48,9 @@ const Testimonial = lazy(() => import('./views/testimonials/Testimonial'));
 const NewEvent = lazy(() => import('./views/events/NewEvent'));
 const Events = lazy(() => import('./views/events/Events'));
 const Event = lazy(() => import('./views/events/Event'));
+const NewAudio = lazy(() => import('./views/audios/NewAudio'));
+const Audios = lazy(() => import('./views/audios/Audios'));
+const Audio = lazy(() => import('./views/audios/Audio'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -122,6 +129,22 @@ const App = () => {
                     loader: eventLoader,
                     action: eventAction
                 },
+                {
+                    path: 'audios/new',
+                    element: <NewAudio />,
+                    action: newAudioAction
+                },
+                {
+                    path: 'audios',
+                    element: <Audios />,
+                    loader: audiosLoader
+                },
+                {
+                    path: 'audios/:id',
+                    element: <Audio />,
+                    loader: audioLoader,
+                    action: audioAction
+                }
             ]
         },
         {

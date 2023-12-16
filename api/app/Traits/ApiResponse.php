@@ -30,7 +30,7 @@ trait ApiResponse
     protected function created(string $message = null, mixed $data = null): JsonResponse
     {
         if (empty($message)) $message = SuccessResponse::$CREATED;
-        return response()->json(['message' => $message, 'data' => $data], 201);
+        return response()->json(['message' => $message, 'data' => $data, 'statusCode' => 201], 201);
     }
 
     /**
@@ -43,7 +43,7 @@ trait ApiResponse
     protected function ok(string $message = null, mixed $data = null): JsonResponse
     {
         if (empty($message)) $message = SuccessResponse::$OK;
-        return response()->json(['message' => $message, 'data' => $data, 'statusCode' => 200]);
+        return response()->json(['message' => $message, 'data' => $data, 'statusCode' => 200], 200);
     }
 
     /**
@@ -163,7 +163,7 @@ trait ApiResponse
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
             'attachments.*' => [
-                File::types(['pdf, png, svg, jpg, jpeg'])
+                File::types(['pdf', 'png', 'svg', 'jpg', 'jpeg'])
                     ->max('5mb')
             ],
             'audios.*' => [
