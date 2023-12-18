@@ -42,6 +42,9 @@ class EventController extends Controller
     public function store(UpsertEventRequest $request): JsonResponse
     {
         $validated = $request->validated();
+        if(!$this->dateIsConsistent($request)) {
+            return $this->badRequest('The end date must be greater than the start date.');
+        }
         $event = Event::create($validated);
         return $event ? $this->created(data: new EventResource($event)) : $this->serverError();
     }
@@ -64,7 +67,6 @@ class EventController extends Controller
      * @param UpsertEventRequest $request
      * @param Event $event
      * @return JsonResponse
-     * @throws ValidationException
      * @throws Throwable
      */
     public function update(UpsertEventRequest $request, Event $event): JsonResponse
@@ -76,11 +78,8 @@ class EventController extends Controller
             $validated = $request->validated();
             $event->update($validated);
 
-            $startDate = Carbon::create($request->input('starts_at'));
-            $endDate = Carbon::create($request->input('ends_at'));
-
-            if($endDate->lessThan($startDate)) {
-                return $this->badRequest('The end date must be creater than the start date.');
+            if(!$this->dateIsConsistent($request)) {
+                return $this->badRequest('The end date must be greater than the start date.');
             }
 
             if ($request->hasFile('images')) {
@@ -103,6 +102,20 @@ class EventController extends Controller
             Log::error($e->getMessage());
             return $this->badRequest($e->getMessage());
         }
+    }
+
+    /**
+     * Ensure end date is greater than start date.
+     *
+     * @param UpsertEventRequest $request
+     * @return bool
+     */
+    private function dateIsConsistent(UpsertEventRequest $request): bool
+    {
+        $startDate = Carbon::create($request->input('starts_at'));
+        $endDate = Carbon::create($request->input('ends_at'));
+        return $endDate->greaterThan($startDate);
+
     }
 
     /**

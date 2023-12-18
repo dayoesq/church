@@ -43,7 +43,7 @@ class UpsertProjectRequest extends FormRequest
             'status' => ['sometimes', new Enum(ProjectStatus::class)],
             'starts_at' => ['sometimes', 'date'],
             'ends_at' =>['sometimes', 'date'],
-            'photo.*' => ['sometimes',
+            'images.*' => ['sometimes',
                 File::image()
                     ->min('500kb')
                     ->max('5mb')

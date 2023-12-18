@@ -19,6 +19,7 @@ import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
 import { createEvent } from '../../utils/requests/general-request';
+import {memo} from "react";
 
 const NewEvent = () => {
     const data = useActionData();
@@ -146,4 +147,4 @@ export const action = async ({ request }) => {
     return await createEvent(request);
 };
 
-export default NewEvent;
+export default memo(NewEvent)

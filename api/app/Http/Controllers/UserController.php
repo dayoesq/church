@@ -134,10 +134,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            if($user->avatar && Storage::disk(Asset::$IMAGES)->exists($user->avatar)) {
-                Storage::disk(Asset::$IMAGES)->delete($user->avatar);
-            }
-            $user->delete();
+            $this->deleteAvatarAndModel($user);
             DB::commit();
             return $this->noContent();
         } catch (Exception $e) {
@@ -162,14 +159,9 @@ class UserController extends Controller
         $user->update($validated);
 
         if($request->hasFile('avatar')) {
-            if($user->avatar && Storage::disk(Asset::$IMAGES)->exists($user->avatar)) {
-                Storage::disk(Asset::$IMAGES)->delete($user->avatar);
-            }
-            $path = $request->file('avatar')->store(Asset::$IMAGES);
-            $user->avatar = basename($path);
-            $user->save();
-            return $this->ok();
+            $this->processAvatarStorage($request, $user);
         }
+        $user->save();
         return $this->ok();
 
     }

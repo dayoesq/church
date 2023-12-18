@@ -35,7 +35,8 @@ const eventStatus = [
     { name: 'Upcoming', value: 'upcoming' },
     { name: 'Ongoing', value: 'ongoing' },
     { name: 'Concluded', value: 'concluded' },
-    { name: 'Cancelled', value: 'cancelled' }
+    { name: 'Cancelled', value: 'cancelled' },
+    { name: 'Postponed', value: 'postponed' }
 ];
 
 const Event = () => {
@@ -237,7 +238,6 @@ const Event = () => {
                                 </CRow>
                                 {/* Hidden input to allow for update when file is involved */}
                                 <input
-                                    element='input'
                                     id='_method'
                                     type='hidden'
                                     name='_method'

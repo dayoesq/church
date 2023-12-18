@@ -8,11 +8,11 @@ import {
 } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
 
-const AudioMessagesTable = props => {
+const PodcastTable = ({ podcasts }) => {
     const navigate = useNavigate();
 
     const clickHandler = id => {
-        navigate(`/dashboard/audios/${id}`);
+        navigate(`/dashboard/podcasts/${id}`);
     };
 
     return (
@@ -28,21 +28,21 @@ const AudioMessagesTable = props => {
                 </CTableRow>
             </CTableHead>
             <CTableBody>
-                {props.audios &&
-                    props.audios.map(audio => (
+                {podcasts &&
+                    podcasts.map(podcast => (
                         <CTableRow
                             role='button'
-                            key={audio.id}
-                            onClick={() => clickHandler(audio.id)}
+                            key={podcast.id}
+                            onClick={() => clickHandler(podcast.id)}
                         >
-                            <CTableDataCell>{audio.count}</CTableDataCell>
-                            <CTableDataCell>{audio.title}</CTableDataCell>
+                            <CTableDataCell>{podcast.count}</CTableDataCell>
+                            <CTableDataCell>{podcast.title}</CTableDataCell>
                             <CTableDataCell>
-                                {`${audio.summary.substring(0, 15)}...`}
+                                {`${podcast.summary.substring(0, 15)}...`}
                             </CTableDataCell>
-                            <CTableDataCell>{audio.author}</CTableDataCell>
-                            <CTableDataCell>{audio.genre}</CTableDataCell>
-                            <CTableDataCell>{audio.status}</CTableDataCell>
+                            <CTableDataCell>{podcast.author}</CTableDataCell>
+                            <CTableDataCell>{podcast.genre}</CTableDataCell>
+                            <CTableDataCell>{podcast.status}</CTableDataCell>
                         </CTableRow>
                     ))}
             </CTableBody>
@@ -50,4 +50,4 @@ const AudioMessagesTable = props => {
     );
 };
 
-export default AudioMessagesTable;
+export default PodcastTable;

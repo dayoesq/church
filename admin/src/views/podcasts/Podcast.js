@@ -26,7 +26,7 @@ import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
 import { AUDIO_GENRE, ROLES } from '../../utils/constants';
-import { loadAudio, updateAudio } from '../../utils/requests/general-request';
+import { loadPodcast, updatePodcast } from '../../utils/requests/general-request';
 import { postStatus } from '../testimonials/Testimonial';
 
 export const audioGenre = [
@@ -37,7 +37,7 @@ export const audioGenre = [
     { name: 'Praise & Worship', value: AUDIO_GENRE.praiseWorship }
 ];
 
-const Audio = () => {
+const Podcast = () => {
     const [disabled, setDisabled] = useState(true);
     const loadedData = useLoaderData();
     const actionData = useActionData();
@@ -45,9 +45,10 @@ const Audio = () => {
 
     const authCtx = useContext(AuthContext);
     // Redirect to users!
-    useRedirect(actionData, '/dashboard/audios', true);
+    useRedirect(actionData, '/dashboard/podcasts', true);
 
     const disableInputField = () => setDisabled(disabled => !disabled);
+
 
     return (
         <CRow className='justify-content-center'>
@@ -55,11 +56,11 @@ const Audio = () => {
                 <CCol md={8}>
                     <Alert
                         data={actionData}
-                        message='Audio updated successfully.'
+                        message='Podcast updated successfully.'
                     />
                     <CCard>
                         <CCardHeader className='d-flex justify-content-between'>
-                            <small> Audo Details</small>
+                            <small> Podcast Details</small>
 
                             <CButton
                                 className='btn btn-success text-white'
@@ -132,7 +133,7 @@ const Audio = () => {
                                             id='audio'
                                             type='file'
                                             name='audio'
-                                            labelTitle='audio'
+                                            labelTitle='Audio'
                                             accept='.mp3, .wav, .ogg, .m4a, .flac'
                                             icon={cilImage}
                                             data={actionData}
@@ -190,7 +191,6 @@ const Audio = () => {
                                 </CRow>
                                 {/* Hidden input to allow for update when file is involved */}
                                 <input
-                                    element='input'
                                     id='_method'
                                     type='hidden'
                                     name='_method'
@@ -228,11 +228,11 @@ const Audio = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updateAudio(request, params);
+    return await updatePodcast(request, params);
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadAudio(request, params);
+    return await loadPodcast(request, params);
 };
 
-export default memo(Audio);
+export default memo(Podcast);

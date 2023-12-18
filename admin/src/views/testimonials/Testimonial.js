@@ -154,12 +154,12 @@ const Testimonial = () => {
                                             accept='.jpeg, .png, .jpg, .svg'
                                             icon={cilImage}
                                             data={actionData}
+                                            disabled={disabled}
                                         />
                                     </CCol>
                                 </CRow>
                                 {/* Hidden input to allow for update when file is involved */}
                                 <input
-                                    element='input'
                                     id='_method'
                                     type='hidden'
                                     name='_method'

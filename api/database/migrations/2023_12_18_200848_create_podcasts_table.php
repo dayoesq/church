@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audio_messages', function (Blueprint $table) {
+        Schema::create('podcasts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('summary')->nullable();
@@ -31,7 +31,6 @@ return new class extends Migration
             ])->default(PostStatus::Draft->value);
             $table->string('author');
             $table->timestamps();
-
         });
     }
 
@@ -40,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audio_messages');
+        Schema::dropIfExists('podcasts');
     }
 };

@@ -309,16 +309,16 @@ export const loadTestimonial = async (request, params) => {
 };
 
 /**
- * Create audio.
+ * Create podcast.
  *
  * @return Promise
  *
  * @param request
  */
-export const createAudio = async request => {
+export const createPodcast = async request => {
     if (storedData) {
         return await Http.post(
-            `${ENV.baseUrl}/audiomessages`,
+            `${ENV.baseUrl}/podcasts`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },
@@ -329,17 +329,17 @@ export const createAudio = async request => {
 };
 
 /**
- * Update a specific audio message.
+ * Update a specific podcast.
  *
  * @return Promise
  *
  * @param request
  * @param params
  */
-export const updateAudio = async (request, params) => {
+export const updatePodcast = async (request, params) => {
     if (storedData) {
         return await Http.post(
-            `${ENV.baseUrl}/audiomessages/${params.id}`,
+            `${ENV.baseUrl}/podcasts/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },
@@ -350,17 +350,17 @@ export const updateAudio = async (request, params) => {
 };
 
 /**
- * Get a specific audio.
+ * Get a specific podcast.
  *
  * @return Promise
  *
  * @param request
  * @param params
  */
-export const loadAudio = async (request, params) => {
+export const loadPodcast = async (request, params) => {
     if (storedData) {
         return await Http.get(
-            `${ENV.baseUrl}/audiomessages/${params.id}`,
+            `${ENV.baseUrl}/podcasts/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },

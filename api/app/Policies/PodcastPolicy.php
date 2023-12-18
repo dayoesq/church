@@ -4,10 +4,12 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class AudioMessagePolicy
+class PodcastPolicy
 {
     /**
      * Determine whether the user can view any models.
+     *
+     * @return bool
      */
     public function viewAny(): bool
     {
@@ -16,6 +18,8 @@ class AudioMessagePolicy
 
     /**
      * Determine whether the user can view the model.
+     *
+     * @return bool
      */
     public function view(): bool
     {
@@ -24,6 +28,9 @@ class AudioMessagePolicy
 
     /**
      * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -32,6 +39,9 @@ class AudioMessagePolicy
 
     /**
      * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @return bool
      */
     public function update(User $user): bool
     {
@@ -40,6 +50,9 @@ class AudioMessagePolicy
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @return bool
      */
     public function delete(User $user): bool
     {

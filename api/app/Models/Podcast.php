@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
-
 
 /**
  * @property string $title
@@ -15,14 +14,15 @@ use Illuminate\Support\Str;
  * @property string $summary
  * @property string author
  * @property string genre
- * @property mixed $audio
+ * @property array $podcasts
  * @method static create(mixed $data)
+ * @method static get(string[] $array)
  */
-class AudioMessage extends Model
+class Podcast extends Model
 {
     use HasFactory;
 
-    protected mixed $audio = null;
+    protected array $audio = [];
 
     /**
      * The attributes that are mass assignable.
@@ -46,31 +46,17 @@ class AudioMessage extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::words($value)
+            set: fn ($value) => Str::lower($value)
         );
     }
 
     /**
-     * Sluggify the audio-message's title.
+     * The audio message morphs podcasts
      *
-     * @return Attribute
+     * @return MorphMany
      */
-    protected function slug(): Attribute
+    public function audio(): MorphMany
     {
-        return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value)
-        );
+        return $this->morphMany(Audio::class, 'audioable');
     }
-
-    /**
-     * The audio message morphs audios
-     *
-     * @return MorphOne
-     */
-    public function audio(): MorphOne
-    {
-        return $this->morphOne(Audio::class, 'audioable');
-    }
-
 }

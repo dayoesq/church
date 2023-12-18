@@ -293,7 +293,6 @@ const Profile = () => {
                                 </CRow>
                                 {/* Hidden input to allow for update when file is involved */}
                                 <input
-                                    element='input'
                                     id='_method'
                                     type='hidden'
                                     name='_method'
@@ -330,8 +329,8 @@ const Profile = () => {
     );
 };
 
-export const action = async ({ request, params }) => {
-    return await updateSelf(request, params);
+export const action = async ({ request }) => {
+    return await updateSelf(request);
 };
 
 export default memo(Profile);

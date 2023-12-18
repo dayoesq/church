@@ -24,6 +24,8 @@ class Audio extends Model
         'author'
     ];
 
+    protected $table = 'audio';
+
     /**
      * Convert caption to lowercase.
      *

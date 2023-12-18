@@ -60,10 +60,10 @@ return [
             'throw' => false,
         ],
 
-        'audios' => [
+        'podcasts' => [
             'driver' => 'local',
-            'root' => storage_path('app/audios'),
-            'url' => env('APP_URL').'/storage/audios',
+            'root' => storage_path('app/podcasts'),
+            'url' => env('APP_URL').'/storage/podcasts',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -106,7 +106,7 @@ return [
         public_path('images') => storage_path('app/images'),
         public_path('attachments') => storage_path('app/attachments'),
         public_path('videos') => storage_path('app/videos'),
-        public_path('audios') => storage_path('app/audios'),
+        public_path('podcasts') => storage_path('app/podcasts'),
     ],
 
 ];

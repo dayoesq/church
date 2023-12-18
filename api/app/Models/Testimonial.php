@@ -9,7 +9,10 @@ use Illuminate\Support\Str;
 
 /**
  * @method static create(mixed $validated)
- * @property mixed $avatar
+ * @property string $avatar
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $content
  */
 class Testimonial extends Model
 {

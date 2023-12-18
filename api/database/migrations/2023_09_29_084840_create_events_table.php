@@ -22,7 +22,8 @@ return new class extends Migration
                 EventStatus::Ongoing->value,
                 EventStatus::Upcoming->value,
                 EventStatus::Concluded->value,
-                EventStatus::Cancelled->value
+                EventStatus::Cancelled->value,
+                EventStatus::Postponed->value,
                 ])->default(EventStatus::Upcoming->value);
             $table->string('organizer');
             $table->timestamp('starts_at');

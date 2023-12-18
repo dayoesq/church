@@ -62,19 +62,19 @@ export const adminNavigation = [
     },
     {
         component: CNavGroup,
-        name: 'Audios',
+        name: 'Podcasts',
         icon: <CIcon icon={cilSpeaker} customClassName='nav-icon' />,
         items: [
             {
                 component: CNavItem,
-                name: 'Audios',
-                to: '/dashboard/audios',
+                name: 'Podcasts',
+                to: '/dashboard/podcasts',
                 icon: <CIcon icon={cilMicrophone} customClassName='nav-icon' />
             },
             {
                 component: CNavItem,
-                name: 'New Audio',
-                to: '/dashboard/audios/new',
+                name: 'New Podcast',
+                to: '/dashboard/podcasts/new',
                 icon: <CIcon icon={cilPenAlt} customClassName='nav-icon' />
             }
         ]
