@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Resources\AudioMessages;
+namespace App\Http\Resources\Podcasts;
 
-use App\Http\Resources\Audios\AudioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $created_at
  * @property string $updated_at
  */
-class AudioMessageResource extends JsonResource
+class PodcastResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -32,7 +31,7 @@ class AudioMessageResource extends JsonResource
             'summary' => $this->summary,
             'status' => $this->status,
             'author' => $this->author,
-            'audio' => new AudioResource($this->whenLoaded('audio')),
+            'audio' => PodcastResource::collection($this->whenLoaded('audio')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at
         ];

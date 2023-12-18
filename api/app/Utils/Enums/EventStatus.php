@@ -8,4 +8,5 @@ enum EventStatus : string
     case Upcoming = 'upcoming';
     case Concluded = 'concluded';
     case Cancelled = 'cancelled';
+    case Postponed = 'postponed';
 }

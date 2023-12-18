@@ -5,9 +5,9 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\AudioMessageController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'projects' => ProjectController::class,
         'galleries' => GalleryController::class,
         'testimonials' => TestimonialController::class,
-        'audiomessages' => AudioMessageController::class
+        'podcasts' => PodcastController::class
     ]);
 
 });

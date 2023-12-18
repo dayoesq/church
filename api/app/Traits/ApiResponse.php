@@ -7,6 +7,7 @@ use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Exception;
 use App\Utils\Assets;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -145,19 +146,17 @@ trait ApiResponse
     /**
      * Process assets before storage.
      *
-     * @param Request $request
+     * @param mixed $request
      * @param string $fileName
+     * @param string $storageDirectory
      * @return array
      */
-    protected function processAssetsStorage(mixed $request, string $fileName): array
+    protected function processAssetsStorage(mixed $request, string $fileName, string $storageDirectory): array
     {
         $files = [];
-        $directory = $fileName;
-        $attachment = $request->file($fileName);
-        $attachments = is_array($attachment) ? $attachment : [$attachment];
-
+        $attachments = is_array($request->file($fileName)) ? $request->file($fileName) : [$request->file($fileName)];
         foreach ($attachments as $attachment) {
-            $storedPath = $attachment->store($directory);
+            $storedPath = $attachment->store($storageDirectory);
             $files[] = basename($storedPath);
         }
 
@@ -165,21 +164,52 @@ trait ApiResponse
     }
 
     /**
-     * Delete assets.
+     * Process and store avatar image.
+     *
+     * @param mixed $request
+     * @param mixed $model
+     * @return void
+     */
+    protected function processAvatarStorage(mixed $request, mixed $model): void
+    {
+        if ($model->avatar && Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
+            Storage::disk(Asset::$IMAGES)->delete($model->avatar);
+        }
+
+        $path = $request->file('avatar')->store(Asset::$IMAGES);
+        $model->avatar = basename($path);
+    }
+
+    /**
+     * Delete avatar and model.
      *
      * @param mixed $model
-     * @param string $assetType
+     * @return void
+     */
+    protected function deleteAvatarAndModel(mixed $model): void
+    {
+        if($model->avatar && Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
+            Storage::disk(Asset::$IMAGES)->delete($model->avatar);
+        }
+        $model->delete();
+    }
+
+    /**
+     * Delete assets.
+     *
+     * @param Model $model
+     * @param mixed $assetType
      * @return bool
      */
-    protected function deleteAsset(mixed $model, string $assetType): bool
+    protected function deleteAsset(Model $model, mixed $assetType): bool
     {
         try {
             DB::beginTransaction();
 
             // Dynamically access the assets based on the provided $assetType
-            $assets = is_array($assetType) ? $model->{$assetType} : [$model->{$assetType}];
+            //$assets = is_array($assetType) ? $model->{$assetType} : [$model->{$assetType}];
 
-            foreach ($assets as $asset) {
+            foreach ($model->{$assetType} as $asset) {
                 if (Storage::disk($assetType)->exists($asset->url)) {
                     Storage::disk($assetType)->delete($asset->url);
                     $asset->delete();

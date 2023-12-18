@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertTestimonialRequest;
 use App\Http\Resources\Testimonials\TestimonialResource;
 use App\Models\Testimonial;
-use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
@@ -38,7 +36,7 @@ class TestimonialController extends Controller
      */
     public function store(UpsertTestimonialRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
         $testimonial = new Testimonial();
         $testimonial->first_name = $request->input('first_name');
         $testimonial->last_name = $request->input('last_name');
@@ -70,20 +68,15 @@ class TestimonialController extends Controller
         try {
             DB::beginTransaction();
             $validated = $request->validated();
-            $updated = $testimonial->update($validated);
+            $testimonial->update($validated);
 
-        if($request->hasFile('avatar')) {
-            if ($testimonial->avatar && Storage::disk(Asset::$IMAGES)->exists($testimonial->avatar)) {
-                Storage::disk(Asset::$IMAGES)->delete($testimonial->avatar);
+            if($request->hasFile('avatar')) {
+                $this->processAvatarStorage($request, $testimonial);
             }
 
-            $path = $request->file('avatar')->store(Asset::$IMAGES);
-            $testimonial->avatar = basename($path);
-        }
-
-        $testimonial->save();
-        DB::commit();
-        return $this->ok(data: new TestimonialResource($testimonial));
+            $testimonial->save();
+            DB::commit();
+            return $this->ok(data: new TestimonialResource($testimonial));
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -104,10 +97,7 @@ class TestimonialController extends Controller
     {
         try {
             DB::beginTransaction();
-            if($testimonial->avatar && Storage::disk(Asset::$IMAGES)->exists($testimonial->avatar)) {
-                Storage::disk(Asset::$IMAGES)->delete($testimonial->avatar);
-            }
-            $testimonial->delete();
+            $this->deleteAvatarAndModel($testimonial);
             DB::commit();
             return $this->noContent();
         } catch (Exception $e) {

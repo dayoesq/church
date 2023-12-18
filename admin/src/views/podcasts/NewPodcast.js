@@ -19,22 +19,22 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { createAudio } from '../../utils/requests/general-request';
-import { audioGenre } from './Audio';
+import { createPodcast } from '../../utils/requests/general-request';
+import { audioGenre } from './Podcast';
 
-const NewAudio = () => {
+const NewPodcast = () => {
     const data = useActionData();
     const navigation = useNavigation();
     // Redirect conditionally!
-    useRedirect(data, '/dashboard/audios', true);
+    useRedirect(data, '/dashboard/podcasts', true);
 
     return (
         <CRow className='justify-content-center'>
             <CCol md={6}>
-                <Alert data={data} message='Audio created successfully.' />
+                <Alert data={data} message='Podcast created successfully.' />
                 <CCard>
                     <CCardHeader>
-                        <small> New Audio Form</small>
+                        <small> New Podcast Form</small>
                     </CCardHeader>
                     <CCardBody>
                         <Form
@@ -143,7 +143,7 @@ const NewAudio = () => {
 };
 
 export const action = async ({ request }) => {
-    return await createAudio(request);
+    return await createPodcast(request);
 };
 
-export default memo(NewAudio);
+export default memo(NewPodcast);

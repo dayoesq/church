@@ -11,28 +11,28 @@ import { Await, defer, useLoaderData } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import { getDataFromStorage, transformedData } from '../../utils/helpers';
 import { ENV } from '../../utils/constants';
-import AudioMessagesTable from '../../components/AudioMessagesTable';
+import PodcastTable from '../../components/PodcastTable';
 
-const Audios = () => {
-    const { audios } = useLoaderData();
+const Podcasts = () => {
+    const { podcasts } = useLoaderData();
 
     return (
         <Suspense fallback={<Spinner asOverlay />}>
-            {audios && audios.length ? (
+            { podcasts && podcasts.length > 0 ? (
                 <CRow>
                     <CCol xl={12} lg={12}>
                         <CCard>
                             <CCardHeader>Audios</CCardHeader>
                             <CCardBody>
                                 <Await
-                                    resolve={audios}
+                                    resolve={podcasts}
                                     errorElement={
                                         <CAlert color='danger'>
                                             An error occurred!
                                         </CAlert>
                                     }
                                     children={el => (
-                                        <AudioMessagesTable audios={el} />
+                                        <PodcastTable podcasts={el} />
                                     )}
                                 />
                             </CCardBody>
@@ -43,7 +43,7 @@ const Audios = () => {
                 <CRow className='justify-content-center'>
                     <CCol md={6}>
                         <CCard>
-                            <CCardHeader>Audios</CCardHeader>
+                            <CCardHeader>Podcasts</CCardHeader>
                             <CCardBody>
                                 <h1 className='text-center'>No Data</h1>
                             </CCardBody>
@@ -56,12 +56,12 @@ const Audios = () => {
 };
 
 export const loader = async () => {
-    return defer({ audios: await getAudios() });
+    return defer({ podcasts: await getPodcasts() });
 };
 
-export const getAudios = async () => {
+export const getPodcasts = async () => {
     const { token } = getDataFromStorage();
-    const res = await fetch(`${ENV.baseUrl}/audiomessages`, {
+    const res = await fetch(`${ENV.baseUrl}/podcasts`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`
@@ -72,4 +72,4 @@ export const getAudios = async () => {
     return transformedData(resData.data);
 };
 
-export default memo(Audios);
+export default memo(Podcasts);

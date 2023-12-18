@@ -13,8 +13,8 @@ import { action as newTestimonialAction } from './views/testimonials/NewTestimon
 import { action as testimonialAction } from './views/testimonials/Testimonial';
 import { action as newEventAction } from './views/events/NewEvent';
 import { action as eventAction } from './views/events/Event';
-import { action as audioAction } from './views/audios/Audio';
-import { action as newAudioAction } from './views/audios/NewAudio';
+import { action as podcastAction } from './views/podcasts/Podcast';
+import { action as newPodcastAction } from './views/podcasts/NewPodcast';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -23,8 +23,8 @@ import { loader as testimonialLoader } from './views/testimonials/Testimonial';
 import { loader as testimonialsLoader } from './views/testimonials/Testimonials';
 import { loader as eventsLoader } from './views/events/Events';
 import { loader as eventLoader } from './views/events/Event';
-import { loader as audiosLoader } from './views/audios/Audios';
-import { loader as audioLoader } from './views/audios/Audio';
+import { loader as podcastsLoader } from './views/podcasts/Podcasts';
+import { loader as podcastLoader } from './views/podcasts/Podcast';
 
 import './scss/style.scss';
 
@@ -48,9 +48,9 @@ const Testimonial = lazy(() => import('./views/testimonials/Testimonial'));
 const NewEvent = lazy(() => import('./views/events/NewEvent'));
 const Events = lazy(() => import('./views/events/Events'));
 const Event = lazy(() => import('./views/events/Event'));
-const NewAudio = lazy(() => import('./views/audios/NewAudio'));
-const Audios = lazy(() => import('./views/audios/Audios'));
-const Audio = lazy(() => import('./views/audios/Audio'));
+const NewPodcast = lazy(() => import('./views/podcasts/NewPodcast'));
+const Podcasts = lazy(() => import('./views/podcasts/Podcasts'));
+const Podcast = lazy(() => import('./views/podcasts/Podcast'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -130,20 +130,20 @@ const App = () => {
                     action: eventAction
                 },
                 {
-                    path: 'audios/new',
-                    element: <NewAudio />,
-                    action: newAudioAction
+                    path: 'podcasts/new',
+                    element: <NewPodcast />,
+                    action: newPodcastAction
                 },
                 {
-                    path: 'audios',
-                    element: <Audios />,
-                    loader: audiosLoader
+                    path: 'podcasts',
+                    element: <Podcasts />,
+                    loader: podcastsLoader
                 },
                 {
-                    path: 'audios/:id',
-                    element: <Audio />,
-                    loader: audioLoader,
-                    action: audioAction
+                    path: 'podcasts/:id',
+                    element: <Podcast />,
+                    loader: podcastLoader,
+                    action: podcastAction
                 }
             ]
         },

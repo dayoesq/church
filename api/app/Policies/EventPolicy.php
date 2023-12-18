@@ -9,21 +9,23 @@ class EventPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param User $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param User $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->isAuthorizedSuperAdmin();
     }
 
     /**

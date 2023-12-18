@@ -15,6 +15,7 @@ export const STATUS = {
     banned: 'banned',
     cancelled: 'cancelled',
     suspended: 'suspended',
+    postponed: 'postponed',
     upcoming: 'upcoming',
     ongoing: 'ongoing',
     concluded: 'concluded',

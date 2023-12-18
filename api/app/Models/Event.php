@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
  * @property mixed $images
  * @method static create(array $validated)
  * @method static where(string $string, string $value)
+ * @method static get(string[] $array)
  */
 class Event extends Model
 {

@@ -14,7 +14,7 @@ export const audios: Audio[] = [
         author: 'Pastor B. Bergvall',
         title: 'The Wages of Sin',
         genre: 'sermon',
-        audioUrl: '/audios/random-praise.m4a',
+        audioUrl: '/podcasts/random-praise.m4a',
         deliveredOn: '2023-10-26'
     },
     {
@@ -22,7 +22,7 @@ export const audios: Audio[] = [
         author: 'Pastor B. Bergvall',
         title: 'Jesus is Lord',
         genre: 'sermon',
-        audioUrl: '/audios/random-praise.m4a',
+        audioUrl: '/podcasts/random-praise.m4a',
         deliveredOn: '2023-10-26'
     },
     {
@@ -30,7 +30,7 @@ export const audios: Audio[] = [
         author: undefined,
         title: 'Light of the World',
         genre: 'worship',
-        audioUrl: '/audios/random-praise.m4a',
+        audioUrl: '/podcasts/random-praise.m4a',
         deliveredOn: '2023-10-26'
     }
 ];
