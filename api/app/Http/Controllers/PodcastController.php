@@ -29,7 +29,7 @@ class PodcastController extends Controller
      */
     public function index(): JsonResponse
     {
-        $podcasts = Podcast::with('audio')->get(['id', 'title', 'summary', 'status', 'genre', 'author']);
+        $podcasts = Podcast::with('audios')->get(['id', 'title', 'summary', 'status', 'genre', 'author']);
         return $this->ok(data: PodcastResource::collection($podcasts));
 
     }
@@ -42,7 +42,7 @@ class PodcastController extends Controller
     public function getPublishedSermons(): JsonResponse
     {
         $this->authorize('viewAny', Podcast::class);
-        $podcasts = Podcast::with('audio')
+        $podcasts = Podcast::with('audios')
             ->where('status', PostStatus::Published->value)
             ->where('genre', AudioGenre::Sermon->value)
             ->cursorPaginate(20);
@@ -62,15 +62,13 @@ class PodcastController extends Controller
 
             $validated = $request->validated();
             $podcast = Podcast::create($validated);
-            if ($request->hasFile('audio')) {
-                $paths = $this->processAssetsStorage($request, 'audio', Asset::$AUDIOS);
+            if ($request->hasFile('audios')) {
+                $paths = $this->processAssetsStorage($request, 'audios');
 
                 foreach($paths as $path) {
-                    $podcast->audio()->create(
+                    $podcast->audios()->create(
                         [
-                            'url' => $path,
-                            'caption' => $validated['title'],
-                            'author' => $validated['author']
+                            'url' => $path
                         ],
                     );
                 }
@@ -95,7 +93,7 @@ class PodcastController extends Controller
      */
     public function show(Podcast $podcast): JsonResponse
     {
-        $podcast->load('audio');
+        $podcast->load('audios');
         return $this->ok(data: new PodcastResource($podcast));
     }
 

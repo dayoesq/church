@@ -86,9 +86,9 @@ const NewPodcast = () => {
                                 <CCol xs={12} sm={12} md={12} lg={6} xl={6}>
                                     <Input
                                         element='input'
-                                        id='audio'
+                                        id='audios'
                                         type='file'
-                                        name='audio'
+                                        name='audios'
                                         labelTitle='Audio'
                                         accept='.mp3, .wav, .ogg, .m4a, .flac'
                                         icon={cilImage}

@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  * @property string $summary
  * @property string author
  * @property string genre
- * @property array $podcasts
+ * @property array $audios
  * @method static create(mixed $data)
  * @method static get(string[] $array)
  */
@@ -22,7 +22,7 @@ class Podcast extends Model
 {
     use HasFactory;
 
-    protected array $audio = [];
+    protected array $audios = [];
 
     /**
      * The attributes that are mass assignable.
@@ -38,24 +38,11 @@ class Podcast extends Model
     ];
 
     /**
-     * Interact with the sermon's title.
-     *
-     * @return Attribute
-     */
-    protected function title(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Str::lower($value)
-        );
-    }
-
-    /**
-     * The audio message morphs podcasts
+     * The podcast morhps many audios
      *
      * @return MorphMany
      */
-    public function audio(): MorphMany
+    public function audios(): MorphMany
     {
         return $this->morphMany(Audio::class, 'audioable');
     }

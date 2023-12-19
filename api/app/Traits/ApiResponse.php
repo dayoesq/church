@@ -148,15 +148,14 @@ trait ApiResponse
      *
      * @param mixed $request
      * @param string $fileName
-     * @param string $storageDirectory
      * @return array
      */
-    protected function processAssetsStorage(mixed $request, string $fileName, string $storageDirectory): array
+    protected function processAssetsStorage(mixed $request, string $fileName): array
     {
         $files = [];
         $attachments = is_array($request->file($fileName)) ? $request->file($fileName) : [$request->file($fileName)];
         foreach ($attachments as $attachment) {
-            $storedPath = $attachment->store($storageDirectory);
+            $storedPath = $attachment->store($fileName);
             $files[] = basename($storedPath);
         }
 

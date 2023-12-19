@@ -34,7 +34,7 @@ class UpsertPodcastRequest extends FormRequest
             'genre' => ['sometimes', new Enum(AudioGenre::class)],
             'summary' => ['sometimes', 'min:4', 'max:200'],
             'author' => ['sometimes', 'min:2', 'max:50'],
-            'audio.*' => [
+            'audios.*' => [
                 'sometimes',
                 File::types(['mp3', 'wav', 'ogg', 'm4a', 'flac'])
                     ->max('5mb')
