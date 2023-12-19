@@ -20,7 +20,7 @@ const Podcasts = () => {
         <Suspense fallback={<Spinner asOverlay />}>
             { podcasts && podcasts.length > 0 ? (
                 <CRow>
-                    <CCol xl={12} lg={12}>
+                    <CCol>
                         <CCard>
                             <CCardHeader>Audios</CCardHeader>
                             <CCardBody>
@@ -41,7 +41,7 @@ const Podcasts = () => {
                 </CRow>
             ) : (
                 <CRow className='justify-content-center'>
-                    <CCol md={6}>
+                    <CCol>
                         <CCard>
                             <CCardHeader>Podcasts</CCardHeader>
                             <CCardBody>

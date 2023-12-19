@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Podcasts;
 
+use App\Http\Resources\Audios\AudioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,7 +32,7 @@ class PodcastResource extends JsonResource
             'summary' => $this->summary,
             'status' => $this->status,
             'author' => $this->author,
-            'audio' => PodcastResource::collection($this->whenLoaded('audio')),
+            'audios' => AudioResource::collection($this->whenLoaded('audios')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at
         ];
