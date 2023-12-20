@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+
 class PodcastController extends Controller
 {
     public function __construct()
@@ -120,7 +121,7 @@ class PodcastController extends Controller
      */
     public function destroy(Podcast $podcast): JsonResponse
     {
-        return ! $this->deleteAsset($podcast, 'audio') ? $this->serverError() : $this->noContent();
+        return $this->deleteAssets($podcast, 'audios') ? $this->noContent() : $this->serverError();
 
     }
 }

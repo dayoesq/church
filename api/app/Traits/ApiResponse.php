@@ -200,14 +200,10 @@ trait ApiResponse
      * @param mixed $assetType
      * @return bool
      */
-    protected function deleteAsset(Model $model, mixed $assetType): bool
+    protected function deleteAssets(Model $model, mixed $assetType): bool
     {
         try {
             DB::beginTransaction();
-
-            // Dynamically access the assets based on the provided $assetType
-            //$assets = is_array($assetType) ? $model->{$assetType} : [$model->{$assetType}];
-
             foreach ($model->{$assetType} as $asset) {
                 if (Storage::disk($assetType)->exists($asset->url)) {
                     Storage::disk($assetType)->delete($asset->url);

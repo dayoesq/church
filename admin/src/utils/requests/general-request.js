@@ -328,6 +328,44 @@ export const createPodcast = async request => {
     }
 };
 
+// /**
+//  * Update a specific podcast.
+//  *
+//  * @return Promise
+//  *
+//  * @param request
+//  * @param params
+//  */
+// export const podcastActionHandler = async (request, params) => {
+//     const formData = await request.formData();
+//     const intent = formData.get('intent');
+
+//     if (storedData) {
+//         if (intent.toLowerCase() === 'edit') {
+//             console.log(intent);
+//             return await Http.post(
+//                 `${ENV.baseUrl}/podcasts/${params.id}`,
+//                 {
+//                     Authorization: `Bearer ${storedData.token}`
+//                 },
+//                 request,
+//                 { isFormData: true }
+//             );
+//         }
+
+//         if (intent.toLowerCase() === 'delete') {
+//             console.log(intent);
+//             return await Http.delete(
+//                 `${ENV.baseUrl}/podcasts/${params.id}`,
+//                 {
+//                     Authorization: `Bearer ${storedData.token}`
+//                 },
+//                 request
+//             );
+//         }
+//     }
+// };
+
 /**
  * Update a specific podcast.
  *
@@ -360,6 +398,26 @@ export const updatePodcast = async (request, params) => {
 export const loadPodcast = async (request, params) => {
     if (storedData) {
         return await Http.get(
+            `${ENV.baseUrl}/podcasts/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+
+/**
+ * Delete specific podcast.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const deletePodcast = async (request, params) => {
+    if (storedData) {
+        return await Http.delete(
             `${ENV.baseUrl}/podcasts/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
