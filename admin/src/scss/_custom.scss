@@ -66,3 +66,20 @@
     top: 2rem;
     right: auto;
 }
+
+/* Used on any image display */
+.image-wrapper {
+    position: relative;
+}
+
+.image-button {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-wrapper:hover .image-button {
+    opacity: 1;
+}

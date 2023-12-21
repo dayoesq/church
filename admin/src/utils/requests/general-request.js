@@ -165,7 +165,7 @@ export const createUser = async request => {
 };
 
 /**
- * Get the specified user.
+ * Get a user.
  *
  * @return Promise
  *
@@ -247,7 +247,7 @@ export const updateUserByAdmin = async (request, params) => {
 };
 
 /**
- * Create testimony.
+ * Create testimonial.
  *
  * @param request
  * @return Promise
@@ -268,7 +268,7 @@ export const createTestimonial = async request => {
 };
 
 /**
- * Update testimonials.
+ * Update testimonial.
  *
  * @return Promise
  *
@@ -289,7 +289,7 @@ export const updateTestimonial = async (request, params) => {
 };
 
 /**
- * Update testimonials.
+ * Load testimonial.
  *
  * @return Promise
  *
@@ -327,44 +327,6 @@ export const createPodcast = async request => {
         );
     }
 };
-
-// /**
-//  * Update a specific podcast.
-//  *
-//  * @return Promise
-//  *
-//  * @param request
-//  * @param params
-//  */
-// export const podcastActionHandler = async (request, params) => {
-//     const formData = await request.formData();
-//     const intent = formData.get('intent');
-
-//     if (storedData) {
-//         if (intent.toLowerCase() === 'edit') {
-//             console.log(intent);
-//             return await Http.post(
-//                 `${ENV.baseUrl}/podcasts/${params.id}`,
-//                 {
-//                     Authorization: `Bearer ${storedData.token}`
-//                 },
-//                 request,
-//                 { isFormData: true }
-//             );
-//         }
-
-//         if (intent.toLowerCase() === 'delete') {
-//             console.log(intent);
-//             return await Http.delete(
-//                 `${ENV.baseUrl}/podcasts/${params.id}`,
-//                 {
-//                     Authorization: `Bearer ${storedData.token}`
-//                 },
-//                 request
-//             );
-//         }
-//     }
-// };
 
 /**
  * Update a specific podcast.
@@ -408,21 +370,20 @@ export const loadPodcast = async (request, params) => {
 };
 
 /**
- * Delete specific podcast.
+ * Delete specific model.
  *
  * @return Promise
  *
- * @param request
  * @param params
  */
-export const deletePodcast = async (request, params) => {
+export const deleteHandler = async uri => {
     if (storedData) {
-        return await Http.delete(
-            `${ENV.baseUrl}/podcasts/${params.id}`,
-            {
+        const res = await fetch(uri, {
+            method: 'DELETE',
+            headers: {
                 Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
+            }
+        });
+        return res.ok;
     }
 };

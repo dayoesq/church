@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Podcast;
 
 class PodcastPolicy
 {
@@ -44,6 +45,18 @@ class PodcastPolicy
      * @return bool
      */
     public function update(User $user): bool
+    {
+        return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Podcast $podcast
+     * @return bool
+     */
+    public function deletePodcastAudio(User $user, Podcast $podcast): bool
     {
         return $user->isAuthorizedSuperAdmin();
     }
