@@ -15,14 +15,19 @@ const WarningModal = ({
     title,
     modalContent,
     btnName,
-    btnValue
+    btnValue,
+    onClick,
+    type
 }) => {
     return (
         <CModal alignment='center' visible={visible} onClose={onClose}>
             <CModalHeader>
                 <CModalTitle>{title}</CModalTitle>
             </CModalHeader>
-            <CModalBody>{modalContent}</CModalBody>
+            <CModalBody>
+                {modalContent ||
+                    'This data can no longer be retrieved once deleted! Are you sure?'}
+            </CModalBody>
             <CModalFooter>
                 <CButton color='secondary' onClick={onClose}>
                     Close
@@ -31,8 +36,8 @@ const WarningModal = ({
                     color='danger'
                     name={btnName}
                     value={btnValue}
-                    type='submit'
-                    onClick={onClose}
+                    type={type}
+                    onClick={onClick}
                 >
                     OK
                 </CButton>

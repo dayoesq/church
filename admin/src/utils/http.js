@@ -1,8 +1,7 @@
 export class Http {
-    static #abortCtr = new AbortController();
     static async get(uri, headers, request) {
         try {
-            const res = await fetch(`${uri}`, {
+            const res = await fetch(uri, {
                 method: 'GET',
                 headers,
                 signal: request.signal
@@ -17,14 +16,13 @@ export class Http {
 
     static async delete(uri, headers, request) {
         try {
-            const res = await fetch(`${uri}`, {
+            const res = await fetch(uri, {
                 method: 'DELETE',
                 headers,
                 signal: request.signal
             });
             if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
+            return res.ok;
         } catch (error) {
             return error;
         }
@@ -35,7 +33,7 @@ export class Http {
             isFormData: options.isFormData
         });
         try {
-            const res = await fetch(`${uri}`, {
+            const res = await fetch(uri, {
                 method: 'POST',
                 headers,
                 body: inputs,
@@ -54,7 +52,7 @@ export class Http {
             isFormData: options.isFormData
         });
         try {
-            const res = await fetch(`${uri}`, {
+            const res = await fetch(uri, {
                 method: 'PATCH',
                 headers,
                 body: inputs,
@@ -72,68 +70,5 @@ export class Http {
         const formData = await request.formData();
         const entries = Object.fromEntries(formData);
         return options.isFormData ? formData : JSON.stringify(entries);
-    }
-
-    // General Option
-    static async getRequest(uri, headers) {
-        try {
-            const res = await fetch(`${uri}`, {
-                method: 'GET',
-                headers,
-                signal: Http.#abortCtr.signal
-            });
-            if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            return error;
-        }
-    }
-
-    static async patchRequest(uri, headers, options) {
-        try {
-            const res = await fetch(`${uri}`, {
-                method: 'PATCH',
-                headers,
-                body: options.body,
-                signal: Http.#abortCtr.signal
-            });
-            if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            return error;
-        }
-    }
-
-    static async postRequest(uri, headers, options) {
-        const body = options;
-        try {
-            const res = await fetch(`${uri}`, {
-                method: 'POST',
-                headers,
-                body,
-                signal: Http.#abortCtr.signal
-            });
-            if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            return error;
-        }
-    }
-    static async deleteRequest(uri, headers) {
-        try {
-            const res = await fetch(`${uri}`, {
-                method: 'DELETE',
-                headers,
-                signal: Http.#abortCtr.signal
-            });
-            if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            return error;
-        }
     }
 }

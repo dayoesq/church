@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Event;
 
 class EventPolicy
 {
@@ -46,6 +47,18 @@ class EventPolicy
      * @return bool
      */
     public function update(User $user): bool
+    {
+        return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Event $event
+     * @return bool
+     */
+    public function deleteEventImage(User $user, Event $event): bool
     {
         return $user->isAuthorizedSuperAdmin();
     }

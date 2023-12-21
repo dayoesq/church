@@ -64,8 +64,8 @@ class PodcastController extends Controller
             $validated = $request->validated();
             $podcast = Podcast::create($validated);
             if ($request->hasFile('audios')) {
-                $paths = $this->processAssetsStorage($request, 'audios');
-
+                $paths = $this->processAssetsStorage($request, Asset::$AUDIOS);
+                $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
                 foreach($paths as $path) {
                     $podcast->audios()->create(
                         [
@@ -108,9 +108,44 @@ class PodcastController extends Controller
     public function update(UpsertPodcastRequest $request, Podcast $podcast): JsonResponse
     {
 
-        $validated = $request->validated();
-        $isSuccessful = $podcast->update($validated);
-        return $isSuccessful ? $this->ok() : $this->serverError();
+        try {
+            DB::beginTransaction();
+            $validated = $request->validated();
+            $podcast->update($validated);
+            if ($request->hasFile('audios')) {
+                    $paths = $this->processAssetsStorage($request, Asset::$AUDIOS);
+                    $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
+                    foreach($paths as $path) {
+                        $podcast->audios()->create(
+                            [
+                                'url' => $path
+                            ],
+                        );
+                    }
+
+                }
+                DB::commit();
+            return $this->ok(data: new PodcastResource($podcast));
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return $this->serverError($e->getMessage());
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Podcast $podcast
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deletePodcastAudio(Podcast $podcast): JsonResponse
+    {
+        $this->authorize('deletePodcastAudio', $podcast);
+        $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
+        return $this->noContent();
 
     }
 
@@ -121,7 +156,7 @@ class PodcastController extends Controller
      */
     public function destroy(Podcast $podcast): JsonResponse
     {
-        return $this->deleteAssets($podcast, 'audios') ? $this->noContent() : $this->serverError();
+        return $this->deleteAssetsAndModel($podcast, Asset::$AUDIOS) ? $this->noContent() : $this->serverError();
 
     }
 }

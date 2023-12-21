@@ -200,7 +200,7 @@ trait ApiResponse
      * @param mixed $assetType
      * @return bool
      */
-    protected function deleteAssets(Model $model, mixed $assetType): bool
+    protected function deleteAssetsAndModel(Model $model, mixed $assetType): bool
     {
         try {
             DB::beginTransaction();
@@ -218,6 +218,27 @@ trait ApiResponse
             DB::rollBack();
             Log::error($e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Delete duplicate assets.
+     *
+     * @param Model $model
+     * @param mixed $assetType
+     * @return void
+     */
+    protected function deleteDuplicateAssets(Model $model, mixed $assetType): void
+    {
+        try {
+            foreach ($model->{$assetType} as $asset) {
+                if (Storage::disk($assetType)->exists($asset->url)) {
+                    Storage::disk($assetType)->delete($asset->url);
+                    $asset->delete();
+                }
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 

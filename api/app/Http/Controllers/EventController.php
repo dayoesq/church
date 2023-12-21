@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Http\Requests\UpsertEventRequest;
 use App\Http\Resources\Events\EventResource;
 use App\Models\Event;
+use App\Models\Image;
 use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Throwable;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -84,7 +86,8 @@ class EventController extends Controller
 
             if ($request->hasFile('images')) {
                 $paths = $this->processAssetsStorage($request, Asset::$IMAGES);
-
+                $this->deleteDuplicateAssets($event, Asset::$IMAGES);
+                
                 foreach ($paths as $path) {
                     $event->images()->updateOrCreate(
                         [
@@ -123,10 +126,25 @@ class EventController extends Controller
      *
      * @param Event $event
      * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deleteEventImage(Event $event): JsonResponse
+    {
+        $this->authorize('deleteEventImage', $event);
+        $this->deleteDuplicateAssets($event, Asset::$IMAGES);
+        return $this->noContent();
+
+    }
+
+    /**
+     * Remove event and associated assets from storage.
+     *
+     * @param Event $event
+     * @return JsonResponse
      */
     public function destroy(Event $event): JsonResponse
     {
-        return ! $this->deleteAsset($event, 'images') ? $this->serverError() : $this->noContent();
+        return ! $this->deleteAssetsAndModel($event, Asset::$IMAGES) ? $this->serverError() : $this->noContent();
 
     }
 }

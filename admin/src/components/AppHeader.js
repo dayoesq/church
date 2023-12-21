@@ -3,11 +3,9 @@ import { NavLink } from 'react-router-dom';
 import {
     CContainer,
     CHeader,
-    // CHeaderBrand,
     CHeaderDivider,
     CHeaderNav,
     CHeaderToggler,
-    // CNavLink,
     CNavItem
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
@@ -24,9 +22,7 @@ const AppHeader = ({ toggleSidebar }) => {
                     <CHeaderToggler className='ps-1' onClick={toggleSidebar}>
                         <CIcon icon={cilMenu} size='lg' />
                     </CHeaderToggler>
-                    {/* <CHeaderBrand className='mx-auto d-md-none' to='/dashboard'>
-                        <CIcon icon={logo} height={48} alt='Logo' />
-                    </CHeaderBrand> */}
+
                     <CHeaderNav className='d-none d-md-flex me-auto'>
                         <CNavItem>
                             <NavLink to='/dashboard' className='mx-1'>
@@ -39,23 +35,6 @@ const AppHeader = ({ toggleSidebar }) => {
                             </NavLink>
                         </CNavItem>
                     </CHeaderNav>
-                    {/* <CHeaderNav>
-                        <CNavItem>
-                            <CNavLink href='#'>
-                                <CIcon icon={cilBell} size='lg' />
-                            </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CNavLink href='#'>
-                                <CIcon icon={cilList} size='lg' />
-                            </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CNavLink href='#'>
-                                <CIcon icon={cilEnvelopeOpen} size='lg' />
-                            </CNavLink>
-                        </CNavItem>
-                    </CHeaderNav> */}
                     <CHeaderNav className='ms-3'>
                         <AppHeaderDropdown />
                     </CHeaderNav>

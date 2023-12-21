@@ -10,7 +10,9 @@ import {
     Form,
     useNavigation,
     useLoaderData,
-    useActionData
+    useActionData,
+    useParams,
+    useNavigate
 } from 'react-router-dom';
 import {
     cilPencil,
@@ -18,7 +20,8 @@ import {
     cilContact,
     cilBadge,
     cilImage,
-    cilElevator
+    cilElevator,
+    cilTrash
 } from '@coreui/icons';
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
@@ -27,11 +30,13 @@ import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
 import { AUDIO_GENRE, ENV, ROLES } from '../../utils/constants';
 import {
+    deleteHandler,
     loadPodcast,
     updatePodcast
 } from '../../utils/requests/general-request';
 import { postStatus } from '../testimonials/Testimonial';
 import WarningModal from '../../components/modals/WarningModal';
+import CIcon from '@coreui/icons-react';
 
 export const audioGenre = [
     { name: 'Select Genre', value: undefined },
@@ -44,9 +49,14 @@ export const audioGenre = [
 const Podcast = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [deleteOptions, setDeleteOptions] = useState('');
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
+
+    const navigate = useNavigate();
+
+    const { id } = useParams();
 
     const authCtx = useContext(AuthContext);
     // Redirect to users!
@@ -54,9 +64,44 @@ const Podcast = () => {
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
+    // const deletePodcast = async () => {
+    //     const uri = `${ENV.baseUrl}/podcasts/${id}`;
+    //     const isDeleted = await deleteHandler(uri);
+    //     if (isDeleted) {
+    //         setShowModal(false);
+    //         navigate('/dashboard/podcasts');
+    //     }
+    // };
+
+    const handleDeleteOptions = () => {
+        setDeleteOptions('audio');
+        setShowModal(true);
+    };
+
+    const deleteImageHandler = async () => {
+        const uri =
+            deleteOptions === 'audio'
+                ? `${ENV.baseUrl}/audios/podcasts/${id}/delete`
+                : `${ENV.baseUrl}/podcasts/${id}`;
+        const isDeleted = await deleteHandler(uri);
+        if (isDeleted) {
+            setShowModal(false);
+            navigate('/dashboard/podcasts');
+        }
+    };
+
     return (
         <>
-            <CRow className='justify-content-center'>
+            {showModal && (
+                <WarningModal
+                    title='Delete'
+                    visible={showModal}
+                    onClose={() => setShowModal(false)}
+                    type='button'
+                    onClick={deleteImageHandler}
+                />
+            )}
+            <CRow>
                 {[ROLES.admin, ROLES.super].includes(authCtx.user.roles) && (
                     <>
                         <CCol xs={12} sm={12} md={12} lg={9} xl={9}>
@@ -82,18 +127,6 @@ const Podcast = () => {
                                         noValidate
                                         encType='multipart/form-data'
                                     >
-                                        {showModal && (
-                                            <WarningModal
-                                                title='Delete'
-                                                modalContent="Once you click on 'OK', it's gone. Are you sure?"
-                                                visible={showModal}
-                                                onClose={() =>
-                                                    setShowModal(false)
-                                                }
-                                                btnName='intent'
-                                                btnValue='delete'
-                                            />
-                                        )}
                                         <CRow>
                                             <CCol
                                                 xs={12}
@@ -163,8 +196,8 @@ const Podcast = () => {
                                                 xs={12}
                                                 sm={12}
                                                 md={12}
-                                                lg={6}
-                                                xl={6}
+                                                lg={12}
+                                                xl={12}
                                             >
                                                 <Input
                                                     element='input'
@@ -248,8 +281,14 @@ const Podcast = () => {
                                             name='_method'
                                             value='PATCH'
                                         />
-                                        <CRow className='my-2 d-flex align-items-center'>
-                                            <CCol>
+                                        <CRow className='my-2 d-flex'>
+                                            <CCol
+                                                xs={6}
+                                                sm={6}
+                                                md={6}
+                                                lg={6}
+                                                xl={6}
+                                            >
                                                 <CButton
                                                     className='btn-facebook my-2'
                                                     type='submit'
@@ -269,7 +308,14 @@ const Podcast = () => {
                                                     </span>
                                                 </CButton>
                                             </CCol>
-                                            <CCol>
+
+                                            <CCol
+                                                xs={6}
+                                                sm={6}
+                                                md={6}
+                                                lg={6}
+                                                xl={6}
+                                            >
                                                 <CButton
                                                     className='btn btn-danger my-2'
                                                     type='button'
@@ -287,7 +333,7 @@ const Podcast = () => {
                         </CCol>
                         {loadedData && loadedData.data.audios.length > 0 && (
                             <CCol xs={12} sm={12} md={12} lg={3} xl={3}>
-                                <CCard>
+                                <CCard className='image-wrapper'>
                                     <CCardBody>
                                         <audio
                                             controls
@@ -298,6 +344,13 @@ const Podcast = () => {
                                             />
                                         </audio>
                                     </CCardBody>
+                                    <CButton
+                                        className='btn btn-danger image-button'
+                                        type='button'
+                                        onClick={handleDeleteOptions}
+                                    >
+                                        <CIcon icon={cilTrash} />
+                                    </CButton>
                                 </CCard>
                             </CCol>
                         )}

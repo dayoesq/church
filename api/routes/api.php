@@ -57,6 +57,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('comments.reply')->post('/comments/{comment}/reply', [CommentController::class, 'replyToAComment']);
     Route::name('comments.reply.all')->get('/comments/{comment}/reply/all', [CommentController::class, 'getCommentReplies']);
 
+    Route::name('images/events/delete')->delete('/images/events/{event}/delete', [EventController::class, 'deleteEventImage']);
+    Route::name('audios/podcasts/delete')->delete('/audios/podcasts/{podcast}/delete', [PodcastController::class, 'deletePodcastAudio']);
+
     Route::apiResources([
         'users' => UserController::class,
         'positions' => PositionController::class,
