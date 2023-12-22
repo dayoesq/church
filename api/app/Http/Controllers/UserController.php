@@ -145,6 +145,21 @@ class UserController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param User $user
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deleteUserAvatar(User $user): JsonResponse
+    {
+        $this->authorize('deleteUserAvatar', Auth::user());
+        $this->deleteAvatar($user);
+        $user->save();
+        return $this->noContent();
+    }
+
+    /**
      * Update user by self.
      *
      * @param UpsertUserRequest $request

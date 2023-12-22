@@ -11,7 +11,9 @@ import {
     Form,
     useNavigation,
     useLoaderData,
-    useActionData
+    useActionData,
+    useParams,
+    useNavigate
 } from 'react-router-dom';
 import {
     cilUser,
@@ -21,7 +23,8 @@ import {
     cilAddressBook,
     cilUserX,
     cilImage,
-    cilHome
+    cilHome,
+    cilTrash
 } from '@coreui/icons';
 import { memo, useState } from 'react';
 import avatar from '../../assets/images/generic-avatar.png';
@@ -29,13 +32,22 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { ENV } from '../../utils/constants';
-import { updateSelf } from '../../utils/requests/general-request';
+import {
+    deleteHandler,
+    updateSelf
+} from '../../utils/requests/general-request';
+import CIcon from '@coreui/icons-react';
+import WarningModal from '../../components/modals/WarningModal';
 
 const Profile = () => {
     const [disabled, setDisabled] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
+    const navigate = useNavigate();
+
+    const { id } = useParams();
     // Redirect to users!
     useRedirect(actionData, '/dashboard/users', true);
 
@@ -43,25 +55,61 @@ const Profile = () => {
         setDisabled(disabled => !disabled);
     };
 
+    const deleteImageHandler = async () => {
+        const uri = `${ENV.baseUrl}/images/users/${id}/delete`;
+        const isDeleted = await deleteHandler(uri);
+        if (isDeleted) {
+            setShowModal(false);
+            navigate('/dashboard/users');
+        }
+    };
+
     return (
         <>
-            <CRow className='justify-content-center position-relative'>
-                <CAvatar
-                    style={{ width: '8rem', height: '8rem' }}
-                    src={
-                        loadedData.data.avatar === null
-                            ? avatar
-                            : `${ENV.images}/${loadedData.data.avatar}`
-                    }
+            {showModal && (
+                <WarningModal
+                    title='Delete'
+                    visible={showModal}
+                    onClose={() => setShowModal(false)}
+                    type='button'
+                    onClick={deleteImageHandler}
                 />
-            </CRow>
+            )}
+
             <CRow className='justify-content-center'>
-                <CCol md={8}>
+                {loadedData && loadedData.data.avatar !== null ? (
+                    <CCol md={9}>
+                        <div className='custom-avatar-wrapper'>
+                            <CAvatar
+                                className='custom-avatar'
+                                src={`${ENV.images}/${loadedData.data.avatar}`}
+                                alt='User Avatar'
+                            />
+
+                            <CButton
+                                className='btn btn-danger image-button'
+                                type='button'
+                                onClick={() => setShowModal(true)}
+                            >
+                                <CIcon icon={cilTrash} />
+                            </CButton>
+                        </div>
+                    </CCol>
+                ) : (
+                    <CCol md={9}>
+                        <CAvatar
+                            className='custom-avatar'
+                            src={avatar}
+                            alt='User Avatar'
+                        />
+                    </CCol>
+                )}
+                <CCol md={9}>
                     <Alert
                         data={actionData}
                         message='Profile updated successfully.'
                     />
-                    <CCard>
+                    <CCard className='mt-4'>
                         <CCardHeader className='d-flex justify-content-space-between'>
                             <small>
                                 {' '}
@@ -298,7 +346,7 @@ const Profile = () => {
                                     name='_method'
                                     value='PATCH'
                                 />
-                                <CRow className='my-2 d-flex align-items-center'>
+                                <CRow className='my-2 d-flex'>
                                     <CCol xs={6} md={6} lg={6} xl={6}>
                                         <CButton
                                             className='btn-facebook my-2'
