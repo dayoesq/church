@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertPodcastRequest;
 use App\Http\Resources\Podcasts\PodcastResource;
-use App\Http\Resources\Positions\PositionResource;
 use App\Models\Podcast;
 use App\Utils\Assets\Asset;
 use App\Utils\Enums\AudioGenre;
@@ -30,7 +29,7 @@ class PodcastController extends Controller
      */
     public function index(): JsonResponse
     {
-        $podcasts = Podcast::with('audios')->get(['id', 'title', 'summary', 'status', 'genre', 'author']);
+        $podcasts = Podcast::get(['id', 'title', 'summary', 'status', 'genre', 'author']);
         return $this->ok(data: PodcastResource::collection($podcasts));
 
     }
@@ -64,15 +63,7 @@ class PodcastController extends Controller
             $validated = $request->validated();
             $podcast = Podcast::create($validated);
             if ($request->hasFile('audios')) {
-                $paths = $this->processAssetsStorage($request, Asset::$AUDIOS);
-                $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
-                foreach($paths as $path) {
-                    $podcast->audios()->create(
-                        [
-                            'url' => $path
-                        ],
-                    );
-                }
+                $this->createOrUpdateAssets($podcast, $request, Asset::$AUDIOS);
 
             }
 
@@ -113,18 +104,10 @@ class PodcastController extends Controller
             $validated = $request->validated();
             $podcast->update($validated);
             if ($request->hasFile('audios')) {
-                    $paths = $this->processAssetsStorage($request, Asset::$AUDIOS);
-                    $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
-                    foreach($paths as $path) {
-                        $podcast->audios()->create(
-                            [
-                                'url' => $path
-                            ],
-                        );
-                    }
+                $this->createOrUpdateAssets($podcast, $request, Asset::$AUDIOS);
 
-                }
-                DB::commit();
+            }
+            DB::commit();
             return $this->ok(data: new PodcastResource($podcast));
         } catch (Exception $e) {
             DB::rollBack();

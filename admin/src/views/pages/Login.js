@@ -18,7 +18,7 @@ import {
 } from '@coreui/react';
 import { cilLockLocked, cilAt } from '@coreui/icons';
 import { AuthContext } from '../../store/auth';
-import {disableButton, isAuthorized, reloadPage} from '../../utils/helpers';
+import { disableButton, isAuthorized, reloadPage } from '../../utils/helpers';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { login } from '../../utils/requests/general-request';
@@ -35,7 +35,9 @@ const Login = () => {
                 id: data.data.id,
                 firstName: data.data.firstName,
                 lastName: data.data.lastName,
-                avatar: data.data.avatar,
+                avatar: data.data.images.length
+                    ? data.data.images[0].url
+                    : null,
                 roles: data.data.roles,
                 status: data.data.status
             };
@@ -92,7 +94,7 @@ const Login = () => {
                                             </CRow>
 
                                             <CRow className='my-2'>
-                                                <CCol xs={6} md={6} lg={6}>
+                                                <CCol>
                                                     <CButton
                                                         color='primary'
                                                         type='submit'
@@ -107,7 +109,7 @@ const Login = () => {
                                                             : 'Login'}
                                                     </CButton>
                                                 </CCol>
-                                                <CCol xs={6} md={6} lg={6}>
+                                                <CCol>
                                                     <div
                                                         style={{
                                                             width: 'max-content',

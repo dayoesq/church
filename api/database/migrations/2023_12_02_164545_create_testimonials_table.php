@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->text('content');
-            $table->string('avatar')->nullable();
             $table->enum('status', [
                 PostStatus::Archived->value,
                 PostStatus::Draft->value,

@@ -31,7 +31,7 @@ class UpsertTestimonialRequest extends FormRequest
             'last_name' => ['sometimes', 'required', 'min:2', 'max:50'],
             'content' => ['sometimes', 'required', 'min:20', 'max:300'],
             'status' => ['sometimes', new Enum(PostStatus::class)],
-            'avatar' => ['sometimes',
+            'avatar.*' => ['sometimes',
                 File::image()
                     ->max('500kb')
             ],

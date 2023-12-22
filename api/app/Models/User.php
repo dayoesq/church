@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -24,7 +25,6 @@ use App\Utils\Enums\Roles;
  * @property string $email
  * @property string $password
  * @property int $position_id
- * @property string $avatar
  * @property string $position
  * @property string $status
  * @property mixed $member_since
@@ -45,6 +45,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected array $images = [];
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +65,6 @@ class User extends Authenticatable
         'postal_code',
         'country_of_origin',
         'country_of_residence',
-        'avatar',
         'status',
         'roles',
         'password'
@@ -282,6 +282,16 @@ class User extends Authenticatable
     public function position(): HasOne
     {
         return $this->hasOne(Position::class, 'id', 'position_id');
+    }
+
+    /**
+     * User's relationship with the image.
+     *
+     * @return MorphMany
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
 

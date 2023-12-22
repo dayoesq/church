@@ -57,10 +57,10 @@ const UsersTable = props => {
                                 {CustomDate.formatDateWithDay(user.memberSince)}
                             </CTableDataCell>
                             <CTableDataCell>
-                                {user.avatar ? (
+                                {user.images.length > 0 ? (
                                     <CAvatar
                                         size='md'
-                                        src={`${ENV.images}/${user.avatar}`}
+                                        src={`${ENV.images}/${user.images[0].url}`}
                                     />
                                 ) : (
                                     <CAvatar size='md' src={`${avatar}`} />

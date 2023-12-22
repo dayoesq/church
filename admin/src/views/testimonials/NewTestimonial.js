@@ -76,7 +76,7 @@ const NewTestimonial = () => {
                                 </CCol>
                             </CRow>
                             <CRow>
-                                <CCol xs={12} sm={12}>
+                                <CCol>
                                     <CButton
                                         className='btn-facebook my-2'
                                         type='submit'

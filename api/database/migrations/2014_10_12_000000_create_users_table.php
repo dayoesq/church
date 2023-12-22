@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('country_of_origin')->nullable();
             $table->string('country_of_residence')->nullable();
             $table->timestamp('member_since')->nullable();
-            $table->string('avatar')->nullable();
             $table->enum('membership', [
                 Membership::Member->value,
                 Membership::Guest->value

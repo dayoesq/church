@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Users;
 
 
+use App\Http\Resources\Images\ImageResource;
 use App\Http\Resources\Positions\PositionResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +28,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $roles
  * @property string $email_verified_at
  * @property int $position_id
- * @property string $avatar
+ * @property array $images
  */
 class UserResource extends JsonResource
 {
@@ -48,7 +49,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'postalCode' => $this->postal_code,
             'city' => $this->city,
-            'avatar' => $this->avatar,
+            'images' => ImageResource::collection($this->whenLoaded('images')),
             'countryOfOrigin' => $this->country_of_origin,
             'countryOfResidence' => $this->country_of_residence,
             'memberSince' => $this->member_since,

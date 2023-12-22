@@ -7,8 +7,7 @@ export class Http {
                 signal: request.signal
             });
             if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
+            return await res.json();
         } catch (error) {
             return error;
         }
@@ -40,8 +39,7 @@ export class Http {
                 signal: request.signal
             });
             if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
+            return await res.json();
         } catch (error) {
             return error;
         }
@@ -59,8 +57,7 @@ export class Http {
                 signal: request.signal
             });
             if (!res.ok) throw res;
-            const data = await res.json();
-            return data;
+            return await res.json();
         } catch (error) {
             return error;
         }

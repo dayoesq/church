@@ -16,7 +16,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -34,7 +33,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        $users = User::with('position')->get(['id', 'first_name', 'last_name', 'email', 'status', 'member_since', 'avatar']);
+        $users = User::with(['position', 'images'])->get(['id', 'first_name', 'last_name', 'email', 'status', 'member_since']);
         return $this->ok(data: UserResource::collection($users));
     }
 
@@ -89,7 +88,7 @@ class UserController extends Controller
      */
     public function show(User $user): JsonResponse
     {
-        $user->load('position');
+        $user->load(['position', 'images']);
         return $this->ok(data: new UserResource($user));
     }
 
@@ -116,7 +115,7 @@ class UserController extends Controller
     public function getActiveUsers(): JsonResponse
     {
         $this->authorize('getActiveUsers', Auth::user());
-        $users = User::where('status', 'active')->get();
+        $users = User::with(['position', 'images'])->where('status', 'active')->get();
         return $this->ok(data: UserResource::collection($users));
     }
 
@@ -134,7 +133,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $passwordResetToken = PasswordResetToken::where('email', $user->email)->first();
             $passwordResetToken?->delete();
-            $this->deleteAvatarAndModel($user);
+            $this->deleteAssetsAndModel($user, Asset::$IMAGES);
             DB::commit();
             return $this->noContent();
         } catch (Exception $e) {
@@ -154,7 +153,7 @@ class UserController extends Controller
     public function deleteUserAvatar(User $user): JsonResponse
     {
         $this->authorize('deleteUserAvatar', Auth::user());
-        $this->deleteAvatar($user);
+        $this->deleteDuplicateAssets($user, Asset::$IMAGES);
         $user->save();
         return $this->noContent();
     }
@@ -173,8 +172,8 @@ class UserController extends Controller
         $this->authorize('updateSelf', $user);
         $user->update($validated);
 
-        if($request->hasFile('avatar')) {
-            $this->processAvatarStorage($request, $user);
+        if($request->hasFile('images')) {
+            $this->createOrUpdateAssets($user, $request, Asset::$IMAGES, false);
         }
         $user->save();
         return $this->ok();
