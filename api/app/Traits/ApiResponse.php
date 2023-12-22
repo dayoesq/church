@@ -242,5 +242,22 @@ trait ApiResponse
         }
     }
 
+    /**
+     * Delete avatar.
+     *
+     * @param Model $model
+     * @return void
+     */
+    protected function deleteAvatar(Model $model): void
+    {
+        try {
+            if (Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
+                Storage::disk(Asset::$IMAGES)->delete($model->avatar);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
 
 }

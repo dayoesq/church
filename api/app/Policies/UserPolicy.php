@@ -78,6 +78,17 @@ class UserPolicy
      * Determine whether the user can delete the model.
      *
      * @param User $user
+     * @return bool
+     */
+    public function deleteUserAvatar(User $user): bool
+    {
+        return $user->id === auth()->user()->id;
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
      * @param User $model
      * @return bool
      */

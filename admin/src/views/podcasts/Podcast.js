@@ -64,15 +64,6 @@ const Podcast = () => {
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
-    // const deletePodcast = async () => {
-    //     const uri = `${ENV.baseUrl}/podcasts/${id}`;
-    //     const isDeleted = await deleteHandler(uri);
-    //     if (isDeleted) {
-    //         setShowModal(false);
-    //         navigate('/dashboard/podcasts');
-    //     }
-    // };
-
     const handleDeleteOptions = () => {
         setDeleteOptions('audio');
         setShowModal(true);
@@ -281,52 +272,36 @@ const Podcast = () => {
                                             name='_method'
                                             value='PATCH'
                                         />
-                                        <CRow className='my-2 d-flex'>
-                                            <CCol
-                                                xs={6}
-                                                sm={6}
-                                                md={6}
-                                                lg={6}
-                                                xl={6}
+                                        <div className='my-4 d-flex gap-4'>
+                                            <CButton
+                                                className='btn-facebook'
+                                                type='submit'
+                                                disabled={
+                                                    navigation.state ===
+                                                        'submitting' ||
+                                                    navigation.state ===
+                                                        'loading' ||
+                                                    disabled
+                                                }
                                             >
-                                                <CButton
-                                                    className='btn-facebook my-2'
-                                                    type='submit'
-                                                    disabled={
-                                                        navigation.state ===
-                                                            'submitting' ||
-                                                        navigation.state ===
-                                                            'loading' ||
-                                                        disabled
-                                                    }
-                                                >
-                                                    <span>
-                                                        {navigation.state ===
-                                                        'submitting'
-                                                            ? 'Submitting...'
-                                                            : 'Submit'}
-                                                    </span>
-                                                </CButton>
-                                            </CCol>
+                                                <span>
+                                                    {navigation.state ===
+                                                    'submitting'
+                                                        ? 'Submitting...'
+                                                        : 'Submit'}
+                                                </span>
+                                            </CButton>
 
-                                            <CCol
-                                                xs={6}
-                                                sm={6}
-                                                md={6}
-                                                lg={6}
-                                                xl={6}
+                                            <CButton
+                                                className='btn btn-danger'
+                                                type='button'
+                                                onClick={() =>
+                                                    setShowModal(true)
+                                                }
                                             >
-                                                <CButton
-                                                    className='btn btn-danger my-2'
-                                                    type='button'
-                                                    onClick={() =>
-                                                        setShowModal(true)
-                                                    }
-                                                >
-                                                    <span>Delete</span>
-                                                </CButton>
-                                            </CCol>
-                                        </CRow>
+                                                <span>Delete</span>
+                                            </CButton>
+                                        </div>
                                     </Form>
                                 </CCardBody>
                             </CCard>
