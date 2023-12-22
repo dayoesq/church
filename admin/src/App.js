@@ -103,15 +103,15 @@ const App = () => {
                     loader: testimonialsLoader
                 },
                 {
-                    path: 'testimonials/new',
-                    element: <NewTestimonial />,
-                    action: newTestimonialAction
-                },
-                {
                     path: 'testimonials/:id',
                     element: <Testimonial />,
                     loader: testimonialLoader,
                     action: testimonialAction
+                },
+                {
+                    path: 'testimonials/new',
+                    element: <NewTestimonial />,
+                    action: newTestimonialAction
                 },
                 {
                     path: 'events/new',

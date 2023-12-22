@@ -374,7 +374,7 @@ export const loadPodcast = async (request, params) => {
  *
  * @return Promise
  *
- * @param params
+ * @param uri
  */
 export const deleteHandler = async uri => {
     if (storedData) {

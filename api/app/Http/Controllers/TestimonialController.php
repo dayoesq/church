@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertTestimonialRequest;
 use App\Http\Resources\Testimonials\TestimonialResource;
 use App\Models\Testimonial;
+use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class TestimonialController extends Controller
      */
     public function index(): JsonResponse
     {
-        $testimonials = Testimonial::all();
+        $testimonials = Testimonial::with('images')->get(['id', 'first_name', 'last_name', 'content', 'status']);
         return $this->ok(data: TestimonialResource::collection($testimonials));
     }
 
@@ -53,6 +54,7 @@ class TestimonialController extends Controller
      */
     public function show(Testimonial $testimonial): JsonResponse
     {
+        $testimonial->load('images');
         return $this->ok(data: new TestimonialResource($testimonial));
     }
 
@@ -70,8 +72,8 @@ class TestimonialController extends Controller
             $validated = $request->validated();
             $testimonial->update($validated);
 
-            if($request->hasFile('avatar')) {
-                $this->processAvatarStorage($request, $testimonial);
+            if($request->hasFile('images')) {
+                $this->createOrUpdateAssets($testimonial, $request, Asset::$IMAGES, false);
             }
 
             $testimonial->save();
@@ -86,6 +88,20 @@ class TestimonialController extends Controller
 
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Testimonial $testimonial
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deleteTestimonialAvatar(Testimonial $testimonial): JsonResponse
+    {
+        $this->authorize('deleteTestimonialAvatar', $testimonial);
+        $this->deleteDuplicateAssets($testimonial, Asset::$IMAGES);
+        return $this->noContent();
+
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -97,7 +113,7 @@ class TestimonialController extends Controller
     {
         try {
             DB::beginTransaction();
-            $this->deleteAvatarAndModel($testimonial);
+            $this->deleteAssetsAndModel($testimonial, Asset::$IMAGES);
             DB::commit();
             return $this->noContent();
         } catch (Exception $e) {

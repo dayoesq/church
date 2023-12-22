@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Image;
 use App\Utils\Assets\Asset;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -85,16 +86,7 @@ class EventController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                $paths = $this->processAssetsStorage($request, Asset::$IMAGES);
-                $this->deleteDuplicateAssets($event, Asset::$IMAGES);
-                
-                foreach ($paths as $path) {
-                    $event->images()->updateOrCreate(
-                        [
-                            'url' => $path
-                        ],
-                    );
-                }
+                $this->createOrUpdateAssets($event, $request, Asset::$IMAGES, false);
             }
 
             DB::commit();

@@ -163,44 +163,35 @@ trait ApiResponse
     }
 
     /**
-     * Process and store avatar image.
+     * Delete existing assets or create new ones.
      *
+     * @param mixed $model
      * @param mixed $request
-     * @param mixed $model
+     * @param mixed $assetType
+     * @param bool $create
      * @return void
      */
-    protected function processAvatarStorage(mixed $request, mixed $model): void
+    protected function createOrUpdateAssets(mixed $model, mixed $request, string $assetType, bool $create = true): void
     {
-        if ($model->avatar && Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
-            Storage::disk(Asset::$IMAGES)->delete($model->avatar);
+        $paths = $this->processAssetsStorage($request, $assetType);
+        if(! $create) $this->deleteDuplicateAssets($model, $assetType);
+        foreach ($paths as $path) {
+            $model->{$assetType}()->updateOrCreate(
+                [
+                    'url' => $path
+                ],
+            );
         }
-
-        $path = $request->file('avatar')->store(Asset::$IMAGES);
-        $model->avatar = basename($path);
-    }
-
-    /**
-     * Delete avatar and model.
-     *
-     * @param mixed $model
-     * @return void
-     */
-    protected function deleteAvatarAndModel(mixed $model): void
-    {
-        if($model->avatar && Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
-            Storage::disk(Asset::$IMAGES)->delete($model->avatar);
-        }
-        $model->delete();
     }
 
     /**
      * Delete assets.
      *
      * @param Model $model
-     * @param mixed $assetType
+     * @param string $assetType
      * @return bool
      */
-    protected function deleteAssetsAndModel(Model $model, mixed $assetType): bool
+    protected function deleteAssetsAndModel(Model $model, string $assetType): bool
     {
         try {
             DB::beginTransaction();
@@ -224,11 +215,11 @@ trait ApiResponse
     /**
      * Delete duplicate assets.
      *
-     * @param Model $model
+     * @param mixed $model
      * @param mixed $assetType
      * @return void
      */
-    protected function deleteDuplicateAssets(Model $model, mixed $assetType): void
+    protected function deleteDuplicateAssets(mixed $model, mixed $assetType): void
     {
         try {
             foreach ($model->{$assetType} as $asset) {
@@ -236,23 +227,6 @@ trait ApiResponse
                     Storage::disk($assetType)->delete($asset->url);
                     $asset->delete();
                 }
-            }
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
-
-    /**
-     * Delete avatar.
-     *
-     * @param Model $model
-     * @return void
-     */
-    protected function deleteAvatar(Model $model): void
-    {
-        try {
-            if (Storage::disk(Asset::$IMAGES)->exists($model->avatar)) {
-                Storage::disk(Asset::$IMAGES)->delete($model->avatar);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

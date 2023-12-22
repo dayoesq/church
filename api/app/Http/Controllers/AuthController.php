@@ -58,6 +58,7 @@ class AuthController extends Controller
             default => $user->createToken('basic_token', ['basic'])->plainTextToken,
         };
 
+        $user->load('images');
         Auth::login($user);
 
         $login = Login::firstOrNew(['email' => $user->email]);

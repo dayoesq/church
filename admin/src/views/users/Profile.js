@@ -4,8 +4,7 @@ import {
     CCardHeader,
     CCol,
     CRow,
-    CButton,
-    CAvatar
+    CButton
 } from '@coreui/react';
 import {
     Form,
@@ -38,6 +37,7 @@ import {
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
+import CustomAvatar from '../../components/CustomAvatar';
 
 const Profile = () => {
     const [disabled, setDisabled] = useState(true);
@@ -77,34 +77,28 @@ const Profile = () => {
             )}
 
             <CRow className='justify-content-center'>
-                {loadedData && loadedData.data.avatar !== null ? (
-                    <CCol md={9}>
-                        <div className='custom-avatar-wrapper'>
-                            <CAvatar
-                                className='custom-avatar'
-                                src={`${ENV.images}/${loadedData.data.avatar}`}
+                <CCol md={8}>
+                    {loadedData && loadedData.data.images.length > 0 ? (
+                        <div className='image-wrapper mb-4'>
+                            <CustomAvatar
+                                src={`${ENV.images}/${loadedData.data.images[0].url}`}
                                 alt='User Avatar'
                             />
 
                             <CButton
-                                className='btn btn-danger image-button'
+                                className='btn btn-danger avatar-image-button'
                                 type='button'
                                 onClick={() => setShowModal(true)}
                             >
                                 <CIcon icon={cilTrash} />
                             </CButton>
                         </div>
-                    </CCol>
-                ) : (
-                    <CCol md={9}>
-                        <CAvatar
-                            className='custom-avatar'
-                            src={avatar}
-                            alt='User Avatar'
-                        />
-                    </CCol>
-                )}
-                <CCol md={9}>
+                    ) : (
+                        <div className='image-wrapper mb-4'>
+                            <CustomAvatar src={avatar} alt='User Avatar' />
+                        </div>
+                    )}
+
                     <Alert
                         data={actionData}
                         message='Profile updated successfully.'
@@ -328,9 +322,9 @@ const Profile = () => {
                                     <CCol xs={12} md={6} lg={6} xl={6}>
                                         <Input
                                             element='input'
-                                            id='avatar'
+                                            id='images'
                                             type='file'
-                                            name='avatar'
+                                            name='images'
                                             labelTitle='Avatar'
                                             accept='.jpeg, .png, .jpg, .svg'
                                             icon={cilImage}

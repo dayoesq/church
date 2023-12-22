@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 
 /**
  * @method static create(mixed $validated)
- * @property string $avatar
+ * @method static get(string[] $array)
  * @property string $first_name
  * @property string $last_name
  * @property string $content
@@ -17,6 +18,8 @@ use Illuminate\Support\Str;
 class Testimonial extends Model
 {
     use HasFactory;
+
+    protected array $images = [];
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +30,7 @@ class Testimonial extends Model
         'first_name',
         'last_name',
         'status',
-        'content',
-        'avatar'
+        'content'
     ];
 
     /**
@@ -55,5 +57,15 @@ class Testimonial extends Model
             get: fn ($value) => Str::ucfirst($value),
             set: fn ($value) => Str::lower($value),
         );
+    }
+
+    /**
+     * Testimonial's relationship with the image.
+     *
+     * @return MorphMany
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

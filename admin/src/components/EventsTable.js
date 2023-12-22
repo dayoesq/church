@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { CustomDate } from '../utils/requests/date';
 
-const EventsTable = props => {
+const EventsTable = ({ events }) => {
     const navigate = useNavigate();
 
     const clickHandler = id => {
@@ -31,8 +31,8 @@ const EventsTable = props => {
                 </CTableRow>
             </CTableHead>
             <CTableBody>
-                {props.events &&
-                    props.events.map(event => (
+                {events &&
+                    events.map(event => (
                         <CTableRow
                             role='button'
                             key={event.id}

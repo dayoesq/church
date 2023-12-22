@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('images/events/delete')->delete('/images/events/{event}/delete', [EventController::class, 'deleteEventImage']);
     Route::name('audios/podcasts/delete')->delete('/audios/podcasts/{podcast}/delete', [PodcastController::class, 'deletePodcastAudio']);
     Route::name('images/users/delete')->delete('/images/users/{user}/delete', [UserController::class, 'deleteUserAvatar']);
+    Route::name('images/testimonials/delete')->delete('/images/testimonials/{testimonial}/delete', [TestimonialController::class, 'deleteTestimonialAvatar']);
 
     Route::apiResources([
         'users' => UserController::class,

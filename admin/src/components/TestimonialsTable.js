@@ -11,7 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import { ENV } from '../utils/constants';
 import avatar from '../assets/images/generic-avatar.png';
 
-const TestimonialsTable = props => {
+const TestimonialsTable = ({ testimonials }) => {
+
+    if(testimonials) console.log(testimonials)
     const navigate = useNavigate();
 
     const clickHandler = (id) => {
@@ -31,8 +33,8 @@ const TestimonialsTable = props => {
                 </CTableRow>
             </CTableHead>
             <CTableBody>
-                {props.testimonials &&
-                    props.testimonials.map(testimonial => (
+                {testimonials &&
+                    testimonials.map(testimonial => (
                         <CTableRow
                             role='button'
                             key={testimonial.id}
@@ -52,10 +54,10 @@ const TestimonialsTable = props => {
                                 {testimonial.status}
                             </CTableDataCell>
                             <CTableDataCell>
-                                {testimonial.avatar ? (
+                                {testimonial.images.length > 0 ? (
                                     <CAvatar
                                         size='md'
-                                        src={`${ENV.images}/${testimonial.avatar}`}
+                                        src={`${ENV.images}/${testimonial.images[0].url}`}
                                     />
                                 ) : (
                                     <CAvatar size='md' src={`${avatar}`} />

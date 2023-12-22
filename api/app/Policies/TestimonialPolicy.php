@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Testimonial;
 
 class TestimonialPolicy
 {
@@ -46,6 +47,18 @@ class TestimonialPolicy
      * @return bool
      */
     public function update(User $user): bool
+    {
+        return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Testimonial $testimonial
+     * @return bool
+     */
+    public function deleteTestimonialAvatar(User $user, Testimonial $testimonial): bool
     {
         return $user->isAuthorizedSuperAdmin();
     }
