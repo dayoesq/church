@@ -10,7 +10,9 @@ import {
     cilNotes,
     cilAvTimer,
     cilSpeaker,
-    cilMicrophone
+    cilMicrophone,
+    cilBook,
+    cilFilterPhoto
 } from '@coreui/icons';
 import { CNavGroup, CNavItem } from '@coreui/react';
 
@@ -81,20 +83,20 @@ export const adminNavigation = [
     },
     {
         component: CNavGroup,
-        name: 'Gallery',
-        icon: <CIcon icon={cilMoney} customClassName='nav-icon' />,
+        name: 'Galleries',
+        icon: <CIcon icon={cilFilterPhoto} customClassName='nav-icon' />,
         items: [
             {
                 component: CNavItem,
                 name: 'Galleries',
                 to: '/dashboard/galleries',
-                icon: <CIcon icon={cilNotes} customClassName='nav-icon' />
+                icon: <CIcon icon={cilBook} customClassName='nav-icon' />
             },
             {
                 component: CNavItem,
                 name: 'New Gallery',
                 to: '/dashboard/galleries/new',
-                icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
+                icon: <CIcon icon={cilPencil} customClassName='nav-icon' />
             }
         ]
     },

@@ -15,6 +15,8 @@ import { action as newEventAction } from './views/events/NewEvent';
 import { action as eventAction } from './views/events/Event';
 import { action as podcastAction } from './views/podcasts/Podcast';
 import { action as newPodcastAction } from './views/podcasts/NewPodcast';
+import { action as galleryAction } from './views/galleries/Gallery';
+import { action as newGalleryAction } from './views/galleries/NewGallery';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -25,6 +27,8 @@ import { loader as eventsLoader } from './views/events/Events';
 import { loader as eventLoader } from './views/events/Event';
 import { loader as podcastsLoader } from './views/podcasts/Podcasts';
 import { loader as podcastLoader } from './views/podcasts/Podcast';
+import { loader as galleryLoader } from './views/galleries/Gallery';
+import { loader as galleriesLoader } from './views/galleries/Galleries';
 
 import './scss/style.scss';
 
@@ -51,6 +55,9 @@ const Event = lazy(() => import('./views/events/Event'));
 const NewPodcast = lazy(() => import('./views/podcasts/NewPodcast'));
 const Podcasts = lazy(() => import('./views/podcasts/Podcasts'));
 const Podcast = lazy(() => import('./views/podcasts/Podcast'));
+const Gallery = lazy(() => import('./views/galleries/Gallery'));
+const Galleries = lazy(() => import('./views/galleries/Galleries'));
+const NewGallery = lazy(() => import('./views/galleries/NewGallery'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -144,6 +151,22 @@ const App = () => {
                     element: <Podcast />,
                     loader: podcastLoader,
                     action: podcastAction
+                },
+                {
+                    path: 'galleries/new',
+                    element: <NewGallery />,
+                    action: newGalleryAction
+                },
+                {
+                    path: 'galleries',
+                    element: <Galleries />,
+                    loader: galleriesLoader
+                },
+                {
+                    path: 'galleries/:id',
+                    element: <Gallery />,
+                    loader: galleryLoader,
+                    action: galleryAction
                 }
             ]
         },

@@ -7,6 +7,7 @@ use App\Http\Resources\Galleries\GalleryResource;
 use App\Models\Gallery;
 use App\Utils\Assets\Asset;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -44,16 +45,11 @@ class GalleryController extends Controller
             DB::beginTransaction();
             $validated = $request->validated();
             $gallery = Gallery::create($validated);
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-                foreach ($paths as $path) {
-                    $gallery->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+            if ($request->hasFile('images')) {
+                $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES);
             }
             DB::commit();
-            return $this->ok(data: new GalleryResource($gallery));
+            return $this->created(data: new GalleryResource($gallery));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -70,7 +66,7 @@ class GalleryController extends Controller
      */
     public function show(Gallery $gallery): JsonResponse
     {
-        $data = $gallery->with('images')->first();
+        $gallery->load('images');
         return $this->ok(data: new GalleryResource($data));
     }
 
@@ -88,14 +84,9 @@ class GalleryController extends Controller
         try {
             DB::beginTransaction();
             $validated = $request->validated();
-            $gallery->updateOrFail($validated);
+            $gallery->update($validated);
             if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-                foreach ($paths as $path) {
-                    $gallery->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+                $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES, false);
             }
             DB::commit();
             return $this->ok(data: new GalleryResource($gallery));
@@ -112,9 +103,24 @@ class GalleryController extends Controller
      *
      * @param Gallery $gallery
      * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function deleteGalleryImage(Gallery $gallery): JsonResponse
+    {
+        $this->authorize('deleteGalleryImage', $gallery);
+        $this->deleteDuplicateAssets($gallery, Asset::$IMAGES);
+        return $this->noContent();
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Gallery $gallery
+     * @return JsonResponse
      */
     public function destroy(Gallery $gallery): JsonResponse
     {
-        return ! $this->deleteAsset($gallery, 'images') ? $this->serverError() : $this->noContent();
+        return ! $this->deleteAssetsAndModel($gallery, Asset::$IMAGES) ? $this->serverError() : $this->noContent();
     }
 }

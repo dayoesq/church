@@ -387,3 +387,62 @@ export const deleteHandler = async uri => {
         return res.ok;
     }
 };
+
+/**
+ * Create gallery.
+ *
+ * @param request
+ * @return Promise
+ *
+ */
+export const createGallery = async request => {
+    return await Http.post(
+        `${ENV.baseUrl}/galleries`,
+        {
+            Authorization: `Bearer ${storedData.token}`
+        },
+        request,
+        { isFormData: true }
+    );
+};
+
+/**
+ * Update a specific gallery.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const updateGallery = async (request, params) => {
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/galleries/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: true }
+        );
+    }
+};
+
+/**
+ * Get a specific gallery.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadGallery = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/galleries/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};

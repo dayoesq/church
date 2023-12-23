@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Gallery;
 
 class GalleryPolicy
 {
@@ -44,6 +45,18 @@ class GalleryPolicy
      * @return bool
      */
     public function update(User $user): bool
+    {
+        return $user->isAuthorizedSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Gallery $gallery
+     * @return bool
+     */
+    public function deleteGalleryImage(User $user, Gallery $gallery): bool
     {
         return $user->isAuthorizedSuperAdmin();
     }
