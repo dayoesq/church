@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Utils\Enums\GalleryCategories;
 use Illuminate\Contracts\Validation\ValidationRule;
+use App\Utils\Enums\PostStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
@@ -30,11 +30,11 @@ class UpsertGalleryRequest extends FormRequest
         return [
             'title' => ['sometimes', 'required', 'min:4', 'max:100'],
             'description' => ['sometimes', 'required', 'max:200'],
-            'category' => ['sometimes', 'required', new Enum(GalleryCategories::class)],
-            'photo.*' => ['sometimes',
+            'status' => ['sometimes', new Enum(PostStatus::class)],
+            'images.*' => ['sometimes',
                 File::image()
                     ->min('500kb')
-                    ->max('5mb')
+                    ->max('2mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
         ];

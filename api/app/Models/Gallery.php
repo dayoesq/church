@@ -14,6 +14,19 @@ class Gallery extends Model
 {
     use HasFactory;
 
+    protected array $images = [];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'status'
+    ];
+
     /**
      * Gallery's relationship with the image.
      *

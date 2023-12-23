@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $category
  * @property string $description
  * @property string $title
+ * @property string $status
  * @property string $created_at
  * @property string $updated_at
  */
@@ -25,10 +26,10 @@ class GalleryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => $this->category,
             'description' => $this->description,
             'title' => $this->title,
-            'images' => ImageResource::collection('images'),
+            'status' => $this->status,
+            'images' => ImageResource::collection($this->whenLoaded('images')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
