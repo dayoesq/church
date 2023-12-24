@@ -16,8 +16,6 @@ import GalleryList from '../../components/GalleryList';
 const Galleries = () => {
     const { galleries } = useLoaderData();
 
-    // console.log(galleries);
-
     return (
         <Suspense fallback={<Spinner asOverlay />}>
             {galleries && galleries.length ? (

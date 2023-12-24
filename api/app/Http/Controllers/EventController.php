@@ -86,7 +86,7 @@ class EventController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                $this->createOrUpdateAssets($event, $request, Asset::$IMAGES, false);
+                $this->createOrUpdateAssets($event, $request, Asset::$IMAGES, true);
             }
 
             DB::commit();

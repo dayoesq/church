@@ -46,7 +46,7 @@ const galleryStatus = [
 const Gallery = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [deleteOptions, setDeleteOptions] = useState('');
+    const [imageId, setImageId] = useState();
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
@@ -60,15 +60,15 @@ const Gallery = () => {
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
-    const handleDeleteOptions = () => {
-        setDeleteOptions('image');
+    const handleDeleteOptions = id => {
+        if (id) setImageId(id);
         setShowModal(true);
     };
 
     const deleteImageHandler = async () => {
         const uri =
-            deleteOptions === 'image'
-                ? `${ENV.baseUrl}/images/galleries/${id}/delete`
+            imageId !== undefined
+                ? `${ENV.baseUrl}/images/${imageId}/galleries/${id}/delete`
                 : `${ENV.baseUrl}/galleries/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
@@ -88,10 +88,10 @@ const Gallery = () => {
                     onClick={deleteImageHandler}
                 />
             )}
-            <CRow>
+            <CRow className='justify-content-center'>
                 {[ROLES.admin, ROLES.super].includes(authCtx.user.roles) && (
                     <>
-                        <CCol xs={12} sm={12} md={12} lg={9} xl={9}>
+                        <CCol md={8}>
                             <Alert
                                 data={actionData}
                                 message='Gallery updated successfully.'
@@ -115,158 +115,145 @@ const Gallery = () => {
                                         encType='multipart/form-data'
                                     >
                                         <CRow>
-                                            <CCol
-                                                xs={12}
-                                                sm={12}
-                                                md={12}
-                                                lg={6}
-                                                xl={6}
-                                            >
-                                                <Input
-                                                    element='input'
-                                                    type='text'
-                                                    id='title'
-                                                    name='title'
-                                                    placeholder='Title'
-                                                    labelTitle='Title'
-                                                    icon={cilAsterisk}
-                                                    data={actionData}
-                                                    defaultValue={
-                                                        loadedData.data.title
-                                                    }
-                                                    disabled={disabled}
-                                                />
-                                            </CCol>
+                                            <Input
+                                                element='input'
+                                                type='text'
+                                                id='title'
+                                                name='title'
+                                                placeholder='Title'
+                                                labelTitle='Title'
+                                                icon={cilAsterisk}
+                                                data={actionData}
+                                                defaultValue={
+                                                    loadedData.data.title
+                                                }
+                                                disabled={disabled}
+                                            />
                                         </CRow>
                                         <CRow>
-                                            <CCol xs={12}>
-                                                <Input
-                                                    element='textarea'
-                                                    type='textarea'
-                                                    id='description'
-                                                    name='description'
-                                                    placeholder='Max 200 letters'
-                                                    labelTitle='Description'
-                                                    data={actionData}
-                                                    icon={cilPencil}
-                                                    defaultValue={
-                                                        loadedData.data
-                                                            .description
-                                                    }
-                                                    disabled={disabled}
-                                                />
-                                            </CCol>
+                                            <Input
+                                                element='textarea'
+                                                type='textarea'
+                                                id='description'
+                                                name='description'
+                                                placeholder='Max 200 letters'
+                                                labelTitle='Description'
+                                                data={actionData}
+                                                icon={cilPencil}
+                                                defaultValue={
+                                                    loadedData.data.description
+                                                }
+                                                disabled={disabled}
+                                            />
+                                        </CRow>
+                                        {/* Hidden input to allow for update when file is involved */}
+                                        <input
+                                            id='_method'
+                                            type='hidden'
+                                            name='_method'
+                                            value='PATCH'
+                                        />
+                                        <CRow>
+                                            <Input
+                                                element='input'
+                                                id='images'
+                                                type='file'
+                                                name='images'
+                                                labelTitle='Images'
+                                                accept='.jpeg, .png, .jpg, .svg'
+                                                multiple
+                                                icon={cilImage}
+                                                data={actionData}
+                                                disabled={disabled}
+                                            />
                                         </CRow>
                                         <CRow>
-                                            <CCol
-                                                xs={12}
-                                                sm={12}
-                                                md={12}
-                                                lg={6}
-                                                xl={6}
+                                            <Input
+                                                element='select'
+                                                id='status'
+                                                name='status'
+                                                placeholder='Status'
+                                                labelTitle='Status'
+                                                icon={cilBadge}
+                                                data={actionData}
+                                                defaultValue={
+                                                    loadedData.data.status
+                                                }
+                                                disabled={disabled}
                                             >
-                                                <Input
-                                                    element='input'
-                                                    id='images'
-                                                    type='file'
-                                                    name='images'
-                                                    labelTitle='Images'
-                                                    accept='.jpeg, .png, .jpg, .svg'
-                                                    multiple
-                                                    icon={cilImage}
-                                                    data={actionData}
-                                                    disabled={disabled}
-                                                />
-                                            </CCol>
+                                                {galleryStatus.map(status => (
+                                                    <option
+                                                        value={status.value}
+                                                        key={status.name}
+                                                    >
+                                                        {status.name}
+                                                    </option>
+                                                ))}
+                                            </Input>
                                         </CRow>
-                                        <CRow>
-                                            <CCol
-                                                xs={12}
-                                                sm={12}
-                                                md={12}
-                                                lg={6}
-                                                xl={6}
+                                        <div className='my-4 d-flex gap-4'>
+                                            <CButton
+                                                className='btn-facebook'
+                                                type='submit'
+                                                disabled={
+                                                    navigation.state ===
+                                                        'submitting' ||
+                                                    navigation.state ===
+                                                        'loading' ||
+                                                    disabled
+                                                }
                                             >
-                                                <Input
-                                                    element='select'
-                                                    id='status'
-                                                    name='status'
-                                                    placeholder='Status'
-                                                    labelTitle='Status'
-                                                    icon={cilBadge}
-                                                    data={actionData}
-                                                    defaultValue={
-                                                        loadedData.data.status
-                                                    }
-                                                    disabled={disabled}
-                                                >
-                                                    {galleryStatus.map(
-                                                        status => (
-                                                            <option
-                                                                value={
-                                                                    status.value
-                                                                }
-                                                                key={
-                                                                    status.name
-                                                                }
-                                                            >
-                                                                {status.name}
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </Input>
-                                            </CCol>
-                                        </CRow>
-                                        <CRow className='my-2 d-flex align-items-center'>
-                                            <CCol>
-                                                <CButton
-                                                    className='btn-facebook my-2'
-                                                    type='submit'
-                                                    disabled={
-                                                        navigation.state ===
-                                                            'submitting' ||
-                                                        navigation.state ===
-                                                            'loading' ||
-                                                        disabled
-                                                    }
-                                                >
-                                                    <span>
-                                                        {navigation.state ===
-                                                        'submitting'
-                                                            ? 'Submitting...'
-                                                            : 'Submit'}
-                                                    </span>
-                                                </CButton>
-                                            </CCol>
-                                        </CRow>
+                                                <span>
+                                                    {navigation.state ===
+                                                    'submitting'
+                                                        ? 'Submitting...'
+                                                        : 'Submit'}
+                                                </span>
+                                            </CButton>
+
+                                            <CButton
+                                                className='btn btn-danger'
+                                                type='button'
+                                                onClick={() =>
+                                                    setShowModal(true)
+                                                }
+                                            >
+                                                <span>Delete</span>
+                                            </CButton>
+                                        </div>
                                     </Form>
                                 </CCardBody>
                             </CCard>
                         </CCol>
-                        {loadedData && loadedData.data.images.length > 0 && (
-                            <CCol xs={12} sm={12} md={12} lg={3} xl={3}>
-                                <CCard className='image-wrapper'>
-                                    <CCardBody>
-                                        <CImage
-                                            src={`${ENV.images}/${loadedData.data.images[0].url}`}
-                                            height='100%'
-                                            width='100%'
-                                            alt={loadedData.data.title}
-                                        />
-                                    </CCardBody>
-                                    <CButton
-                                        className='btn btn-danger image-button'
-                                        type='button'
-                                        onClick={handleDeleteOptions}
-                                    >
-                                        <CIcon icon={cilTrash} />
-                                    </CButton>
-                                </CCard>
-                            </CCol>
-                        )}
                     </>
                 )}
             </CRow>
+
+            <div className='d-flex gap-4 flex-wrap justify-content-center'>
+                {loadedData &&
+                    loadedData.data.images.length > 0 &&
+                    loadedData.data.images.map(el => (
+                        <div
+                            className='image-wrapper image-card-wrapper rounded'
+                            key={el.id}
+                        >
+                            <CImage
+                                className='rounded'
+                                src={`${ENV.images}/${el.url}`}
+                                height='100%'
+                                width='100%'
+                                alt={loadedData.data.title}
+                            />
+                            <CButton
+                                className='btn btn-danger image-button'
+                                type='button'
+                                onClick={() => handleDeleteOptions(el.id)}
+                            >
+                                <CIcon icon={cilTrash} />
+                            </CButton>
+                        </div>
+                    ))}
+            </div>
         </>
     );
 };

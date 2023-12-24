@@ -3,9 +3,8 @@ import GalleryItem from './GalleryItem';
 import { memo } from 'react';
 
 const GalleryList = ({ galleries }) => {
-    console.log(galleries);
     return (
-        <div className='d-flex'>
+        <div className='d-flex gap-4 flex-wrap'>
             {galleries &&
                 galleries.length &&
                 galleries.map(gallery => (
@@ -14,7 +13,13 @@ const GalleryList = ({ galleries }) => {
                         gallery={{
                             title: gallery.title,
                             id: gallery.id,
-                            url: `${ENV.images}/${gallery.images[0].url}`
+                            images: gallery.images,
+                            description: gallery.description,
+                            url: `${
+                                gallery.images.length
+                                    ? `${ENV.images}/${gallery.images[0].url}`
+                                    : undefined
+                            }`
                         }}
                     />
                 ))}

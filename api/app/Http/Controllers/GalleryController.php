@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertGalleryRequest;
 use App\Http\Resources\Galleries\GalleryResource;
 use App\Models\Gallery;
+use App\Models\Image;
 use App\Utils\Assets\Asset;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +69,7 @@ class GalleryController extends Controller
     public function show(Gallery $gallery): JsonResponse
     {
         $gallery->load('images');
-        return $this->ok(data: new GalleryResource($data));
+        return $this->ok(data: new GalleryResource($gallery));
     }
 
     /**
@@ -85,8 +87,8 @@ class GalleryController extends Controller
             DB::beginTransaction();
             $validated = $request->validated();
             $gallery->update($validated);
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES, false);
+            if ($request->hasFile('images')) {
+                $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES);
             }
             DB::commit();
             return $this->ok(data: new GalleryResource($gallery));
@@ -102,13 +104,21 @@ class GalleryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Gallery $gallery
+     * @param Image $image
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function deleteGalleryImage(Gallery $gallery): JsonResponse
+    public function deleteGalleryImage(Image $image, Gallery $gallery): JsonResponse
     {
         $this->authorize('deleteGalleryImage', $gallery);
-        $this->deleteDuplicateAssets($gallery, Asset::$IMAGES);
+        // Image::where('id', $image)->firstOrFail();
+        foreach($gallery->images as $asset) {
+            if($asset->id === $image->id) {
+                Storage::disk('images')->delete($asset->url);
+                $asset->delete();
+            }
+        }
+        //$this->deleteDuplicateAssets($gallery, Asset::$IMAGES);
         return $this->noContent();
 
     }
