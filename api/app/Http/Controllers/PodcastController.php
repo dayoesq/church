@@ -104,7 +104,7 @@ class PodcastController extends Controller
             $validated = $request->validated();
             $podcast->update($validated);
             if ($request->hasFile('audios')) {
-                $this->createOrUpdateAssets($podcast, $request, Asset::$AUDIOS);
+                $this->createOrUpdateAssets($podcast, $request, Asset::$AUDIOS, true);
 
             }
             DB::commit();

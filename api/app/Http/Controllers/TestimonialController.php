@@ -73,7 +73,7 @@ class TestimonialController extends Controller
             $testimonial->update($validated);
 
             if($request->hasFile('images')) {
-                $this->createOrUpdateAssets($testimonial, $request, Asset::$IMAGES, false);
+                $this->createOrUpdateAssets($testimonial, $request, Asset::$IMAGES, true);
             }
 
             $testimonial->save();

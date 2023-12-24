@@ -6,8 +6,8 @@ use App\Utils\Assets\Asset;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Exception;
-use App\Utils\Assets;
 use Illuminate\Database\Eloquent\Model;
+use App\Utils\Assets;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -171,10 +171,10 @@ trait ApiResponse
      * @param bool $create
      * @return void
      */
-    protected function createOrUpdateAssets(mixed $model, mixed $request, string $assetType, bool $create = true): void
+    protected function createOrUpdateAssets(mixed $model, mixed $request, string $assetType, bool $shouldDeleteExistingAssets = false): void
     {
         $paths = $this->processAssetsStorage($request, $assetType);
-        if(! $create) $this->deleteDuplicateAssets($model, $assetType);
+        if($shouldDeleteExistingAssets) $this->deleteDuplicateAssets($model, $assetType);
         foreach ($paths as $path) {
             $model->{$assetType}()->updateOrCreate(
                 [
@@ -232,6 +232,5 @@ trait ApiResponse
             Log::error($e->getMessage());
         }
     }
-
 
 }

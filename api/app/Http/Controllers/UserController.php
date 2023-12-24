@@ -173,7 +173,7 @@ class UserController extends Controller
         $user->update($validated);
 
         if($request->hasFile('images')) {
-            $this->createOrUpdateAssets($user, $request, Asset::$IMAGES, false);
+            $this->createOrUpdateAssets($user, $request, Asset::$IMAGES, true);
         }
         $user->save();
         return $this->ok();

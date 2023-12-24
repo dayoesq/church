@@ -192,7 +192,7 @@ export const loadUser = async (request, params) => {
  * @param request
  * @param params
  */
-export const loadActiveUsers = async (request, params) => {
+export const loadActiveUsers = async (request) => {
     if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/users/active/all`,

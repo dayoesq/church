@@ -16,19 +16,17 @@ const GalleryItem = ({ gallery }) => {
     };
 
     return (
-        <CCard onClick={() => clickHandler(gallery.id)}>
-            <CCardHeader>
-                <small>{gallery.title}</small>
-            </CCardHeader>
-            <CCardBody>
-                <img
-                    src={gallery.url}
-                    alt={gallery.title}
-                    width='100%'
-                    height='100%'
-                />
-            </CCardBody>
-        </CCard>
+        <figure
+            onClick={() => clickHandler(gallery.id)}
+            className='image-card-wrapper'
+        >
+            <img
+                className='image-card-image'
+                src={gallery.url}
+                alt={gallery.title}
+            />
+            <figcaption>{gallery.title}</figcaption>
+        </figure>
     );
 };
 
