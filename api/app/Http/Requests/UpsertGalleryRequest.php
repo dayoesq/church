@@ -33,8 +33,8 @@ class UpsertGalleryRequest extends FormRequest
             'status' => ['sometimes', new Enum(PostStatus::class)],
             'images.*' => ['sometimes',
                 File::image()
-                    ->min('500kb')
-                    ->max('2mb')
+                    ->min('20kb')
+                    ->max('1mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
         ];

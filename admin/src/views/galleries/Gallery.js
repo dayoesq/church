@@ -25,7 +25,7 @@ import {
 import { memo, useContext, useState } from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
-import { useRedirect } from '../../hooks/redirect';
+// import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
 import { ENV, POST_STATUS, ROLES } from '../../utils/constants';
 import {
@@ -56,7 +56,7 @@ const Gallery = () => {
 
     const authCtx = useContext(AuthContext);
     // On success, redirect to events!
-    useRedirect(actionData, '/dashboard/galleries', true);
+    // useRedirect(actionData, '/dashboard/galleries', true);
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
@@ -68,12 +68,12 @@ const Gallery = () => {
     const deleteImageHandler = async () => {
         const uri =
             imageId !== undefined
-                ? `${ENV.baseUrl}/images/${imageId}/galleries/${id}/delete`
+                ? `${ENV.baseUrl}/galleries/${id}/images/${imageId}/delete`
                 : `${ENV.baseUrl}/galleries/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
-            navigate('/dashboard/galleries');
+            if (!imageId) navigate('/dashboard/galleries');
         }
     };
 
@@ -158,7 +158,7 @@ const Gallery = () => {
                                                 element='input'
                                                 id='images'
                                                 type='file'
-                                                name='images'
+                                                name='images[]'
                                                 labelTitle='Images'
                                                 accept='.jpeg, .png, .jpg, .svg'
                                                 multiple

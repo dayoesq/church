@@ -8,8 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property int $id
  * @property string $url
- * @property mixed $created_at
- * @property mixed $updated_at
  */
 class ImageResource extends JsonResource
 {
@@ -22,9 +20,7 @@ class ImageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'url' => $this->url,
-            'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'url' => $this->url
         ];
     }
 }

@@ -40,14 +40,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('users.self.update')->patch('/users/self/update', [UserController::class, 'updateSelf']);
     Route::name('users.active.all')->get('/users/active/all', [UserController::class, 'getActiveUsers']);
 
-    Route::name('projects.images.update')
-        ->patch('/projects/{project}/images/{image}/update', [ProjectController::class, 'updateProjectImage']);
-
     Route::name('projects.images.delete')
-        ->patch('/projects/{project}/images/{image}/delete', [ProjectController::class, 'deleteProjectImage']);
-
-    Route::name('projects.images.assign')
-        ->patch('/projects/{project}/images/assign', [ProjectController::class, 'assignImagesToProject']);
+        ->delete('/projects/{project}/images/{image}/delete', [ProjectController::class, 'deleteProjectImage']);
 
     Route::name('auth.users.logout')->get('/auth/users/logout', [AuthController::class, 'logout']);
 
@@ -57,11 +51,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('comments.reply')->post('/comments/{comment}/reply', [CommentController::class, 'replyToAComment']);
     Route::name('comments.reply.all')->get('/comments/{comment}/reply/all', [CommentController::class, 'getCommentReplies']);
 
-    Route::name('images/events/delete')->delete('/images/events/{event}/delete', [EventController::class, 'deleteEventImage']);
-    Route::name('audios/podcasts/delete')->delete('/audios/podcasts/{podcast}/delete', [PodcastController::class, 'deletePodcastAudio']);
-    Route::name('images/users/delete')->delete('/images/users/{user}/delete', [UserController::class, 'deleteUserAvatar']);
-    Route::name('images/testimonials/delete')->delete('/images/testimonials/{testimonial}/delete', [TestimonialController::class, 'deleteTestimonialAvatar']);
-    Route::name('images/galleries/delete')->delete('/images/{image}/galleries/{gallery}/delete', [GalleryController::class, 'deleteGalleryImage']);
+    Route::name('events.images.delete')
+        ->delete('/events/{event}/images/{image}/delete', [EventController::class, 'deleteEventImage']);
+
+    Route::name('podcasts.audios.delete')
+        ->delete('/podcasts/{podcast}/audio/delete', [PodcastController::class, 'deletePodcastAudio']);
+
+    Route::name('users.images.delete')
+        ->delete('/users/{user}/images/{image}/delete', [UserController::class, 'deleteUserAvatar']);
+
+    Route::name('testimonials.images.delete')
+        ->delete('/testimonials/{testimonial}/images/delete', [TestimonialController::class, 'deleteTestimonialAvatar']);
+
+    Route::name('galleries.images.delete')
+        ->delete('/galleries/{gallery}/images/{image}/delete', [GalleryController::class, 'deleteGalleryImage']);
 
     Route::apiResources([
         'users' => UserController::class,

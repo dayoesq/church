@@ -51,6 +51,7 @@ class GalleryController extends Controller
                 $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES);
             }
             DB::commit();
+            $gallery->load('images');
             return $this->created(data: new GalleryResource($gallery));
         } catch (Exception $e) {
             DB::rollBack();
@@ -91,6 +92,7 @@ class GalleryController extends Controller
                 $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES);
             }
             DB::commit();
+            $gallery->load('images');
             return $this->ok(data: new GalleryResource($gallery));
         } catch (Exception $e) {
             DB::rollBack();
@@ -108,18 +110,16 @@ class GalleryController extends Controller
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function deleteGalleryImage(Image $image, Gallery $gallery): JsonResponse
+    public function deleteGalleryImage(Gallery $gallery, Image $image): JsonResponse
     {
         $this->authorize('deleteGalleryImage', $gallery);
-        // Image::where('id', $image)->firstOrFail();
         foreach($gallery->images as $asset) {
             if($asset->id === $image->id) {
                 Storage::disk('images')->delete($asset->url);
                 $asset->delete();
             }
         }
-        //$this->deleteDuplicateAssets($gallery, Asset::$IMAGES);
-        return $this->noContent();
+        return $this->ok(data: new GalleryResource($gallery));
 
     }
 

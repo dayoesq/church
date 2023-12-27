@@ -90,10 +90,7 @@ const Input = ({
                             {type.toLowerCase() === 'file' ? (
                                 <CFormInput
                                     type={type}
-                                    accept={
-                                        accept ??
-                                        '.jpg, .png, .jpeg, .svg, .pdf'
-                                    }
+                                    accept={accept}
                                     placeholder={placeholder}
                                     multiple={multiple}
                                     {...commonProps}
