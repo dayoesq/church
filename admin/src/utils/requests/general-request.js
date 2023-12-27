@@ -192,7 +192,7 @@ export const loadUser = async (request, params) => {
  * @param request
  * @param params
  */
-export const loadActiveUsers = async (request) => {
+export const loadActiveUsers = async request => {
     if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/users/active/all`,
@@ -396,14 +396,17 @@ export const deleteHandler = async uri => {
  *
  */
 export const createGallery = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/galleries`,
-        {
-            Authorization: `Bearer ${storedData.token}`
-        },
-        request,
-        { isFormData: true }
-    );
+    if (storedData) {
+       return await Http.post(
+           `${ENV.baseUrl}/galleries`,
+           {
+               Authorization: `Bearer ${storedData.token}`
+           },
+           request,
+           { isFormData: true }
+       );
+        
+    }
 };
 
 /**

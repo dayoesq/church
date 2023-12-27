@@ -72,7 +72,7 @@ const Podcast = () => {
     const deleteImageHandler = async () => {
         const uri =
             deleteOptions === 'audio'
-                ? `${ENV.baseUrl}/audios/podcasts/${id}/delete`
+                ? `${ENV.baseUrl}/podcasts/${id}/audios/delete`
                 : `${ENV.baseUrl}/podcasts/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {

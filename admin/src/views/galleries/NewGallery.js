@@ -63,7 +63,7 @@ const NewGallery = () => {
                                     element='input'
                                     id='images'
                                     type='file'
-                                    name='images'
+                                    name='images[]'
                                     labelTitle='Images'
                                     accept='.jpeg, .png, .jpg, .svg'
                                     multiple
