@@ -3,7 +3,6 @@ import { getDataFromStorage } from '../helpers';
 import { Http } from '../http';
 
 const storedData = getDataFromStorage();
-
 /**
  * Login.
  *
@@ -153,15 +152,17 @@ export const loadEvent = async (request, params) => {
  *
  */
 export const createUser = async request => {
-    return await Http.post(
-        `${ENV.baseUrl}/users`,
-        {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedData.token}`
-        },
-        request,
-        { isFormData: false }
-    );
+    if (storedData) {
+        return await Http.post(
+            `${ENV.baseUrl}/users`,
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request,
+            { isFormData: false }
+        );
+    }
 };
 
 /**
@@ -389,44 +390,41 @@ export const deleteHandler = async uri => {
 };
 
 /**
- * Create gallery.
- *
- * @param request
- * @return Promise
- *
- */
-export const createGallery = async request => {
-    if (storedData) {
-       return await Http.post(
-           `${ENV.baseUrl}/galleries`,
-           {
-               Authorization: `Bearer ${storedData.token}`
-           },
-           request,
-           { isFormData: true }
-       );
-        
-    }
-};
-
-/**
- * Update a specific gallery.
+ * Perform create, update and delete on gallery.
  *
  * @return Promise
  *
  * @param request
  * @param params
  */
-export const updateGallery = async (request, params) => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/galleries/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
+export const handleGalleryActions = async (request, params = null) => {
+    const { token } = getDataFromStorage();
+    const formData = await request.formData();
+    const intent = await formData.get('intent');
+    let uri = '';
+    const images = await formData.getAll('images');
+    Array.from(images).forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+    });
+    if (token) {
+        if (
+            intent.toLowerCase() === 'edit' ||
+            intent.toLowerCase() === 'create'
+        ) {
+            uri =
+                intent === 'edit'
+                    ? `${ENV.baseUrl}/galleries/${params.id}`
+                    : `${ENV.baseUrl}/galleries`;
+            const res = await fetch(uri, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (!res.ok) return res;
+            return await res.json();
+        }
     }
 };
 
@@ -442,6 +440,65 @@ export const loadGallery = async (request, params) => {
     if (storedData) {
         return await Http.get(
             `${ENV.baseUrl}/galleries/${params.id}`,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+
+/**
+ * Perform create, update and delete on project.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const handleProjectActions = async (request, params = null) => {
+    const { token } = getDataFromStorage();
+    const formData = await request.formData();
+    const intent = await formData.get('intent');
+    let uri = '';
+    const images = await formData.getAll('images');
+    Array.from(images).forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+    });
+    if (token) {
+        if (
+            intent.toLowerCase() === 'edit' ||
+            intent.toLowerCase() === 'create'
+        ) {
+            uri =
+                intent === 'edit'
+                    ? `${ENV.baseUrl}/projects/${params.id}`
+                    : `${ENV.baseUrl}/projects`;
+            const res = await fetch(uri, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (!res.ok) return res;
+            return await res.json();
+        }
+    }
+};
+
+/**
+ * Get a specific project.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadProject = async (request, params) => {
+    if (storedData) {
+        return await Http.get(
+            `${ENV.baseUrl}/projects/${params.id}`,
             {
                 Authorization: `Bearer ${storedData.token}`
             },

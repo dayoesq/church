@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Utils\Enums\ProjectStatus;
 use App\Utils\Enums\YesOrNo;
+use App\Utils\Enums\ProjectDuration;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -35,18 +36,17 @@ class UpsertProjectRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'min:2', 'max:150'],
-            'description' => ['sometimes', 'min:20', 'max:500'],
+            'description' => ['sometimes', 'min:20', 'max:1000'],
             'target_amount' => ['sometimes', 'required'],
-            'donation_required' => ['sometimes', new Enum(YesOrNo::class)],
-            'continuous' => ['sometimes', 'boolean'],
-            'acknowledgement_sent' => ['sometimes', 'boolean'],
+            'requires_donation' => ['sometimes', new Enum(YesOrNo::class)],
+            'duration' => ['sometimes', new Enum(ProjectDuration::class)],
             'status' => ['sometimes', new Enum(ProjectStatus::class)],
             'starts_at' => ['sometimes', 'date'],
             'ends_at' =>['sometimes', 'date'],
             'images.*' => ['sometimes',
                 File::image()
-                    ->min('500kb')
-                    ->max('5mb')
+                    ->min('20kb')
+                    ->max('1mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
         ];

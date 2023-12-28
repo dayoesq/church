@@ -113,12 +113,7 @@ class GalleryController extends Controller
     public function deleteGalleryImage(Gallery $gallery, Image $image): JsonResponse
     {
         $this->authorize('deleteGalleryImage', $gallery);
-        foreach($gallery->images as $asset) {
-            if($asset->id === $image->id) {
-                Storage::disk('images')->delete($asset->url);
-                $asset->delete();
-            }
-        }
+        $this->deleteAsset($gallery, Asset::$IMAGES, $image);
         return $this->ok(data: new GalleryResource($gallery));
 
     }

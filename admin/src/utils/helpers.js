@@ -61,6 +61,12 @@ export const getBadge = status => {
             return 'warning';
         case STATUS.published:
             return 'success';
+        case STATUS.abandoned:
+            return 'danger';
+        case STATUS.completed:
+            return 'success';
+        case STATUS.proposed:
+            return 'info';
         default:
             return 'primary';
     }

@@ -7,40 +7,37 @@ import {
     CButton
 } from '@coreui/react';
 import { Form, useActionData, useNavigation } from 'react-router-dom';
-import { cilStar, cilPencil, cilImage } from '@coreui/icons';
+import { cilStar, cilPencil } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { handleGalleryActions } from '../../utils/requests/general-request';
+import { handleProjectActions } from '../../utils/requests/general-request';
+import { memo } from 'react';
 
-const NewGallery = () => {
+const NewProject = () => {
     const data = useActionData();
     const navigation = useNavigation();
     // Redirect conditionally!
-    useRedirect(data, '/dashboard/galleries', true);
+    useRedirect(data, '/dashboard/projects', true);
 
     return (
         <CRow className='justify-content-center'>
             <CCol md={6}>
-                <Alert data={data} message='Gallery created successfully.' />
+                <Alert data={data} message='Project created successfully.' />
                 <CCard>
                     <CCardHeader>
-                        <small> New Gallery Form</small>
+                        <small> New Project Form</small>
                     </CCardHeader>
                     <CCardBody>
-                        <Form
-                            method='post'
-                            noValidate
-                            encType='multipart/form-data'
-                        >
+                        <Form method='post' noValidate>
                             <CRow>
                                 <Input
                                     element='input'
                                     type='text'
                                     id='title'
                                     name='title'
-                                    placeholder='Title'
+                                    placeholder='Project Title'
                                     labelTitle='Title'
                                     data={data}
                                     icon={cilStar}
@@ -52,23 +49,10 @@ const NewGallery = () => {
                                     type='textarea'
                                     id='description'
                                     name='description'
-                                    placeholder='Max 200 letters'
+                                    placeholder='Max 1000 letters'
                                     labelTitle='Description'
                                     data={data}
                                     icon={cilPencil}
-                                />
-                            </CRow>
-                            <CRow>
-                                <Input
-                                    element='input'
-                                    id='images'
-                                    type='file'
-                                    name='images[]'
-                                    labelTitle='Images'
-                                    accept='.jpeg, .png, .jpg, .svg'
-                                    multiple
-                                    icon={cilImage}
-                                    data={data}
                                 />
                             </CRow>
                             <CRow>
@@ -97,7 +81,7 @@ const NewGallery = () => {
 };
 
 export const action = async ({ request }) => {
-    return await handleGalleryActions(request);
+    return await handleProjectActions(request);
 };
 
-export default NewGallery;
+export default memo(NewProject);

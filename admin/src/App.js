@@ -17,6 +17,8 @@ import { action as podcastAction } from './views/podcasts/Podcast';
 import { action as newPodcastAction } from './views/podcasts/NewPodcast';
 import { action as galleryAction } from './views/galleries/Gallery';
 import { action as newGalleryAction } from './views/galleries/NewGallery';
+import { action as projectAction } from './views/projects/Project';
+import { action as newProjectAction } from './views/projects/NewProject';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -29,6 +31,8 @@ import { loader as podcastsLoader } from './views/podcasts/Podcasts';
 import { loader as podcastLoader } from './views/podcasts/Podcast';
 import { loader as galleryLoader } from './views/galleries/Gallery';
 import { loader as galleriesLoader } from './views/galleries/Galleries';
+import { loader as projectLoader } from './views/projects/Project';
+import { loader as projectsLoader } from './views/projects/Projects';
 
 import './scss/style.scss';
 
@@ -58,6 +62,9 @@ const Podcast = lazy(() => import('./views/podcasts/Podcast'));
 const Gallery = lazy(() => import('./views/galleries/Gallery'));
 const Galleries = lazy(() => import('./views/galleries/Galleries'));
 const NewGallery = lazy(() => import('./views/galleries/NewGallery'));
+const Project = lazy(() => import('./views/projects/Project'));
+const Projects = lazy(() => import('./views/projects/Projects'));
+const NewProject = lazy(() => import('./views/projects/NewProject'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -167,6 +174,22 @@ const App = () => {
                     element: <Gallery />,
                     loader: galleryLoader,
                     action: galleryAction
+                },
+                {
+                    path: 'projects/new',
+                    element: <NewProject />,
+                    action: newProjectAction
+                },
+                {
+                    path: 'projects',
+                    element: <Projects />,
+                    loader: projectsLoader
+                },
+                {
+                    path: 'projects/:id',
+                    element: <Project />,
+                    loader: projectLoader,
+                    action: projectAction
                 }
             ]
         },
