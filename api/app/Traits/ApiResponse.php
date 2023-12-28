@@ -233,4 +233,26 @@ trait ApiResponse
         }
     }
 
+    /**
+     * Delete asset.
+     *
+     * @param mixed $model
+     * @param mixed $assetType
+     * @param mixed $assetModel
+     * @return void
+     */
+    protected function deleteAsset(mixed $model, mixed $assetType, mixed $assetModel): void
+    {
+        try {
+            foreach($model->{$assetType} as $asset) {
+                if($asset->id === $assetModel->id) {
+                    Storage::disk($assetType)->delete($asset->url);
+                    $asset->delete();
+                }
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
 }

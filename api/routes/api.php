@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->delete('/events/{event}/images/{image}/delete', [EventController::class, 'deleteEventImage']);
 
     Route::name('podcasts.audios.delete')
-        ->delete('/podcasts/{podcast}/audio/delete', [PodcastController::class, 'deletePodcastAudio']);
+        ->delete('/podcasts/{podcast}/audios/{audio}/delete', [PodcastController::class, 'deletePodcastAudio']);
 
     Route::name('users.images.delete')
         ->delete('/users/{user}/images/{image}/delete', [UserController::class, 'deleteUserAvatar']);

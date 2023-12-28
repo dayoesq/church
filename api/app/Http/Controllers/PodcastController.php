@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertPodcastRequest;
 use App\Http\Resources\Podcasts\PodcastResource;
 use App\Models\Podcast;
+use App\Models\Audio;
+use Illuminate\Support\Facades\Storage;
 use App\Utils\Assets\Asset;
 use App\Utils\Enums\AudioGenre;
 use App\Utils\Enums\PostStatus;
@@ -121,14 +123,15 @@ class PodcastController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Podcast $podcast
+     * @param Audio $audio
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function deletePodcastAudio(Podcast $podcast): JsonResponse
+    public function deletePodcastAudio(Podcast $podcast, Audio $audio): JsonResponse
     {
         $this->authorize('deletePodcastAudio', $podcast);
-        $this->deleteDuplicateAssets($podcast, Asset::$AUDIOS);
-        return $this->noContent();
+        $this->deleteAsset($podcast, Asset::$AUDIOS, $audio);
+        return $this->ok(data: new PodcastResource($podcast));
 
     }
 

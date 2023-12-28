@@ -27,9 +27,8 @@ class Project extends Model
         'title',
         'description',
         'target_amount',
-        'donation_required',
-        'continuous',
-        'acknowledgement_sent',
+        'requires_donation',
+        'duration',
         'status',
         'starts_at',
         'ends_at'
@@ -41,9 +40,7 @@ class Project extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'donation_required' => 'boolean',
-        'continuous' => 'boolean',
-        'acknowledgement_sent' => 'boolean',
+        'requires_donation' => 'boolean',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime'
     ];

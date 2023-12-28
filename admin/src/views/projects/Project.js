@@ -27,23 +27,24 @@ import Input from '../../components/Input';
 import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import { AuthContext } from '../../store/auth';
-import { ENV, POST_STATUS, ROLES } from '../../utils/constants';
+import { ENV, PROJECT_STATUS, ROLES } from '../../utils/constants';
 import {
     deleteHandler,
-    handleGalleryActions,
-    loadGallery
+    handleProjectActions,
+    loadProject
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
 
-const galleryStatus = [
+const projectStatus = [
     { name: 'Select Status', value: undefined },
-    { name: 'Archived', value: POST_STATUS.archived },
-    { name: 'Published', value: POST_STATUS.published },
-    { name: 'Draft', value: POST_STATUS.draft }
+    { name: 'Proposed', value: PROJECT_STATUS.proposed },
+    { name: 'Abandoned', value: PROJECT_STATUS.abandoned },
+    { name: 'Ongoing', value: PROJECT_STATUS.ongoing },
+    { name: 'Completed', value: PROJECT_STATUS.completed }
 ];
 
-const Gallery = () => {
+const Project = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [imageId, setImageId] = useState();
@@ -56,7 +57,7 @@ const Gallery = () => {
 
     const authCtx = useContext(AuthContext);
     // On success, redirect to events!
-    useRedirect(actionData, '/dashboard/galleries', true);
+    useRedirect(actionData, '/dashboard/projects', true);
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
@@ -68,12 +69,12 @@ const Gallery = () => {
     const deleteImageHandler = async () => {
         const uri =
             imageId !== undefined
-                ? `${ENV.baseUrl}/galleries/${id}/images/${imageId}/delete`
-                : `${ENV.baseUrl}/galleries/${id}`;
+                ? `${ENV.baseUrl}/projects/${id}/images/${imageId}/delete`
+                : `${ENV.baseUrl}/projects/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
-            navigate('/dashboard/galleries');
+            navigate('/dashboard/projects');
         }
     };
 
@@ -94,11 +95,11 @@ const Gallery = () => {
                         <CCol md={8}>
                             <Alert
                                 data={actionData}
-                                message='Gallery updated successfully.'
+                                message='Project updated successfully.'
                             />
                             <CCard className='mb-4'>
                                 <CCardHeader className='d-flex justify-content-between'>
-                                    <small> Gallery Details</small>
+                                    <small> Project Details</small>
 
                                     <CButton
                                         className='btn btn-success text-white'
@@ -136,7 +137,7 @@ const Gallery = () => {
                                                 type='textarea'
                                                 id='description'
                                                 name='description'
-                                                placeholder='Max 200 letters'
+                                                placeholder='Max 1000 letters'
                                                 labelTitle='Description'
                                                 data={actionData}
                                                 icon={cilPencil}
@@ -181,7 +182,7 @@ const Gallery = () => {
                                                 }
                                                 disabled={disabled}
                                             >
-                                                {galleryStatus.map(status => (
+                                                {projectStatus.map(status => (
                                                     <option
                                                         value={status.value}
                                                         key={status.name}
@@ -261,11 +262,11 @@ const Gallery = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await handleGalleryActions(request, params);
+    return await handleProjectActions(request, params);
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadGallery(request, params);
+    return await loadProject(request, params);
 };
 
-export default memo(Gallery);
+export default memo(Project);

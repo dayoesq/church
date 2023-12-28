@@ -25,6 +25,8 @@ export const STATUS = {
     closed: 'closed',
     archived: 'archived',
     published: 'published',
+    abandoned: 'abandoned',
+    completed: 'completed',
     draft: 'draft',
     yes: 'yes',
     no: 'no'
@@ -34,6 +36,13 @@ export const POST_STATUS = {
     draft: 'draft',
     published: 'published',
     archived: 'archived'
+};
+
+export const PROJECT_STATUS = {
+    ongoing: 'ongoing',
+    completed: 'completed',
+    proposed: 'proposed',
+    abandoned: 'abandoned'
 };
 
 export const AUDIO_GENRE = {

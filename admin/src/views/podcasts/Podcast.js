@@ -49,7 +49,7 @@ export const audioGenre = [
 const Podcast = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [deleteOptions, setDeleteOptions] = useState('');
+    const [audioId, setAudioId] = useState();
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
@@ -64,15 +64,15 @@ const Podcast = () => {
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
-    const handleDeleteOptions = () => {
-        setDeleteOptions('audio');
+    const handleDeleteOptions = id => {
+        if (id) setAudioId(id);
         setShowModal(true);
     };
 
     const deleteImageHandler = async () => {
         const uri =
-            deleteOptions === 'audio'
-                ? `${ENV.baseUrl}/podcasts/${id}/audios/delete`
+            audioId !== undefined
+                ? `${ENV.baseUrl}/podcasts/${id}/audios/${audioId}/delete`
                 : `${ENV.baseUrl}/podcasts/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
@@ -322,7 +322,11 @@ const Podcast = () => {
                                     <CButton
                                         className='btn btn-danger image-button'
                                         type='button'
-                                        onClick={handleDeleteOptions}
+                                        onClick={() =>
+                                            handleDeleteOptions(
+                                                loadedData.data.audios[0].id
+                                            )
+                                        }
                                     >
                                         <CIcon icon={cilTrash} />
                                     </CButton>

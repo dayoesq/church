@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpsertProjectRequest;
 use App\Http\Resources\Projects\ProjectResource;
+use App\Utils\Enums\YesOrNo;
 use App\Models\Image;
 use App\Models\Project;
 use App\Utils\Assets\Asset;
@@ -47,7 +48,7 @@ class ProjectController extends Controller
     {
         $this->authorize('viewAny', Project::class);
         $projects = Project::with('images')
-            ->where('donation_required', true)
+            ->where('requires_donation', YesOrNo::Yes->value)
             ->where('status', ProjectStatus::OnGoing->value)
             ->get();
         return $this->ok(data: ProjectResource::collection($projects));
@@ -65,15 +66,11 @@ class ProjectController extends Controller
             DB::beginTransaction();
             $data = $request->validated();
             $project = Project::create($data);
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-                foreach ($paths as $path) {
-                    $project->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+            if ($request->hasFile('images')) {
+                $this->createOrUpdateAssets($project, $request, Asset::$IMAGES);
             }
             DB::commit();
+            $project->load('images');
             return $this->created(data: new ProjectResource($project));
         } catch (Exception $e) {
             DB::rollBack();
@@ -90,8 +87,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project): JsonResponse
     {
-        $data = $project->with('images')->first();
-        return $this->ok(data: new ProjectResource($data));
+        $project->load('images');
+        return $this->ok(data: new ProjectResource($project));
     }
 
     /**
@@ -108,15 +105,11 @@ class ProjectController extends Controller
             DB::beginTransaction();
             $data = $request->validated();
             $project->updateOrFail($data);
-            if ($request->hasFile(Asset::$PHOTO)) {
-                $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-                foreach ($paths as $path) {
-                    $project->images()->updateOrCreate([
-                        'url' => $path
-                    ]);
-                }
+            if ($request->hasFile('images')) {
+                $this->createOrUpdateAssets($project, $request, Asset::$IMAGES);
             }
             DB::commit();
+            $project->load('images');
             return $this->ok(data: new ProjectResource($project));
         } catch (Exception $e) {
             DB::rollBack();
@@ -124,30 +117,6 @@ class ProjectController extends Controller
             return $this->serverError($e->getMessage());
         }
 
-    }
-
-    /**
-     * Update project image.
-     *
-     * @param Request $request
-     * @param Project $project
-     * @return JsonResponse
-     * @throws AuthorizationException
-     */
-    public function updateProjectImage(Request $request, Project $project): JsonResponse
-    {
-
-        $this->authorize('updateProjectImage', auth()->user());
-        if ($request->hasFile(Asset::$PHOTO)) {
-            $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-            foreach ($paths as $path) {
-                $project->images()->updateOrCreate([
-                    'url' => $path
-                ]);
-            }
-        }
-
-        return $this->serverError();
     }
 
     /**
@@ -161,47 +130,9 @@ class ProjectController extends Controller
     public function deleteProjectImage(Project $project, Image $image): JsonResponse
     {
 
-        $this->authorize('deleteProjectImage', auth()->user());
-
-        $projectImage = $project->images()->findOrFail($image->id);
-
-        if ($projectImage) {
-            if (Storage::disk(Asset::$PHOTO)->exists($projectImage->url)) {
-                Storage::disk(Asset::$PHOTO)->delete($projectImage->url);
-            }
-
-            $projectImage->delete();
-
-            return $this->noContent();
-        }
-
-        return $this->serverError();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Project $project
-     * @return JsonResponse
-     * @throws AuthorizationException
-     */
-    public function assignImagesToProject(Request $request, Project $project): JsonResponse
-    {
-
-        $this->authorize('assignImagesToProject', auth()->user());
-
-        if ($request->hasFile(Asset::$PHOTO)) {
-            $paths = $this->processAssetsStorage($request, Asset::$PHOTO);
-            foreach ($paths as $path) {
-                $project->images()->updateOrCreate([
-                    'url' => $path
-                ]);
-            }
-        }
-
-        return $project->save() ? $this->ok() : $this->serverError();
-
+        $this->authorize('deleteProjectImage', $project);
+        $this->deleteAsset($project, Asset::$IMAGES, $image);
+        return $this->ok(data: new ProjectResource($project));
     }
 
     /**
@@ -213,7 +144,7 @@ class ProjectController extends Controller
     public function destroy(Project $project): JsonResponse
     {
 
-        return ! $this->deleteAsset($project, 'images') ? $this->serverError() : $this->noContent();
+        return ! $this->deleteAssetsAndModel($project, Asset::$IMAGES) ? $this->serverError() : $this->noContent();
 
     }
 

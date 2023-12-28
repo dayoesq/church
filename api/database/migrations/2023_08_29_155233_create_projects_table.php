@@ -31,7 +31,7 @@ return new class extends Migration
                 ProjectStatus::Abandoned->value,
                 ProjectStatus::Proposed->value
             ])->default(ProjectStatus::Proposed->value);
-            $table->unsignedBigInteger('target_amount');
+            $table->unsignedBigInteger('target_amount')->nullable();
             $table->timestamps();
         });
     }
