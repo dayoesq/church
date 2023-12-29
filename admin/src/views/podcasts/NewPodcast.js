@@ -19,8 +19,9 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { createPodcast } from '../../utils/requests/general-request';
+import { handleActions } from '../../utils/requests/general-request';
 import { audioGenre } from './Podcast';
+import { ENV } from '../../utils/constants';
 
 const NewPodcast = () => {
     const data = useActionData();
@@ -121,6 +122,8 @@ const NewPodcast = () => {
                                     <CButton
                                         className='btn-facebook my-2'
                                         type='submit'
+                                        name='intent'
+                                        value='create'
                                         disabled={disableButton(
                                             navigation,
                                             data
@@ -143,7 +146,12 @@ const NewPodcast = () => {
 };
 
 export const action = async ({ request }) => {
-    return await createPodcast(request);
+    const uri = `${ENV.baseUrl}/podcasts`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'audios'
+    });
 };
 
 export default memo(NewPodcast);

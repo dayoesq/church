@@ -12,7 +12,8 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { handleGalleryActions } from '../../utils/requests/general-request';
+import { handleActions } from '../../utils/requests/general-request';
+import { ENV } from '../../utils/constants';
 
 const NewGallery = () => {
     const data = useActionData();
@@ -97,7 +98,12 @@ const NewGallery = () => {
 };
 
 export const action = async ({ request }) => {
-    return await handleGalleryActions(request);
+    const uri = `${ENV.baseUrl}/galleries`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'images'
+    });
 };
 
 export default NewGallery;

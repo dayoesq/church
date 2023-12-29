@@ -12,7 +12,8 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { createTestimonial } from '../../utils/requests/general-request';
+import { handleActions } from '../../utils/requests/general-request';
+import { ENV } from '../../utils/constants';
 
 const NewTestimonial = () => {
     const data = useActionData();
@@ -80,6 +81,8 @@ const NewTestimonial = () => {
                                     <CButton
                                         className='btn-facebook my-2'
                                         type='submit'
+                                        name='intent'
+                                        value='create'
                                         disabled={disableButton(
                                             navigation,
                                             data
@@ -102,7 +105,8 @@ const NewTestimonial = () => {
 };
 
 export const action = async ({ request }) => {
-    return await createTestimonial(request);
+    const uri = `${ENV.baseUrl}/testimonials`;
+    return await handleActions(request, { uri, isFormData: false });
 };
 
 export default NewTestimonial;

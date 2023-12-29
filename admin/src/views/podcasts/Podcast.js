@@ -31,8 +31,8 @@ import { AuthContext } from '../../store/auth';
 import { AUDIO_GENRE, ENV, ROLES } from '../../utils/constants';
 import {
     deleteHandler,
-    loadPodcast,
-    updatePodcast
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import { postStatus } from '../testimonials/Testimonial';
 import WarningModal from '../../components/modals/WarningModal';
@@ -276,6 +276,8 @@ const Podcast = () => {
                                             <CButton
                                                 className='btn-facebook'
                                                 type='submit'
+                                                name='intent'
+                                                value='edit'
                                                 disabled={
                                                     navigation.state ===
                                                         'submitting' ||
@@ -341,11 +343,17 @@ const Podcast = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updatePodcast(request, params);
+    const uri = `${ENV.baseUrl}/podcasts/${params.id}`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'audios'
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadPodcast(request, params);
+    const uri = `${ENV.baseUrl}/podcasts/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(Podcast);

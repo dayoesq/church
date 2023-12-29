@@ -12,8 +12,9 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { handleProjectActions } from '../../utils/requests/general-request';
+import { handleActions } from '../../utils/requests/general-request';
 import { memo } from 'react';
+import { ENV } from '../../utils/constants';
 
 const NewProject = () => {
     const data = useActionData();
@@ -32,28 +33,32 @@ const NewProject = () => {
                     <CCardBody>
                         <Form method='post' noValidate>
                             <CRow>
-                                <Input
-                                    element='input'
-                                    type='text'
-                                    id='title'
-                                    name='title'
-                                    placeholder='Project Title'
-                                    labelTitle='Title'
-                                    data={data}
-                                    icon={cilStar}
-                                />
+                                <CCol>
+                                    <Input
+                                        element='input'
+                                        type='text'
+                                        id='title'
+                                        name='title'
+                                        placeholder='Project Title'
+                                        labelTitle='Title'
+                                        data={data}
+                                        icon={cilStar}
+                                    />
+                                </CCol>
                             </CRow>
                             <CRow>
-                                <Input
-                                    element='textarea'
-                                    type='textarea'
-                                    id='description'
-                                    name='description'
-                                    placeholder='Max 1000 letters'
-                                    labelTitle='Description'
-                                    data={data}
-                                    icon={cilPencil}
-                                />
+                                <CCol>
+                                    <Input
+                                        element='textarea'
+                                        type='textarea'
+                                        id='description'
+                                        name='description'
+                                        placeholder='Max 1000 letters'
+                                        labelTitle='Description'
+                                        data={data}
+                                        icon={cilPencil}
+                                    />
+                                </CCol>
                             </CRow>
                             <CRow>
                                 <CCol>
@@ -81,7 +86,8 @@ const NewProject = () => {
 };
 
 export const action = async ({ request }) => {
-    return await handleProjectActions(request);
+    const uri = `${ENV.baseUrl}/projects`;
+    return await handleActions(request, { uri, isFormData: false });
 };
 
 export default memo(NewProject);

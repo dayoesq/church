@@ -30,8 +30,8 @@ import { AuthContext } from '../../store/auth';
 import { ENV, POST_STATUS, ROLES } from '../../utils/constants';
 import {
     deleteHandler,
-    handleGalleryActions,
-    loadGallery
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
@@ -261,11 +261,17 @@ const Gallery = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await handleGalleryActions(request, params);
+    const uri = `${ENV.baseUrl}/galleries/${params.id}`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'images'
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadGallery(request, params);
+    const uri = `${ENV.baseUrl}/galleries/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(Gallery);

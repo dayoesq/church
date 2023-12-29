@@ -18,8 +18,9 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { createEvent } from '../../utils/requests/general-request';
-import {memo} from "react";
+import { handleActions } from '../../utils/requests/general-request';
+import { memo } from 'react';
+import { ENV } from '../../utils/constants';
 
 const NewEvent = () => {
     const data = useActionData();
@@ -122,6 +123,8 @@ const NewEvent = () => {
                                     <CButton
                                         className='btn-facebook my-2'
                                         type='submit'
+                                        name='intent'
+                                        value='create'
                                         disabled={disableButton(
                                             navigation,
                                             data
@@ -144,7 +147,11 @@ const NewEvent = () => {
 };
 
 export const action = async ({ request }) => {
-    return await createEvent(request);
+    const uri = `${ENV.baseUrl}/events`;
+    return await handleActions(request, {
+        uri,
+        isFormData: false
+    });
 };
 
-export default memo(NewEvent)
+export default memo(NewEvent);

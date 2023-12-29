@@ -21,8 +21,8 @@ import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import {
     deleteHandler,
-    loadTestimonial,
-    updateTestimonial
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
 import { ENV, POST_STATUS, ROLES } from '../../utils/constants';
@@ -229,6 +229,8 @@ const Testimonial = () => {
                                             <CButton
                                                 className='btn-facebook'
                                                 type='submit'
+                                                name='intent'
+                                                value='edit'
                                                 disabled={
                                                     navigation.state ===
                                                         'submitting' ||
@@ -266,11 +268,13 @@ const Testimonial = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updateTestimonial(request, params);
+    const uri = `${ENV.baseUrl}/testimonials/${params.id}`;
+    return await handleActions(request, { uri, isFormData: true });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadTestimonial(request, params);
+    const uri = `${ENV.baseUrl}/testimonials/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(Testimonial);

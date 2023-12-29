@@ -12,7 +12,8 @@ import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
 import Input from '../../components/Input';
 import { disableButton } from '../../utils/helpers';
-import { createUser } from '../../utils/requests/general-request';
+import { handleActions } from '../../utils/requests/general-request';
+import { ENV } from '../../utils/constants';
 
 const NewUser = () => {
     const data = useActionData();
@@ -85,6 +86,8 @@ const NewUser = () => {
                                     <CButton
                                         className='btn-facebook my-2'
                                         type='submit'
+                                        name='intent'
+                                        value='create'
                                         disabled={disableButton(navigation)}
                                     >
                                         <span>
@@ -104,7 +107,8 @@ const NewUser = () => {
 };
 
 export const action = async ({ request }) => {
-    return await createUser(request);
+    const uri = `${ENV.baseUrl}/users`;
+    return await handleActions(request, { uri, isFormData: false });
 };
 
 export default NewUser;
