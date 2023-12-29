@@ -39,7 +39,7 @@ const WarningModal = ({
                     type={type}
                     onClick={onClick}
                 >
-                    OK
+                    Yes
                 </CButton>
             </CModalFooter>
         </CModal>

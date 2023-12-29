@@ -31,8 +31,8 @@ import Alert from '../../components/Alert';
 import { useRedirect } from '../../hooks/redirect';
 import {
     deleteHandler,
-    loadUser,
-    updateUserByAdmin
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import { AuthContext } from '../../store/auth';
 import { ENV, GENDER, ROLES, STATUS } from '../../utils/constants';
@@ -470,6 +470,8 @@ const User = () => {
                                         <CButton
                                             className='btn-facebook'
                                             type='submit'
+                                            name='intent'
+                                            value='edit'
                                             disabled={
                                                 navigation.state ===
                                                     'submitting' ||
@@ -504,11 +506,13 @@ const User = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updateUserByAdmin(request, params);
+    const uri = `${ENV.baseUrl}/users/${params.id}`;
+    return await handleActions(request, { uri, isFormData: false });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadUser(request, params);
+    const uri = `${ENV.baseUrl}/users/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(User);

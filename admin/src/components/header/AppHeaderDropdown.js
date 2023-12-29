@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     CAvatar,
+    CBadge,
     CDropdown,
     CDropdownDivider,
     CDropdownHeader,
     CDropdownItem,
     CDropdownMenu,
-    CDropdownToggle
+    CDropdownToggle,
+    CFormSwitch
 } from '@coreui/react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
@@ -17,6 +19,7 @@ import { ENV } from '../../utils/constants';
 import { Link } from 'react-router-dom';
 
 const AppHeaderDropdown = () => {
+    const [checked, setChecked] = useState(false);
     const { user, logout } = useContext(AuthContext);
 
     return (
@@ -52,8 +55,25 @@ const AppHeaderDropdown = () => {
 
                         <CDropdownDivider />
                         <CDropdownItem onClick={() => logout()} role='button'>
-                            <CIcon icon={cilLockLocked} className='me-2' />
+                            <CIcon icon={cilLockLocked} className='me-2 m-0' />
                             Log out
+                        </CDropdownItem>
+                        <CDropdownDivider />
+                        <CDropdownHeader className='bg-light fw-semibold py-2'>
+                            Maintenance Mode
+                        </CDropdownHeader>
+                        <CDropdownItem role='button'>
+                            <div className='d-flex justify-center align-middle'>
+                                <CFormSwitch
+                                    checked={checked}
+                                    onChange={() => setChecked(!checked)}
+                                />
+                                <CBadge
+                                    color={`${checked ? 'success' : 'danger'}`}
+                                >
+                                    {checked ? 'On' : 'Off'}
+                                </CBadge>
+                            </div>
                         </CDropdownItem>
                     </CDropdownMenu>
                 </CDropdown>

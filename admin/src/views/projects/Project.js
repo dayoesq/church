@@ -30,8 +30,8 @@ import { AuthContext } from '../../store/auth';
 import { ENV, PROJECT_STATUS, ROLES } from '../../utils/constants';
 import {
     deleteHandler,
-    handleProjectActions,
-    loadProject
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
@@ -116,36 +116,41 @@ const Project = () => {
                                         encType='multipart/form-data'
                                     >
                                         <CRow>
-                                            <Input
-                                                element='input'
-                                                type='text'
-                                                id='title'
-                                                name='title'
-                                                placeholder='Title'
-                                                labelTitle='Title'
-                                                icon={cilAsterisk}
-                                                data={actionData}
-                                                defaultValue={
-                                                    loadedData.data.title
-                                                }
-                                                disabled={disabled}
-                                            />
+                                            <CCol>
+                                                <Input
+                                                    element='input'
+                                                    type='text'
+                                                    id='title'
+                                                    name='title'
+                                                    placeholder='Title'
+                                                    labelTitle='Title'
+                                                    icon={cilAsterisk}
+                                                    data={actionData}
+                                                    defaultValue={
+                                                        loadedData.data.title
+                                                    }
+                                                    disabled={disabled}
+                                                />
+                                            </CCol>
                                         </CRow>
                                         <CRow>
-                                            <Input
-                                                element='textarea'
-                                                type='textarea'
-                                                id='description'
-                                                name='description'
-                                                placeholder='Max 1000 letters'
-                                                labelTitle='Description'
-                                                data={actionData}
-                                                icon={cilPencil}
-                                                defaultValue={
-                                                    loadedData.data.description
-                                                }
-                                                disabled={disabled}
-                                            />
+                                            <CCol>
+                                                <Input
+                                                    element='textarea'
+                                                    type='textarea'
+                                                    id='description'
+                                                    name='description'
+                                                    placeholder='Max 1000 letters'
+                                                    labelTitle='Description'
+                                                    data={actionData}
+                                                    icon={cilPencil}
+                                                    defaultValue={
+                                                        loadedData.data
+                                                            .description
+                                                    }
+                                                    disabled={disabled}
+                                                />
+                                            </CCol>
                                         </CRow>
                                         {/* Hidden input to allow for update when file is involved */}
                                         <input
@@ -155,18 +160,20 @@ const Project = () => {
                                             value='PATCH'
                                         />
                                         <CRow>
-                                            <Input
-                                                element='input'
-                                                id='images'
-                                                type='file'
-                                                name='images[]'
-                                                labelTitle='Images'
-                                                accept='.jpeg, .png, .jpg, .svg'
-                                                multiple
-                                                icon={cilImage}
-                                                data={actionData}
-                                                disabled={disabled}
-                                            />
+                                            <CCol>
+                                                <Input
+                                                    element='input'
+                                                    id='images'
+                                                    type='file'
+                                                    name='images[]'
+                                                    labelTitle='Images'
+                                                    accept='.jpeg, .png, .jpg, .svg'
+                                                    multiple
+                                                    icon={cilImage}
+                                                    data={actionData}
+                                                    disabled={disabled}
+                                                />
+                                            </CCol>
                                         </CRow>
                                         <CRow>
                                             <Input
@@ -262,11 +269,17 @@ const Project = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await handleProjectActions(request, params);
+    const uri = `${ENV.baseUrl}/projects/${params.id}`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'images'
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadProject(request, params);
+    const uri = `${ENV.baseUrl}/projects/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(Project);

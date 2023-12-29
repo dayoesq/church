@@ -63,314 +63,6 @@ export const passwordReset = async (request, params) => {
 };
 
 /**
- * User updates self.
- *
- * @return Promise
- *
- * @param request
- */
-export const updateSelf = async request => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/users/self/update`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
-    }
-};
-
-/**
- * Create event.
- *
- * @return Promise
- *
- * @param request
- */
-export const createEvent = async request => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/events`,
-            {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: false }
-        );
-    }
-};
-
-/**
- * Update a specific event.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const updateEvent = async (request, params) => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/events/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
-    }
-};
-
-/**
- * Get a specific event.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadEvent = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/events/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
- * Create user.
- *
- * @param request
- * @return Promise
- *
- */
-export const createUser = async request => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/users`,
-            {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: false }
-        );
-    }
-};
-
-/**
- * Get a user.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadUser = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/users/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
- * Get active users.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadActiveUsers = async request => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/users/active/all`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
- * Load all users.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadAllUsers = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/users`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
- * Update user by admin.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const updateUserByAdmin = async (request, params) => {
-    if (storedData) {
-        return await Http.patch(
-            `${ENV.baseUrl}/users/${params.id}`,
-            {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: false }
-        );
-    }
-};
-
-/**
- * Create testimonial.
- *
- * @param request
- * @return Promise
- *
- */
-export const createTestimonial = async request => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/testimonials`,
-            {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: false }
-        );
-    }
-};
-
-/**
- * Update testimonial.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const updateTestimonial = async (request, params) => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/testimonials/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
-    }
-};
-
-/**
- * Load testimonial.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadTestimonial = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/testimonials/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
- * Create podcast.
- *
- * @return Promise
- *
- * @param request
- */
-export const createPodcast = async request => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/podcasts`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
-    }
-};
-
-/**
- * Update a specific podcast.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const updatePodcast = async (request, params) => {
-    if (storedData) {
-        return await Http.post(
-            `${ENV.baseUrl}/podcasts/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request,
-            { isFormData: true }
-        );
-    }
-};
-
-/**
- * Get a specific podcast.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadPodcast = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/podcasts/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
  * Delete specific model.
  *
  * @return Promise
@@ -390,100 +82,59 @@ export const deleteHandler = async uri => {
 };
 
 /**
- * Perform create, update and delete on gallery.
+ * Perform create, update on the model.
  *
- * @return Promise
- *
- * @param request
- * @param params
+ * @param {Request} request - The request object.
+ * @param {Object} options - Additional options for the operation.
+ * @returns {Promise} - A Promise that resolves with the result of the operation.
  */
-export const handleGalleryActions = async (request, params = null) => {
+export const handleActions = async (request, options = null) => {
     const { token } = getDataFromStorage();
-    const formData = await request.formData();
-    const intent = await formData.get('intent');
-    let uri = '';
-    const images = await formData.getAll('images');
-    Array.from(images).forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
-    });
-    if (token) {
-        if (
-            intent.toLowerCase() === 'edit' ||
-            intent.toLowerCase() === 'create'
-        ) {
-            uri =
-                intent === 'edit'
-                    ? `${ENV.baseUrl}/galleries/${params.id}`
-                    : `${ENV.baseUrl}/galleries`;
-            const res = await fetch(uri, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (!res.ok) return res;
-            return await res.json();
-        }
-    }
-};
+    try {
+        const formData = await request.formData();
+        const intent = formData.get('intent');
 
-/**
- * Get a specific gallery.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadGallery = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/galleries/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
+        let uri;
+        let asset;
 
-/**
- * Perform create, update and delete on project.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const handleProjectActions = async (request, params = null) => {
-    const { token } = getDataFromStorage();
-    const formData = await request.formData();
-    const intent = await formData.get('intent');
-    let uri = '';
-    const images = await formData.getAll('images');
-    Array.from(images).forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
-    });
-    if (token) {
-        if (
-            intent.toLowerCase() === 'edit' ||
-            intent.toLowerCase() === 'create'
-        ) {
-            uri =
-                intent === 'edit'
-                    ? `${ENV.baseUrl}/projects/${params.id}`
-                    : `${ENV.baseUrl}/projects`;
-            const res = await fetch(uri, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+        // Process assets if options and assets are specified
+        if (options && options.isFormData) {
+            const { assets } = options;
+            asset = formData.getAll(assets);
+
+            Array.from(asset).forEach((file, index) => {
+                formData.append(`${assets}[${index}]`, file);
             });
-            if (!res.ok) return res;
-            return await res.json();
         }
+
+        if (token) {
+            if (
+                intent.toLowerCase() === 'edit' ||
+                intent.toLowerCase() === 'create'
+            ) {
+                if (options && options.uri) {
+                    uri = options.uri;
+                }
+
+                const res = await fetch(uri, {
+                    method: options && options.isFormData ? 'POST' : 'PATCH',
+                    body:
+                        options && options.isFormData
+                            ? formData
+                            : JSON.stringify(Object.fromEntries(formData)),
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        ...(options.isFormData
+                            ? undefined
+                            : { 'Content-Type': 'application/json' })
+                    }
+                });
+                if (!res.ok) throw res;
+                return await res.json();
+            }
+        }
+    } catch (error) {
+        return error;
     }
 };
 
@@ -506,3 +157,24 @@ export const loadProject = async (request, params) => {
         );
     }
 };
+
+/**
+ * Get a specific resource.
+ *
+ * @return Promise
+ *
+ * @param request
+ * @param params
+ */
+export const loadResource = async (request, options = null) => {
+    if (storedData && options && options.uri) {
+        return await Http.get(
+            options.uri,
+            {
+                Authorization: `Bearer ${storedData.token}`
+            },
+            request
+        );
+    }
+};
+

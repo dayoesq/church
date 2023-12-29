@@ -62,21 +62,9 @@ class ProjectController extends Controller
      */
     public function store(UpsertProjectRequest $request): JsonResponse
     {
-        try {
-            DB::beginTransaction();
-            $data = $request->validated();
-            $project = Project::create($data);
-            if ($request->hasFile('images')) {
-                $this->createOrUpdateAssets($project, $request, Asset::$IMAGES);
-            }
-            DB::commit();
-            $project->load('images');
-            return $this->created(data: new ProjectResource($project));
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return $this->serverError($e->getMessage());
-        }
+        $validated = $request->validated();
+        $project = Project::create($validated);
+        return $this->created(data: new ProjectResource($project));
     }
 
     /**

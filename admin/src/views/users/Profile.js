@@ -33,7 +33,7 @@ import Input from '../../components/Input';
 import { ENV } from '../../utils/constants';
 import {
     deleteHandler,
-    updateSelf
+    handleActions
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
@@ -345,6 +345,8 @@ const Profile = () => {
                                         <CButton
                                             className='btn-facebook my-2'
                                             type='submit'
+                                            name='intent'
+                                            value='edit'
                                             disabled={
                                                 navigation.state ===
                                                     'submitting' ||
@@ -372,7 +374,8 @@ const Profile = () => {
 };
 
 export const action = async ({ request }) => {
-    return await updateSelf(request);
+    const uri = `${ENV.baseUrl}/users/self/update`;
+    return await handleActions(request, { uri, isFormData: true });
 };
 
 export default memo(Profile);

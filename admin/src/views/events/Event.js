@@ -34,8 +34,8 @@ import { AuthContext } from '../../store/auth';
 import { ENV, ROLES } from '../../utils/constants';
 import {
     deleteHandler,
-    loadEvent,
-    updateEvent
+    handleActions,
+    loadResource
 } from '../../utils/requests/general-request';
 import CIcon from '@coreui/icons-react';
 import WarningModal from '../../components/modals/WarningModal';
@@ -52,7 +52,7 @@ const eventStatus = [
 const Event = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [deleteOptions, setDeleteOptions] = useState('');
+    const [imageId, setImageId] = useState();
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
@@ -66,15 +66,15 @@ const Event = () => {
 
     const disableInputField = () => setDisabled(disabled => !disabled);
 
-    const handleDeleteOptions = () => {
-        setDeleteOptions('image');
+    const handleDeleteOptions = id => {
+        if (id) setImageId(id);
         setShowModal(true);
     };
 
     const deleteImageHandler = async () => {
         const uri =
-            deleteOptions === 'image'
-                ? `${ENV.baseUrl}/images/events/${id}/delete`
+            imageId !== undefined
+                ? `${ENV.baseUrl}/events/${id}/images/${imageId}/delete`
                 : `${ENV.baseUrl}/events/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
@@ -345,6 +345,8 @@ const Event = () => {
                                                 <CButton
                                                     className='btn-facebook my-2'
                                                     type='submit'
+                                                    name='intent'
+                                                    value='edit'
                                                     disabled={
                                                         navigation.state ===
                                                             'submitting' ||
@@ -380,7 +382,11 @@ const Event = () => {
                                     <CButton
                                         className='btn btn-danger image-button'
                                         type='button'
-                                        onClick={handleDeleteOptions}
+                                        onClick={() =>
+                                            handleDeleteOptions(
+                                                loadedData.data.images[0].id
+                                            )
+                                        }
                                     >
                                         <CIcon icon={cilTrash} />
                                     </CButton>
@@ -395,11 +401,17 @@ const Event = () => {
 };
 
 export const action = async ({ request, params }) => {
-    return await updateEvent(request, params);
+    const uri = `${ENV.baseUrl}/events/${params.id}`;
+    return await handleActions(request, {
+        uri,
+        isFormData: true,
+        assets: 'images'
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    return await loadEvent(request, params);
+    const uri = `${ENV.baseUrl}/events/${params.id}`;
+    return await loadResource(request, { uri });
 };
 
 export default memo(Event);
