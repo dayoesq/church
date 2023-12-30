@@ -506,13 +506,16 @@ const User = () => {
 };
 
 export const action = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/users/${params.id}`;
-    return await handleActions(request, { uri, isFormData: false });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/users/${params.id}`,
+        isFormData: false
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/users/${params.id}`;
-    return await loadResource(request, { uri });
+    return await loadResource(request, {
+        uri: `${ENV.baseUrl}/users/${params.id}`
+    });
 };
 
 export default memo(User);

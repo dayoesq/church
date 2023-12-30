@@ -42,6 +42,7 @@ import CustomAvatar from '../../components/CustomAvatar';
 const Profile = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [imageId, setImageId] = useState();
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
@@ -55,8 +56,15 @@ const Profile = () => {
         setDisabled(disabled => !disabled);
     };
 
+    const handleDeleteOptions = () => {
+        setImageId(loadedData.data.images[0].id);
+        setShowModal(true);
+    };
+
     const deleteImageHandler = async () => {
-        const uri = `${ENV.baseUrl}/images/users/${id}/delete`;
+        const uri = imageId
+            ? `${ENV.baseUrl}/users/${id}/images/${imageId}/delete`
+            : `${ENV.baseUrl}/users/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
@@ -88,7 +96,7 @@ const Profile = () => {
                             <CButton
                                 className='btn btn-danger avatar-image-button'
                                 type='button'
-                                onClick={() => setShowModal(true)}
+                                onClick={handleDeleteOptions}
                             >
                                 <CIcon icon={cilTrash} />
                             </CButton>

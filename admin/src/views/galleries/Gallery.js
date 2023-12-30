@@ -66,10 +66,9 @@ const Gallery = () => {
     };
 
     const deleteImageHandler = async () => {
-        const uri =
-            imageId !== undefined
-                ? `${ENV.baseUrl}/galleries/${id}/images/${imageId}/delete`
-                : `${ENV.baseUrl}/galleries/${id}`;
+        const uri = imageId
+            ? `${ENV.baseUrl}/galleries/${id}/images/${imageId}/delete`
+            : `${ENV.baseUrl}/galleries/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
@@ -261,17 +260,17 @@ const Gallery = () => {
 };
 
 export const action = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/galleries/${params.id}`;
     return await handleActions(request, {
-        uri,
+        uri: `${ENV.baseUrl}/galleries/${params.id}`,
         isFormData: true,
         assets: 'images'
     });
 };
 
 export const loader = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/galleries/${params.id}`;
-    return await loadResource(request, { uri });
+    return await loadResource(request, {
+        uri: `${ENV.baseUrl}/galleries/${params.id}`
+    });
 };
 
 export default memo(Gallery);

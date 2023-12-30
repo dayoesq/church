@@ -12,11 +12,9 @@ import { ENV } from '../utils/constants';
 import avatar from '../assets/images/generic-avatar.png';
 
 const TestimonialsTable = ({ testimonials }) => {
-
-    if(testimonials) console.log(testimonials)
     const navigate = useNavigate();
 
-    const clickHandler = (id) => {
+    const clickHandler = id => {
         navigate(`/dashboard/testimonials/${id}`);
     };
 

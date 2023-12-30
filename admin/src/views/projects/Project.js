@@ -67,10 +67,9 @@ const Project = () => {
     };
 
     const deleteImageHandler = async () => {
-        const uri =
-            imageId !== undefined
-                ? `${ENV.baseUrl}/projects/${id}/images/${imageId}/delete`
-                : `${ENV.baseUrl}/projects/${id}`;
+        const uri = imageId
+            ? `${ENV.baseUrl}/projects/${id}/images/${imageId}/delete`
+            : `${ENV.baseUrl}/projects/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
@@ -269,17 +268,17 @@ const Project = () => {
 };
 
 export const action = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/projects/${params.id}`;
     return await handleActions(request, {
-        uri,
+        uri: `${ENV.baseUrl}/projects/${params.id}`,
         isFormData: true,
         assets: 'images'
     });
 };
 
 export const loader = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/projects/${params.id}`;
-    return await loadResource(request, { uri });
+    return await loadResource(request, {
+        uri: `${ENV.baseUrl}/projects/${params.id}`
+    });
 };
 
 export default memo(Project);

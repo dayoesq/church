@@ -86,8 +86,11 @@ const NewProject = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/projects`;
-    return await handleActions(request, { uri, isFormData: false });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/projects`,
+        isFormData: false,
+        method: 'POST'
+    });
 };
 
 export default memo(NewProject);
