@@ -6,9 +6,9 @@ const storedData = getDataFromStorage();
 /**
  * Login.
  *
- * @return Promise
  *
- * @param request
+ * @param {Request}
+ * @returns {Promise}
  */
 export const login = async request => {
     return await Http.post(
@@ -24,9 +24,8 @@ export const login = async request => {
 /**
  * Password reset request.
  *
- * @return Promise
- *
- * @param request
+ * @param {Request}
+ * @returns {Promise}
  */
 export const passwordResetRequest = async request => {
     return await Http.post(
@@ -42,10 +41,9 @@ export const passwordResetRequest = async request => {
 /**
  * Password reset.
  *
- * @return Promise
- *
- * @param request
- * @param params
+ * @param {Request}
+ * @param {Object} params
+ * @returns {Promise}
  */
 export const passwordReset = async (request, params) => {
     const { password_reset_token } = params;
@@ -65,9 +63,8 @@ export const passwordReset = async (request, params) => {
 /**
  * Delete specific model.
  *
- * @return Promise
- *
- * @param uri
+ * @param {String} uri
+ * @returns {Promise<Boolean>}
  */
 export const deleteHandler = async uri => {
     if (storedData) {
@@ -84,9 +81,9 @@ export const deleteHandler = async uri => {
 /**
  * Perform create, update on the model.
  *
- * @param {Request} request - The request object.
- * @param {Object} options - Additional options for the operation.
- * @returns {Promise} - A Promise that resolves with the result of the operation.
+ * @param {Request} request
+ * @param {Object} options
+ * @returns {Promise}
  */
 export const handleActions = async (request, options = null) => {
     const { token } = getDataFromStorage();
@@ -117,7 +114,8 @@ export const handleActions = async (request, options = null) => {
                 }
 
                 const res = await fetch(uri, {
-                    method: options && options.isFormData ? 'POST' : 'PATCH',
+                    method:
+                        options && options.isFormData ? 'POST' : options.method,
                     body:
                         options && options.isFormData
                             ? formData
@@ -139,34 +137,13 @@ export const handleActions = async (request, options = null) => {
 };
 
 /**
- * Get a specific project.
- *
- * @return Promise
- *
- * @param request
- * @param params
- */
-export const loadProject = async (request, params) => {
-    if (storedData) {
-        return await Http.get(
-            `${ENV.baseUrl}/projects/${params.id}`,
-            {
-                Authorization: `Bearer ${storedData.token}`
-            },
-            request
-        );
-    }
-};
-
-/**
  * Get a specific resource.
  *
- * @return Promise
- *
- * @param request
- * @param params
+ * @param {Request} request
+ * @param {Object} params
+ * @returns {Promise}
  */
-export const loadResource = async (request, options = null) => {
+export const loadResource = async (request, options) => {
     if (storedData && options && options.uri) {
         return await Http.get(
             options.uri,
@@ -177,4 +154,3 @@ export const loadResource = async (request, options = null) => {
         );
     }
 };
-

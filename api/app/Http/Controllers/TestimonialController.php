@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpsertTestimonialRequest;
 use App\Http\Resources\Testimonials\TestimonialResource;
 use App\Models\Testimonial;
+use App\Models\Image;
 use App\Utils\Assets\Asset;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -92,14 +93,15 @@ class TestimonialController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Testimonial $testimonial
+     * @param Image $image
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function deleteTestimonialAvatar(Testimonial $testimonial): JsonResponse
+    public function deleteTestimonialAvatar(Testimonial $testimonial, Image $image): JsonResponse
     {
         $this->authorize('deleteTestimonialAvatar', $testimonial);
-        $this->deleteDuplicateAssets($testimonial, Asset::$IMAGES);
-        return $this->noContent();
+        $this->deleteAsset($testimonial, Asset::$IMAGES, $image);
+        return $this->ok(data: new TestimonialResource($testimonial));
 
     }
 

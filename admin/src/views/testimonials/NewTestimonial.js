@@ -105,8 +105,11 @@ const NewTestimonial = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/testimonials`;
-    return await handleActions(request, { uri, isFormData: false });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/testimonials`,
+        isFormData: false,
+        method: 'POST'
+    });
 };
 
 export default NewTestimonial;

@@ -42,7 +42,7 @@ export const postStatus = [
 const Testimonial = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [deleteOptions, setDeleteOptions] = useState('');
+    const [imageId, setImageId] = useState();
     const loadedData = useLoaderData();
     const actionData = useActionData();
     const navigation = useNavigation();
@@ -58,15 +58,14 @@ const Testimonial = () => {
     };
 
     const handleDeleteOptions = () => {
-        setDeleteOptions('image');
+        setImageId(loadedData.data.images[0].id);
         setShowModal(true);
     };
 
     const deleteImageHandler = async () => {
-        const uri =
-            deleteOptions === 'image'
-                ? `${ENV.baseUrl}/images/testimonials/${id}/delete`
-                : `${ENV.baseUrl}/testimonials/${id}`;
+        const uri = imageId
+            ? `${ENV.baseUrl}/testimonials/${id}/images/${imageId}/delete`
+            : `${ENV.baseUrl}/testimonials/${id}`;
         const isDeleted = await deleteHandler(uri);
         if (isDeleted) {
             setShowModal(false);
@@ -268,13 +267,16 @@ const Testimonial = () => {
 };
 
 export const action = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/testimonials/${params.id}`;
-    return await handleActions(request, { uri, isFormData: true });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/testimonials/${params.id}`,
+        isFormData: true
+    });
 };
 
 export const loader = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/testimonials/${params.id}`;
-    return await loadResource(request, { uri });
+    return await loadResource(request, {
+        uri: `${ENV.baseUrl}/testimonials/${params.id}`
+    });
 };
 
 export default memo(Testimonial);
