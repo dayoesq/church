@@ -9,12 +9,9 @@ Welcome to the Church RESTful API documentation! This API is built using the Lar
     - [Installation](#installation)
 2. [Authentication](#authentication)
     - [API Key](#api-key)
-3. [Endpoints](#endpoints)
+3. [Sample Endpoints](#endpoints)
     - [1. Users](#1-users)
     - [2. Events](#2-events)
-    - [3. Sermons](#3-sermons)
-    - [4. Donations](#4-donations)
-    - [5. Blogs](#5-blogs)
 4. [Error Handling](#error-handling)
 5. [Rate Limiting](#rate-limiting)
 6. [Pagination](#pagination)
@@ -90,30 +87,6 @@ The Church API provides several endpoints to interact with different aspects of 
 - **PATCH /api/events/{id}**: Update information about an event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### 3. Sermons
-
-- **GET /api/sermons**: Retrieve a list of all sermons.
-- **GET /api/sermons/{slug}**: Retrieve information about a specific sermon by slug.
-- **POST /api/sermons**: Create a new sermon.
-- **PATCH /api/sermons/{slug}**: Update information about a sermon.
-- **DELETE /api/sermons/{slug}**: Delete a sermon.
-
-### 4. Projects
-
-- **GET /api/projects**: Retrieve a list of all projects.
-- **GET /api/projects/{id}**: Retrieve information about a specific project by ID.
-- **POST /api/projects**: Record a new project.
-- **PATCH /api/projects/{id}**: Update information about a projects.
-- **DELETE /api/projects/{id}**: Delete a project.
-
-- ### 5. Blogs
-
-- **GET /api/blogs**: Retrieve a list of all blogs.
-- **GET /api/blogs/{slug}**: Retrieve information about a specific blog by slug.
-- **POST /api/blogs**: Post a new blog.
-- **PATCH /api/blogs/{slug}**: Update information about a slug.
-- **DELETE /api/blogs/{slug}**: Delete a blog.
-
 ## Error Handling
 
 The API returns standard HTTP status codes to indicate the success or failure of a request. In case of an error, the response will include a JSON object with an error message and, if applicable, additional details about the error.
@@ -124,34 +97,16 @@ To prevent abuse of the API, rate limiting is enforced. By default, you can make
 
 ## Pagination
 
-For endpoints that return multiple items (e.g., congregations, members), pagination is implemented. You can specify the page number and the number of items per page using query parameters. Example: `/api/congregations?page=1&per_page=10`.
+For endpoints that return multiple items (e.g., podcasts), pagination would be implemented. You could specify the page number and the number of items per page using query parameters. Example: `/api/v1/podcasts?page=1&per_page=10`. Not implemented yet!
 
-## Examples
-
-To help you get started, here are some example API requests:
-
-- **Retrieve information about a specific user (ID: 1)**:
-
-  ```
-  GET /api/users/1
-  ```
-
-  - **Create a new event**:
-
-    ```
-    POST /api/events
-    Body: {
-        "title": "Sunday Service",
-        "description": "Weekly church service."
-        "organizedBy": "John Doe."
-        "anchor": 1,
-        "startsAt": "2023-09-10 15:00",
-        "endsAt": "2023-09-10 15:45",
-    }
-    ```
+## Application Segment
+The entire reepository comprises of the client, the admin and the api. 
+In order to open the client side, navigate to the client and `npm install` and then `npm run dev`. 
+Repeat the process for the admin by navigating to the admin. Run `npm install` and then `npm start`. 
+The monorepo approach would be adopted later on so you don't have to download 2 node_modules!
 
 ## Conclusion
 
-This documentation provides an overview of the Church RESTful API built with Laravel. You can now start using the API to manage church-related information and services. If you have any questions or encounter any issues, please reach out to the system administrator for assistance.
+This documentation provides an overview of the Church RESTful API built with Laravel. You can now start using the API to manage church-related information and services. If you have any questions or encounter any issues, please reach out to the system administrator for assistance. Please be aware that this README file is still subject to change as this application is fully ready. 
 
 Happy coding and may your church activities be enriched by this API!
