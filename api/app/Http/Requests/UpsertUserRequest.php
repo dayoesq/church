@@ -45,7 +45,9 @@ class UpsertUserRequest extends FormRequest
             'address' => ['sometimes', 'max:255'],
             'avatar' => ['sometimes',
                 File::image()
-                    ->max('1mb')
+                    ->min('20kb')
+                    ->max('800kb')
+                    ->dimensions(Rule::dimensions()->maxWidth(400)->maxHeight(400)),
             ],
 
         ];
