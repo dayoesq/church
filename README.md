@@ -67,6 +67,14 @@ Before you can start using the Church API, ensure you have the following prerequ
 
 Your Church API should now be up and running on `http://localhost:8000`.
 
+7. Link storage folders and disks:
+
+   ```bash
+   php artisan storage:link
+   ```
+
+Your Church API should now be up and running on `http://localhost:8000`.
+
 ## Endpoints
 
 The Church API provides several endpoints to interact with different aspects of church management. Below is an overview of the available endpoints:
