@@ -3,7 +3,8 @@ import {
     FaXTwitter,
     FaInstagram,
     FaEnvelope,
-    FaPhone
+    FaPhone,
+    FaHeart
 } from 'react-icons/fa6';
 
 import { programmes } from '@/data/programme';

@@ -1,10 +1,12 @@
+'use client';
 import * as React from 'react';
 import Image from 'next/image';
 import { FaCalendarDays } from 'react-icons/fa6';
 import { CustomDate } from '@/util/date';
 import { Event } from '@/types/event';
+import { useRouter } from 'next/navigation';
 
-type EventProps = {
+export type EventProps = {
     imageHeight?: number;
     imageWidth?: number;
     className?: string;
@@ -12,8 +14,12 @@ type EventProps = {
 } & Event;
 
 export default function Event({ ...props }: EventProps) {
+    const router = useRouter();
     return (
-        <div className={`flex justify-between gap-6 p-4 ${props.className}`}>
+        <div
+            className={`flex justify-between cursor-pointer gap-6 p-4 ${props.className}`}
+            onClick={() => router.push(`/events/${props.id}`)}
+        >
             <div>
                 <p className='font-bold text-3xl'>
                     {CustomDate.getDay(props.startsAt)}

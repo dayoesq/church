@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
@@ -65,6 +66,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::name('galleries.images.delete')
         ->delete('/galleries/{gallery}/images/{image}/delete', [GalleryController::class, 'deleteGalleryImage']);
+
+    // Maintenance mode.
+    Route::name('operations.maintenance.up')
+        ->post('/operations/maintenance/up', [MaintenanceController::class, 'disable']);
+    Route::name('operations.maintenance.down')
+        ->post('/operations/maintenance/down', [MaintenanceController::class, 'enable']);
 
     Route::apiResources([
         'users' => UserController::class,

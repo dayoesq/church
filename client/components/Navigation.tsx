@@ -12,7 +12,7 @@ const navigation = {
     pages: [
         { name: 'Home', href: '/' },
         { name: 'Contacts', href: '/contacts' },
-        { name: 'Donations', href: '/donations' },
+        // { name: 'Donations', href: '/donations' },
         { name: 'Events', href: '/events' },
         { name: 'Blogs', href: '/blogs' },
         { name: 'Projects', href: '/projects' },
@@ -131,7 +131,7 @@ export default function Navigation() {
                                     </span>
                                     <Image
                                         className='h-8 w-auto'
-                                        src='/images/church-logo.png'
+                                        src='/images/rccg-logo.png'
                                         alt='RCCG Grace Chapel Logo'
                                         width={100}
                                         height={100}
@@ -158,14 +158,14 @@ export default function Navigation() {
                             <div className='ml-auto flex items-center'>
                                 {/* Search */}
                                 <div className='flex lg:ml-6'>
-                                    <div className='p-2 text-gray-400 hover:text-gray-500'>
+                                    {/* <div className='p-2 text-gray-400 hover:text-gray-500'>
                                         <span className='sr-only'>Search</span>
                                         <FaMagnifyingGlass
                                             className='h-6 w-6'
                                             aria-hidden='true'
                                             onClick={() => setShow(true)}
                                         />
-                                    </div>
+                                    </div> */}
                                     <Button
                                         type='button'
                                         linkType='internal'
@@ -178,7 +178,7 @@ export default function Navigation() {
                             </div>
                             {/* Profile dropdown */}
                             <Menu as='div' className='relative ml-3'>
-                                <div>
+                                {/* <div>
                                     <Menu.Button className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
                                         <span className='absolute -inset-1.5' />
                                         <span className='sr-only'>
@@ -192,7 +192,7 @@ export default function Navigation() {
                                             height={100}
                                         />
                                     </Menu.Button>
-                                </div>
+                                </div> */}
                                 <Transition
                                     as={Fragment}
                                     enter='transition ease-out duration-100'

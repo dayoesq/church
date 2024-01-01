@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FaCalendarDays } from 'react-icons/fa6';
 import { CustomDate } from '@/util/date';
 import { Event } from '@/types/event';
+import { useRouter } from 'next/navigation';
 
 type EventProps = {
     imageHeight?: number;
@@ -12,9 +13,11 @@ type EventProps = {
 } & Event;
 
 export default function EventListItem({ ...props }: EventProps) {
+    const router = useRouter();
     return (
         <li
-            className={`relative flex justify-center py-8 leading-8 border-t-2 border-gray-100 max-w-4xl flex-col md:flex-row md:justify-between ${props.className}`}
+            className={`relative flex justify-center py-8 leading-8 border-t-2 cursor-pointer border-gray-100 max-w-4xl flex-col md:flex-row md:justify-between ${props.className}`}
+            onClick={() => router.push(`/events/${props.id}`)}
         >
             <p className='absolute -top-4 pr-4 bg-white font-bold'>
                 {CustomDate.getMonth(props.startsAt, 'long')}

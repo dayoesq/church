@@ -30,6 +30,7 @@ export default function EventsPage() {
                             endsAt={event.endsAt}
                             isFree={event.isFree}
                             imageSource={event.imageSource}
+                            description={event.description}
                         />
                     ))}
             </ul>

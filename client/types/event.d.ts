@@ -6,5 +6,6 @@ export interface Event {
     isFree: boolean;
     cost: number | undefined;
     location: string;
+    description: string;
     imageSource: string;
 }
