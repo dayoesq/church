@@ -62,7 +62,7 @@ Before you can start using the Church API, ensure you have the following prerequ
 6. Run database migrations to create the necessary tables:
 
    ```bash
-   php artisan migrate
+   php artisan migrate:fresh --seed
    ```
 
 Your Church API should now be up and running on `http://localhost:8000`.
