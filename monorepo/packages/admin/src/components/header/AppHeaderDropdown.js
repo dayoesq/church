@@ -63,7 +63,7 @@ const AppHeaderDropdown = () => {
                             Maintenance Mode
                         </CDropdownHeader>
                         <CDropdownItem role='button'>
-                            <div className='d-flex justify-center align-middle'>
+                            <div className='d-flex justify-between'>
                                 <CFormSwitch
                                     checked={checked}
                                     onChange={() => setChecked(!checked)}

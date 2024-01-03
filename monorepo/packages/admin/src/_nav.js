@@ -122,19 +122,38 @@ export const adminNavigation = [
     {
         component: CNavGroup,
         name: 'Testimonials',
-        icon: <CIcon icon={cilMoney} customClassName='nav-icon' />,
+        icon: <CIcon icon={cilSpeaker} customClassName='nav-icon' />,
         items: [
             {
                 component: CNavItem,
                 name: 'Testimonials',
                 to: '/dashboard/testimonials',
-                icon: <CIcon icon={cilNotes} customClassName='nav-icon' />
+                icon: <CIcon icon={cilMicrophone} customClassName='nav-icon' />
             },
             {
                 component: CNavItem,
                 name: 'New Testimonial',
                 to: '/dashboard/testimonials/new',
-                icon: <CIcon icon={cilCasino} customClassName='nav-icon' />
+                icon: <CIcon icon={cilMicrophone} customClassName='nav-icon' />
+            }
+        ]
+    },
+    {
+        component: CNavGroup,
+        name: 'Blog Posts',
+        icon: <CIcon icon={cilBook} customClassName='nav-icon' />,
+        items: [
+            {
+                component: CNavItem,
+                name: 'Blog Posts',
+                to: '/dashboard/blog-posts',
+                icon: <CIcon icon={cilBook} customClassName='nav-icon' />
+            },
+            {
+                component: CNavItem,
+                name: 'New Post',
+                to: '/dashboard/blog-posts/new',
+                icon: <CIcon icon={cilPencil} customClassName='nav-icon' />
             }
         ]
     }

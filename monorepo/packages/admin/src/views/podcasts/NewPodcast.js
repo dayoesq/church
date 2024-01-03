@@ -146,9 +146,8 @@ const NewPodcast = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/podcasts`;
     return await handleActions(request, {
-        uri,
+        uri: `${ENV.baseUrl}/podcasts`,
         isFormData: true,
         assets: 'audios'
     });

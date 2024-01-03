@@ -80,7 +80,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'projects' => ProjectController::class,
         'galleries' => GalleryController::class,
         'testimonials' => TestimonialController::class,
-        'podcasts' => PodcastController::class
+        'podcasts' => PodcastController::class,
+        'blogs' => BlogController::class
     ]);
 
 });

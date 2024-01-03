@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string $content
  * @property string|int $id
  * @property int|string $author
+ * @property string $cover_image
  * @property mixed $slug
  * @method static where(string $string, string $string1)
  * @method static paginate(int $int)
@@ -33,7 +34,8 @@ class Blog extends Model
         'title',
         'slug',
         'content',
-        'status'
+        'status',
+        'cover_image'
     ];
 
 
@@ -51,19 +53,6 @@ class Blog extends Model
     }
 
     /**
-     * Sluggify blog's title.
-     *
-     * @return Attribute
-     */
-    protected function slug(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->slug,
-            set: fn () => Str::slug($this->title)
-        );
-    }
-
-    /**
      * Interact with the blog's relationship with the comment.
      * @return HasMany
      *
@@ -71,27 +60,6 @@ class Blog extends Model
     public function comments(): hasMany
     {
         return $this->hasMany(Comment::class);
-    }
-
-    /**
-     * Create an excerpt for the post.
-     * It might be worth the while to pass the logic to the client.
-     *
-     * @param int $length
-     * @return string
-     */
-    public function getExcerpt(int $length = 150): string
-    {
-
-        $content = $this->attributes['content'];
-        $excerpt = strip_tags($content);
-        $excerpt = Str::substr($excerpt, 0, $length);
-
-        if (Str::length($content) > $length) {
-            $excerpt .= '...';
-        }
-
-        return $excerpt;
     }
 
 }

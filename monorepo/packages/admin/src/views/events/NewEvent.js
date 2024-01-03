@@ -175,9 +175,8 @@ const NewEvent = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/events`;
     return await handleActions(request, {
-        uri,
+        uri: `${ENV.baseUrl}/events`,
         isFormData: false,
         method: 'POST'
     });
