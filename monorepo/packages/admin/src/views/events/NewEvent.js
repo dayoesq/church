@@ -12,7 +12,9 @@ import {
     cilCalendar,
     cilContact,
     cilLocationPin,
-    cilAsterisk
+    cilAsterisk,
+    cilPhone,
+    cilAt
 } from '@coreui/icons';
 import { useRedirect } from '../../hooks/redirect';
 import Alert from '../../components/Alert';
@@ -61,6 +63,32 @@ const NewEvent = () => {
                                         labelTitle='Organizer'
                                         data={data}
                                         icon={cilContact}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow>
+                                <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <Input
+                                        element='input'
+                                        type='email'
+                                        id='email'
+                                        name='email'
+                                        placeholder='Email'
+                                        labelTitle='Email'
+                                        icon={cilAt}
+                                        data={data}
+                                    />
+                                </CCol>
+                                <CCol xs={12} md={6} lg={6} xl={6}>
+                                    <Input
+                                        element='input'
+                                        type='text'
+                                        id='telephone'
+                                        name='telephone'
+                                        placeholder='Telephone'
+                                        labelTitle='Telephone'
+                                        icon={cilPhone}
+                                        data={data}
                                     />
                                 </CCol>
                             </CRow>
@@ -150,7 +178,8 @@ export const action = async ({ request }) => {
     const uri = `${ENV.baseUrl}/events`;
     return await handleActions(request, {
         uri,
-        isFormData: false
+        isFormData: false,
+        method: 'POST'
     });
 };
 
