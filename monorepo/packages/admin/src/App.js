@@ -19,6 +19,8 @@ import { action as galleryAction } from './views/galleries/Gallery';
 import { action as newGalleryAction } from './views/galleries/NewGallery';
 import { action as projectAction } from './views/projects/Project';
 import { action as newProjectAction } from './views/projects/NewProject';
+import { action as newBlogPostAction } from './views/blog-posts/NewBlogPost';
+import { action as blogPostAction } from './views/blog-posts/BlogPost';
 
 // Loaders
 import { loader as usersLoader } from './views/users/Users';
@@ -33,6 +35,8 @@ import { loader as galleryLoader } from './views/galleries/Gallery';
 import { loader as galleriesLoader } from './views/galleries/Galleries';
 import { loader as projectLoader } from './views/projects/Project';
 import { loader as projectsLoader } from './views/projects/Projects';
+import { loader as blogPostLoader } from './views/blog-posts/BlogPost';
+import { loader as blogPostsLoader } from './views/blog-posts/BlogPosts';
 
 import './scss/style.scss';
 
@@ -65,6 +69,9 @@ const NewGallery = lazy(() => import('./views/galleries/NewGallery'));
 const Project = lazy(() => import('./views/projects/Project'));
 const Projects = lazy(() => import('./views/projects/Projects'));
 const NewProject = lazy(() => import('./views/projects/NewProject'));
+const BlogPost = lazy(() => import('./views/blog-posts/BlogPost'));
+const BlogPosts = lazy(() => import('./views/blog-posts/BlogPosts'));
+const NewBlogPost = lazy(() => import('./views/blog-posts/NewBlogPost'));
 
 // Pages
 const PasswordResetRequest = lazy(() =>
@@ -190,6 +197,22 @@ const App = () => {
                     element: <Project />,
                     loader: projectLoader,
                     action: projectAction
+                },
+                {
+                    path: 'blog-posts/new',
+                    element: <NewBlogPost />,
+                    action: newBlogPostAction
+                },
+                {
+                    path: 'blog-posts',
+                    element: <BlogPosts />,
+                    loader: blogPostsLoader
+                },
+                {
+                    path: 'blog-posts/:id',
+                    element: <BlogPost />,
+                    loader: blogPostLoader,
+                    action: blogPostAction
                 }
             ]
         },

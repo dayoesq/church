@@ -107,8 +107,10 @@ const NewUser = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/users`;
-    return await handleActions(request, { uri, isFormData: false });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/users`,
+        isFormData: false
+    });
 };
 
 export default NewUser;

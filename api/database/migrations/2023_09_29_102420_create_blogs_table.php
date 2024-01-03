@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
+            $table->string('title');
             $table->string('slug')->unique();
+            $table->string('cover_image');
             $table->longText('content');
             $table->enum('status', [
                 PostStatus::Published->value,

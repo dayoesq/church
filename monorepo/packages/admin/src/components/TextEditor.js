@@ -1,8 +1,7 @@
-'use client';
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function TextEditor() {
+export default function TextEditor({ value }) {
     return (
         <Editor
             apiKey={process.env.TINYMCE_API_KEY}
@@ -12,7 +11,8 @@ export default function TextEditor() {
                 toolbar:
                     'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat'
             }}
-            initialValue='Place your text here...'
+            initialValue=''
+            value={value}
         />
     );
 }

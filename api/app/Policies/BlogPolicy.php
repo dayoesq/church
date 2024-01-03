@@ -35,7 +35,7 @@ class BlogPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAuthorizedUser();
+        return $user->isAuthorizedUser() || $user->isAuthorizedSuperAdmin();
     }
 
     /**

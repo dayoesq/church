@@ -343,17 +343,17 @@ const Podcast = () => {
 };
 
 export const action = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/podcasts/${params.id}`;
     return await handleActions(request, {
-        uri,
+        uri: `${ENV.baseUrl}/podcasts/${params.id}`,
         isFormData: true,
         assets: 'audios'
     });
 };
 
 export const loader = async ({ request, params }) => {
-    const uri = `${ENV.baseUrl}/podcasts/${params.id}`;
-    return await loadResource(request, { uri });
+    return await loadResource(request, {
+        uri: `${ENV.baseUrl}/podcasts/${params.id}`
+    });
 };
 
 export default memo(Podcast);

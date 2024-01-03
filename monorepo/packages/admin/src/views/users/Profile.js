@@ -382,8 +382,10 @@ const Profile = () => {
 };
 
 export const action = async ({ request }) => {
-    const uri = `${ENV.baseUrl}/users/self/update`;
-    return await handleActions(request, { uri, isFormData: true });
+    return await handleActions(request, {
+        uri: `${ENV.baseUrl}/users/self/update`,
+        isFormData: true
+    });
 };
 
 export default memo(Profile);

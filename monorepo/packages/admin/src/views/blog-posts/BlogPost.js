@@ -49,7 +49,7 @@ const eventStatus = [
     { name: 'Postponed', value: 'postponed' }
 ];
 
-const Event = () => {
+const BlogPost = () => {
     const [disabled, setDisabled] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [imageId, setImageId] = useState();
@@ -449,7 +449,7 @@ const Event = () => {
 
 export const action = async ({ request, params }) => {
     return await handleActions(request, {
-        uri: `${ENV.baseUrl}/events/${params.id}`,
+        uri: `${ENV.baseUrl}/blogs/${params.id}`,
         isFormData: true,
         assets: 'images'
     });
@@ -457,8 +457,8 @@ export const action = async ({ request, params }) => {
 
 export const loader = async ({ request, params }) => {
     return await loadResource(request, {
-        uri: `${ENV.baseUrl}/events/${params.id}`
+        uri: `${ENV.baseUrl}/blogs/${params.id}`
     });
 };
 
-export default memo(Event);
+export default memo(BlogPost);
