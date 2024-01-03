@@ -1,0 +1,19 @@
+{
+    "name": "@church/utilities",
+    "version": "1.0.0",
+    "private": true,
+    "types": "lib/index.d.ts",
+    "main": "lib/index.js",
+    "exports": {
+        "import": "./lib/index.js"
+    },
+    "description": "utility project",
+    "author": "Dayo Oladapo",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3"
+    }
+}
