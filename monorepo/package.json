@@ -1,0 +1,16 @@
+{
+    "name": "church",
+    "version": "1.0.0",
+    "author": "Dayo Oladapo",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "build": ""
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "devDependencies": {
+        "eslint": "latest"
+    }
+}

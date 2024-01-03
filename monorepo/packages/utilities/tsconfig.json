@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "esnext",        
+    "module": "ES2015",     
+    "strict": true,            
+    "esModuleInterop": true,  
+    "skipLibCheck": true,      
+    "forceConsistentCasingInFileNames": true,  
+    "declaration": true,       
+    "outDir": "./lib",         
+    "rootDir": "./src",        
+    "baseUrl": ".",            
+    "paths": {
+      "utilities/*": ["src/*"]  
+    },
+  },
+  "include": ["src/**/*.ts", "types/**/*.d.ts"],  
+  "exclude": ["node_modules", "lib", "dist"]  
+}
