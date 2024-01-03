@@ -12,9 +12,8 @@ const navigation = {
     pages: [
         { name: 'Home', href: '/' },
         { name: 'Contacts', href: '/contacts' },
-        // { name: 'Donations', href: '/donations' },
         { name: 'Events', href: '/events' },
-        { name: 'Blogs', href: '/blogs' },
+        { name: 'Blog', href: '/blogs' },
         { name: 'Projects', href: '/projects' },
         { name: 'About us', href: '/about' }
     ]
@@ -130,7 +129,7 @@ export default function Navigation() {
                                         RCCG Grace Chapel Logo
                                     </span>
                                     <Image
-                                        className='h-8 w-auto'
+                                        className='h-12 w-auto'
                                         src='/images/rccg-logo.png'
                                         alt='RCCG Grace Chapel Logo'
                                         width={100}

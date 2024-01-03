@@ -37,7 +37,7 @@ class UpsertPodcastRequest extends FormRequest
             'audios.*' => [
                 'sometimes',
                 File::types(['mp3', 'wav', 'ogg', 'm4a', 'flac'])
-                    ->max('5mb')
+                    ->max('2mb')
             ],
         ];
     }

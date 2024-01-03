@@ -14,6 +14,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $location
  * @property string $status
  * @property string $organizer
+ * @property string $email
+ * @property string $telephone
  * @property string $starts_at
  * @property string $ends_at
  * @property string $created_at
@@ -36,6 +38,8 @@ class EventResource extends JsonResource
             'location' => $this->location,
             'status' => $this->status,
             'organizer' => $this->organizer,
+            'email' => $this->email,
+            'telephone' => $this->telephone,
             'startsAt' => $this->starts_at,
             'endsAt' => $this->ends_at,
             'images' => ImageResource::collection($this->whenLoaded('images')),

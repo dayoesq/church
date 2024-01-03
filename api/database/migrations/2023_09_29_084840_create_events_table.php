@@ -26,6 +26,8 @@ return new class extends Migration
                 EventStatus::Postponed->value,
                 ])->default(EventStatus::Upcoming->value);
             $table->string('organizer');
+            $table->string('email');
+            $table->string('telephone');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
             $table->timestamps();

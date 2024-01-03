@@ -34,7 +34,7 @@ class UpsertGalleryRequest extends FormRequest
             'images.*' => ['sometimes',
                 File::image()
                     ->min('20kb')
-                    ->max('1mb')
+                    ->max('2mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
         ];

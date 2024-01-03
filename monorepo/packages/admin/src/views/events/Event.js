@@ -295,6 +295,50 @@ const Event = () => {
                                             >
                                                 <Input
                                                     element='input'
+                                                    type='email'
+                                                    id='email'
+                                                    name='email'
+                                                    placeholder='Email'
+                                                    labelTitle='Email'
+                                                    icon={cilCalendar}
+                                                    data={actionData}
+                                                    defaultValue={
+                                                        loadedData.data.email
+                                                    }
+                                                    disabled={disabled}
+                                                />
+                                            </CCol>
+                                            <CCol
+                                                xs={12}
+                                                sm={12}
+                                                md={12}
+                                                lg={6}
+                                                xl={6}
+                                            >
+                                                <Input
+                                                    element='input'
+                                                    type='text'
+                                                    id='telephone'
+                                                    name='telephone'
+                                                    placeholder='Telephone'
+                                                    labelTitle='Telephone'
+                                                    icon={cilCalendar}
+                                                    data={actionData}
+                                                    defaultValue={loadedData.data.telephone}
+                                                    disabled={disabled}
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow>
+                                            <CCol
+                                                xs={12}
+                                                sm={12}
+                                                md={12}
+                                                lg={6}
+                                                xl={6}
+                                            >
+                                                <Input
+                                                    element='input'
                                                     type='datetime-local'
                                                     id='starts_at'
                                                     name='starts_at'

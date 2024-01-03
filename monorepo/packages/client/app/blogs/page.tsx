@@ -18,7 +18,7 @@ export default function BlogsPage() {
     return (
         <>
             <div className='text-center mt-20'>
-                <PrimaryHeaders title='Blogs' subTitle='All posts' />
+                <PrimaryHeaders title='Blog' subTitle='All posts' />
             </div>
             <div className='flex justify-center items-center md:gap-4 py-8 flex-wrap gap-y-4 m-auto px-4'>
                 {posts.map(blog => (

@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
  * @property mixed $ends_at
  * @property string $organizer
  * @property string $description
+ * @property string $email
+ * @property string $telephone
  * @property mixed $images
  * @method static create(array $validated)
  * @method static where(string $string, string $value)
@@ -37,6 +39,8 @@ class Event extends Model
         'location',
         'fee',
         'status',
+        'email',
+        'telephone',
         'starts_at',
         'ends_at',
     ];

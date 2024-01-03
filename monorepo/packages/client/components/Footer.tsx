@@ -16,7 +16,7 @@ const footerLinks = [
     { name: 'Events', link: '/events' },
     { name: 'Projects', link: '/projects' },
     { name: 'Gallery', link: '/galleries' },
-    { name: 'Blogs', link: '/blogs' }
+    { name: 'Blog', link: '/blogs' }
 ];
 
 export default function Footer() {
