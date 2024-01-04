@@ -39,7 +39,7 @@ class AdminUserRequest extends FormRequest
             'country_of_residence' => ['sometimes', new Enum(Countries::class)],
             'country_of_origin' => ['sometimes', new Enum(Countries::class)],
             'postal_code' => ['sometimes', 'max:20'],
-            'city' => ['sometimes', 'min:2' 'max:20'],
+            'city' => ['sometimes', 'min:2', 'max:20'],
             'telephone' => ['sometimes', 'min:3', 'max:20'],
             'address' => ['sometimes', 'max:255'],
             'member_since' => ['sometimes', 'date'],

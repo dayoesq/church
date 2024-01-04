@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Blogs;
 
 use App\Http\Resources\Comments\CommentResource;
-use App\Http\Resources\Images\ImageResource;
 use App\Http\Resources\Users\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $content
  * @property string $status
  * @property mixed $author
+ * @property mixed $comments
  * @property string $created_at
  * @property string $updated_at
  */
@@ -35,7 +35,6 @@ class BlogResource extends JsonResource
             'status' => $this->status,
             'author' => new UserResource($this->whenLoaded('author')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
-            'images' => ImageResource::collection($this->whenLoaded('images')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 

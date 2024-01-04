@@ -50,6 +50,7 @@ class GalleryController extends Controller
             if ($request->hasFile('images')) {
                 $this->createOrUpdateAssets($gallery, $request, Asset::$IMAGES);
             }
+
             DB::commit();
             $gallery->load('images');
             return $this->created(data: new GalleryResource($gallery));

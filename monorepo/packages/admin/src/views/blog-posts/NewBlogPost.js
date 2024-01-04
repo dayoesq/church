@@ -15,7 +15,7 @@ import { disableButton } from '../../utils/helpers';
 import { handleActions } from '../../utils/requests/general-request';
 import { memo } from 'react';
 import { ENV } from '../../utils/constants';
-import TextEditor from '../../components/TextEditor';
+
 
 const NewBlogPost = () => {
     const data = useActionData();
@@ -57,7 +57,7 @@ const NewBlogPost = () => {
                                         element='input'
                                         type='file'
                                         id='cover_image'
-                                        name='Cover Image'
+                                        name='cover_image'
                                         placeholder='Cover Image'
                                         labelTitle='Cover Image'
                                         accept='.jpeg, .png, .jpg, .svg'
@@ -68,7 +68,15 @@ const NewBlogPost = () => {
                             </CRow>
                             <CRow>
                                 <CCol>
-                                    <TextEditor />
+                                    <Input
+                                        element='tinymce'
+                                        id='content'
+                                        textareaName='content'
+                                        placeholder='Content'
+                                        labelTitle='Content'
+                                        data={data}
+
+                                    />
                                 </CCol>
                             </CRow>
                             <CRow>

@@ -4,11 +4,8 @@ namespace App\Http\Requests;
 
 use App\Utils\Enums\Countries;
 use App\Utils\Enums\Gender;
-use App\Utils\Enums\Roles;
-use App\Utils\Enums\UserStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File;

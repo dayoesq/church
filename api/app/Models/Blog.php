@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 /**
@@ -35,6 +36,7 @@ class Blog extends Model
         'slug',
         'content',
         'status',
+        'author',
         'cover_image'
     ];
 
@@ -48,7 +50,7 @@ class Blog extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::words($value)
+            set: fn ($value) => Str::lower($value)
         );
     }
 
@@ -60,6 +62,16 @@ class Blog extends Model
     public function comments(): hasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Blog's relationship with the user.
+     *
+     * @return HasOne
+     */
+    public function author(): HasOne
+    {
+        return $this->hasOne(User::class);
     }
 
 }

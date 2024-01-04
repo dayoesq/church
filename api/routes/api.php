@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('comments.reply')->post('/comments/{comment}/reply', [CommentController::class, 'replyToAComment']);
     Route::name('comments.reply.all')->get('/comments/{comment}/reply/all', [CommentController::class, 'getCommentReplies']);
 
+    // Delete operation on assets
     Route::name('events.images.delete')
         ->delete('/events/{event}/images/{image}/delete', [EventController::class, 'deleteEventImage']);
 
@@ -67,12 +69,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::name('galleries.images.delete')
         ->delete('/galleries/{gallery}/images/{image}/delete', [GalleryController::class, 'deleteGalleryImage']);
 
+    Route::name('assets.images.delete')
+        ->delete('/assets/{asset}/images/{image}/delete', [AssetController::class, 'deleteAssetImage']);
+
     // Maintenance mode.
     Route::name('operations.maintenance.up')
         ->post('/operations/maintenance/up', [MaintenanceController::class, 'disable']);
     Route::name('operations.maintenance.down')
         ->post('/operations/maintenance/down', [MaintenanceController::class, 'enable']);
 
+    // API Resources endpoints such as index, store, update, delete, and show.
     Route::apiResources([
         'users' => UserController::class,
         'positions' => PositionController::class,
@@ -81,7 +87,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'galleries' => GalleryController::class,
         'testimonials' => TestimonialController::class,
         'podcasts' => PodcastController::class,
-        'blogs' => BlogController::class
+        'blogs' => BlogController::class,
+        'assets' => AssetController::class,
     ]);
 
 });
