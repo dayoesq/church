@@ -36,41 +36,47 @@ const NewGallery = () => {
                             encType='multipart/form-data'
                         >
                             <CRow>
-                                <Input
-                                    element='input'
-                                    type='text'
-                                    id='title'
-                                    name='title'
-                                    placeholder='Title'
-                                    labelTitle='Title'
-                                    data={data}
-                                    icon={cilStar}
-                                />
+                                <CCol>
+                                    <Input
+                                        element='input'
+                                        type='text'
+                                        id='title'
+                                        name='title'
+                                        placeholder='Title'
+                                        labelTitle='Title'
+                                        data={data}
+                                        icon={cilStar}
+                                    />
+                                </CCol>
                             </CRow>
                             <CRow>
-                                <Input
-                                    element='textarea'
-                                    type='textarea'
-                                    id='description'
-                                    name='description'
-                                    placeholder='Max 200 letters'
-                                    labelTitle='Description'
-                                    data={data}
-                                    icon={cilPencil}
-                                />
+                                <CCol>
+                                    <Input
+                                        element='textarea'
+                                        type='textarea'
+                                        id='description'
+                                        name='description'
+                                        placeholder='Max 200 letters'
+                                        labelTitle='Description'
+                                        data={data}
+                                        icon={cilPencil}
+                                    />
+                                </CCol>
                             </CRow>
                             <CRow>
-                                <Input
-                                    element='input'
-                                    id='images'
-                                    type='file'
-                                    name='images[]'
-                                    labelTitle='Images'
-                                    accept='.jpeg, .png, .jpg, .svg'
-                                    multiple
-                                    icon={cilImage}
-                                    data={data}
-                                />
+                                <CCol>
+                                    <Input
+                                        element='input'
+                                        id='images'
+                                        type='file'
+                                        name='images[]'
+                                        labelTitle='Images'
+                                        accept='.jpeg, .png, .jpg, .svg'
+                                        multiple
+                                        icon={cilImage}
+                                        data={data}
+                                    />
+                                </CCol>
                             </CRow>
                             <CRow>
                                 <CCol>

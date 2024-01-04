@@ -3,21 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use App\Utils\Enums\PostStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rule;
 
-class UpsertGalleryRequest extends FormRequest
+class UpsertAssetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     * @return bool
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -28,15 +25,14 @@ class UpsertGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required', 'min:4', 'max:100'],
-            'description' => ['sometimes', 'required', 'max:200'],
-            'status' => ['sometimes', new Enum(PostStatus::class)],
-            'images.*' => ['required',
+            'name' => ['sometimes', 'min:2', 'max:50'],
+            'images' => ['sometimes',
                 File::image()
                     ->min('20kb')
                     ->max('2mb')
                     ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
             ],
+
         ];
     }
 }

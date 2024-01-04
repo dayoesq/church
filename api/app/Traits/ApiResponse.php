@@ -2,20 +2,15 @@
 
 namespace App\Traits;
 
-use App\Utils\Assets\Asset;
 use App\Utils\Errors\ErrorResponse;
 use App\Utils\Success\SuccessResponse;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Utils\Assets;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
-use Illuminate\Validation\ValidationException;
+
 
 
 trait ApiResponse
@@ -168,7 +163,7 @@ trait ApiResponse
      * @param mixed $model
      * @param mixed $request
      * @param mixed $assetType
-     * @param bool $create
+     * @param bool $shouldDeleteExistingAssets
      * @return void
      */
     protected function createOrUpdateAssets(mixed $model, mixed $request, string $assetType, bool $shouldDeleteExistingAssets = false): void
